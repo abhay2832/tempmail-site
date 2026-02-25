@@ -21,11 +21,10 @@ button {padding:10px 20px;}
 
 <div class="box">
 <h3>Inbox</h3>
-<button onclick="getMails()">Refresh</button>
+<button onclick="loadInbox()">Refresh</button>
 <ul id="mails"></ul>
 </div>
 
-<script>
 <script>
 let login = "";
 let domain = "1secmail.com";
@@ -43,33 +42,32 @@ function copyEmail(){
 
 function loadInbox() {
     let email = document.getElementById("email").innerText;
-
     let parts = email.split("@");
-    let login = parts[0];
-    let domain = parts[1];
+    const emailLogin = parts[0];  // 'login' नहीं, अलग नाम!
+    const emailDomain = parts[1];
 
-    let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
+    let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${emailLogin}&domain=${emailDomain}`;
 
     fetch(url)
     .then(res => res.json())
     .then(data => {
-        let inbox = document.getElementById("inbox");
-        inbox.innerHTML = "";
+        let mails = document.getElementById("mails");
+        mails.innerHTML = "";
 
         if(data.length === 0){
-            inbox.innerHTML = "No messages yet";
+            mails.innerHTML = "<li>No messages yet</li>";
             return;
         }
 
         data.forEach(msg => {
-            let div = document.createElement("div");
-            div.innerHTML = `
+            let li = document.createElement("li");
+            li.innerHTML = `
                 <b>From:</b> ${msg.from} <br>
                 <b>Subject:</b> ${msg.subject} <br>
                 <button onclick="readMail(${msg.id})">Open</button>
                 <hr>
             `;
-            inbox.appendChild(div);
+            mails.appendChild(li);
         });
     });
 }
