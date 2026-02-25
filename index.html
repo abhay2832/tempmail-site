@@ -3,155 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Temp Mail</title>
+<title>Temp Mail</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  text-align: center;
-  margin: 0;
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#4c6ef5,#7b2ff7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
 }
-.header {
-  background: #4CAF50;
-  color: white;
-  padding: 15px;
-  font-size: 22px;
+.container{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-.box {
-  background: white;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 10px;
+h1{
+    text-align:center;
+    margin-bottom:20px;
 }
-button {
-  padding: 10px 15px;
-  margin: 5px;
-  border: none;
-  border-radius: 6px;
-  background: #4CAF50;
-  color: white;
-  cursor: pointer;
+.email-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
 }
-button:hover {
-  background: #45a049;
+input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:14px;
 }
-#email {
-  font-weight: bold;
-  font-size: 18px;
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:6px;
+    background:#4c6ef5;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:14px;
 }
-.mail {
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
+button:hover{
+    background:#364fc7;
+}
+.secondary{
+    background:#868e96;
+}
+.secondary:hover{
+    background:#495057;
+}
+.inbox{
+    margin-top:15px;
+    max-height:300px;
+    overflow-y:auto;
+}
+.message{
+    background:#f1f3f5;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:10px;
+}
+.message small{
+    color:#666;
+}
+.empty{
+    text-align:center;
+    color:#888;
+    margin-top:20px;
+}
+.loading{
+    text-align:center;
+    margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">📧 My Temp Mail</div>
+<div class="container">
+    <h1>Temporary Email</h1>
 
-<div class="box">
-  <p>Your Email:</p>
-  <div id="email">Loading...</div>
-  <button onclick="copyEmail()">Copy</button>
-  <button onclick="loadInbox()">Refresh Inbox</button>
-</div>
+    <div class="email-box">
+        <input type="text" id="email" readonly>
+        <button onclick="copyEmail()">Copy</button>
+    </div>
 
-<div class="box">
-  <h3>Inbox</h3>
-  <div id="inbox">No messages</div>
+    <div class="email-box">
+        <button onclick="generateEmail()">Generate New</button>
+        <button class="secondary" onclick="fetchMessages()">Refresh</button>
+    </div>
+
+    <div id="status" class="loading"></div>
+    <div class="inbox" id="inbox"></div>
 </div>
 
 <script>
 let token = "";
+let currentEmail = "";
 let accountId = "";
-let emailAddress = "";
 
-// Generate random email
-async function createEmail() {
-  try {
-    let domainRes = await fetch("https://api.mail.tm/domains");
-    let domainData = await domainRes.json();
-    let domain = domainData["hydra:member"][0].domain;
+async function generateEmail(){
+    try{
+        setStatus("Generating email...");
+        clearInbox();
 
-    let random = Math.random().toString(36).substring(2, 10);
-    emailAddress = random + "@" + domain;
+        const domainRes = await fetch("https://api.mail.tm/domains");
+        const domainData = await domainRes.json();
 
-    let res = await fetch("https://api.mail.tm/accounts", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        address: emailAddress,
-        password: "12345678"
-      })
-    });
+        if(!domainData["hydra:member"] || domainData["hydra:member"].length === 0){
+            throw new Error("No domain available");
+        }
 
-    let acc = await res.json();
-    accountId = acc.id;
+        const domain = domainData["hydra:member"][0].domain;
+        const random = Math.random().toString(36).substring(2,10);
+        const email = random + "@" + domain;
+        const password = Math.random().toString(36).substring(2,12);
 
-    document.getElementById("email").innerText = emailAddress;
+        const accountRes = await fetch("https://api.mail.tm/accounts",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                address:email,
+                password:password
+            })
+        });
 
-    await login();
-    loadInbox();
+        if(!accountRes.ok){
+            throw new Error("Account creation failed");
+        }
 
-  } catch (err) {
-    document.getElementById("email").innerText = "Error loading email";
-  }
+        const accountData = await accountRes.json();
+        accountId = accountData.id;
+
+        const tokenRes = await fetch("https://api.mail.tm/token",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                address:email,
+                password:password
+            })
+        });
+
+        if(!tokenRes.ok){
+            throw new Error("Token generation failed");
+        }
+
+        const tokenData = await tokenRes.json();
+        token = tokenData.token;
+        currentEmail = email;
+
+        document.getElementById("email").value = currentEmail;
+        setStatus("Email generated successfully");
+        fetchMessages();
+
+    }catch(err){
+        setStatus("Error: " + err.message);
+    }
 }
 
-// Login
-async function login() {
-  let res = await fetch("https://api.mail.tm/token", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      address: emailAddress,
-      password: "12345678"
-    })
-  });
-
-  let data = await res.json();
-  token = data.token;
-}
-
-// Load Inbox
-async function loadInbox() {
-  try {
-    let res = await fetch("https://api.mail.tm/messages", {
-      headers: { "Authorization": "Bearer " + token }
-    });
-
-    let data = await res.json();
-    let inbox = document.getElementById("inbox");
-    inbox.innerHTML = "";
-
-    if (data["hydra:member"].length === 0) {
-      inbox.innerHTML = "No messages yet";
-      return;
+async function fetchMessages(){
+    if(!token){
+        setStatus("Generate email first");
+        return;
     }
 
-    data["hydra:member"].forEach(msg => {
-      let div = document.createElement("div");
-      div.className = "mail";
-      div.innerHTML = "<b>From:</b> " + msg.from.address +
-                      "<br><b>Subject:</b> " + msg.subject;
-      inbox.appendChild(div);
+    try{
+        setStatus("Checking inbox...");
+
+        const res = await fetch("https://api.mail.tm/messages",{
+            headers:{
+                "Authorization":"Bearer " + token
+            }
+        });
+
+        if(!res.ok){
+            throw new Error("Failed to fetch messages");
+        }
+
+        const data = await res.json();
+        const messages = data["hydra:member"];
+
+        renderInbox(messages);
+        setStatus("Inbox updated");
+
+    }catch(err){
+        setStatus("Error: " + err.message);
+    }
+}
+
+function renderInbox(messages){
+    const inbox = document.getElementById("inbox");
+    inbox.innerHTML = "";
+
+    if(!messages || messages.length === 0){
+        inbox.innerHTML = '<div class="empty">No emails yet</div>';
+        return;
+    }
+
+    messages.forEach(msg=>{
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = `
+            <strong>${escapeHtml(msg.subject || "No Subject")}</strong><br>
+            <small>From: ${escapeHtml(msg.from.address)}</small><br>
+            <small>${new Date(msg.createdAt).toLocaleString()}</small>
+        `;
+        inbox.appendChild(div);
     });
-
-  } catch (err) {
-    document.getElementById("inbox").innerText = "Error loading inbox";
-  }
 }
 
-// Copy Email
-function copyEmail() {
-  navigator.clipboard.writeText(emailAddress);
-  alert("Email copied!");
+function copyEmail(){
+    if(!currentEmail){
+        alert("No email to copy");
+        return;
+    }
+    navigator.clipboard.writeText(currentEmail);
+    alert("Email copied!");
 }
 
-// Start
-createEmail();
+function setStatus(text){
+    document.getElementById("status").innerText = text;
+}
+
+function clearInbox(){
+    document.getElementById("inbox").innerHTML = "";
+}
+
+function escapeHtml(text){
+    const div = document.createElement("div");
+    div.innerText = text;
+    return div.innerHTML;
+}
+
+generateEmail();
 </script>
 
 </body>
