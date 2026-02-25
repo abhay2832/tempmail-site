@@ -24,222 +24,155 @@ body{
     border-radius:12px;
     box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-h1{
-    text-align:center;
-    margin-bottom:20px;
-}
-.email-box{
-    display:flex;
-    gap:10px;
-    margin-bottom:15px;
-}
+h1{text-align:center;margin-bottom:20px;}
+.email-box{display:flex;gap:10px;margin-bottom:15px;}
 input{
-    flex:1;
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius:6px;
-    font-size:14px;
+    flex:1;padding:10px;border:1px solid #ddd;
+    border-radius:6px;font-size:14px;
 }
 button{
-    padding:10px 15px;
-    border:none;
-    border-radius:6px;
-    background:#4c6ef5;
-    color:white;
-    cursor:pointer;
-    transition:0.3s;
-    font-size:14px;
+    padding:10px 15px;border:none;border-radius:6px;
+    background:#4c6ef5;color:white;cursor:pointer;
 }
-button:hover{
-    background:#364fc7;
-}
-.secondary{
-    background:#868e96;
-}
-.secondary:hover{
-    background:#495057;
-}
-.inbox{
-    margin-top:15px;
-    max-height:300px;
-    overflow-y:auto;
-}
+button:hover{background:#364fc7;}
+.secondary{background:#868e96;}
+.secondary:hover{background:#495057;}
+.inbox{margin-top:15px;max-height:300px;overflow-y:auto;}
 .message{
-    background:#f1f3f5;
-    padding:10px;
-    border-radius:6px;
-    margin-bottom:10px;
+    background:#f1f3f5;padding:10px;border-radius:6px;
+    margin-bottom:10px;cursor:pointer;
 }
-.message small{
-    color:#666;
+.message small{color:#666;}
+.body-box{
+    background:#e9ecef;padding:10px;
+    border-radius:6px;margin-top:5px;
+    font-size:14px;white-space:pre-wrap;
 }
-.empty{
-    text-align:center;
-    color:#888;
-    margin-top:20px;
-}
-.loading{
-    text-align:center;
-    margin-top:10px;
-}
+.empty{text-align:center;color:#888;margin-top:20px;}
+.loading{text-align:center;margin-top:10px;}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h1>Temporary Email</h1>
+<h1>Temporary Email</h1>
 
-    <div class="email-box">
-        <input type="text" id="email" readonly>
-        <button onclick="copyEmail()">Copy</button>
-    </div>
+<div class="email-box">
+<input type="text" id="email" readonly>
+<button onclick="copyEmail()">Copy</button>
+</div>
 
-    <div class="email-box">
-        <button onclick="generateEmail()">Generate New</button>
-        <button class="secondary" onclick="fetchMessages()">Refresh</button>
-    </div>
+<div class="email-box">
+<button onclick="generateEmail()">Generate New</button>
+<button class="secondary" onclick="fetchMessages()">Refresh</button>
+</div>
 
-    <div id="status" class="loading"></div>
-    <div class="inbox" id="inbox"></div>
+<div id="status" class="loading"></div>
+<div class="inbox" id="inbox"></div>
+
 </div>
 
 <script>
-let token = "";
-let currentEmail = "";
-let accountId = "";
+let token="";
+let currentEmail="";
 
 async function generateEmail(){
-    try{
-        setStatus("Generating email...");
-        clearInbox();
+try{
+setStatus("Generating email...");
+clearInbox();
 
-        const domainRes = await fetch("https://api.mail.tm/domains");
-        const domainData = await domainRes.json();
+const domainRes=await fetch("https://api.mail.tm/domains");
+const domainData=await domainRes.json();
+const domain=domainData["hydra:member"][0].domain;
 
-        if(!domainData["hydra:member"] || domainData["hydra:member"].length === 0){
-            throw new Error("No domain available");
-        }
+const random=Math.random().toString(36).substring(2,10);
+const email=random+"@"+domain;
+const password=Math.random().toString(36).substring(2,12);
 
-        const domain = domainData["hydra:member"][0].domain;
-        const random = Math.random().toString(36).substring(2,10);
-        const email = random + "@" + domain;
-        const password = Math.random().toString(36).substring(2,12);
+await fetch("https://api.mail.tm/accounts",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({address:email,password:password})
+});
 
-        const accountRes = await fetch("https://api.mail.tm/accounts",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({
-                address:email,
-                password:password
-            })
-        });
+const tokenRes=await fetch("https://api.mail.tm/token",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({address:email,password:password})
+});
 
-        if(!accountRes.ok){
-            throw new Error("Account creation failed");
-        }
+const tokenData=await tokenRes.json();
+token=tokenData.token;
+currentEmail=email;
 
-        const accountData = await accountRes.json();
-        accountId = accountData.id;
+document.getElementById("email").value=currentEmail;
+setStatus("Email Ready");
+fetchMessages();
 
-        const tokenRes = await fetch("https://api.mail.tm/token",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({
-                address:email,
-                password:password
-            })
-        });
-
-        if(!tokenRes.ok){
-            throw new Error("Token generation failed");
-        }
-
-        const tokenData = await tokenRes.json();
-        token = tokenData.token;
-        currentEmail = email;
-
-        document.getElementById("email").value = currentEmail;
-        setStatus("Email generated successfully");
-        fetchMessages();
-
-    }catch(err){
-        setStatus("Error: " + err.message);
-    }
+}catch(err){
+setStatus("Error: "+err.message);
+}
 }
 
 async function fetchMessages(){
-    if(!token){
-        setStatus("Generate email first");
-        return;
-    }
+if(!token){setStatus("Generate email first");return;}
+try{
+setStatus("Checking inbox...");
+const res=await fetch("https://api.mail.tm/messages",{
+headers:{Authorization:"Bearer "+token}
+});
+const data=await res.json();
+renderInbox(data["hydra:member"]);
+setStatus("Inbox updated");
+}catch(err){
+setStatus("Error: "+err.message);
+}
+}
 
-    try{
-        setStatus("Checking inbox...");
-
-        const res = await fetch("https://api.mail.tm/messages",{
-            headers:{
-                "Authorization":"Bearer " + token
-            }
-        });
-
-        if(!res.ok){
-            throw new Error("Failed to fetch messages");
-        }
-
-        const data = await res.json();
-        const messages = data["hydra:member"];
-
-        renderInbox(messages);
-        setStatus("Inbox updated");
-
-    }catch(err){
-        setStatus("Error: " + err.message);
-    }
+async function getMessage(id,container){
+const res=await fetch("https://api.mail.tm/messages/"+id,{
+headers:{Authorization:"Bearer "+token}
+});
+const data=await res.json();
+const body=document.createElement("div");
+body.className="body-box";
+body.innerText=data.text || "No content";
+container.appendChild(body);
 }
 
 function renderInbox(messages){
-    const inbox = document.getElementById("inbox");
-    inbox.innerHTML = "";
-
-    if(!messages || messages.length === 0){
-        inbox.innerHTML = '<div class="empty">No emails yet</div>';
-        return;
-    }
-
-    messages.forEach(msg=>{
-        const div = document.createElement("div");
-        div.className = "message";
-        div.innerHTML = `
-            <strong>${escapeHtml(msg.subject || "No Subject")}</strong><br>
-            <small>From: ${escapeHtml(msg.from.address)}</small><br>
-            <small>${new Date(msg.createdAt).toLocaleString()}</small>
-        `;
-        inbox.appendChild(div);
-    });
+const inbox=document.getElementById("inbox");
+inbox.innerHTML="";
+if(!messages || messages.length===0){
+inbox.innerHTML='<div class="empty">No emails yet</div>';
+return;
+}
+messages.forEach(msg=>{
+const div=document.createElement("div");
+div.className="message";
+div.innerHTML=`
+<strong>${escapeHtml(msg.subject || "No Subject")}</strong><br>
+<small>From: ${escapeHtml(msg.from.address)}</small><br>
+<small>${new Date(msg.createdAt).toLocaleString()}</small>
+`;
+div.onclick=()=>getMessage(msg.id,div);
+inbox.appendChild(div);
+});
 }
 
 function copyEmail(){
-    if(!currentEmail){
-        alert("No email to copy");
-        return;
-    }
-    navigator.clipboard.writeText(currentEmail);
-    alert("Email copied!");
+if(!currentEmail){alert("No email");return;}
+navigator.clipboard.writeText(currentEmail);
+alert("Copied!");
 }
 
-function setStatus(text){
-    document.getElementById("status").innerText = text;
-}
-
-function clearInbox(){
-    document.getElementById("inbox").innerHTML = "";
-}
-
+function setStatus(text){document.getElementById("status").innerText=text;}
+function clearInbox(){document.getElementById("inbox").innerHTML="";}
 function escapeHtml(text){
-    const div = document.createElement("div");
-    div.innerText = text;
-    return div.innerHTML;
+const div=document.createElement("div");
+div.innerText=text;
+return div.innerHTML;
 }
 
 generateEmail();
