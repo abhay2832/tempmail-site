@@ -34,6 +34,22 @@ function generateEmail(){
 login = "user" + Math.floor(Math.random()*100000);
 document.getElementById("email").innerText = login + "@" + domain;
 }
+  async function readMail(id){
+ let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
+ let res = await fetch(url);
+ let data = await res.json();
+
+ let message = `
+ From: ${data.from}
+
+ Subject: ${data.subject}
+
+ -------------------------
+ ${data.textBody}
+ `;
+
+ alert(message);
+  }
   function copyEmail(){
  let text = login + "@" + domain;
  navigator.clipboard.writeText(text);
@@ -49,11 +65,15 @@ let data = await res.json();
 
 let list = document.getElementById("mails");
 list.innerHTML = "";
-
 data.forEach(mail=>{
-let li = document.createElement("li");
-li.innerText = mail.from + " - " + mail.subject;
-list.appendChild(li);
+ let li = document.createElement("li");
+
+ li.innerHTML = `
+ <b>${mail.from}</b> - ${mail.subject}
+ <button onclick="readMail(${mail.id})">Open</button>
+ `;
+
+ list.appendChild(li);
 });
 
 }
