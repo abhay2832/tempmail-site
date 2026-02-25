@@ -1,151 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TempMail Pro</title>
 
 <style>
-:root{
---bg1:#4c6ef5;
---bg2:#7b2ff7;
---card:#ffffff;
---text:#111;
---muted:#666;
-}
-
-body.dark{
---bg1:#0f2027;
---bg2:#203a43;
---card:#1e1e1e;
---text:#f5f5f5;
---muted:#aaa;
-}
-
 body{
 margin:0;
-font-family: 'Segoe UI', sans-serif;
-background:linear-gradient(135deg,var(--bg1),var(--bg2));
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+font-family:Arial;
+background:#0f172a;
+color:white;
 padding:20px;
-transition:0.3s;
 }
-
 .container{
-width:100%;
-max-width:550px;
-background:var(--card);
-padding:25px;
-border-radius:16px;
-box-shadow:0 15px 40px rgba(0,0,0,0.25);
-transition:0.3s;
+max-width:800px;
+margin:auto;
 }
-
-h1{
+.header{
 text-align:center;
 margin-bottom:20px;
-color:var(--text);
 }
-
-.top-bar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-}
-
-.toggle{
-cursor:pointer;
-font-size:14px;
-padding:6px 12px;
-border-radius:20px;
-background:#00000020;
-color:var(--text);
-}
-
-.email-box{
-display:flex;
-gap:10px;
-margin-bottom:15px;
-}
-
-input{
-flex:1;
-padding:12px;
-border-radius:8px;
-border:1px solid #ddd;
-font-size:14px;
-}
-
-button{
-padding:10px 15px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:500;
-background:#4c6ef5;
-color:white;
-transition:0.2s;
-}
-
-button:hover{
-transform:translateY(-2px);
-}
-
-.secondary{
-background:#868e96;
-}
-
-.inbox{
-margin-top:15px;
-max-height:350px;
-overflow-y:auto;
-}
-
-.message{
-background:#00000008;
-padding:12px;
+.box{
+background:#1e293b;
+padding:15px;
 border-radius:10px;
-margin-bottom:10px;
-cursor:pointer;
-transition:0.2s;
-color:var(--text);
+margin-bottom:15px;
 }
-
-body.dark .message{
-background:#ffffff10;
-}
-
-.message:hover{
-transform:scale(1.02);
-}
-
-.message small{
-color:var(--muted);
-}
-
-.body-box{
-margin-top:10px;
+input{
+width:100%;
 padding:10px;
-border-radius:8px;
-background:#00000010;
-white-space:pre-wrap;
-}
-
-.status{
-text-align:center;
-margin-top:10px;
-color:var(--muted);
+border-radius:6px;
+border:none;
+margin-bottom:10px;
 font-size:14px;
 }
-
-.empty{
+button{
+padding:8px 12px;
+border:none;
+border-radius:6px;
+background:#6366f1;
+color:white;
+cursor:pointer;
+margin-right:5px;
+}
+button:hover{opacity:0.9}
+.message{
+border-bottom:1px solid #334155;
+padding:10px 0;
+cursor:pointer;
+}
+.message:hover{
+background:#273449;
+}
+.otp{
+background:#111827;
+padding:6px;
+margin-top:8px;
+display:inline-block;
+font-weight:bold;
+color:#22c55e;
+}
+.loader{
 text-align:center;
-color:var(--muted);
-margin-top:20px;
 }
 </style>
 </head>
@@ -153,156 +70,127 @@ margin-top:20px;
 <body>
 
 <div class="container">
-<div class="top-bar">
-<h1>TempMail Pro</h1>
-<div class="toggle" onclick="toggleDark()">🌙 Mode</div>
+
+<div class="header">
+<h2>TempMail Pro</h2>
 </div>
 
-<div class="email-box">
+<div class="box">
 <input type="text" id="email" readonly>
 <button onclick="copyEmail()">Copy</button>
+<button onclick="newMail()">New</button>
+<button onclick="loadInbox()">Refresh</button>
 </div>
 
-<div class="email-box">
-<button onclick="forceNew()">New Email</button>
-<button class="secondary" onclick="fetchMessages()">Refresh</button>
+<div class="box" id="inbox">
+Loading...
 </div>
-
-<div id="status" class="status"></div>
-<div id="inbox" class="inbox"></div>
 
 </div>
 
 <script>
-let token="";
-let email=localStorage.getItem("tm_email");
-let password=localStorage.getItem("tm_pass");
 
-window.onload=async()=>{
-if(localStorage.getItem("dark_mode")==="true"){
-document.body.classList.add("dark");
-}
-if(email && password){
-await login(false);
-}else{
-await createAccount();
-}
-};
+let login="";
+let domain="1secmail.com";
 
-function toggleDark(){
-document.body.classList.toggle("dark");
-localStorage.setItem("dark_mode",
-document.body.classList.contains("dark"));
+function generateEmail(){
+login=Math.random().toString(36).substring(2,10);
+const email=login+"@"+domain;
+document.getElementById("email").value=email;
+localStorage.setItem("temp_login",login);
+loadInbox();
 }
 
-async function createAccount(){
-setStatus("Generating email...");
-const d=await fetch("https://api.mail.tm/domains");
-const dj=await d.json();
-const domain=dj["hydra:member"][0].domain;
-
-email=Math.random().toString(36).substring(2,10)+"@"+domain;
-password=Math.random().toString(36).substring(2,12);
-
-await fetch("https://api.mail.tm/accounts",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({address:email,password:password})
-});
-
-localStorage.setItem("tm_email",email);
-localStorage.setItem("tm_pass",password);
-await login(true);
+function newMail(){
+localStorage.removeItem("temp_login");
+generateEmail();
 }
 
-async function login(isNew){
-const res=await fetch("https://api.mail.tm/token",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({address:email,password:password})
-});
-
-if(!res.ok){
-if(!isNew){
-localStorage.clear();
-return createAccount();
+function copyEmail(){
+navigator.clipboard.writeText(document.getElementById("email").value);
+alert("Email Copied");
 }
+
+async function loadInbox(){
+if(!login){
+login=localStorage.getItem("temp_login");
+if(!login){
+generateEmail();
+return;
+}
+}
+document.getElementById("inbox").innerHTML="Loading...";
+
+try{
+const res=await fetch(
+`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`
+);
+const data=await res.json();
+
+if(data.length===0){
+document.getElementById("inbox").innerHTML="No emails yet";
 return;
 }
 
-const data=await res.json();
-token=data.token;
-document.getElementById("email").value=email;
-setStatus("Email Ready");
-fetchMessages();
+renderInbox(data);
+
+}catch{
+document.getElementById("inbox").innerHTML="Error loading inbox";
+}
 }
 
-async function fetchMessages(){
-if(!token)return;
-const r=await fetch("https://api.mail.tm/messages",{
-headers:{Authorization:"Bearer "+token}
-});
-const j=await r.json();
-renderInbox(j["hydra:member"]);
-}
-
-async function openMessage(id,container){
-const r=await fetch("https://api.mail.tm/messages/"+id,{
-headers:{Authorization:"Bearer "+token}
-});
-const j=await r.json();
-let content=j.text?.trim()?j.text:(j.html?.length?j.html[0]:"No content");
-const box=document.createElement("div");
-box.className="body-box";
-box.innerHTML=content;
-container.appendChild(box);
-}
-
-function renderInbox(msgs){
+function renderInbox(messages){
 const inbox=document.getElementById("inbox");
 inbox.innerHTML="";
-if(!msgs || msgs.length===0){
-inbox.innerHTML='<div class="empty">No emails yet</div>';
-return;
-}
-msgs.forEach(m=>{
+messages.forEach(m=>{
 const div=document.createElement("div");
 div.className="message";
-div.innerHTML=`
-<strong>${escape(m.subject||"No Subject")}</strong><br>
-<small>From: ${escape(m.from.address)}</small><br>
-<small>${new Date(m.createdAt).toLocaleString()}</small>
-`;
-div.onclick=()=>{
-if(!div.querySelector(".body-box")){
-openMessage(m.id,div);
-}
-};
+div.innerHTML="<strong>"+m.subject+"</strong><br>"+m.from;
+div.onclick=()=>openMessage(m.id,div);
 inbox.appendChild(div);
 });
 }
 
-function forceNew(){
-localStorage.clear();
-createAccount();
+async function openMessage(id,container){
+try{
+const res=await fetch(
+`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`
+);
+const data=await res.json();
+
+const body=document.createElement("div");
+body.innerHTML=data.textBody || data.htmlBody || "No content";
+
+const otp=findOTP(data.textBody);
+if(otp){
+const otpDiv=document.createElement("div");
+otpDiv.className="otp";
+otpDiv.innerHTML=otp + 
+` <button onclick="copyOTP('${otp}')">Copy OTP</button>`;
+body.appendChild(otpDiv);
 }
 
-function copyEmail(){
-navigator.clipboard.writeText(email);
-alert("Copied!");
+container.appendChild(body);
+
+}catch{
+alert("Failed to open message");
+}
 }
 
-function setStatus(t){
-document.getElementById("status").innerText=t;
+function findOTP(text){
+if(!text) return null;
+const match=text.match(/\b\d{4,8}\b/);
+return match?match[0]:null;
 }
 
-function escape(t){
-const d=document.createElement("div");
-d.innerText=t;
-return d.innerHTML;
+function copyOTP(code){
+navigator.clipboard.writeText(code);
+alert("OTP Copied");
 }
 
-setInterval(fetchMessages,10000);
+window.onload=loadInbox;
+setInterval(loadInbox,10000);
+
 </script>
 
 </body>
