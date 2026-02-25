@@ -34,6 +34,11 @@ function generateEmail(){
 login = "user" + Math.floor(Math.random()*100000);
 document.getElementById("email").innerText = login + "@" + domain;
 }
+  function copyEmail(){
+ let text = login + "@" + domain;
+ navigator.clipboard.writeText(text);
+ alert("Email copied: " + text);
+  }
 
 generateEmail();
 
@@ -54,14 +59,7 @@ list.appendChild(li);
 }
 
 </script>
+  
 
 </body>
 </html>
-function copyEmail(){
-navigator.clipboard.writeText(login + "@" + domain);
-alert("Email copied!");
-}
-function copyEmail(){
-let text = login + "@" + domain;
-prompt("Copy this email:", text);
-}
