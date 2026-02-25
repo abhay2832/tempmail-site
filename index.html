@@ -26,59 +26,73 @@ button {padding:10px 20px;}
 </div>
 
 <script>
+<script>
 
 let login = "";
 let domain = "1secmail.com";
 
-  setInterval(getMails, 5000);
-
 function generateEmail(){
-login = "user" + Math.floor(Math.random()*100000);
-document.getElementById("email").innerText = login + "@" + domain;
+    login = "user" + Math.floor(Math.random()*100000);
+    document.getElementById("email").innerText = login + "@" + domain;
 }
-  async function readMail(id){
- let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
- let res = await fetch(url);
- let data = await res.json();
 
- let message = `
- From: ${data.from}
+function copyEmail(){
+    let text = login + "@" + domain;
+    navigator.clipboard.writeText(text);
+    alert("Email copied: " + text);
+}
 
- Subject: ${data.subject}
+function loadInbox() {
+    let email = document.getElementById("email").innerText;
 
- -------------------------
- ${data.textBody}
- `;
+    let parts = email.split("@");
+    let login = parts[0];
+    let domain = parts[1];
 
- alert(message);
-  }
-  function copyEmail(){
- let text = login + "@" + domain;
- navigator.clipboard.writeText(text);
- alert("Email copied: " + text);
-  }
+    let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        let inbox = document.getElementById("inbox");
+        inbox.innerHTML = "";
+
+        if(data.length === 0){
+            inbox.innerHTML = "No messages yet";
+            return;
+        }
+
+        data.forEach(msg => {
+            let div = document.createElement("div");
+            div.innerHTML = `
+                <b>From:</b> ${msg.from} <br>
+                <b>Subject:</b> ${msg.subject} <br>
+                <button onclick="readMail(${msg.id})">Open</button>
+                <hr>
+            `;
+            inbox.appendChild(div);
+        });
+    });
+}
+
+function readMail(id){
+    let email = document.getElementById("email").innerText;
+
+    let parts = email.split("@");
+    let login = parts[0];
+    let domain = parts[1];
+
+    let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        alert("From: " + data.from + "\n\nSubject: " + data.subject + "\n\nMessage:\n" + data.textBody);
+    });
+}
 
 generateEmail();
 
-async function getMails(){
-let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
-let res = await fetch(url);
-let data = await res.json();
-
-let list = document.getElementById("mails");
-list.innerHTML = "";
-data.forEach(mail=>{
- let li = document.createElement("li");
-
- li.innerHTML = `
- <b>${mail.from}</b> - ${mail.subject}
- <button onclick="readMail(${mail.id})">Open</button>
- `;
-
- list.appendChild(li);
-});
-
-}
 
 </script>
   
