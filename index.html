@@ -15,6 +15,7 @@ button {padding:10px 20px;}
 
 <div class="box">
 <h3 id="email">Loading...</h3>
+<button onclick="copyEmail()">Copy Email</button>
 <button onclick="generateEmail()">New Email</button>
 </div>
 
@@ -56,3 +57,11 @@ list.appendChild(li);
 
 </body>
 </html>
+function copyEmail(){
+navigator.clipboard.writeText(login + "@" + domain);
+alert("Email copied!");
+}
+function copyEmail(){
+let text = login + "@" + domain;
+prompt("Copy this email:", text);
+}
