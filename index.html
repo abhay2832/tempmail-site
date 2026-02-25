@@ -34,7 +34,6 @@ function copyEmail(){
 }
 
 function loadInbox(){
-
   let url = "https://www.1secmail.com/api/v1/?action=getMessages&login=" + login + "&domain=" + domain;
 
   fetch(url)
@@ -56,7 +55,6 @@ function loadInbox(){
     });
 
   });
-
 }
 
 generateEmail();
