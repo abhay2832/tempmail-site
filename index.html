@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Temp Mail</title>
+<title>Temporary Email</title>
 
 <style>
 body{
@@ -82,7 +82,7 @@ button:hover{background:#364fc7;}
 </div>
 
 <div class="email-box">
-<button onclick="generateEmail()">Generate New</button>
+<button onclick="generateNew()">Generate New</button>
 <button class="secondary" onclick="fetchMessages()">Refresh</button>
 </div>
 
@@ -95,78 +95,107 @@ let token="";
 let currentEmail="";
 let password="";
 
-async function generateEmail(){
+window.onload = async function(){
+    const savedEmail = localStorage.getItem("tm_email");
+    const savedPassword = localStorage.getItem("tm_password");
+
+    if(savedEmail && savedPassword){
+        currentEmail = savedEmail;
+        password = savedPassword;
+        await login();
+    } else {
+        await createAccount();
+    }
+};
+
+async function createAccount(){
 try{
 setStatus("Generating email...");
 clearInbox();
 
-const domainRes=await fetch("https://api.mail.tm/domains");
-const domainData=await domainRes.json();
+const domainRes = await fetch("https://api.mail.tm/domains");
+const domainData = await domainRes.json();
 
-if(!domainData["hydra:member"] || domainData["hydra:member"].length===0){
+if(!domainData["hydra:member"] || domainData["hydra:member"].length === 0){
 throw new Error("No domain available");
 }
 
-const domain=domainData["hydra:member"][0].domain;
-const random=Math.random().toString(36).substring(2,10);
-currentEmail=random+"@"+domain;
-password=Math.random().toString(36).substring(2,12);
+const domain = domainData["hydra:member"][0].domain;
 
-const accRes=await fetch("https://api.mail.tm/accounts",{
+currentEmail = Math.random().toString(36).substring(2,10)+"@"+domain;
+password = Math.random().toString(36).substring(2,12);
+
+const accRes = await fetch("https://api.mail.tm/accounts",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({address:currentEmail,password:password})
 });
 
-if(!accRes.ok){throw new Error("Account creation failed");}
+if(!accRes.ok){
+throw new Error("Account creation failed");
+}
 
-const tokenRes=await fetch("https://api.mail.tm/token",{
+localStorage.setItem("tm_email",currentEmail);
+localStorage.setItem("tm_password",password);
+
+await login();
+
+}catch(err){
+setStatus("Error: "+err.message);
+}
+}
+
+async function login(){
+try{
+const tokenRes = await fetch("https://api.mail.tm/token",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({address:currentEmail,password:password})
 });
 
-const tokenData=await tokenRes.json();
-token=tokenData.token;
+if(!tokenRes.ok){
+throw new Error("Login failed");
+}
 
-document.getElementById("email").value=currentEmail;
+const tokenData = await tokenRes.json();
+token = tokenData.token;
+
+document.getElementById("email").value = currentEmail;
 setStatus("Email Ready");
 fetchMessages();
 
 }catch(err){
-setStatus("Error: "+err.message);
+localStorage.clear();
+await createAccount();
 }
 }
 
 async function fetchMessages(){
-if(!token){setStatus("Generate email first");return;}
+if(!token)return;
 
 try{
-const res=await fetch("https://api.mail.tm/messages",{
+const res = await fetch("https://api.mail.tm/messages",{
 headers:{Authorization:"Bearer "+token}
 });
 
-if(!res.ok){throw new Error("Failed to fetch inbox");}
+if(!res.ok)return;
 
-const data=await res.json();
+const data = await res.json();
 renderInbox(data["hydra:member"]);
-setStatus("Inbox updated");
 
 }catch(err){
-setStatus("Error: "+err.message);
+console.log("Inbox error");
 }
 }
 
 async function openMessage(id,container){
 try{
-const res=await fetch("https://api.mail.tm/messages/"+id,{
+const res = await fetch("https://api.mail.tm/messages/"+id,{
 headers:{Authorization:"Bearer "+token}
 });
-
-const data=await res.json();
+const data = await res.json();
 
 let content="";
-
 if(data.text && data.text.trim()!==""){
 content=data.text;
 }
@@ -180,7 +209,6 @@ content="No content available";
 const body=document.createElement("div");
 body.className="body-box";
 body.innerHTML=content;
-
 container.appendChild(body);
 
 }catch(err){
@@ -216,8 +244,12 @@ inbox.appendChild(div);
 });
 }
 
+function generateNew(){
+localStorage.clear();
+createAccount();
+}
+
 function copyEmail(){
-if(!currentEmail){alert("No email");return;}
 navigator.clipboard.writeText(currentEmail);
 alert("Email copied!");
 }
@@ -237,7 +269,6 @@ return div.innerHTML;
 }
 
 setInterval(fetchMessages,10000);
-generateEmail();
 </script>
 
 </body>
