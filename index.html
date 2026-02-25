@@ -1,48 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Temp Mail</title>
-
-  <style>
-    body{
-      font-family: Arial;
-      text-align:center;
-      background:#f0f0f0;
-    }
-
-    .box{
-      background:white;
-      padding:20px;
-      margin:20px;
-      border-radius:10px;
-    }
-
-    button{
-      padding:10px 20px;
-      margin:5px;
-      cursor:pointer;
-    }
-  </style>
+<title>Temp Mail</title>
 </head>
 
 <body>
 
-  <h2>📧 Free Temp Mail</h2>
+<h2>Temp Mail</h2>
 
-  <div class="box">
-    <h3 id="email">Loading...</h3>
+<h3 id="email">Loading...</h3>
 
-    <button onclick="copyEmail()">Copy Email</button>
-    <button onclick="generateEmail()">New Email</button>
-  </div>
+<button onclick="generateEmail()">New Email</button>
+<button onclick="copyEmail()">Copy</button>
 
-  <div class="box">
-    <h3>Inbox</h3>
+<h3>Inbox</h3>
+<button onclick="loadInbox()">Refresh</button>
 
-    <button onclick="loadInbox()">Refresh</button>
-
-    <div id="inbox">No messages yet</div>
-  </div>
+<div id="inbox"></div>
 
 <script>
 
@@ -50,65 +24,42 @@ let login = "";
 let domain = "1secmail.com";
 
 function generateEmail(){
-    login = "user" + Math.floor(Math.random()*100000);
-    document.getElementById("email").innerText = login + "@" + domain;
+  login = "user" + Math.floor(Math.random()*100000);
+  document.getElementById("email").innerText = login + "@" + domain;
 }
 
 function copyEmail(){
-    let text = login + "@" + domain;
-    navigator.clipboard.writeText(text);
-    alert("Email copied: " + text);
+  navigator.clipboard.writeText(login + "@" + domain);
+  alert("Copied");
 }
 
 function loadInbox(){
 
-    let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
+  let url = "https://www.1secmail.com/api/v1/?action=getMessages&login=" + login + "&domain=" + domain;
 
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
+  fetch(url)
+  .then(res => res.json())
+  .then(data => {
 
-        let inbox = document.getElementById("inbox");
-        inbox.innerHTML = "";
+    let box = document.getElementById("inbox");
+    box.innerHTML = "";
 
-        if(data.length === 0){
-            inbox.innerHTML = "No messages yet";
-            return;
-        }
+    if(data.length == 0){
+      box.innerHTML = "No Mail";
+      return;
+    }
 
-        data.forEach(msg => {
-
-            let div = document.createElement("div");
-
-            div.innerHTML = `
-                <b>From:</b> ${msg.from} <br>
-                <b>Subject:</b> ${msg.subject} <br>
-                <button onclick="readMail(${msg.id})">Open</button>
-                <hr>
-            `;
-
-            inbox.appendChild(div);
-
-        });
-
+    data.forEach(m => {
+      let div = document.createElement("div");
+      div.innerHTML = m.from + " - " + m.subject;
+      box.appendChild(div);
     });
-}
 
-async function readMail(id){
-
-    let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
-
-    let res = await fetch(url);
-    let data = await res.json();
-
-    alert("📩 EMAIL MESSAGE:\n\n" + data.textBody);
+  });
 
 }
 
 generateEmail();
-
-// auto refresh inbox every 5 sec
-setInterval(loadInbox, 5000);
 
 </script>
 
