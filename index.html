@@ -7,64 +7,63 @@
 
 <style>
 body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,#4c6ef5,#7b2ff7);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#4c6ef5,#7b2ff7);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
 }
 .container{
-    width:100%;
-    max-width:500px;
-    background:#fff;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+width:100%;
+max-width:500px;
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 h1{text-align:center;margin-bottom:20px;}
 .email-box{display:flex;gap:10px;margin-bottom:15px;}
 input{
-    flex:1;
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius:6px;
-    font-size:14px;
+flex:1;
+padding:10px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
 }
 button{
-    padding:10px 15px;
-    border:none;
-    border-radius:6px;
-    background:#4c6ef5;
-    color:white;
-    cursor:pointer;
-    font-size:14px;
+padding:10px 15px;
+border:none;
+border-radius:6px;
+background:#4c6ef5;
+color:white;
+cursor:pointer;
+font-size:14px;
 }
 button:hover{background:#364fc7;}
 .secondary{background:#868e96;}
 .secondary:hover{background:#495057;}
 .inbox{
-    margin-top:15px;
-    max-height:300px;
-    overflow-y:auto;
+margin-top:15px;
+max-height:300px;
+overflow-y:auto;
 }
 .message{
-    background:#f1f3f5;
-    padding:10px;
-    border-radius:6px;
-    margin-bottom:10px;
-    cursor:pointer;
+background:#f1f3f5;
+padding:10px;
+border-radius:6px;
+margin-bottom:10px;
+cursor:pointer;
 }
-.message small{color:#666;}
 .body-box{
-    background:#e9ecef;
-    padding:10px;
-    border-radius:6px;
-    margin-top:5px;
-    font-size:14px;
-    white-space:pre-wrap;
+background:#e9ecef;
+padding:10px;
+border-radius:6px;
+margin-top:5px;
+font-size:14px;
+white-space:pre-wrap;
 }
 .empty{text-align:center;color:#888;margin-top:20px;}
 .status{text-align:center;margin-top:10px;font-size:14px;}
@@ -82,7 +81,7 @@ button:hover{background:#364fc7;}
 </div>
 
 <div class="email-box">
-<button onclick="generateNew()">Generate New</button>
+<button onclick="forceNew()">Generate New</button>
 <button class="secondary" onclick="fetchMessages()">Refresh</button>
 </div>
 
@@ -92,20 +91,15 @@ button:hover{background:#364fc7;}
 
 <script>
 let token="";
-let currentEmail="";
-let password="";
+let email=localStorage.getItem("tm_email");
+let password=localStorage.getItem("tm_pass");
 
-window.onload = async function(){
-    const savedEmail = localStorage.getItem("tm_email");
-    const savedPassword = localStorage.getItem("tm_password");
-
-    if(savedEmail && savedPassword){
-        currentEmail = savedEmail;
-        password = savedPassword;
-        await login();
-    } else {
-        await createAccount();
-    }
+window.onload=async()=>{
+if(email && password){
+await login(false);
+}else{
+await createAccount();
+}
 };
 
 async function createAccount(){
@@ -113,159 +107,128 @@ try{
 setStatus("Generating email...");
 clearInbox();
 
-const domainRes = await fetch("https://api.mail.tm/domains");
-const domainData = await domainRes.json();
+const d=await fetch("https://api.mail.tm/domains");
+const dj=await d.json();
+const domain=dj["hydra:member"][0].domain;
 
-if(!domainData["hydra:member"] || domainData["hydra:member"].length === 0){
-throw new Error("No domain available");
-}
+email=Math.random().toString(36).substring(2,10)+"@"+domain;
+password=Math.random().toString(36).substring(2,12);
 
-const domain = domainData["hydra:member"][0].domain;
-
-currentEmail = Math.random().toString(36).substring(2,10)+"@"+domain;
-password = Math.random().toString(36).substring(2,12);
-
-const accRes = await fetch("https://api.mail.tm/accounts",{
+await fetch("https://api.mail.tm/accounts",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({address:currentEmail,password:password})
+body:JSON.stringify({address:email,password:password})
 });
 
-if(!accRes.ok){
-throw new Error("Account creation failed");
-}
+localStorage.setItem("tm_email",email);
+localStorage.setItem("tm_pass",password);
 
-localStorage.setItem("tm_email",currentEmail);
-localStorage.setItem("tm_password",password);
+await login(true);
 
-await login();
-
-}catch(err){
-setStatus("Error: "+err.message);
+}catch(e){
+setStatus("Error creating email");
 }
 }
 
-async function login(){
+async function login(isNew){
 try{
-const tokenRes = await fetch("https://api.mail.tm/token",{
+const res=await fetch("https://api.mail.tm/token",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({address:currentEmail,password:password})
+body:JSON.stringify({address:email,password:password})
 });
 
-if(!tokenRes.ok){
+if(!res.ok){
+if(!isNew){
+setStatus("Session expired. Creating new email...");
+localStorage.clear();
+return createAccount();
+}
 throw new Error("Login failed");
 }
 
-const tokenData = await tokenRes.json();
-token = tokenData.token;
+const data=await res.json();
+token=data.token;
 
-document.getElementById("email").value = currentEmail;
+document.getElementById("email").value=email;
 setStatus("Email Ready");
 fetchMessages();
 
-}catch(err){
-localStorage.clear();
-await createAccount();
+}catch(e){
+setStatus("Login error");
 }
 }
 
 async function fetchMessages(){
 if(!token)return;
-
 try{
-const res = await fetch("https://api.mail.tm/messages",{
+const r=await fetch("https://api.mail.tm/messages",{
 headers:{Authorization:"Bearer "+token}
 });
-
-if(!res.ok)return;
-
-const data = await res.json();
-renderInbox(data["hydra:member"]);
-
-}catch(err){
-console.log("Inbox error");
-}
+const j=await r.json();
+renderInbox(j["hydra:member"]);
+}catch(e){}
 }
 
 async function openMessage(id,container){
-try{
-const res = await fetch("https://api.mail.tm/messages/"+id,{
+const r=await fetch("https://api.mail.tm/messages/"+id,{
 headers:{Authorization:"Bearer "+token}
 });
-const data = await res.json();
+const j=await r.json();
 
-let content="";
-if(data.text && data.text.trim()!==""){
-content=data.text;
-}
-else if(data.html && data.html.length>0){
-content=data.html[0];
-}
-else{
-content="No content available";
+let content=j.text?.trim()?j.text:(j.html?.length?j.html[0]:"No content");
+const box=document.createElement("div");
+box.className="body-box";
+box.innerHTML=content;
+container.appendChild(box);
 }
 
-const body=document.createElement("div");
-body.className="body-box";
-body.innerHTML=content;
-container.appendChild(body);
-
-}catch(err){
-alert("Failed to load email content");
-}
-}
-
-function renderInbox(messages){
+function renderInbox(msgs){
 const inbox=document.getElementById("inbox");
 inbox.innerHTML="";
-
-if(!messages || messages.length===0){
+if(!msgs || msgs.length===0){
 inbox.innerHTML='<div class="empty">No emails yet</div>';
 return;
 }
-
-messages.forEach(msg=>{
+msgs.forEach(m=>{
 const div=document.createElement("div");
 div.className="message";
 div.innerHTML=`
-<strong>${escapeHtml(msg.subject || "No Subject")}</strong><br>
-<small>From: ${escapeHtml(msg.from.address)}</small><br>
-<small>${new Date(msg.createdAt).toLocaleString()}</small>
+<strong>${escape(m.subject||"No Subject")}</strong><br>
+<small>From: ${escape(m.from.address)}</small><br>
+<small>${new Date(m.createdAt).toLocaleString()}</small>
 `;
-
 div.onclick=()=>{
 if(!div.querySelector(".body-box")){
-openMessage(msg.id,div);
+openMessage(m.id,div);
 }
 };
-
 inbox.appendChild(div);
 });
 }
 
-function generateNew(){
+function forceNew(){
 localStorage.clear();
 createAccount();
 }
 
 function copyEmail(){
-navigator.clipboard.writeText(currentEmail);
-alert("Email copied!");
+navigator.clipboard.writeText(email);
+alert("Copied!");
 }
 
-function setStatus(text){
-document.getElementById("status").innerText=text;
+function setStatus(t){
+document.getElementById("status").innerText=t;
 }
 
 function clearInbox(){
 document.getElementById("inbox").innerHTML="";
 }
 
-function escapeHtml(text){
-const div=document.createElement("div");
-div.innerText=text;
-return div.innerHTML;
+function escape(t){
+const d=document.createElement("div");
+d.innerText=t;
+return d.innerHTML;
 }
 
 setInterval(fetchMessages,10000);
