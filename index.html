@@ -43,7 +43,7 @@ function copyEmail(){
 function loadInbox() {
     let email = document.getElementById("email").innerText;
     let parts = email.split("@");
-    const emailLogin = parts[0];  // 'login' नहीं, अलग नाम!
+    const emailLogin = parts[0];
     const emailDomain = parts[1];
 
     let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${emailLogin}&domain=${emailDomain}`;
