@@ -3,77 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Temporary Email</title>
+<title>TempMail Pro</title>
 
 <style>
+:root{
+--bg1:#4c6ef5;
+--bg2:#7b2ff7;
+--card:#ffffff;
+--text:#111;
+--muted:#666;
+}
+
+body.dark{
+--bg1:#0f2027;
+--bg2:#203a43;
+--card:#1e1e1e;
+--text:#f5f5f5;
+--muted:#aaa;
+}
+
 body{
 margin:0;
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#4c6ef5,#7b2ff7);
+font-family: 'Segoe UI', sans-serif;
+background:linear-gradient(135deg,var(--bg1),var(--bg2));
 display:flex;
 justify-content:center;
 align-items:center;
 min-height:100vh;
 padding:20px;
+transition:0.3s;
 }
+
 .container{
 width:100%;
-max-width:500px;
-background:#fff;
-padding:20px;
-border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
+max-width:550px;
+background:var(--card);
+padding:25px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.25);
+transition:0.3s;
 }
-h1{text-align:center;margin-bottom:20px;}
-.email-box{display:flex;gap:10px;margin-bottom:15px;}
+
+h1{
+text-align:center;
+margin-bottom:20px;
+color:var(--text);
+}
+
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.toggle{
+cursor:pointer;
+font-size:14px;
+padding:6px 12px;
+border-radius:20px;
+background:#00000020;
+color:var(--text);
+}
+
+.email-box{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+}
+
 input{
 flex:1;
-padding:10px;
+padding:12px;
+border-radius:8px;
 border:1px solid #ddd;
-border-radius:6px;
 font-size:14px;
 }
+
 button{
 padding:10px 15px;
 border:none;
-border-radius:6px;
+border-radius:8px;
+cursor:pointer;
+font-weight:500;
 background:#4c6ef5;
 color:white;
-cursor:pointer;
-font-size:14px;
+transition:0.2s;
 }
-button:hover{background:#364fc7;}
-.secondary{background:#868e96;}
-.secondary:hover{background:#495057;}
+
+button:hover{
+transform:translateY(-2px);
+}
+
+.secondary{
+background:#868e96;
+}
+
 .inbox{
 margin-top:15px;
-max-height:300px;
+max-height:350px;
 overflow-y:auto;
 }
+
 .message{
-background:#f1f3f5;
-padding:10px;
-border-radius:6px;
+background:#00000008;
+padding:12px;
+border-radius:10px;
 margin-bottom:10px;
 cursor:pointer;
+transition:0.2s;
+color:var(--text);
 }
+
+body.dark .message{
+background:#ffffff10;
+}
+
+.message:hover{
+transform:scale(1.02);
+}
+
+.message small{
+color:var(--muted);
+}
+
 .body-box{
-background:#e9ecef;
+margin-top:10px;
 padding:10px;
-border-radius:6px;
-margin-top:5px;
-font-size:14px;
+border-radius:8px;
+background:#00000010;
 white-space:pre-wrap;
 }
-.empty{text-align:center;color:#888;margin-top:20px;}
-.status{text-align:center;margin-top:10px;font-size:14px;}
+
+.status{
+text-align:center;
+margin-top:10px;
+color:var(--muted);
+font-size:14px;
+}
+
+.empty{
+text-align:center;
+color:var(--muted);
+margin-top:20px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h1>Temporary Email</h1>
+<div class="top-bar">
+<h1>TempMail Pro</h1>
+<div class="toggle" onclick="toggleDark()">🌙 Mode</div>
+</div>
 
 <div class="email-box">
 <input type="text" id="email" readonly>
@@ -81,12 +164,13 @@ white-space:pre-wrap;
 </div>
 
 <div class="email-box">
-<button onclick="forceNew()">Generate New</button>
+<button onclick="forceNew()">New Email</button>
 <button class="secondary" onclick="fetchMessages()">Refresh</button>
 </div>
 
 <div id="status" class="status"></div>
-<div class="inbox" id="inbox"></div>
+<div id="inbox" class="inbox"></div>
+
 </div>
 
 <script>
@@ -95,6 +179,9 @@ let email=localStorage.getItem("tm_email");
 let password=localStorage.getItem("tm_pass");
 
 window.onload=async()=>{
+if(localStorage.getItem("dark_mode")==="true"){
+document.body.classList.add("dark");
+}
 if(email && password){
 await login(false);
 }else{
@@ -102,11 +189,14 @@ await createAccount();
 }
 };
 
-async function createAccount(){
-try{
-setStatus("Generating email...");
-clearInbox();
+function toggleDark(){
+document.body.classList.toggle("dark");
+localStorage.setItem("dark_mode",
+document.body.classList.contains("dark"));
+}
 
+async function createAccount(){
+setStatus("Generating email...");
 const d=await fetch("https://api.mail.tm/domains");
 const dj=await d.json();
 const domain=dj["hydra:member"][0].domain;
@@ -122,16 +212,10 @@ body:JSON.stringify({address:email,password:password})
 
 localStorage.setItem("tm_email",email);
 localStorage.setItem("tm_pass",password);
-
 await login(true);
-
-}catch(e){
-setStatus("Error creating email");
-}
 }
 
 async function login(isNew){
-try{
 const res=await fetch("https://api.mail.tm/token",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -140,34 +224,26 @@ body:JSON.stringify({address:email,password:password})
 
 if(!res.ok){
 if(!isNew){
-setStatus("Session expired. Creating new email...");
 localStorage.clear();
 return createAccount();
 }
-throw new Error("Login failed");
+return;
 }
 
 const data=await res.json();
 token=data.token;
-
 document.getElementById("email").value=email;
 setStatus("Email Ready");
 fetchMessages();
-
-}catch(e){
-setStatus("Login error");
-}
 }
 
 async function fetchMessages(){
 if(!token)return;
-try{
 const r=await fetch("https://api.mail.tm/messages",{
 headers:{Authorization:"Bearer "+token}
 });
 const j=await r.json();
 renderInbox(j["hydra:member"]);
-}catch(e){}
 }
 
 async function openMessage(id,container){
@@ -175,7 +251,6 @@ const r=await fetch("https://api.mail.tm/messages/"+id,{
 headers:{Authorization:"Bearer "+token}
 });
 const j=await r.json();
-
 let content=j.text?.trim()?j.text:(j.html?.length?j.html[0]:"No content");
 const box=document.createElement("div");
 box.className="body-box";
@@ -219,10 +294,6 @@ alert("Copied!");
 
 function setStatus(t){
 document.getElementById("status").innerText=t;
-}
-
-function clearInbox(){
-document.getElementById("inbox").innerHTML="";
 }
 
 function escape(t){
