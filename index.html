@@ -1,64 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Temp Mail</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disposable Email</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#4c6ef5,#7b2ff7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    width:500px;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.email-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    font-size:14px;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:6px;
+    background:#4c6ef5;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#364fc7;
+}
+
+.inbox{
+    max-height:250px;
+    overflow-y:auto;
+    border-top:1px solid #eee;
+    padding-top:10px;
+}
+
+.message{
+    background:#f1f3f5;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:10px;
+}
+
+.message small{
+    color:gray;
+}
+
+.empty{
+    text-align:center;
+    color:gray;
+}
+</style>
 </head>
 
 <body>
 
-<h2>Temp Mail</h2>
+<div class="container">
+    <h1>Temporary Email</h1>
 
-<h3 id="email">Loading...</h3>
+    <div class="email-box">
+        <input type="text" id="email" readonly>
+        <button onclick="generateEmail()">Generate</button>
+    </div>
 
-<button onclick="generateEmail()">New Email</button>
-<button onclick="copyEmail()">Copy</button>
+    <button onclick="simulateMail()" style="width:100%;margin-bottom:15px;">
+        Simulate Incoming Mail
+    </button>
 
-<h3>Inbox</h3>
-<button onclick="loadInbox()">Refresh</button>
-
-<div id="inbox"></div>
+    <div class="inbox" id="inbox">
+        <div class="empty">No emails yet</div>
+    </div>
+</div>
 
 <script>
+let currentEmail = "";
+let inbox = [];
 
-let login = "";
-let domain = "1secmail.com";
+function randomString(length){
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for(let i=0;i<length;i++){
+        result += chars.charAt(Math.floor(Math.random()*chars.length));
+    }
+    return result;
+}
 
 function generateEmail(){
-  login = "user" + Math.floor(Math.random()*100000);
-  document.getElementById("email").innerText = login + "@" + domain;
+    currentEmail = randomString(8) + "@temp-mail.com";
+    document.getElementById("email").value = currentEmail;
+    inbox = [];
+    renderInbox();
 }
 
-function copyEmail(){
-  navigator.clipboard.writeText(login + "@" + domain);
-  alert("Copied");
-}
-
-function loadInbox(){
-  let url = "https://www.1secmail.com/api/v1/?action=getMessages&login=" + login + "&domain=" + domain;
-
-  fetch(url)
-  .then(res => res.json())
-  .then(data => {
-
-    let box = document.getElementById("inbox");
-    box.innerHTML = "";
-
-    if(data.length == 0){
-      box.innerHTML = "No Mail";
-      return;
+function simulateMail(){
+    if(!currentEmail){
+        alert("Generate email first!");
+        return;
     }
 
-    data.forEach(m => {
-      let div = document.createElement("div");
-      div.innerHTML = m.from + " - " + m.subject;
-      box.appendChild(div);
-    });
+    const newMail = {
+        subject: "Welcome Message",
+        body: "This is a demo temporary email message.",
+        date: new Date().toLocaleString()
+    };
 
-  });
+    inbox.unshift(newMail);
+    renderInbox();
 }
 
-generateEmail();
+function renderInbox(){
+    const inboxDiv = document.getElementById("inbox");
+    inboxDiv.innerHTML = "";
 
+    if(inbox.length === 0){
+        inboxDiv.innerHTML = '<div class="empty">No emails yet</div>';
+        return;
+    }
+
+    inbox.forEach(mail=>{
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = `
+            <strong>${mail.subject}</strong><br>
+            <small>${mail.date}</small>
+            <p>${mail.body}</p>
+        `;
+        inboxDiv.appendChild(div);
+    });
+}
 </script>
 
 </body>
