@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Temp Mail</title>
+<style>
+body {font-family: Arial; text-align:center; background:#f0f0f0;}
+.box {background:white; padding:20px; margin:20px; border-radius:10px;}
+button {padding:10px 20px;}
+</style>
+</head>
+
+<body>
+
+<h2>📧 Free Temp Mail</h2>
+
+<div class="box">
+<h3 id="email">Loading...</h3>
+<button onclick="generateEmail()">New Email</button>
+</div>
+
+<div class="box">
+<h3>Inbox</h3>
+<button onclick="getMails()">Refresh</button>
+<ul id="mails"></ul>
+</div>
+
+<script>
+
+let login = "";
+let domain = "1secmail.com";
+
+function generateEmail(){
+login = "user" + Math.floor(Math.random()*100000);
+document.getElementById("email").innerText = login + "@" + domain;
+}
+
+generateEmail();
+
+async function getMails(){
+let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
+let res = await fetch(url);
+let data = await res.json();
+
+let list = document.getElementById("mails");
+list.innerHTML = "";
+
+data.forEach(mail=>{
+let li = document.createElement("li");
+li.innerText = mail.from + " - " + mail.subject;
+list.appendChild(li);
+});
+
+}
+
+</script>
+
+</body>
+</html>
