@@ -27,7 +27,6 @@ button {padding:10px 20px;}
 
 <script>
 <script>
-
 let login = "";
 let domain = "1secmail.com";
 
@@ -75,27 +74,15 @@ function loadInbox() {
     });
 }
 
-function readMail(id){
-    let email = document.getElementById("email").innerText;
-
-    let parts = email.split("@");
-    let login = parts[0];
-    let domain = parts[1];
-
+async function readMail(id){
     let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
-
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        alert("From: " + data.from + "\n\nSubject: " + data.subject + "\n\nMessage:\n" + data.textBody);
-    });
+    let res = await fetch(url);
+    let data = await res.json();
+    alert(data.textBody);
 }
 
 generateEmail();
-
-
 </script>
-  
 
 </body>
 </html>
