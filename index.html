@@ -226,8 +226,8 @@
       align-items: center;
       padding: 10px;
       border-radius: 10px;
-      background: color-mix(in srgb, var(--success) 12%, transparent);
-      border: 1px solid color-mix(in srgb, var(--success) 40%, transparent);
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.35);
     }
 
     .otp-code {
@@ -277,6 +277,7 @@
         </div>
         <div class="top-actions">
           <button id="themeBtn" class="btn-ghost" type="button">☀️ Light Mode</button>
+          <button id="downloadBtn" class="btn-ghost" type="button">Download File</button>
           <button id="newBtn" class="btn-soft" type="button">New Email</button>
         </div>
       </div>
@@ -334,6 +335,7 @@
       copyBtn: document.getElementById("copyBtn"),
       refreshBtn: document.getElementById("refreshBtn"),
       newBtn: document.getElementById("newBtn"),
+      downloadBtn: document.getElementById("downloadBtn"),
       themeBtn: document.getElementById("themeBtn")
     };
 
@@ -492,10 +494,18 @@
         area.style.left = "-9999px";
         document.body.appendChild(area);
         area.select();
-        document.execCommand("copy");
+        const ok = document.execCommand("copy");
         area.remove();
+        if (!ok) throw new Error("Copy command failed");
       }
       setStatus(`${label} to clipboard`);
+    }
+
+    function stripHtml(html) {
+      if (!html) return "";
+      const temp = document.createElement("div");
+      temp.innerHTML = html;
+      return (temp.textContent || temp.innerText || "").trim();
     }
 
     function renderInbox(messages) {
@@ -533,12 +543,13 @@
         }
 
         if (state.expanded.has(msg.id)) {
+          const messageText = msg.text || stripHtml((Array.isArray(msg.html) ? msg.html[0] : "") || msg.html || "");
           const body = document.createElement("div");
           body.className = "body";
-          body.textContent = msg.text || "No message body";
+          body.textContent = messageText || "No message body";
           item.appendChild(body);
 
-          const otps = extractOtps(msg.text || "");
+          const otps = extractOtps(messageText || "");
           if (otps.length) {
             for (const code of otps) {
               const wrap = document.createElement("div");
@@ -589,11 +600,26 @@
 
     function escapeHtml(input) {
       return String(input)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+        .split("&").join("&amp;")
+        .split("<").join("&lt;")
+        .split(">").join("&gt;")
+        .split('"').join("&quot;")
+        .split("'").join("&#39;");
+    }
+
+    function downloadCurrentFile() {
+      const doctype = "<!DOCTYPE html>\n";
+      const source = doctype + document.documentElement.outerHTML;
+      const blob = new Blob([source], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "index.html";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+      setStatus("index.html downloaded");
     }
 
     async function refreshInbox(manual = false) {
@@ -681,6 +707,7 @@
     refs.copyBtn.addEventListener("click", () => copyText(state.address, "Email copied"));
     refs.refreshBtn.addEventListener("click", () => refreshInbox(true));
     refs.newBtn.addEventListener("click", regenerateMailbox);
+    refs.downloadBtn.addEventListener("click", downloadCurrentFile);
     refs.themeBtn.addEventListener("click", () => {
       const current = document.body.getAttribute("data-theme");
       applyTheme(current === "dark" ? "light" : "dark");
