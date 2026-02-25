@@ -1,197 +1,904 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TempMail Pro</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-padding:20px;
-}
-.container{
-max-width:800px;
-margin:auto;
-}
-.header{
-text-align:center;
-margin-bottom:20px;
-}
-.box{
-background:#1e293b;
-padding:15px;
-border-radius:10px;
-margin-bottom:15px;
-}
-input{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:none;
-margin-bottom:10px;
-font-size:14px;
-}
-button{
-padding:8px 12px;
-border:none;
-border-radius:6px;
-background:#6366f1;
-color:white;
-cursor:pointer;
-margin-right:5px;
-}
-button:hover{opacity:0.9}
-.message{
-border-bottom:1px solid #334155;
-padding:10px 0;
-cursor:pointer;
-}
-.message:hover{
-background:#273449;
-}
-.otp{
-background:#111827;
-padding:6px;
-margin-top:8px;
-display:inline-block;
-font-weight:bold;
-color:#22c55e;
-}
-.loader{
-text-align:center;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="header">
-<h2>TempMail Pro</h2>
-</div>
-
-<div class="box">
-<input type="text" id="email" readonly>
-<button onclick="copyEmail()">Copy</button>
-<button onclick="newMail()">New</button>
-<button onclick="loadInbox()">Refresh</button>
-</div>
-
-<div class="box" id="inbox">
-Loading...
-</div>
-
-</div>
-
-<script>
-
-let login="";
-let domain="1secmail.com";
-
-function generateEmail(){
-login=Math.random().toString(36).substring(2,10);
-const email=login+"@"+domain;
-document.getElementById("email").value=email;
-localStorage.setItem("temp_login",login);
-loadInbox();
-}
-
-function newMail(){
-localStorage.removeItem("temp_login");
-generateEmail();
-}
-
-function copyEmail(){
-navigator.clipboard.writeText(document.getElementById("email").value);
-alert("Email Copied");
-}
-
-async function loadInbox(){
-if(!login){
-login=localStorage.getItem("temp_login");
-if(!login){
-generateEmail();
-return;
-}
-}
-document.getElementById("inbox").innerHTML="Loading...";
-
-try{
-const res=await fetch(
-`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`
-);
-const data=await res.json();
-
-if(data.length===0){
-document.getElementById("inbox").innerHTML="No emails yet";
-return;
-}
-
-renderInbox(data);
-
-}catch{
-document.getElementById("inbox").innerHTML="Error loading inbox";
-}
-}
-
-function renderInbox(messages){
-const inbox=document.getElementById("inbox");
-inbox.innerHTML="";
-messages.forEach(m=>{
-const div=document.createElement("div");
-div.className="message";
-div.innerHTML="<strong>"+m.subject+"</strong><br>"+m.from;
-div.onclick=()=>openMessage(m.id,div);
-inbox.appendChild(div);
-});
-}
-
-async function openMessage(id,container){
-try{
-const res=await fetch(
-`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`
-);
-const data=await res.json();
-
-const body=document.createElement("div");
-body.innerHTML=data.textBody || data.htmlBody || "No content";
-
-const otp=findOTP(data.textBody);
-if(otp){
-const otpDiv=document.createElement("div");
-otpDiv.className="otp";
-otpDiv.innerHTML=otp + 
-` <button onclick="copyOTP('${otp}')">Copy OTP</button>`;
-body.appendChild(otpDiv);
-}
-
-container.appendChild(body);
-
-}catch{
-alert("Failed to open message");
-}
-}
-
-function findOTP(text){
-if(!text) return null;
-const match=text.match(/\b\d{4,8}\b/);
-return match?match[0]:null;
-}
-
-function copyOTP(code){
-navigator.clipboard.writeText(code);
-alert("OTP Copied");
-}
-
-window.onload=loadInbox;
-setInterval(loadInbox,10000);
-
-</script>
-
-</body>
-</html>
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/index.html b/index.html
+index 17650fd96da8985a049be2e7d455b59a992dc03f..1ea9fae35088a5deb4921bb27a8c57b1983be0e2 100644
+--- a/index.html
++++ b/index.html
+@@ -1,197 +1,705 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="en">
+ <head>
+-<meta charset="UTF-8">
+-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>TempMail Pro</title>
+-
+-<style>
+-body{
+-margin:0;
+-font-family:Arial;
+-background:#0f172a;
+-color:white;
+-padding:20px;
+-}
+-.container{
+-max-width:800px;
+-margin:auto;
+-}
+-.header{
+-text-align:center;
+-margin-bottom:20px;
+-}
+-.box{
+-background:#1e293b;
+-padding:15px;
+-border-radius:10px;
+-margin-bottom:15px;
+-}
+-input{
+-width:100%;
+-padding:10px;
+-border-radius:6px;
+-border:none;
+-margin-bottom:10px;
+-font-size:14px;
+-}
+-button{
+-padding:8px 12px;
+-border:none;
+-border-radius:6px;
+-background:#6366f1;
+-color:white;
+-cursor:pointer;
+-margin-right:5px;
+-}
+-button:hover{opacity:0.9}
+-.message{
+-border-bottom:1px solid #334155;
+-padding:10px 0;
+-cursor:pointer;
+-}
+-.message:hover{
+-background:#273449;
+-}
+-.otp{
+-background:#111827;
+-padding:6px;
+-margin-top:8px;
+-display:inline-block;
+-font-weight:bold;
+-color:#22c55e;
+-}
+-.loader{
+-text-align:center;
+-}
+-</style>
++  <meta charset="UTF-8" />
++  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++  <title>TempMail Lite</title>
++  <style>
++    :root {
++      --bg: #f3f4f6;
++      --surface: #ffffff;
++      --surface-soft: #f9fafb;
++      --text: #111827;
++      --text-muted: #6b7280;
++      --primary: #4f46e5;
++      --primary-soft: rgba(79, 70, 229, 0.12);
++      --border: #e5e7eb;
++      --success: #059669;
++      --danger: #dc2626;
++      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
++    }
++
++    body[data-theme="dark"] {
++      --bg: #090f1f;
++      --surface: #0f172a;
++      --surface-soft: #131d33;
++      --text: #e5e7eb;
++      --text-muted: #94a3b8;
++      --primary: #818cf8;
++      --primary-soft: rgba(129, 140, 248, 0.2);
++      --border: #24324d;
++      --success: #34d399;
++      --danger: #f87171;
++      --shadow: 0 20px 45px rgba(2, 6, 23, 0.5);
++    }
++
++    * { box-sizing: border-box; }
++
++    body {
++      margin: 0;
++      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
++      color: var(--text);
++      background:
++        radial-gradient(circle at 0 0, rgba(99, 102, 241, 0.18), transparent 40%),
++        radial-gradient(circle at 100% 0, rgba(6, 182, 212, 0.13), transparent 30%),
++        var(--bg);
++      min-height: 100vh;
++      padding: 16px;
++      transition: background-color 0.3s ease, color 0.3s ease;
++    }
++
++    .app {
++      max-width: 920px;
++      margin: 0 auto;
++      display: grid;
++      gap: 14px;
++    }
++
++    .card {
++      background: var(--surface);
++      border: 1px solid var(--border);
++      border-radius: 18px;
++      box-shadow: var(--shadow);
++      overflow: hidden;
++    }
++
++    .hero {
++      padding: 18px;
++      display: flex;
++      gap: 10px;
++      justify-content: space-between;
++      align-items: center;
++      flex-wrap: wrap;
++    }
++
++    .title {
++      margin: 0;
++      font-size: clamp(1.25rem, 3vw, 1.8rem);
++      line-height: 1.2;
++    }
++
++    .subtitle {
++      margin: 4px 0 0;
++      color: var(--text-muted);
++      font-size: 0.92rem;
++    }
++
++    .email-row {
++      padding: 0 18px 18px;
++      display: grid;
++      grid-template-columns: 1fr;
++      gap: 10px;
++    }
++
++    .email-display {
++      padding: 12px 14px;
++      border-radius: 12px;
++      border: 1px solid var(--border);
++      background: var(--surface-soft);
++      word-break: break-all;
++      font-weight: 600;
++      letter-spacing: 0.15px;
++    }
++
++    .actions,
++    .top-actions {
++      display: flex;
++      gap: 8px;
++      flex-wrap: wrap;
++      align-items: center;
++    }
++
++    button {
++      border: 1px solid transparent;
++      background: var(--primary);
++      color: #fff;
++      border-radius: 10px;
++      padding: 10px 12px;
++      font-weight: 600;
++      font-size: 0.9rem;
++      cursor: pointer;
++      transition: transform 0.15s ease, opacity 0.2s ease;
++    }
++
++    button:hover { transform: translateY(-1px); }
++    button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
++
++    .btn-soft {
++      background: var(--primary-soft);
++      color: var(--primary);
++      border-color: transparent;
++    }
++
++    .btn-ghost {
++      background: transparent;
++      color: var(--text);
++      border-color: var(--border);
++    }
++
++    .meta {
++      padding: 0 18px 18px;
++      color: var(--text-muted);
++      font-size: 0.88rem;
++      display: flex;
++      justify-content: space-between;
++      gap: 6px;
++      flex-wrap: wrap;
++    }
++
++    .status {
++      color: var(--success);
++      font-weight: 600;
++    }
++
++    .status.error { color: var(--danger); }
++
++    .inbox-head {
++      display: flex;
++      justify-content: space-between;
++      align-items: center;
++      padding: 15px 18px;
++      border-bottom: 1px solid var(--border);
++      gap: 8px;
++      flex-wrap: wrap;
++    }
++
++    .inbox {
++      display: grid;
++      gap: 8px;
++      padding: 12px;
++    }
++
++    .message {
++      border: 1px solid var(--border);
++      border-radius: 12px;
++      background: var(--surface-soft);
++      padding: 12px;
++      cursor: pointer;
++    }
++
++    .message.unread {
++      border-color: var(--primary);
++      box-shadow: 0 0 0 1px var(--primary-soft) inset;
++    }
++
++    .message-top {
++      display: flex;
++      justify-content: space-between;
++      gap: 8px;
++      align-items: flex-start;
++    }
++
++    .subject {
++      margin: 0;
++      font-size: 0.97rem;
++      font-weight: 700;
++    }
++
++    .from,
++    .date {
++      margin-top: 4px;
++      color: var(--text-muted);
++      font-size: 0.83rem;
++    }
++
++    .preview {
++      margin-top: 8px;
++      font-size: 0.9rem;
++      white-space: pre-wrap;
++      color: var(--text);
++    }
++
++    .body {
++      margin-top: 10px;
++      border-top: 1px dashed var(--border);
++      padding-top: 10px;
++      font-size: 0.92rem;
++      white-space: pre-wrap;
++      word-break: break-word;
++    }
++
++    .otp-wrap {
++      margin-top: 10px;
++      display: flex;
++      flex-wrap: wrap;
++      gap: 8px;
++      align-items: center;
++      padding: 10px;
++      border-radius: 10px;
++      background: color-mix(in srgb, var(--success) 12%, transparent);
++      border: 1px solid color-mix(in srgb, var(--success) 40%, transparent);
++    }
++
++    .otp-code {
++      font-weight: 800;
++      letter-spacing: 1px;
++      font-size: 1rem;
++      color: var(--success);
++    }
++
++    .empty {
++      padding: 22px;
++      text-align: center;
++      color: var(--text-muted);
++    }
++
++    .spinner {
++      width: 16px;
++      height: 16px;
++      border: 2px solid var(--border);
++      border-top-color: var(--primary);
++      border-radius: 999px;
++      display: inline-block;
++      vertical-align: middle;
++      animation: spin 0.9s linear infinite;
++      margin-right: 6px;
++    }
++
++    @keyframes spin {
++      to { transform: rotate(360deg); }
++    }
++
++    @media (max-width: 620px) {
++      button { width: 100%; }
++      .actions button,
++      .top-actions button { flex: 1 1 100%; }
++      .message-top { flex-direction: column; }
++    }
++  </style>
+ </head>
++<body data-theme="dark">
++  <main class="app">
++    <section class="card">
++      <div class="hero">
++        <div>
++          <h1 class="title">⚡ Temp Mail</h1>
++          <p class="subtitle">Auto-created mailbox, refresh every 10 seconds for fast OTP capture.</p>
++        </div>
++        <div class="top-actions">
++          <button id="themeBtn" class="btn-ghost" type="button">☀️ Light Mode</button>
++          <button id="newBtn" class="btn-soft" type="button">New Email</button>
++        </div>
++      </div>
++
++      <div class="email-row">
++        <div id="emailDisplay" class="email-display">Creating mailbox…</div>
++        <div class="actions">
++          <button id="copyBtn" type="button">Copy Email</button>
++          <button id="refreshBtn" class="btn-soft" type="button">Refresh Inbox</button>
++        </div>
++      </div>
++
++      <div class="meta">
++        <span id="statusText" class="status">Initializing…</span>
++        <span id="timerText">Auto refresh in 10s</span>
++      </div>
++    </section>
++
++    <section class="card">
++      <div class="inbox-head">
++        <strong>Inbox</strong>
++        <small id="lastUpdated" style="color: var(--text-muted);">Never updated</small>
++      </div>
++      <div id="inbox" class="inbox">
++        <div class="empty"><span class="spinner"></span>Loading messages…</div>
++      </div>
++    </section>
++  </main>
++
++  <script>
++    const API_BASE = "https://api.mail.tm";
++    const AUTO_REFRESH_MS = 10000;
++    const ACCOUNT_KEY = "tempmail_mailtm_account_v2";
++    const THEME_KEY = "tempmail_theme";
++
++    const state = {
++      address: "",
++      password: "",
++      token: "",
++      id: "",
++      messages: [],
++      expanded: new Set(),
++      refreshTimer: null,
++      countdownTimer: null,
++      secondsLeft: AUTO_REFRESH_MS / 1000,
++      loadingInbox: false
++    };
++
++    const refs = {
++      email: document.getElementById("emailDisplay"),
++      inbox: document.getElementById("inbox"),
++      status: document.getElementById("statusText"),
++      timer: document.getElementById("timerText"),
++      updated: document.getElementById("lastUpdated"),
++      copyBtn: document.getElementById("copyBtn"),
++      refreshBtn: document.getElementById("refreshBtn"),
++      newBtn: document.getElementById("newBtn"),
++      themeBtn: document.getElementById("themeBtn")
++    };
++
++    function randomString(length = 12) {
++      const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
++      let out = "";
++      for (let i = 0; i < length; i++) out += chars[Math.floor(Math.random() * chars.length)];
++      return out;
++    }
++
++    function setStatus(message, isError = false) {
++      refs.status.textContent = message;
++      refs.status.classList.toggle("error", Boolean(isError));
++    }
++
++    function saveAccount() {
++      const payload = {
++        address: state.address,
++        password: state.password,
++        token: state.token,
++        id: state.id,
++        savedAt: Date.now()
++      };
++      localStorage.setItem(ACCOUNT_KEY, JSON.stringify(payload));
++    }
++
++    function loadSavedAccount() {
++      try {
++        const raw = localStorage.getItem(ACCOUNT_KEY);
++        if (!raw) return false;
++        const parsed = JSON.parse(raw);
++        const ageMs = Date.now() - Number(parsed.savedAt || 0);
++        if (!parsed.address || !parsed.password || ageMs > 1000 * 60 * 50) {
++          localStorage.removeItem(ACCOUNT_KEY);
++          return false;
++        }
++        state.address = parsed.address;
++        state.password = parsed.password;
++        state.token = parsed.token || "";
++        state.id = parsed.id || "";
++        refs.email.textContent = state.address;
++        return true;
++      } catch {
++        localStorage.removeItem(ACCOUNT_KEY);
++        return false;
++      }
++    }
++
++    async function apiRequest(path, options = {}) {
++      const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
++      const controller = new AbortController();
++      const timeout = setTimeout(() => controller.abort(), 12000);
++
++      try {
++        const res = await fetch(`${API_BASE}${path}`, { ...options, headers, signal: controller.signal });
++        const text = await res.text();
++        let data = null;
++        if (text) {
++          try { data = JSON.parse(text); } catch { data = { raw: text }; }
++        }
++        if (!res.ok) {
++          const detail = data && (data.message || data.detail || JSON.stringify(data));
++          throw new Error(detail || `API error ${res.status}`);
++        }
++        return data;
++      } finally {
++        clearTimeout(timeout);
++      }
++    }
++
++    async function getToken(address, password) {
++      const tokenData = await apiRequest("/token", {
++        method: "POST",
++        body: JSON.stringify({ address, password })
++      });
++      return tokenData && tokenData.token ? tokenData.token : "";
++    }
++
++    async function createMailbox() {
++      setStatus("Creating new mailbox…");
++      refs.email.textContent = "Creating mailbox…";
++      refs.inbox.innerHTML = '<div class="empty"><span class="spinner"></span>Creating account...</div>';
++
++      const domainsData = await apiRequest("/domains?page=1");
++      const domains = (domainsData && domainsData["hydra:member"]) || [];
++      if (!domains.length) throw new Error("No available domains from API");
++
++      let lastError = "";
++      for (let attempt = 0; attempt < 8; attempt++) {
++        const domain = domains[attempt % domains.length].domain;
++        const local = `${randomString(8)}${Math.floor(Math.random() * 90 + 10)}`;
++        const address = `${local}@${domain}`;
++        const password = randomString(14);
++
++        try {
++          const account = await apiRequest("/accounts", {
++            method: "POST",
++            body: JSON.stringify({ address, password })
++          });
++          const token = await getToken(address, password);
++          if (!token) throw new Error("Failed to get auth token");
++
++          state.address = address;
++          state.password = password;
++          state.token = token;
++          state.id = account && account.id ? account.id : "";
++          refs.email.textContent = state.address;
++          saveAccount();
++          setStatus("Mailbox ready. Waiting for emails...");
++          return;
++        } catch (err) {
++          lastError = err instanceof Error ? err.message : String(err);
++        }
++      }
++      throw new Error(lastError || "Unable to create a mailbox");
++    }
++
++    async function ensureSession() {
++      const loaded = loadSavedAccount();
++      if (loaded && state.token) return;
++      if (loaded && !state.token) {
++        try {
++          state.token = await getToken(state.address, state.password);
++          saveAccount();
++          return;
++        } catch {
++          localStorage.removeItem(ACCOUNT_KEY);
++        }
++      }
++      await createMailbox();
++    }
++
++    function extractOtps(text) {
++      if (!text) return [];
++      const unique = new Set();
++      const matches = text.match(/\b\d{4,8}\b/g) || [];
++      for (const code of matches) unique.add(code);
++      return [...unique].slice(0, 3);
++    }
++
++    function formatDate(value) {
++      if (!value) return "";
++      const dt = new Date(value);
++      if (Number.isNaN(dt.getTime())) return "";
++      return dt.toLocaleString();
++    }
++
++    async function copyText(value, label = "Copied") {
++      if (!value) return;
++      try {
++        await navigator.clipboard.writeText(value);
++      } catch {
++        const area = document.createElement("textarea");
++        area.value = value;
++        area.style.position = "fixed";
++        area.style.left = "-9999px";
++        document.body.appendChild(area);
++        area.select();
++        document.execCommand("copy");
++        area.remove();
++      }
++      setStatus(`${label} to clipboard`);
++    }
++
++    function renderInbox(messages) {
++      if (!messages.length) {
++        refs.inbox.innerHTML = '<div class="empty">No emails yet. Keep this page open; auto refresh runs every 10s.</div>';
++        return;
++      }
++
++      refs.inbox.innerHTML = "";
++      for (const msg of messages) {
++        const item = document.createElement("article");
++        item.className = `message ${!msg.seen ? "unread" : ""}`.trim();
++
++        const top = document.createElement("div");
++        top.className = "message-top";
++
++        const left = document.createElement("div");
++        left.innerHTML = `
++          <h3 class="subject">${escapeHtml(msg.subject || "(No subject)")}</h3>
++          <div class="from">From: ${escapeHtml((msg.from && msg.from.address) || "Unknown")}</div>
++        `;
++
++        const right = document.createElement("div");
++        right.className = "date";
++        right.textContent = formatDate(msg.createdAt);
++
++        top.append(left, right);
++        item.appendChild(top);
++
++        if (msg.intro) {
++          const preview = document.createElement("div");
++          preview.className = "preview";
++          preview.textContent = msg.intro;
++          item.appendChild(preview);
++        }
++
++        if (state.expanded.has(msg.id)) {
++          const body = document.createElement("div");
++          body.className = "body";
++          body.textContent = msg.text || "No message body";
++          item.appendChild(body);
++
++          const otps = extractOtps(msg.text || "");
++          if (otps.length) {
++            for (const code of otps) {
++              const wrap = document.createElement("div");
++              wrap.className = "otp-wrap";
++              wrap.innerHTML = `<span>OTP:</span><span class="otp-code">${escapeHtml(code)}</span>`;
++              const btn = document.createElement("button");
++              btn.type = "button";
++              btn.className = "btn-soft";
++              btn.textContent = "Copy OTP";
++              btn.addEventListener("click", async (ev) => {
++                ev.stopPropagation();
++                await copyText(code, "OTP copied");
++              });
++              wrap.appendChild(btn);
++              item.appendChild(wrap);
++            }
++          }
++        }
++
++        item.addEventListener("click", () => toggleMessage(msg.id));
++        refs.inbox.appendChild(item);
++      }
++    }
++
++    async function toggleMessage(id) {
++      if (state.expanded.has(id)) {
++        state.expanded.delete(id);
++        renderInbox(state.messages);
++        return;
++      }
++
++      setStatus("Loading message details...");
++      try {
++        const full = await apiRequest(`/messages/${id}`, {
++          headers: { Authorization: `Bearer ${state.token}` }
++        });
++        const idx = state.messages.findIndex((m) => m.id === id);
++        if (idx >= 0) {
++          state.messages[idx] = { ...state.messages[idx], ...full, seen: true };
++        }
++        state.expanded.add(id);
++        renderInbox(state.messages);
++        setStatus("Message opened");
++      } catch (err) {
++        setStatus(`Failed to open message: ${err.message || err}`, true);
++      }
++    }
++
++    function escapeHtml(input) {
++      return String(input)
++        .replaceAll("&", "&amp;")
++        .replaceAll("<", "&lt;")
++        .replaceAll(">", "&gt;")
++        .replaceAll('"', "&quot;")
++        .replaceAll("'", "&#39;");
++    }
++
++    async function refreshInbox(manual = false) {
++      if (!state.token || state.loadingInbox) return;
++      state.loadingInbox = true;
++      refs.refreshBtn.disabled = true;
++      if (manual) setStatus("Refreshing inbox...");
++
++      try {
++        const data = await apiRequest("/messages?page=1", {
++          headers: { Authorization: `Bearer ${state.token}` }
++        });
++        state.messages = (data && data["hydra:member"]) || [];
++
++        const expandedIds = [...state.expanded];
++        if (expandedIds.length) {
++          for (const id of expandedIds) {
++            const msg = state.messages.find((m) => m.id === id);
++            if (msg && !msg.text) {
++              try {
++                const full = await apiRequest(`/messages/${id}`, {
++                  headers: { Authorization: `Bearer ${state.token}` }
++                });
++                Object.assign(msg, full, { seen: true });
++              } catch {
++                state.expanded.delete(id);
++              }
++            }
++          }
++        }
++
++        renderInbox(state.messages);
++        refs.updated.textContent = `Last update: ${new Date().toLocaleTimeString()}`;
++        setStatus(state.messages.length ? `${state.messages.length} message(s) loaded` : "Inbox is empty");
++      } catch (err) {
++        setStatus(`Inbox refresh failed: ${err.message || err}`, true);
++      } finally {
++        state.loadingInbox = false;
++        refs.refreshBtn.disabled = false;
++      }
++    }
++
++    function startAutoRefresh() {
++      if (state.refreshTimer) clearInterval(state.refreshTimer);
++      if (state.countdownTimer) clearInterval(state.countdownTimer);
++
++      state.secondsLeft = AUTO_REFRESH_MS / 1000;
++      refs.timer.textContent = `Auto refresh in ${state.secondsLeft}s`;
++
++      state.refreshTimer = setInterval(() => {
++        refreshInbox(false);
++        state.secondsLeft = AUTO_REFRESH_MS / 1000;
++        refs.timer.textContent = `Auto refresh in ${state.secondsLeft}s`;
++      }, AUTO_REFRESH_MS);
++
++      state.countdownTimer = setInterval(() => {
++        state.secondsLeft -= 1;
++        if (state.secondsLeft < 0) state.secondsLeft = 0;
++        refs.timer.textContent = `Auto refresh in ${state.secondsLeft}s`;
++      }, 1000);
++    }
++
++    function applyTheme(theme) {
++      const finalTheme = theme === "light" ? "light" : "dark";
++      document.body.setAttribute("data-theme", finalTheme);
++      refs.themeBtn.textContent = finalTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
++      localStorage.setItem(THEME_KEY, finalTheme);
++    }
++
++    async function regenerateMailbox() {
++      refs.newBtn.disabled = true;
++      try {
++        localStorage.removeItem(ACCOUNT_KEY);
++        state.expanded.clear();
++        state.messages = [];
++        await createMailbox();
++        await refreshInbox(true);
++      } catch (err) {
++        setStatus(`Failed to create new email: ${err.message || err}`, true);
++      } finally {
++        refs.newBtn.disabled = false;
++      }
++    }
++
++    refs.copyBtn.addEventListener("click", () => copyText(state.address, "Email copied"));
++    refs.refreshBtn.addEventListener("click", () => refreshInbox(true));
++    refs.newBtn.addEventListener("click", regenerateMailbox);
++    refs.themeBtn.addEventListener("click", () => {
++      const current = document.body.getAttribute("data-theme");
++      applyTheme(current === "dark" ? "light" : "dark");
++    });
+ 
+-<body>
+-
+-<div class="container">
+-
+-<div class="header">
+-<h2>TempMail Pro</h2>
+-</div>
+-
+-<div class="box">
+-<input type="text" id="email" readonly>
+-<button onclick="copyEmail()">Copy</button>
+-<button onclick="newMail()">New</button>
+-<button onclick="loadInbox()">Refresh</button>
+-</div>
+-
+-<div class="box" id="inbox">
+-Loading...
+-</div>
+-
+-</div>
+-
+-<script>
+-
+-let login="";
+-let domain="1secmail.com";
+-
+-function generateEmail(){
+-login=Math.random().toString(36).substring(2,10);
+-const email=login+"@"+domain;
+-document.getElementById("email").value=email;
+-localStorage.setItem("temp_login",login);
+-loadInbox();
+-}
+-
+-function newMail(){
+-localStorage.removeItem("temp_login");
+-generateEmail();
+-}
+-
+-function copyEmail(){
+-navigator.clipboard.writeText(document.getElementById("email").value);
+-alert("Email Copied");
+-}
+-
+-async function loadInbox(){
+-if(!login){
+-login=localStorage.getItem("temp_login");
+-if(!login){
+-generateEmail();
+-return;
+-}
+-}
+-document.getElementById("inbox").innerHTML="Loading...";
+-
+-try{
+-const res=await fetch(
+-`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`
+-);
+-const data=await res.json();
+-
+-if(data.length===0){
+-document.getElementById("inbox").innerHTML="No emails yet";
+-return;
+-}
+-
+-renderInbox(data);
+-
+-}catch{
+-document.getElementById("inbox").innerHTML="Error loading inbox";
+-}
+-}
+-
+-function renderInbox(messages){
+-const inbox=document.getElementById("inbox");
+-inbox.innerHTML="";
+-messages.forEach(m=>{
+-const div=document.createElement("div");
+-div.className="message";
+-div.innerHTML="<strong>"+m.subject+"</strong><br>"+m.from;
+-div.onclick=()=>openMessage(m.id,div);
+-inbox.appendChild(div);
+-});
+-}
+-
+-async function openMessage(id,container){
+-try{
+-const res=await fetch(
+-`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`
+-);
+-const data=await res.json();
+-
+-const body=document.createElement("div");
+-body.innerHTML=data.textBody || data.htmlBody || "No content";
+-
+-const otp=findOTP(data.textBody);
+-if(otp){
+-const otpDiv=document.createElement("div");
+-otpDiv.className="otp";
+-otpDiv.innerHTML=otp + 
+-` <button onclick="copyOTP('${otp}')">Copy OTP</button>`;
+-body.appendChild(otpDiv);
+-}
+-
+-container.appendChild(body);
+-
+-}catch{
+-alert("Failed to open message");
+-}
+-}
+-
+-function findOTP(text){
+-if(!text) return null;
+-const match=text.match(/\b\d{4,8}\b/);
+-return match?match[0]:null;
+-}
+-
+-function copyOTP(code){
+-navigator.clipboard.writeText(code);
+-alert("OTP Copied");
+-}
+-
+-window.onload=loadInbox;
+-setInterval(loadInbox,10000);
+-
+-</script>
++    (async function init() {
++      const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
++      applyTheme(savedTheme);
+ 
++      try {
++        await ensureSession();
++        setStatus("Mailbox ready");
++        await refreshInbox(true);
++        startAutoRefresh();
++      } catch (err) {
++        setStatus(`Startup failed: ${err.message || err}`, true);
++        refs.inbox.innerHTML = '<div class="empty">Could not initialize mailbox. Check internet/CORS and refresh.</div>';
++      }
++    })();
++  </script>
+ </body>
+ </html>
+ 
+EOF
+)
