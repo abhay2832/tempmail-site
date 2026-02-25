@@ -30,6 +30,8 @@ button {padding:10px 20px;}
 let login = "";
 let domain = "1secmail.com";
 
+  setInterval(getMails, 5000);
+
 function generateEmail(){
 login = "user" + Math.floor(Math.random()*100000);
 document.getElementById("email").innerText = login + "@" + domain;
