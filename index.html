@@ -24,7 +24,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         
-        /* Auto Color Changing Effect (RGB Shift) */
         @keyframes hue-shift {
             0% { filter: hue-rotate(0deg); }
             50% { filter: hue-rotate(180deg); }
@@ -32,17 +31,19 @@
         }
         .color-shift { animation: hue-shift 8s infinite linear; }
         
-        /* Utility Animations */
         .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
         .spin-slow { animation: spin 2s linear infinite; }
         
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
         .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Smooth number change animation */
+        .stat-update { animation: highlight-stat 1s ease-out; }
+        @keyframes highlight-stat { 0% { color: #22d3ee; transform: scale(1.05); } 100% { color: inherit; transform: scale(1); } }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16">
@@ -109,7 +110,6 @@
             </div>
 
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
-                
                 <div class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500 dark:text-gray-500"></i> Auto-Sync</div>
                 
                 <button onclick="changeRefreshInterval()" class="color-shift bg-cyan-50 dark:bg-brandbg border border-cyan-200 dark:border-cyan-500/30 text-cyan-700 dark:text-brand px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:bg-cyan-100 dark:hover:bg-cyan-900/40 transition active:scale-95 cursor-pointer">
@@ -137,6 +137,73 @@
             </div>
             
             <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] transition-colors relative"></div>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
+            
+            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
+                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats <span class="text-emerald-500 lowercase font-medium ml-1">(updating)</span></h3>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-100 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">819</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">382</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <div id="stat-generated" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">296.5K</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
+                        <div>
+                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <i class="fa-regular fa-lightbulb text-cyan-600 dark:text-brand color-shift text-lg"></i>
+                    <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
+                </div>
+                <ul class="space-y-5 text-xs text-slate-600 dark:text-gray-300 font-medium">
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">1</span>
+                        <span class="leading-relaxed">Use temp emails for online signups to avoid spam.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">2</span>
+                        <span class="leading-relaxed">OTPs are now auto-highlighted in green directly in your inbox.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">3</span>
+                        <span class="leading-relaxed">Turn on Sound Notifications to get instant alerts.</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -170,11 +237,29 @@
         let soundOn = false;
         let currentMail = null;
 
+        // --- Live Stats Simulator Engine ---
+        let stats = { today: 819, inboxes: 382, generated: 296500 };
+        function updateLiveStats() {
+            let changed = false;
+            if(Math.random() > 0.4) { stats.today += Math.floor(Math.random() * 3) + 1; updateStatUI('stat-today', stats.today); changed = true; }
+            if(Math.random() > 0.6) { stats.inboxes += 1; updateStatUI('stat-inboxes', stats.inboxes); changed = true; }
+            if(Math.random() > 0.3) { stats.generated += Math.floor(Math.random() * 8) + 1; updateStatUI('stat-generated', (stats.generated / 1000).toFixed(1) + 'K'); changed = true; }
+        }
+        function updateStatUI(id, val) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.innerText = val;
+                el.classList.remove('stat-update');
+                void el.offsetWidth; // trigger reflow
+                el.classList.add('stat-update');
+            }
+        }
+        // Run stats simulator every 3 seconds
+        setInterval(updateLiveStats, 3000);
+
         // ================== INIT ==================
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
-            
-            // Auto reload logic check
             if (token && address) {
                 document.getElementById('email-address').value = address;
                 document.getElementById('loading-overlay').classList.add('hidden');
@@ -221,7 +306,6 @@
             
             if(!soundOn) {
                 soundOn = true;
-                // Pre-load audio on user gesture
                 document.getElementById('notification-sound').play().then(() => {
                     document.getElementById('notification-sound').pause();
                 }).catch(e=>{});
@@ -246,7 +330,6 @@
             if(document.getElementById('auto-time')) {
                 document.getElementById('auto-time').innerText = refreshSec;
             }
-            
             if(syncTimer) {
                 clearInterval(syncTimer);
                 syncTimer = setInterval(checkMails, refreshSec * 1000);
@@ -256,7 +339,7 @@
         function manualFetch() {
             let btn = document.getElementById('fetch-icon');
             btn.classList.add('fa-spin'); 
-            checkMails().then(() => setTimeout(() => btn.classList.remove('fa-spin'), 500));
+            checkMails().finally(() => setTimeout(() => btn.classList.remove('fa-spin'), 500));
         }
 
         function copyEmail() {
@@ -273,15 +356,13 @@
         function forceNewAccount() {
             localStorage.removeItem('mt_token');
             localStorage.removeItem('mt_email');
-            token = null;
-            address = null;
+            token = null; address = null;
             generateNewEmail();
         }
 
         async function generateNewEmail() {
             if(syncTimer) clearInterval(syncTimer);
             lastMailId = null;
-            
             let input = document.getElementById('email-address');
             let overlay = document.getElementById('loading-overlay');
             
@@ -311,13 +392,11 @@
                 
                 token = tokData.token;
                 address = newAddress;
-                
                 localStorage.setItem('mt_token', token);
                 localStorage.setItem('mt_email', address);
 
                 input.value = address;
                 overlay.classList.add('hidden');
-                
                 startInboxSync();
             } catch (err) {
                 overlay.classList.add('hidden');
@@ -331,16 +410,20 @@
             syncTimer = setInterval(checkMails, refreshSec * 1000);
         }
 
+        // NEW: OTP Detection Engine
+        function extractOTP(text) {
+            if(!text) return null;
+            // Looks for standard 4 to 8 digit OTP numbers
+            const match = text.match(/\b\d{4,8}\b/);
+            return match ? match[0] : null;
+        }
+
         async function checkMails() {
             if (!token) return;
             try {
                 let res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
-                
-                // Crash Fix: If token expired, get new mail instantly
-                if (res.status === 401) {
-                    forceNewAccount();
-                    return;
-                }
+                if (res.status === 401 || res.status === 403) { forceNewAccount(); return; }
+                if(!res.ok) return;
                 
                 let data = await res.json();
                 let msgs = data['hydra:member'] || [];
@@ -351,7 +434,7 @@
                     let topId = msgs[0].id;
                     if (lastMailId !== null && topId !== lastMailId && soundOn) {
                         let audio = document.getElementById('notification-sound');
-                        audio.currentTime = 0; audio.play().catch(e=>console.log(e));
+                        audio.currentTime = 0; audio.play().catch(e=>{});
                     }
                     lastMailId = topId;
                     
@@ -384,17 +467,25 @@
         function renderList(msgs) {
             let html = '<ul class="divide-y divide-slate-100 dark:divide-darkborder">';
             msgs.forEach(m => {
+                // OTP Highlight Logic
+                let textToSearch = (m.subject || '') + " " + (m.intro || '');
+                let otp = extractOTP(textToSearch);
+                let otpBadge = otp ? `<span class="ml-3 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-md text-xs font-extrabold tracking-widest shadow-sm inline-flex items-center gap-1"><i class="fa-solid fa-key text-[10px]"></i> ${otp}</span>` : '';
+
                 html += `
-                    <li class="p-5 hover:bg-slate-50 dark:hover:bg-darkborder/30 cursor-pointer flex items-center gap-4 transition-colors" onclick="openMail('${m.id}')">
+                    <li class="p-4 md:p-5 hover:bg-slate-50 dark:hover:bg-darkborder/30 cursor-pointer flex items-center gap-4 transition-colors" onclick="openMail('${m.id}')">
                         <div class="color-shift bg-cyan-100 dark:bg-brandbg text-cyan-700 dark:text-brand rounded-full w-12 h-12 flex items-center justify-center font-bold border border-cyan-200 dark:border-cyan-500/20 transition-colors text-lg">
-                            ${m.from.address.charAt(0).toUpperCase()}
+                            ${m.from?.address?.charAt(0).toUpperCase() || 'M'}
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-baseline mb-1">
-                                <p class="font-bold text-slate-800 dark:text-gray-100 truncate pr-4 transition-colors">${m.from.address}</p>
+                                <p class="font-bold text-slate-800 dark:text-gray-100 truncate pr-4 transition-colors">${m.from?.address || 'Unknown'}</p>
                                 <span class="text-xs text-slate-500 dark:text-gray-400 bg-slate-100 dark:bg-darkbg px-2 py-1 rounded border border-slate-200 dark:border-darkborder font-medium transition-colors">${new Date(m.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                             </div>
-                            <p class="text-sm text-slate-600 dark:text-gray-400 truncate transition-colors">${m.subject || '(No Subject)'}</p>
+                            <div class="flex items-center">
+                                <p class="text-sm text-slate-600 dark:text-gray-400 truncate transition-colors font-medium">${m.subject || '(No Subject)'}</p>
+                                ${otpBadge}
+                            </div>
                         </div>
                     </li>`;
             });
@@ -413,8 +504,13 @@
                 let res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
                 let data = await res.json();
                 currentMail = data;
-                document.getElementById('modal-subject').innerText = data.subject || '(No Subject)';
-                document.getElementById('modal-from').innerText = data.from.address;
+                
+                // Show OTP in modal title if available
+                let otp = extractOTP((data.subject || '') + " " + (data.text || ''));
+                let titleOtp = otp ? ` <span class="bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm px-2 py-0.5 rounded border border-emerald-500/30 ml-2">OTP: ${otp}</span>` : '';
+                
+                document.getElementById('modal-subject').innerHTML = (data.subject || '(No Subject)') + titleOtp;
+                document.getElementById('modal-from').innerText = data.from?.address || 'Unknown';
 
                 let content = data.html ? data.html.join('') : `<div style="padding:20px; font-family:sans-serif; color:#333;">${data.text}</div>`;
                 let frame = document.createElement('iframe');
