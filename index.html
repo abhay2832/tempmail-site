@@ -1,85 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temp Mail - Secure & Fast Temporary Email</title>
+    <title>TempMail - Fast & Secure</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: {} }
+        }
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: background-color 0.3s, color 0.3s; }
         .loader { border: 3px solid #e2e8f0; border-top: 3px solid #3b82f6; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        .dark .loader { border-color: #374151; border-top-color: #60a5fa; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb { background: #4b5563; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen">
 
-    <div class="max-w-4xl mx-auto p-4 md:p-6 mt-6 md:mt-10">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-blue-600 mb-3 tracking-tight">
-                <i class="fa-solid fa-bolt text-yellow-400"></i> QuickTemp Mail
-            </h1>
-            <p class="text-gray-500 font-medium">Free, fast, and secure disposable email addresses</p>
-        </div>
+    <div class="max-w-4xl mx-auto p-4 flex justify-between items-center mt-2 md:mt-6">
+        <h1 class="text-3xl font-extrabold text-blue-600 dark:text-blue-400 tracking-tight flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-yellow-500"></i> TempMail
+        </h1>
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition shadow-sm">
+            <i id="theme-icon" class="fa-solid fa-moon text-gray-700 dark:text-yellow-300 text-lg"></i>
+        </button>
+    </div>
 
-        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mb-8 text-center relative overflow-hidden">
+    <div class="max-w-4xl mx-auto p-4">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 mb-8 text-center relative overflow-hidden transition-colors">
             <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
-            <label class="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Your Temporary Inbox</label>
-            <div class="flex justify-center items-center mb-5">
-                <input type="text" id="email-address" readonly class="w-full max-w-lg text-center text-xl md:text-2xl p-4 border-2 border-dashed border-gray-300 rounded-xl focus:outline-none bg-gray-50 font-mono text-blue-700 font-bold transition-all" value="Generating...">
+            <label class="block text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3 uppercase tracking-wider">Your Disposable Address</label>
+            
+            <div class="flex justify-center items-center mb-5 relative max-w-lg mx-auto">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-2xl p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none bg-gray-50 dark:bg-gray-900 font-mono text-blue-700 dark:text-blue-400 font-bold transition-colors" value="Loading...">
             </div>
+            
             <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                <button onclick="copyEmail()" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition shadow-md flex items-center gap-2 font-medium active:scale-95">
+                <button onclick="copyEmail()" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition shadow-md flex items-center gap-2 font-medium active:scale-95">
                     <i class="fa-regular fa-copy"></i> Copy Email
                 </button>
-                <button onclick="generateNewEmail()" class="bg-slate-100 text-slate-700 px-8 py-3 rounded-lg hover:bg-slate-200 transition shadow-sm border border-slate-200 flex items-center gap-2 font-medium active:scale-95">
+                <button onclick="generateNewEmail(true)" class="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-8 py-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition shadow-sm border border-gray-200 dark:border-gray-600 flex items-center gap-2 font-medium active:scale-95">
                     <i class="fa-solid fa-arrows-rotate"></i> Change
                 </button>
             </div>
-            <p id="copy-msg" class="text-emerald-600 text-sm mt-4 font-bold hidden transition-all duration-300">
-                <i class="fa-solid fa-circle-check"></i> Email copied successfully!
+            
+            <p id="copy-msg" class="text-emerald-600 dark:text-emerald-400 text-sm mt-4 font-bold hidden transition-all">
+                <i class="fa-solid fa-circle-check"></i> Email copied to clipboard!
             </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-            <div class="bg-slate-800 text-white p-5 flex justify-between items-center">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden transition-colors">
+            <div class="bg-slate-800 dark:bg-gray-950 text-white p-5 flex justify-between items-center">
                 <h2 class="text-lg font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-inbox text-blue-400"></i> Live Inbox
+                    <i class="fa-solid fa-inbox text-blue-400"></i> Auto-Refresh Inbox
                     <span id="mail-count" class="bg-blue-500 text-xs px-2 py-0.5 rounded-full hidden">0</span>
                 </h2>
                 <div class="flex items-center gap-3">
+                    <span class="text-xs text-slate-300 hidden md:inline"><i class="fa-solid fa-bolt text-yellow-400"></i> Fast OTP Active</span>
                     <div id="loading-spinner" class="loader hidden"></div>
-                    <button onclick="checkInbox()" class="text-sm bg-slate-700 px-4 py-2 rounded-lg hover:bg-slate-600 transition border border-slate-600 flex items-center gap-2 font-medium">
-                        <i class="fa-solid fa-rotate-right"></i> Refresh
-                    </button>
                 </div>
             </div>
             
-            <div id="inbox-content" class="p-0 min-h-[250px] bg-slate-50">
+            <div id="inbox-content" class="p-0 min-h-[250px] bg-slate-50 dark:bg-gray-800 transition-colors">
                 </div>
         </div>
 
         <div id="email-modal" class="fixed inset-0 bg-slate-900 bg-opacity-75 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
-            <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[90vh] md:h-[85vh] overflow-hidden">
-                <div class="p-4 md:p-5 border-b flex justify-between items-start bg-slate-50">
-                    <div class="pr-4 flex-1">
-                        <h3 id="modal-subject" class="font-bold text-xl text-gray-900 mb-1 leading-tight">Subject</h3>
-                        <div class="text-sm text-gray-600 flex flex-col md:flex-row md:gap-4">
-                            <p><strong>From:</strong> <span id="modal-from" class="text-gray-800"></span></p>
-                            <p><strong>Date:</strong> <span id="modal-date" class="text-gray-800"></span></p>
+            <div class="bg-white dark:bg-gray-800 w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[90vh] md:h-[85vh] overflow-hidden">
+                
+                <div class="p-4 md:p-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-start bg-gray-50 dark:bg-gray-900">
+                    <div class="pr-4 flex-1 min-w-0">
+                        <h3 id="modal-subject" class="font-bold text-xl text-gray-900 dark:text-white mb-1 truncate">Subject</h3>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row md:gap-4 truncate">
+                            <p><strong>From:</strong> <span id="modal-from" class="text-gray-800 dark:text-gray-300"></span></p>
+                            <p><strong>Date:</strong> <span id="modal-date" class="text-gray-800 dark:text-gray-300"></span></p>
                         </div>
                     </div>
-                    <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition text-2xl">
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 p-2 rounded-xl transition text-2xl flex-shrink-0">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
 
-                <div id="attachments-section" class="bg-blue-50 border-b border-blue-100 p-3 px-5 hidden flex-wrap gap-2 items-center">
-                    <span class="text-sm font-semibold text-blue-800 mr-2"><i class="fa-solid fa-paperclip"></i> Attachments:</span>
+                <div id="attachments-section" class="bg-blue-50 dark:bg-blue-900/20 border-b border-blue-100 dark:border-blue-800 p-3 px-5 hidden flex-wrap gap-2 items-center">
+                    <span class="text-sm font-semibold text-blue-800 dark:text-blue-300 mr-2"><i class="fa-solid fa-paperclip"></i> Attachments:</span>
                     <div id="attachments-list" class="flex flex-wrap gap-2"></div>
                 </div>
 
@@ -91,15 +103,59 @@
 
     <script>
         const API_BASE = 'https://www.1secmail.com/api/v1/';
-        let currentEmail = '';
         let currentLogin = '';
         let currentDomain = '';
         let checkInterval;
 
-        document.addEventListener('DOMContentLoaded', generateNewEmail);
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initEmail();
+        });
 
-        // 1. Generate Email securely
-        async function generateNewEmail() {
+        // --- Theme (Dark/Light Mode) Logic ---
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        // --- Email Logic ---
+        function initEmail() {
+            const savedLogin = localStorage.getItem('tm_login');
+            const savedDomain = localStorage.getItem('tm_domain');
+
+            if (savedLogin && savedDomain) {
+                // Restore email on page reload
+                currentLogin = savedLogin;
+                currentDomain = savedDomain;
+                document.getElementById('email-address').value = `${currentLogin}@${currentDomain}`;
+                startInboxCheck();
+            } else {
+                // Generate new if no saved email
+                generateNewEmail(false);
+            }
+        }
+
+        async function generateNewEmail(isManualChange = false) {
             clearInterval(checkInterval);
             const emailInput = document.getElementById('email-address');
             const inbox = document.getElementById('inbox-content');
@@ -108,9 +164,9 @@
             document.getElementById('mail-count').classList.add('hidden');
             
             inbox.innerHTML = `
-                <div class="flex flex-col items-center justify-center h-64 text-gray-400">
-                    <i class="fa-solid fa-server fa-spin text-4xl mb-4 text-blue-400"></i>
-                    <p class="font-medium">Connecting to secure server...</p>
+                <div class="flex flex-col items-center justify-center h-64 text-gray-400 dark:text-gray-500">
+                    <i class="fa-solid fa-server fa-spin text-4xl mb-4 text-blue-500 dark:text-blue-400"></i>
+                    <p class="font-medium">Securing a new inbox...</p>
                 </div>`;
             
             try {
@@ -118,33 +174,37 @@
                 if (!response.ok) throw new Error('API down');
                 
                 const data = await response.json();
-                currentEmail = data[0];
-                const parts = currentEmail.split('@');
+                const email = data[0];
+                const parts = email.split('@');
                 currentLogin = parts[0];
                 currentDomain = parts[1];
                 
-                emailInput.value = currentEmail;
-                checkInbox(); 
+                // Save to LocalStorage for page reload persistence
+                localStorage.setItem('tm_login', currentLogin);
+                localStorage.setItem('tm_domain', currentDomain);
                 
-                // Set refresh interval to 7 seconds for faster updates
-                checkInterval = setInterval(checkInbox, 7000);
+                emailInput.value = email;
+                startInboxCheck(); 
             } catch (error) {
                 emailInput.value = 'Network Error. Click Change.';
-                inbox.innerHTML = '<p class="text-center text-red-500 mt-10 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Failed to connect. Please check your internet.</p>';
+                inbox.innerHTML = '<p class="text-center text-red-500 mt-10 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Failed to connect.</p>';
             }
         }
 
-        // 2. Modern Copy to Clipboard (Bug Fixed)
+        function startInboxCheck() {
+            checkInbox(); // Initial check immediately
+            // Fast OTP Check: Runs every 3.5 seconds
+            checkInterval = setInterval(checkInbox, 3500);
+        }
+
         async function copyEmail() {
             const emailValue = document.getElementById('email-address').value;
-            if(emailValue === 'Generating...' || emailValue.includes('Error')) return;
+            if(emailValue.includes('Generating') || emailValue.includes('Error')) return;
             
             try {
-                // Modern approach
                 await navigator.clipboard.writeText(emailValue);
                 showCopySuccess();
             } catch (err) {
-                // Fallback for older browsers
                 const emailInput = document.getElementById('email-address');
                 emailInput.select();
                 document.execCommand('copy');
@@ -155,10 +215,10 @@
         function showCopySuccess() {
             const msg = document.getElementById('copy-msg');
             msg.classList.remove('hidden');
-            setTimeout(() => msg.classList.add('hidden'), 2500);
+            setTimeout(() => msg.classList.add('hidden'), 2000);
         }
 
-        // 3. Fetch Inbox
+        // --- Inbox Logic ---
         async function checkInbox() {
             if (!currentLogin || !currentDomain) return;
             
@@ -171,7 +231,6 @@
                 
                 const messages = await response.json();
                 
-                // Update Badge Count
                 const countBadge = document.getElementById('mail-count');
                 if(messages.length > 0) {
                     countBadge.innerText = messages.length;
@@ -188,39 +247,38 @@
             }
         }
 
-        // 4. Render Inbox List
         function renderInbox(messages) {
             const inbox = document.getElementById('inbox-content');
             
             if (messages.length === 0) {
                 inbox.innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-64 text-gray-400">
-                        <div class="bg-gray-100 p-6 rounded-full mb-4">
-                            <i class="fa-regular fa-envelope-open text-5xl text-gray-300"></i>
+                    <div class="flex flex-col items-center justify-center h-64 text-gray-400 dark:text-gray-500">
+                        <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-full mb-4">
+                            <i class="fa-regular fa-envelope-open text-5xl text-gray-300 dark:text-gray-500"></i>
                         </div>
-                        <p class="font-medium text-lg text-gray-500">Your inbox is empty</p>
-                        <p class="text-sm mt-1 text-gray-400">Waiting for incoming emails (Auto-refreshing)</p>
+                        <p class="font-medium text-lg">Your inbox is empty</p>
+                        <p class="text-sm mt-1">Waiting for OTPs or incoming emails...</p>
                     </div>`;
                 return;
             }
 
-            let html = '<ul class="divide-y divide-gray-200">';
+            let html = '<ul class="divide-y divide-gray-200 dark:divide-gray-700">';
             messages.forEach(msg => {
                 const safeFrom = msg.from.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 const safeSubject = (msg.subject || '(No Subject)').replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 
                 html += `
-                    <li class="p-4 hover:bg-blue-50 bg-white cursor-pointer transition-colors flex flex-col sm:flex-row justify-between sm:items-center gap-3 group" onclick="readEmail(${msg.id})">
+                    <li class="p-4 hover:bg-blue-50 dark:hover:bg-gray-700 bg-white dark:bg-gray-800 cursor-pointer transition-colors flex flex-col sm:flex-row justify-between sm:items-center gap-3 group" onclick="readEmail(${msg.id})">
                         <div class="flex items-center gap-4 flex-1 min-w-0">
-                            <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                            <div class="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white dark:group-hover:bg-blue-500 transition-all shadow-sm">
                                 <i class="fa-solid fa-envelope-open-text"></i>
                             </div>
                             <div class="min-w-0 flex-1">
-                                <p class="text-base font-bold text-gray-900 truncate">${safeFrom}</p>
-                                <p class="text-sm text-gray-600 truncate">${safeSubject}</p>
+                                <p class="text-base font-bold text-gray-900 dark:text-gray-100 truncate">${safeFrom}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 truncate">${safeSubject}</p>
                             </div>
                         </div>
-                        <div class="text-xs text-gray-500 whitespace-nowrap bg-gray-100 px-3 py-1.5 rounded-md font-medium">
+                        <div class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap bg-gray-100 dark:bg-gray-900 px-3 py-1.5 rounded-md font-medium">
                             ${new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                         </div>
                     </li>`;
@@ -229,7 +287,7 @@
             inbox.innerHTML = html;
         }
 
-        // 5. Read Email (Bug Fixed: Attachments & Link Clicks added)
+        // --- Read Email Logic ---
         async function readEmail(id) {
             const modal = document.getElementById('email-modal');
             const bodyDiv = document.getElementById('modal-body');
@@ -238,12 +296,12 @@
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            attachmentsSec.classList.add('hidden'); // Hide by default
+            attachmentsSec.classList.add('hidden'); 
             
             bodyDiv.innerHTML = `
-                <div class="absolute inset-0 flex flex-col items-center justify-center bg-white z-10">
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800 z-10">
                     <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500 mb-3"></i>
-                    <p class="text-gray-500 font-medium">Loading message content...</p>
+                    <p class="text-gray-500 dark:text-gray-400 font-medium">Loading OTP / Message...</p>
                 </div>`;
 
             try {
@@ -254,7 +312,7 @@
                 document.getElementById('modal-from').innerText = data.from;
                 document.getElementById('modal-date').innerText = new Date(data.date).toLocaleString();
                 
-                // Handle Attachments (New Feature)
+                // Process Attachments
                 if (data.attachments && data.attachments.length > 0) {
                     attachmentsSec.classList.remove('hidden');
                     attachmentsSec.classList.add('flex');
@@ -263,7 +321,7 @@
                     data.attachments.forEach(file => {
                         const downloadUrl = `${API_BASE}?action=download&login=${currentLogin}&domain=${currentDomain}&id=${id}&file=${file.filename}`;
                         attachmentsList.innerHTML += `
-                            <a href="${downloadUrl}" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-700 px-3 py-1.5 rounded hover:bg-blue-50 transition flex items-center gap-1 shadow-sm">
+                            <a href="${downloadUrl}" target="_blank" class="text-xs bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-400 px-3 py-1.5 rounded hover:bg-blue-50 dark:hover:bg-gray-700 transition flex items-center gap-1 shadow-sm">
                                 <i class="fa-solid fa-download"></i> ${file.filename}
                             </a>`;
                     });
@@ -271,7 +329,7 @@
 
                 const emailContent = data.htmlBody || `<div style="font-family: sans-serif; white-space: pre-wrap; padding: 20px; color: #1f2937;">${data.textBody.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>`;
                 
-                // SECURE IFRAME (Bug Fixed: allow-popups added so verification links can be clicked)
+                // Iframe injected for security - Background stays white to prevent dark mode breaking external HTML
                 const iframe = document.createElement('iframe');
                 iframe.style.width = '100%';
                 iframe.style.height = '100%';
@@ -279,10 +337,10 @@
                 iframe.style.top = '0';
                 iframe.style.left = '0';
                 iframe.style.border = 'none';
+                iframe.style.backgroundColor = '#ffffff'; 
                 
-                // Crucial fix: allow links to open in new tabs, but keep scripts blocked!
+                // Allow OTP links to be clicked
                 iframe.sandbox = 'allow-popups allow-popups-to-escape-sandbox allow-same-origin'; 
-                
                 iframe.srcdoc = emailContent; 
                 
                 bodyDiv.innerHTML = '';
@@ -290,15 +348,13 @@
 
             } catch (error) {
                 bodyDiv.innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-full text-red-500 p-6 text-center">
+                    <div class="flex flex-col items-center justify-center h-full text-red-500 p-6 text-center bg-white dark:bg-gray-800">
                         <i class="fa-solid fa-triangle-exclamation text-5xl mb-3"></i>
                         <p class="font-bold">Failed to load email.</p>
-                        <p class="text-sm mt-1 text-gray-500">The server might be busy, close this and try again.</p>
                     </div>`;
             }
         }
 
-        // 6. Close Modal
         function closeModal() {
             const modal = document.getElementById('email-modal');
             modal.classList.add('hidden');
@@ -306,7 +362,6 @@
             document.getElementById('modal-body').innerHTML = ''; 
         }
 
-        // Close on background click
         document.getElementById('email-modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
