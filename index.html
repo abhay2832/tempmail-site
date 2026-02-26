@@ -1,4 +1,285 @@
 <!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arya Mails - Premium Temporary Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            darkMode: 'class', 
+            theme: { 
+                extend: {
+                    colors: {
+                        darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
+                        brand: '#22d3ee', brandbg: 'rgba(34, 211, 238, 0.1)',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], }
+                } 
+            } 
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        
+        @keyframes hue-shift {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(180deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        .color-shift { animation: hue-shift 8s infinite linear; }
+        
+        .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
+        .spin-slow { animation: spin 2s linear infinite; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        /* Smooth number change animation */
+        .stat-update { animation: highlight-stat 1s ease-out; }
+        @keyframes highlight-stat { 0% { color: #22d3ee; transform: scale(1.05); } 100% { color: inherit; transform: scale(1); } }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16">
+
+    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer">
+                <div class="color-shift w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Arya<span class="text-cyan-600 dark:text-brand color-shift"> Mails</span></span>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand text-xs font-semibold border border-cyan-200 dark:border-cyan-500/30 color-shift">
+                    <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
+                </div>
+                
+                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer relative z-50">
+                    <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 color-shift"></div>
+            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
+            
+            <div class="relative max-w-2xl mx-auto mb-6">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-cyan-500" value="Generating...">
+                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
+                    <i class="fa-solid fa-circle-notch spin-slow text-3xl text-cyan-600 dark:text-brand color-shift"></i>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3 relative z-10">
+                <button onclick="copyEmail()" class="color-shift bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer">
+                    <i class="fa-regular fa-copy"></i> Copy Address
+                </button>
+                <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
+                    <i class="fa-solid fa-arrows-rotate"></i> Change Email
+                </button>
+            </div>
+            <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
+        </div>
+    </div>
+
+    <div class="text-center max-w-3xl mx-auto px-4 mb-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors">Real-time <span class="text-cyan-600 dark:text-brand color-shift">Inbox</span></h2>
+        <p class="text-slate-500 dark:text-gray-400 text-sm md:text-base transition-colors">Receive and manage your temporary emails instantly.</p>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 mb-10">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
+            
+            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-envelope text-cyan-600 dark:text-brand color-shift text-lg"></i>
+                    <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
+                    <span id="badge-new" class="color-shift bg-cyan-100 dark:bg-brandbg text-cyan-700 dark:text-brand text-xs px-2.5 py-1 rounded-full border border-cyan-200 dark:border-cyan-500/20 font-semibold hidden">0 new</span>
+                </div>
+            </div>
+
+            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
+                <div class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500 dark:text-gray-500"></i> Auto-Sync</div>
+                
+                <button onclick="changeRefreshInterval()" class="color-shift bg-cyan-50 dark:bg-brandbg border border-cyan-200 dark:border-cyan-500/30 text-cyan-700 dark:text-brand px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:bg-cyan-100 dark:hover:bg-cyan-900/40 transition active:scale-95 cursor-pointer">
+                    <i id="interval-icon" class="fa-solid fa-rotate-right"></i> <span id="interval-text">10s</span>
+                </button>
+                
+                <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
+                </div>
+                
+                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-cyan-600 dark:hover:text-white transition ml-2 active:scale-95 cursor-pointer p-1">
+                    <i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span>
+                </button>
+                
+                <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer">
+                    <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
+                </button>
+            </div>
+
+            <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
+                <div class="flex gap-6">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-filter"></i> All Emails</span>
+                </div>
+                <div id="total-emails" class="font-bold text-slate-800 dark:text-white">0 emails</div>
+            </div>
+            
+            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] transition-colors relative"></div>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
+            
+            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
+                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats <span class="text-emerald-500 lowercase font-medium ml-1">(updating)</span></h3>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-100 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">819</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">382</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <div id="stat-generated" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">296.5K</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
+                        <div>
+                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <i class="fa-regular fa-lightbulb text-cyan-600 dark:text-brand color-shift text-lg"></i>
+                    <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
+                </div>
+                <ul class="space-y-5 text-xs text-slate-600 dark:text-gray-300 font-medium">
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">1</span>
+                        <span class="leading-relaxed">Use temp emails for online signups to avoid spam.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">2</span>
+                        <span class="leading-relaxed">OTPs are now auto-highlighted in green directly in your inbox.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">3</span>
+                        <span class="leading-relaxed">Turn on Sound Notifications to get instant alerts.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
+                <div class="pr-4 flex-1 min-w-0">
+                    <h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3>
+                    <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-cyan-600 dark:text-brand font-semibold color-shift"></span></p>
+                </div>
+                <div class="flex gap-2 flex-shrink-0">
+                    <button onclick="downloadMail()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-brand bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                    <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="modal-body" class="flex-1 bg-white relative"></div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'https://api.mail.tm';
+        let token = localStorage.getItem('mt_token');
+        let address = localStorage.getItem('mt_email');
+        let syncTimer = null;
+        let refreshSec = 10; 
+        let lastMailId = null; 
+        let soundOn = false;
+        let currentMail = null;
+
+        // --- Live Stats Simulator Engine ---
+        let stats = { today: 819, inboxes: 382, generated: 296500 };
+        function updateLiveStats() {
+            let changed = false;
+            if(Math.random() > 0.4) { stats.today += Math.floor(Math.random() * 3) + 1; updateStatUI('stat-today', stats.today); changed = true; }
+            if(Math.random() > 0.6) { stats.inboxes += 1; updateStatUI('stat-inboxes', stats.inboxes); changed = true; }
+            if(Math.random() > 0.3) { stats.generated += Math.floor(Math.random() * 8) + 1; updateStatUI('stat-generated', (stats.generated / 1000).toFixed(1) + 'K'); changed = true; }
+        }
+        function updateStatUI(id, val) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.innerText = val;
+                el.classList.remove('stat-update');
+                void el.offsetWidth; // trigger reflow
+                el.classList.add('stat-update');
+            }
+        }
+        // Run stats simulator every 3 seconds
+        setInterval(updateLiveStats, 3000);
+
+        // ================== INIT ==================
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            if (token && address) {
+                document.getElementById('email-address').value = address;
+                document.getElementById('loading-overlay').classList.add('hidden');
+                startInboxSync();
+            } else {
+                generateNewEmail();
+            }
+        });
+
+        // ================== UI FUNCTIONS ==================
+        function initTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (localStorage.getItem('theme') === 'light') {
+                html.classList.remove('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                icon.classList.replace('text-yellow-400', 'text-slate-600');
+            } else {
+                html.class
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
