@@ -10,10 +10,7 @@
             darkMode: 'class', 
             theme: { 
                 extend: {
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#a855f7',
-                    },
+                    colors: { primary: '#6366f1', secondary: '#a855f7' },
                     boxShadow: {
                         'premium': '0 10px 40px -10px rgba(99, 102, 241, 0.15)',
                         'premium-dark': '0 10px 40px -10px rgba(0, 0, 0, 0.5)',
@@ -44,12 +41,10 @@
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">N</div>
                 <span class="text-xl font-bold tracking-tight">Null<span class="text-indigo-600 dark:text-indigo-400">sto</span> Proxy</span>
             </div>
-            
             <div class="flex items-center gap-4">
                 <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition">
                     <i id="theme-icon" class="fa-solid fa-moon text-gray-600 dark:text-yellow-400"></i>
                 </button>
-                <a href="#" class="hidden md:inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md">Get Started</a>
             </div>
         </div>
     </nav>
@@ -62,30 +57,26 @@
             Protect Your Privacy <br>
             <span class="gradient-text">with Disposable Email</span>
         </h1>
-        <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg mb-8 max-w-2xl mx-auto">
-            Generate instant, secure temporary email addresses. No registration required. Keep your real inbox clean from spam.
-        </p>
     </div>
 
     <div class="max-w-4xl mx-auto px-4 mb-16">
         <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-10 shadow-premium dark:shadow-premium-dark border border-gray-100 dark:border-gray-800 text-center relative">
-            
             <p class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-6">
                 <i class="fa-solid fa-envelope-circle-check text-indigo-400 mr-1"></i> Your Temporary Email Address
             </p>
 
             <div class="relative max-w-2xl mx-auto mb-8">
-                <input type="text" id="email-address" readonly class="w-full text-center text-2xl md:text-4xl py-6 px-4 bg-gray-50 dark:bg-gray-950 border-2 border-transparent focus:border-indigo-500 rounded-2xl font-mono text-gray-800 dark:text-gray-100 font-bold transition-all cursor-text select-all" value="Generating...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-2xl md:text-4xl py-6 px-4 bg-gray-50 dark:bg-gray-950 border-2 border-transparent focus:border-indigo-500 rounded-2xl font-mono text-gray-800 dark:text-gray-100 font-bold transition-all cursor-text select-all" value="Initializing...">
                 <div id="loading-overlay" class="absolute inset-0 bg-gray-50 dark:bg-gray-950 rounded-2xl flex items-center justify-center">
                     <div class="h-8 w-64 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"></div>
                 </div>
             </div>
 
             <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-6">
-                <button onclick="copyEmail()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-full hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 dark:shadow-none flex items-center gap-2 font-semibold active:scale-95 text-sm md:text-base">
+                <button onclick="copyEmail()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-full hover:bg-indigo-700 transition shadow-lg flex items-center gap-2 font-semibold text-sm md:text-base">
                     <i class="fa-regular fa-copy"></i> Copy
                 </button>
-                <button onclick="createNewAccount()" class="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-6 py-3.5 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700 flex items-center gap-2 font-semibold active:scale-95 text-sm md:text-base shadow-sm">
+                <button onclick="forceCreateNewAccount()" class="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-6 py-3.5 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700 flex items-center gap-2 font-semibold text-sm md:text-base shadow-sm">
                     <i class="fa-solid fa-arrows-rotate"></i> New Email
                 </button>
             </div>
@@ -95,16 +86,318 @@
                     <i id="sound-icon" class="fa-solid fa-volume-xmark"></i> 
                     <span id="sound-text">Sound Off</span>
                 </button>
-                
                 <div class="flex items-center gap-2 text-sm font-medium text-gray-500">
                     <div class="w-2 h-2 rounded-full bg-green-500 pulse-ring"></div>
                     System Active
                 </div>
             </div>
-
             <p id="copy-msg" class="absolute top-4 right-4 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold opacity-0 transition-opacity duration-300">Copied!</p>
         </div>
     </div>
 
     <div class="max-w-4xl mx-auto px-4 mb-10 text-center">
-        <h
+        <h3 class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2">Your Messages</h3>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">Real-time <span class="text-indigo-600 dark:text-indigo-400">Inbox</span></h2>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <div class="bg-gray-50 dark:bg-gray-950 p-4 border-b border-gray-200 dark:border-gray-800 flex flex-wrap justify-between items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <h2 class="font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                        <i class="fa-regular fa-envelope"></i> Inbox
+                        <span id="mail-count" class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-xs px-2 py-0.5 rounded-full font-bold hidden">0 New</span>
+                    </h2>
+                </div>
+                <div class="flex items-center gap-3 text-sm">
+                    <div id="loading-spinner" class="loader hidden"></div>
+                    <span class="text-gray-400 hidden sm:inline"><i class="fa-solid fa-bolt text-yellow-500"></i> Fast Sync</span>
+                </div>
+            </div>
+            <div id="inbox-content" class="min-h-[300px] bg-white dark:bg-gray-900"></div>
+        </div>
+    </div>
+
+    <div id="email-modal" class="fixed inset-0 bg-gray-900/60 hidden justify-center items-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-gray-900 w-full max-w-3xl rounded-3xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-gray-200 dark:border-gray-800">
+            <div class="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-start bg-gray-50 dark:bg-gray-950">
+                <div class="pr-4 flex-1">
+                    <h3 id="modal-subject" class="font-bold text-xl text-gray-900 dark:text-white mb-1">Subject</h3>
+                    <p class="text-sm text-gray-500">From: <span id="modal-from" class="text-indigo-600 dark:text-indigo-400 font-semibold"></span></p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="downloadCurrentMail()" class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-gray-800 rounded-lg transition" title="Download">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                    <button onclick="closeModal()" class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-gray-800 rounded-lg transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="modal-body" class="flex-1 bg-white relative"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://api.mail.tm';
+        let accountToken = localStorage.getItem('mt_token');
+        let currentEmail = localStorage.getItem('mt_email');
+        let checkInterval;
+        let latestMailId = null; 
+        
+        let soundEnabled = false;
+        let audioUnlocked = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            if (accountToken && currentEmail) {
+                document.getElementById('email-address').value = currentEmail;
+                document.getElementById('loading-overlay').classList.add('hidden');
+                startInboxSync();
+            } else {
+                createNewAccount();
+            }
+        });
+
+        // Toggle Sound function
+        function toggleSound() {
+            soundEnabled = !soundEnabled; 
+            const icon = document.getElementById('sound-icon');
+            const text = document.getElementById('sound-text');
+            const audio = document.getElementById('notification-sound');
+
+            if(soundEnabled) {
+                icon.classList.replace('fa-volume-xmark', 'fa-volume-high');
+                icon.classList.add('text-indigo-500');
+                text.innerText = "Sound On";
+                text.classList.add('text-indigo-500');
+                if(!audioUnlocked) {
+                    audio.play().then(() => { audio.pause(); audio.currentTime = 0; audioUnlocked = true; }).catch(e => {});
+                }
+            } else {
+                icon.classList.replace('fa-volume-high', 'fa-volume-xmark');
+                icon.classList.remove('text-indigo-500');
+                text.innerText = "Sound Off";
+                text.classList.remove('text-indigo-500');
+            }
+        }
+
+        document.addEventListener('click', function unlockAudio() {
+            if(!audioUnlocked) {
+                const audio = document.getElementById('notification-sound');
+                audio.play().then(() => { audio.pause(); audio.currentTime = 0; audioUnlocked = true; }).catch(err => {});
+            }
+            document.removeEventListener('click', unlockAudio); 
+        }, { once: true });
+
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        function copyEmail() {
+            const val = document.getElementById('email-address').value;
+            if(val.includes('Generating') || val.includes('Initializing')) return;
+            navigator.clipboard.writeText(val);
+            const msg = document.getElementById('copy-msg');
+            msg.classList.remove('opacity-0');
+            setTimeout(() => msg.classList.add('opacity-0'), 2000);
+        }
+
+        // Force a new account (Clears storage first)
+        function forceCreateNewAccount() {
+            localStorage.removeItem('mt_token');
+            localStorage.removeItem('mt_email');
+            accountToken = null;
+            currentEmail = null;
+            createNewAccount();
+        }
+
+        async function createNewAccount() {
+            clearInterval(checkInterval);
+            latestMailId = null; 
+            const input = document.getElementById('email-address');
+            const overlay = document.getElementById('loading-overlay');
+            const inbox = document.getElementById('inbox-content');
+            
+            overlay.classList.remove('hidden');
+            inbox.innerHTML = `<div class="flex flex-col items-center justify-center h-[300px] text-gray-400"><div class="loader mb-4 w-10 h-10 border-4 border-gray-200 border-top-indigo-500"></div><p>Generating inbox...</p></div>`;
+
+            try {
+                let res = await fetch(`${API_URL}/domains`);
+                if(!res.ok) throw new Error("API Limit Reached");
+                let data = await res.json();
+                let domain = data['hydra:member'][0].domain;
+
+                let randomName = Math.random().toString(36).substring(2, 12);
+                let address = `${randomName}@${domain}`;
+                let password = 'Pwd_' + Math.random(); 
+
+                let accRes = await fetch(`${API_URL}/accounts`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: address, password: password })
+                });
+                
+                if(!accRes.ok) throw new Error("Account Creation Failed");
+
+                let tokenRes = await fetch(`${API_URL}/token`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: address, password: password })
+                });
+                let tokenData = await tokenRes.json();
+                
+                accountToken = tokenData.token;
+                currentEmail = address;
+                localStorage.setItem('mt_token', accountToken);
+                localStorage.setItem('mt_email', currentEmail);
+
+                input.value = currentEmail;
+                overlay.classList.add('hidden');
+                startInboxSync();
+            } catch (error) {
+                overlay.classList.add('hidden');
+                input.value = 'API Overloaded. Try again.';
+                inbox.innerHTML = `<div class="text-center text-red-500 mt-10"><i class="fa-solid fa-triangle-exclamation text-3xl mb-2"></i><p>API Limit reached. Please wait a minute and click "New Email".</p></div>`;
+            }
+        }
+
+        function startInboxSync() {
+            fetchMails(); 
+            checkInterval = setInterval(fetchMails, 4000);
+        }
+
+        async function fetchMails() {
+            if (!accountToken) return;
+            const spinner = document.getElementById('loading-spinner');
+            spinner.classList.remove('hidden');
+
+            try {
+                let res = await fetch(`${API_URL}/messages`, { headers: { 'Authorization': `Bearer ${accountToken}` } });
+                
+                // BUG FIX: CRITICAL ERROR HANDLER 
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 404) {
+                        // Token is dead/expired. Auto-create new one instantly!
+                        console.log("Token expired, regenerating...");
+                        forceCreateNewAccount();
+                        return;
+                    }
+                    throw new Error("Network response was not ok");
+                }
+
+                let data = await res.json();
+                let messages = data['hydra:member'];
+                
+                if (messages.length > 0) {
+                    let currentLatestId = messages[0].id;
+                    if (latestMailId !== null && currentLatestId !== latestMailId && soundEnabled) {
+                        const audio = document.getElementById('notification-sound');
+                        audio.currentTime = 0; 
+                        audio.play().catch(e => console.log("Play failed", e));
+                    }
+                    latestMailId = currentLatestId;
+                    document.getElementById('mail-count').innerText = `${messages.length} New`;
+                    document.getElementById('mail-count').classList.remove('hidden');
+                } else {
+                    document.getElementById('mail-count').classList.add('hidden');
+                }
+
+                renderInbox(messages);
+            } catch (err) { 
+                console.error("Fetch Error:", err); 
+            } finally { 
+                spinner.classList.add('hidden'); 
+            }
+        }
+
+        function renderInbox(messages) {
+            const inbox = document.getElementById('inbox-content');
+            if (!messages || messages.length === 0) {
+                inbox.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-[300px] text-gray-400">
+                        <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-full mb-4 border border-dashed border-gray-300 dark:border-gray-700">
+                            <i class="fa-solid fa-spinner fa-spin-pulse text-4xl text-indigo-200 dark:text-indigo-900/50"></i>
+                        </div>
+                        <p class="font-medium text-gray-500 dark:text-gray-400">Loading inbox...</p>
+                        <p class="text-xs mt-2 opacity-60">Waiting for emails</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '<ul class="divide-y divide-gray-100 dark:divide-gray-800">';
+            messages.forEach(msg => {
+                html += `
+                    <li class="p-4 md:p-5 hover:bg-indigo-50 dark:hover:bg-gray-800/50 cursor-pointer transition flex items-center gap-4 group" onclick="readMail('${msg.id}')">
+                        <div class="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 font-bold text-sm">
+                            ${msg.from.address.charAt(0).toUpperCase()}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-baseline">
+                                <p class="font-bold text-gray-900 dark:text-gray-100 truncate">${msg.from.address}</p>
+                                <span class="text-xs text-gray-400 whitespace-nowrap">${new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 truncate">${msg.subject || '(No Subject)'}</p>
+                        </div>
+                    </li>`;
+            });
+            html += '</ul>';
+            inbox.innerHTML = html;
+        }
+
+        async function readMail(id) {
+            const modal = document.getElementById('email-modal');
+            const bodyDiv = document.getElementById('modal-body');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            bodyDiv.innerHTML = `<div class="absolute inset-0 flex items-center justify-center bg-white"><div class="loader"></div></div>`;
+
+            try {
+                let res = await fetch(`${API_URL}/messages/${id}`, { headers: { 'Authorization': `Bearer ${accountToken}` } });
+                let data = await res.json();
+                currentMailData = data;
+                document.getElementById('modal-subject').innerText = data.subject || '(No Subject)';
+                document.getElementById('modal-from').innerText = data.from.address;
+
+                let htmlContent = data.html ? data.html.join('') : `<div style="padding:20px; font-family:sans-serif;">${data.text}</div>`;
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%'; iframe.style.height = '100%'; iframe.style.border = 'none';
+                iframe.sandbox = 'allow-popups allow-popups-to-escape-sandbox allow-same-origin'; 
+                iframe.srcdoc = htmlContent;
+                bodyDiv.innerHTML = ''; bodyDiv.appendChild(iframe);
+            } catch (err) { bodyDiv.innerHTML = `<p class="text-center text-red-500 mt-10">Error loading email.</p>`; }
+        }
+
+        function downloadCurrentMail() {
+            if (!currentMailData) return;
+            const content = currentMailData.html ? currentMailData.html.join('') : currentMailData.text;
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'email.html';
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a); URL.revokeObjectURL(url);
+        }
+
+        function closeModal() {
+            document.getElementById('email-modal').classList.add('hidden');
+            document.getElementById('email-modal').classList.remove('flex');
+            document.getElementById('modal-body').innerHTML = ''; currentMailData = null;
+        }
+    </script>
+</body>
+</html>
