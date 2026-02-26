@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disposable Email - Protect Your Privacy</title>
+    <title>Arya Mails - Secure Temporary Email</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { 
             darkMode: 'class', 
             theme: { 
                 extend: {
-                    colors: { primary: '#6366f1', secondary: '#a855f7' },
+                    colors: {
+                        primary: '#6366f1', // Indigo
+                        secondary: '#a855f7', // Purple
+                    },
                     boxShadow: {
                         'premium': '0 10px 40px -10px rgba(99, 102, 241, 0.15)',
                         'premium-dark': '0 10px 40px -10px rgba(0, 0, 0, 0.5)',
@@ -31,66 +34,83 @@
         @keyframes pulse-ring { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
-<body class="bg-[#f8fafc] dark:bg-gray-950 text-gray-800 dark:text-gray-100 min-h-screen pb-10">
+<body class="bg-[#f8fafc] dark:bg-gray-950 text-gray-800 dark:text-gray-100 min-h-screen pb-10" onclick="enableAudioContext()">
 
     <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <nav class="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">N</div>
-                <span class="text-xl font-bold tracking-tight">Null<span class="text-indigo-600 dark:text-indigo-400">sto</span> Proxy</span>
+            <div class="flex items-center gap-3 cursor-pointer">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
+                <span class="text-xl font-bold tracking-tight">Arya<span class="text-indigo-600 dark:text-indigo-400"> Mails</span></span>
             </div>
+            
             <div class="flex items-center gap-4">
                 <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 transition">
                     <i id="theme-icon" class="fa-solid fa-moon text-gray-600 dark:text-yellow-400"></i>
                 </button>
+                <a href="#" class="hidden md:inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full text-sm font-semibold transition shadow-md">Get Started</a>
             </div>
         </div>
     </nav>
 
     <div class="text-center max-w-3xl mx-auto px-4 mt-12 mb-10">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-semibold mb-6 border border-indigo-100 dark:border-indigo-800/50">
-            <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users worldwide
+            <i class="fa-solid fa-shield-halved"></i> Indian Mails Trusted by 1M+ users
         </div>
+        
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-4 leading-tight">
             Protect Your Privacy <br>
             <span class="gradient-text">with Disposable Email</span>
         </h1>
+        <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg mb-8 max-w-2xl mx-auto">
+            Generate instant, secure temporary email addresses. No registration required. Keep your real inbox clean from spam.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4 text-sm font-medium text-gray-600 dark:text-gray-300">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-bolt text-indigo-500"></i> Instant Generation</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-user-secret text-purple-500"></i> 100% Anonymous</span>
+            <span class="flex items-center gap-2"><i class="fa-solid fa-clock text-blue-500"></i> Auto-Refreshing</span>
+        </div>
     </div>
 
     <div class="max-w-4xl mx-auto px-4 mb-16">
         <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 md:p-10 shadow-premium dark:shadow-premium-dark border border-gray-100 dark:border-gray-800 text-center relative">
+            
             <p class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-6">
                 <i class="fa-solid fa-envelope-circle-check text-indigo-400 mr-1"></i> Your Temporary Email Address
             </p>
 
             <div class="relative max-w-2xl mx-auto mb-8">
-                <input type="text" id="email-address" readonly class="w-full text-center text-2xl md:text-4xl py-6 px-4 bg-gray-50 dark:bg-gray-950 border-2 border-transparent focus:border-indigo-500 rounded-2xl font-mono text-gray-800 dark:text-gray-100 font-bold transition-all cursor-text select-all" value="Initializing...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-2xl md:text-4xl py-6 px-4 bg-gray-50 dark:bg-gray-950 border-2 border-transparent focus:border-indigo-500 rounded-2xl font-mono text-gray-800 dark:text-gray-100 font-bold transition-all cursor-text select-all" value="Generating...">
                 <div id="loading-overlay" class="absolute inset-0 bg-gray-50 dark:bg-gray-950 rounded-2xl flex items-center justify-center">
                     <div class="h-8 w-64 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"></div>
                 </div>
             </div>
 
             <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-6">
-                <button onclick="copyEmail()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-full hover:bg-indigo-700 transition shadow-lg flex items-center gap-2 font-semibold text-sm md:text-base">
+                <button onclick="copyEmail()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-full hover:bg-indigo-700 transition shadow-lg shadow-indigo-200 dark:shadow-none flex items-center gap-2 font-semibold active:scale-95 text-sm md:text-base">
                     <i class="fa-regular fa-copy"></i> Copy
                 </button>
-                <button onclick="forceCreateNewAccount()" class="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-6 py-3.5 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700 flex items-center gap-2 font-semibold text-sm md:text-base shadow-sm">
+                <button onclick="createNewAccount()" class="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-6 py-3.5 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition border border-gray-200 dark:border-gray-700 flex items-center gap-2 font-semibold active:scale-95 text-sm md:text-base shadow-sm">
                     <i class="fa-solid fa-arrows-rotate"></i> New Email
+                </button>
+                
+                <button onclick="alert('Premium Feature: Requires Backend Server')" class="hidden sm:flex bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 px-6 py-3.5 rounded-full border border-gray-200 dark:border-gray-700 items-center gap-2 font-semibold text-sm cursor-not-allowed shadow-sm">
+                    <i class="fa-solid fa-pen"></i> Custom
                 </button>
             </div>
 
             <div class="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
-                <button onclick="toggleSound()" class="text-sm font-medium text-gray-500 hover:text-indigo-600 transition flex items-center gap-2 px-4 py-2 rounded-full hover:bg-indigo-50 dark:hover:bg-gray-800">
-                    <i id="sound-icon" class="fa-solid fa-volume-xmark"></i> 
-                    <span id="sound-text">Sound Off</span>
+                <button id="sound-toggle" onclick="toggleSound()" class="text-sm font-medium text-gray-500 hover:text-indigo-600 transition flex items-center gap-2 px-4 py-2 rounded-full hover:bg-indigo-50 dark:hover:bg-gray-800">
+                    <i id="sound-icon" class="fa-solid fa-volume-xmark"></i> <span>Sound</span>
                 </button>
                 <div class="flex items-center gap-2 text-sm font-medium text-gray-500">
                     <div class="w-2 h-2 rounded-full bg-green-500 pulse-ring"></div>
                     System Active
                 </div>
             </div>
+
             <p id="copy-msg" class="absolute top-4 right-4 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold opacity-0 transition-opacity duration-300">Copied!</p>
         </div>
     </div>
@@ -102,6 +122,7 @@
 
     <div class="max-w-4xl mx-auto px-4">
         <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
+            
             <div class="bg-gray-50 dark:bg-gray-950 p-4 border-b border-gray-200 dark:border-gray-800 flex flex-wrap justify-between items-center gap-4">
                 <div class="flex items-center gap-4">
                     <h2 class="font-bold text-gray-800 dark:text-white flex items-center gap-2">
@@ -114,7 +135,9 @@
                     <span class="text-gray-400 hidden sm:inline"><i class="fa-solid fa-bolt text-yellow-500"></i> Fast Sync</span>
                 </div>
             </div>
-            <div id="inbox-content" class="min-h-[300px] bg-white dark:bg-gray-900"></div>
+
+            <div id="inbox-content" class="min-h-[300px] bg-white dark:bg-gray-900">
+                </div>
         </div>
     </div>
 
@@ -138,15 +161,28 @@
         </div>
     </div>
 
+    <div class="max-w-4xl mx-auto px-4 mt-16 mb-8 opacity-60 pointer-events-none">
+        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4"><i class="fa-solid fa-chart-line"></i> Live Stats (Demo)</h4>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                <p class="text-gray-400 text-xs font-semibold mb-1">Emails Today</p>
+                <p class="text-xl font-bold text-gray-700 dark:text-gray-300">142,593</p>
+            </div>
+            <div class="bg-white dark:bg-gray-900 p-4 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                <p class="text-gray-400 text-xs font-semibold mb-1">Total Inboxes</p>
+                <p class="text-xl font-bold text-gray-700 dark:text-gray-300">1.2M+</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'https://api.mail.tm';
         let accountToken = localStorage.getItem('mt_token');
         let currentEmail = localStorage.getItem('mt_email');
         let checkInterval;
         let latestMailId = null; 
-        
-        let soundEnabled = false;
-        let audioUnlocked = false;
+        let audioEnabled = false;
+        let currentMailData = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
@@ -159,36 +195,31 @@
             }
         });
 
-        // Toggle Sound function
-        function toggleSound() {
-            soundEnabled = !soundEnabled; 
-            const icon = document.getElementById('sound-icon');
-            const text = document.getElementById('sound-text');
-            const audio = document.getElementById('notification-sound');
-
-            if(soundEnabled) {
-                icon.classList.replace('fa-volume-xmark', 'fa-volume-high');
-                icon.classList.add('text-indigo-500');
-                text.innerText = "Sound On";
-                text.classList.add('text-indigo-500');
-                if(!audioUnlocked) {
-                    audio.play().then(() => { audio.pause(); audio.currentTime = 0; audioUnlocked = true; }).catch(e => {});
-                }
-            } else {
-                icon.classList.replace('fa-volume-high', 'fa-volume-xmark');
-                icon.classList.remove('text-indigo-500');
-                text.innerText = "Sound Off";
-                text.classList.remove('text-indigo-500');
+        function enableAudioContext() {
+            if(!audioEnabled) {
+                audioEnabled = true;
+                const audio = document.getElementById('notification-sound');
+                audio.play().then(() => {
+                    audio.pause(); audio.currentTime = 0;
+                    document.getElementById('sound-icon').classList.replace('fa-volume-xmark', 'fa-volume-high');
+                    document.getElementById('sound-icon').classList.add('text-indigo-500');
+                }).catch(e => console.log("Audio prep failed"));
             }
         }
 
-        document.addEventListener('click', function unlockAudio() {
-            if(!audioUnlocked) {
-                const audio = document.getElementById('notification-sound');
-                audio.play().then(() => { audio.pause(); audio.currentTime = 0; audioUnlocked = true; }).catch(err => {});
+        function toggleSound() {
+            enableAudioContext();
+            const icon = document.getElementById('sound-icon');
+            if(icon.classList.contains('fa-volume-high')) {
+                icon.classList.replace('fa-volume-high', 'fa-volume-xmark');
+                icon.classList.remove('text-indigo-500');
+                audioEnabled = false;
+            } else {
+                icon.classList.replace('fa-volume-xmark', 'fa-volume-high');
+                icon.classList.add('text-indigo-500');
+                audioEnabled = true;
             }
-            document.removeEventListener('click', unlockAudio); 
-        }, { once: true });
+        }
 
         function initTheme() {
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -213,20 +244,11 @@
 
         function copyEmail() {
             const val = document.getElementById('email-address').value;
-            if(val.includes('Generating') || val.includes('Initializing')) return;
+            if(val.includes('Generating')) return;
             navigator.clipboard.writeText(val);
             const msg = document.getElementById('copy-msg');
             msg.classList.remove('opacity-0');
             setTimeout(() => msg.classList.add('opacity-0'), 2000);
-        }
-
-        // Force a new account (Clears storage first)
-        function forceCreateNewAccount() {
-            localStorage.removeItem('mt_token');
-            localStorage.removeItem('mt_email');
-            accountToken = null;
-            currentEmail = null;
-            createNewAccount();
         }
 
         async function createNewAccount() {
@@ -241,7 +263,6 @@
 
             try {
                 let res = await fetch(`${API_URL}/domains`);
-                if(!res.ok) throw new Error("API Limit Reached");
                 let data = await res.json();
                 let domain = data['hydra:member'][0].domain;
 
@@ -249,12 +270,10 @@
                 let address = `${randomName}@${domain}`;
                 let password = 'Pwd_' + Math.random(); 
 
-                let accRes = await fetch(`${API_URL}/accounts`, {
+                await fetch(`${API_URL}/accounts`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ address: address, password: password })
                 });
-                
-                if(!accRes.ok) throw new Error("Account Creation Failed");
 
                 let tokenRes = await fetch(`${API_URL}/token`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -272,8 +291,8 @@
                 startInboxSync();
             } catch (error) {
                 overlay.classList.add('hidden');
-                input.value = 'API Overloaded. Try again.';
-                inbox.innerHTML = `<div class="text-center text-red-500 mt-10"><i class="fa-solid fa-triangle-exclamation text-3xl mb-2"></i><p>API Limit reached. Please wait a minute and click "New Email".</p></div>`;
+                input.value = 'Network Error';
+                inbox.innerHTML = '<p class="text-center text-red-500 mt-10">Failed to connect.</p>';
             }
         }
 
@@ -289,27 +308,14 @@
 
             try {
                 let res = await fetch(`${API_URL}/messages`, { headers: { 'Authorization': `Bearer ${accountToken}` } });
-                
-                // BUG FIX: CRITICAL ERROR HANDLER 
-                if (!res.ok) {
-                    if (res.status === 401 || res.status === 404) {
-                        // Token is dead/expired. Auto-create new one instantly!
-                        console.log("Token expired, regenerating...");
-                        forceCreateNewAccount();
-                        return;
-                    }
-                    throw new Error("Network response was not ok");
-                }
-
                 let data = await res.json();
                 let messages = data['hydra:member'];
                 
                 if (messages.length > 0) {
                     let currentLatestId = messages[0].id;
-                    if (latestMailId !== null && currentLatestId !== latestMailId && soundEnabled) {
+                    if (latestMailId !== null && currentLatestId !== latestMailId && audioEnabled) {
                         const audio = document.getElementById('notification-sound');
-                        audio.currentTime = 0; 
-                        audio.play().catch(e => console.log("Play failed", e));
+                        audio.currentTime = 0; audio.play().catch(e=>console.log(e));
                     }
                     latestMailId = currentLatestId;
                     document.getElementById('mail-count').innerText = `${messages.length} New`;
@@ -319,11 +325,8 @@
                 }
 
                 renderInbox(messages);
-            } catch (err) { 
-                console.error("Fetch Error:", err); 
-            } finally { 
-                spinner.classList.add('hidden'); 
-            }
+            } catch (err) { console.error(err); } 
+            finally { spinner.classList.add('hidden'); }
         }
 
         function renderInbox(messages) {
