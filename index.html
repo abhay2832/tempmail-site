@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arya Mails - Premium Temporary Email</title>
+    <title>Aryan Mails - Premium Temporary Email</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { 
@@ -17,9 +17,7 @@
                         cyanbg: 'rgba(34, 211, 238, 0.1)',
                         cyantext: '#22d3ee',
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'], }
                 } 
             } 
         }
@@ -46,12 +44,11 @@
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
-                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Arya<span class="text-cyan-600 dark:text-cyantext"> Mails</span></span>
+                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Aryan<span class="text-cyan-600 dark:text-cyantext"> Mails</span></span>
             </div>
-            
             <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-50 dark:bg-cyanbg text-cyan-700 dark:text-cyantext text-xs font-semibold border border-cyan-200 dark:border-cyan-500/30 transition-colors">
-                    <i class="fa-solid fa-shield-halved"></i> Indian Mails Trusted by 1M+ users
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-50 dark:bg-cyanbg text-cyan-700 dark:text-cyantext text-xs font-semibold border border-cyan-200 dark:border-cyan-500/30">
+                    <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
                 </div>
                 <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors shadow-sm border border-slate-200 dark:border-gray-700">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
@@ -66,9 +63,10 @@
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all cursor-text select-all focus:outline-none focus:border-cyan-500" value="Generating...">
-                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
-                    <i class="fa-solid fa-circle-notch spin-slow text-2xl text-cyan-600 dark:text-cyan-500"></i>
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all cursor-text select-all focus:outline-none focus:border-cyan-500" value="Starting engine...">
+                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex flex-col items-center justify-center border-2 border-transparent">
+                    <i class="fa-solid fa-circle-notch spin-slow text-2xl text-cyan-600 dark:text-cyan-500 mb-2"></i>
+                    <p class="text-xs font-semibold text-slate-500 dark:text-gray-400">Connecting to secure server...</p>
                 </div>
             </div>
 
@@ -76,7 +74,7 @@
                 <button onclick="copyEmail()" class="bg-cyan-600 hover:bg-cyan-700 dark:hover:bg-cyan-500 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md">
                     <i class="fa-regular fa-copy"></i> Copy Address
                 </button>
-                <button onclick="createNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm">
+                <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm">
                     <i class="fa-solid fa-arrows-rotate"></i> Change Email
                 </button>
             </div>
@@ -98,9 +96,6 @@
                     <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
                     <span id="badge-new" class="bg-cyan-100 dark:bg-cyanbg text-cyan-700 dark:text-cyantext text-xs px-2.5 py-1 rounded-full border border-cyan-200 dark:border-cyan-500/20 font-semibold hidden">0 new</span>
                 </div>
-                <div class="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-500/10 flex items-center justify-center text-pink-500 cursor-pointer hover:bg-pink-200 dark:hover:bg-pink-500/20 transition">
-                    <i class="fa-solid fa-heart"></i>
-                </div>
             </div>
 
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors">
@@ -112,10 +107,6 @@
                 
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
-                </div>
-                
-                <div class="flex items-center gap-1.5 hidden sm:flex">
-                    <i class="fa-solid fa-shield text-emerald-500"></i> Encrypted
                 </div>
                 
                 <button onclick="toggleAudioContext()" class="flex items-center gap-1.5 hover:text-cyan-600 dark:hover:text-white transition ml-2">
@@ -130,98 +121,28 @@
             <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
                 <div class="flex gap-6">
                     <button class="flex items-center gap-2 hover:text-slate-800 dark:hover:text-white transition">
-                        <i class="fa-solid fa-filter"></i> All Emails <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <button class="flex items-center gap-2 hover:text-slate-800 dark:hover:text-white transition hidden sm:flex">
-                        <i class="fa-solid fa-arrow-down-short-wide"></i> Newest First
+                        <i class="fa-solid fa-filter"></i> All Emails
                     </button>
                 </div>
                 <div id="total-emails" class="font-bold">0 emails</div>
             </div>
             
-            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] transition-colors"></div>
-        </div>
-    </div>
-
-    <div class="max-w-5xl mx-auto px-4">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
-            
-            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
-                <div class="flex items-center gap-2.5 mb-6">
-                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-600 dark:bg-cyantext"></span>
-                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats</h3>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                        <div class="w-10 h-10 rounded-lg bg-cyan-100 dark:bg-cyantext/10 text-cyan-600 dark:text-cyantext flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
-                        <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">819</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Today (IST)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
-                        <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">382</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
-                        <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">296.5K</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Generated</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
-                        <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors">
-                <div class="flex items-center gap-2.5 mb-6">
-                    <i class="fa-regular fa-lightbulb text-cyan-600 dark:text-cyantext text-lg"></i>
-                    <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
-                </div>
-                <ul class="space-y-5 text-xs text-slate-600 dark:text-gray-300 font-medium">
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-cyanbg text-cyan-700 dark:text-cyantext flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5">1</span>
-                        <span class="leading-relaxed">Use temp emails for online signups to avoid spam.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-cyanbg text-cyan-700 dark:text-cyantext flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5">2</span>
-                        <span class="leading-relaxed">Premium users can extend email lifetime anytime.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-cyanbg text-cyan-700 dark:text-cyantext flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5">3</span>
-                        <span class="leading-relaxed">Turn on Sound Notifications to get instant alerts.</span>
-                    </li>
-                </ul>
-            </div>
+            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] transition-colors relative"></div>
         </div>
     </div>
 
     <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
         <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
-                <div class="pr-4 flex-1">
-                    <h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1">Subject</h3>
-                    <p class="text-sm text-slate-500 dark:text-gray-400">From: <span id="modal-from" class="text-cyan-600 dark:text-cyantext font-semibold"></span></p>
+                <div class="pr-4 flex-1 min-w-0">
+                    <h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3>
+                    <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-cyan-600 dark:text-cyantext font-semibold"></span></p>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="downloadCurrentMail()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyantext bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition" title="Download Mail">
+                <div class="flex gap-2 flex-shrink-0">
+                    <button onclick="downloadCurrentMail()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyantext bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
                         <i class="fa-solid fa-download"></i>
                     </button>
-                    <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition" title="Close">
+                    <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
                 </div>
@@ -240,18 +161,26 @@
         let audioEnabled = false;
         let currentMailData = null;
 
+        // CRASH FIX: Properly handling initialization
         document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            renderEmptyState(); 
-            
-            if (accountToken && currentEmail) {
-                document.getElementById('email-address').value = currentEmail;
-                document.getElementById('loading-overlay').classList.add('hidden');
-                startInboxSync();
-            } else {
-                createNewAccount();
+            try {
+                initTheme();
+                renderEmptyState(); 
+                
+                if (accountToken && currentEmail) {
+                    document.getElementById('email-address').value = currentEmail;
+                    document.getElementById('loading-overlay').classList.add('hidden');
+                    startInboxSync();
+                } else {
+                    createNewAccount();
+                }
+            } catch (e) {
+                console.error("Init Error:", e);
+                forceNewAccount(); // If anything breaks on load, reset system
             }
         });
+
+        // ================== UI FUNCTIONS ==================
 
         function initTheme() {
             const html = document.documentElement;
@@ -272,4 +201,283 @@
                 html.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
                 icon.classList.replace('fa-moon', 'fa-sun');
-            } else
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        function toggleAudioContext() {
+            const notifIcon = document.getElementById('notif-icon');
+            const notifText = document.getElementById('notif-text');
+            
+            if(!audioEnabled) {
+                audioEnabled = true;
+                const audio = document.getElementById('notification-sound');
+                audio.play().then(() => {
+                    audio.pause(); audio.currentTime = 0;
+                    notifIcon.classList.replace('fa-regular', 'fa-solid');
+                    notifIcon.classList.add('text-cyan-600', 'dark:text-cyantext');
+                    notifText.innerText = "Sound On";
+                    notifText.classList.add('text-cyan-600', 'dark:text-cyantext');
+                }).catch(e => {
+                    console.log("Audio unlock failed", e);
+                    audioEnabled = false;
+                });
+            } else {
+                audioEnabled = false;
+                notifIcon.classList.replace('fa-solid', 'fa-regular');
+                notifIcon.classList.remove('text-cyan-600', 'dark:text-cyantext');
+                notifText.innerText = "Sound Off";
+                notifText.classList.remove('text-cyan-600', 'dark:text-cyantext');
+            }
+        }
+
+        function changeRefreshInterval() {
+            const intervals = [10, 30, 50];
+            let currentIndex = intervals.indexOf(refreshTimeInSeconds);
+            refreshTimeInSeconds = intervals[(currentIndex + 1) % intervals.length];
+            
+            document.getElementById('interval-text').innerText = refreshTimeInSeconds + 's';
+            
+            const autoCheckText = document.getElementById('auto-check-time');
+            if(autoCheckText) autoCheckText.innerText = refreshTimeInSeconds;
+            
+            if(checkInterval) {
+                clearInterval(checkInterval);
+                checkInterval = setInterval(fetchMails, refreshTimeInSeconds * 1000);
+            }
+        }
+
+        function manualFetch() {
+            const icon = document.getElementById('fetch-icon');
+            icon.classList.add('fa-spin'); 
+            fetchMails().finally(() => {
+                setTimeout(() => icon.classList.remove('fa-spin'), 500); 
+            });
+        }
+
+        function copyEmail() {
+            const val = document.getElementById('email-address').value;
+            if(!val || val.includes('Generating') || val.includes('Starting')) return;
+            navigator.clipboard.writeText(val).then(() => {
+                const msg = document.getElementById('copy-msg');
+                msg.classList.remove('opacity-0');
+                setTimeout(() => msg.classList.add('opacity-0'), 2000);
+            }).catch(e => alert("Could not copy text: " + e));
+        }
+
+        // ================== CORE API FUNCTIONS ==================
+
+        // User clicked Change Email or System crashed
+        function forceNewAccount() {
+            localStorage.removeItem('mt_token');
+            localStorage.removeItem('mt_email');
+            accountToken = null;
+            currentEmail = null;
+            createNewAccount();
+        }
+
+        async function createNewAccount() {
+            if(checkInterval) clearInterval(checkInterval);
+            latestMailId = null; 
+            
+            const input = document.getElementById('email-address');
+            const overlay = document.getElementById('loading-overlay');
+            
+            overlay.classList.remove('hidden');
+            input.value = 'Generating...';
+            renderEmptyState();
+
+            try {
+                // 1. Get Domain
+                let res = await fetch(`${API_URL}/domains`);
+                if(!res.ok) throw new Error('API Domain Error');
+                let data = await res.json();
+                
+                // CRASH FIX: Check if domains exist
+                if(!data || !data['hydra:member'] || data['hydra:member'].length === 0) throw new Error('No domains available');
+                let domain = data['hydra:member'][0].domain;
+
+                // 2. Register Account
+                let randomName = Math.random().toString(36).substring(2, 12);
+                let address = `${randomName}@${domain}`;
+                let password = 'Pwd_' + Math.random().toString(36); 
+
+                let accRes = await fetch(`${API_URL}/accounts`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: address, password: password })
+                });
+                if(!accRes.ok) throw new Error('Account Creation Failed');
+
+                // 3. Get Token
+                let tokenRes = await fetch(`${API_URL}/token`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: address, password: password })
+                });
+                if(!tokenRes.ok) throw new Error('Token Generation Failed');
+                
+                let tokenData = await tokenRes.json();
+                
+                accountToken = tokenData.token;
+                currentEmail = address;
+                localStorage.setItem('mt_token', accountToken);
+                localStorage.setItem('mt_email', currentEmail);
+
+                input.value = currentEmail;
+                overlay.classList.add('hidden');
+                
+                startInboxSync();
+            } catch (error) {
+                console.error("Account Creation Error:", error);
+                overlay.classList.add('hidden');
+                input.value = 'Network Error. Click Change Email.';
+            }
+        }
+
+        function startInboxSync() {
+            fetchMails(); 
+            if(checkInterval) clearInterval(checkInterval);
+            checkInterval = setInterval(fetchMails, refreshTimeInSeconds * 1000);
+        }
+
+        async function fetchMails() {
+            if (!accountToken) return;
+            
+            try {
+                let res = await fetch(`${API_URL}/messages`, { headers: { 'Authorization': `Bearer ${accountToken}` } });
+                
+                // MAIN CRASH FIX: If token is expired (401), clear everything and restart smoothly
+                if (res.status === 401 || res.status === 403) {
+                    console.log("Token Expired. Regenerating...");
+                    forceNewAccount();
+                    return;
+                }
+                
+                if(!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                
+                let data = await res.json();
+                
+                // CRASH FIX: Safe data extraction
+                let messages = data?.['hydra:member'] || [];
+                
+                document.getElementById('total-emails').innerText = `${messages.length} emails`;
+                
+                if (messages.length > 0) {
+                    let currentLatestId = messages[0].id;
+                    if (latestMailId !== null && currentLatestId !== latestMailId && audioEnabled) {
+                        const audio = document.getElementById('notification-sound');
+                        audio.currentTime = 0; 
+                        audio.play().catch(e => console.log("Sound block", e));
+                    }
+                    latestMailId = currentLatestId;
+                    
+                    document.getElementById('badge-new').innerText = `${messages.length} new`;
+                    document.getElementById('badge-new').classList.remove('hidden');
+                    
+                    renderInboxList(messages);
+                } else {
+                    document.getElementById('badge-new').classList.add('hidden');
+                    renderEmptyState();
+                }
+
+            } catch (err) { 
+                console.error("Fetch Error:", err); 
+            } 
+        }
+
+        // ================== RENDERING FUNCTIONS ==================
+
+        function renderEmptyState() {
+            document.getElementById('total-emails').innerText = `0 emails`;
+            document.getElementById('badge-new').classList.add('hidden');
+            const inbox = document.getElementById('inbox-content');
+            
+            inbox.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full p-10 py-16">
+                    <div class="text-slate-300 dark:text-gray-500 text-6xl mb-4 transition-colors"><i class="fa-solid fa-inbox"></i></div>
+                    <h3 class="text-slate-800 dark:text-white font-bold text-lg mb-2 transition-colors">No emails yet</h3>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm mb-4 transition-colors">Waiting for incoming messages...</p>
+                    <div class="flex justify-center mb-3">
+                        <span class="text-cyan-700 dark:text-cyantext text-xs font-semibold flex items-center gap-1.5 bg-cyan-50 dark:bg-cyanbg px-3 py-1.5 rounded-md border border-cyan-200 dark:border-cyan-500/20 transition-colors">
+                            <i class="fa-solid fa-key"></i> Token-secured access
+                        </span>
+                    </div>
+                    <p class="text-slate-400 dark:text-gray-500 text-xs transition-colors">Auto-checking every <span id="auto-check-time">${refreshTimeInSeconds}</span> seconds...</p>
+                </div>`;
+        }
+
+        function renderInboxList(messages) {
+            const inbox = document.getElementById('inbox-content');
+            
+            let html = '<ul class="divide-y divide-slate-100 dark:divide-darkborder">';
+            messages.forEach(msg => {
+                html += `
+                    <li class="p-4 md:p-5 hover:bg-slate-50 dark:hover:bg-darkborder/30 cursor-pointer transition-colors flex items-center gap-4 group" onclick="readMail('${msg.id}')">
+                        <div class="bg-cyan-100 dark:bg-cyanbg text-cyan-700 dark:text-cyantext rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0 font-bold text-base border border-cyan-200 dark:border-cyan-500/20 shadow-sm transition-colors">
+                            ${msg.from?.address?.charAt(0).toUpperCase() || 'M'}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-baseline mb-1">
+                                <p class="font-bold text-slate-800 dark:text-gray-100 truncate pr-4">${msg.from?.address || 'Unknown'}</p>
+                                <span class="text-xs text-slate-500 dark:text-gray-400 whitespace-nowrap bg-slate-100 dark:bg-darkbg px-2 py-1 rounded border border-slate-200 dark:border-darkborder font-medium transition-colors">${new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                            </div>
+                            <p class="text-sm text-slate-600 dark:text-gray-400 truncate">${msg.subject || '(No Subject)'}</p>
+                        </div>
+                    </li>`;
+            });
+            html += '</ul>';
+            inbox.innerHTML = html;
+        }
+
+        // ================== MAIL READING ==================
+
+        async function readMail(id) {
+            const modal = document.getElementById('email-modal');
+            const bodyDiv = document.getElementById('modal-body');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            bodyDiv.innerHTML = `<div class="absolute inset-0 flex items-center justify-center bg-white"><i class="fa-solid fa-circle-notch spin-slow text-3xl text-cyan-500"></i></div>`;
+
+            try {
+                let res = await fetch(`${API_URL}/messages/${id}`, { headers: { 'Authorization': `Bearer ${accountToken}` } });
+                if(!res.ok) throw new Error('Failed to fetch mail details');
+                
+                let data = await res.json();
+                currentMailData = data;
+                document.getElementById('modal-subject').innerText = data.subject || '(No Subject)';
+                document.getElementById('modal-from').innerText = data.from?.address || 'Unknown';
+
+                let htmlContent = data.html ? data.html.join('') : `<div style="padding:20px; font-family:sans-serif;">${data.text || 'No Content'}</div>`;
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%'; iframe.style.height = '100%'; iframe.style.border = 'none';
+                iframe.sandbox = 'allow-popups allow-popups-to-escape-sandbox allow-same-origin'; 
+                iframe.srcdoc = htmlContent;
+                bodyDiv.innerHTML = ''; bodyDiv.appendChild(iframe);
+            } catch (err) { 
+                console.error(err);
+                bodyDiv.innerHTML = `<div class="flex flex-col items-center justify-center h-full"><i class="fa-solid fa-triangle-exclamation text-4xl text-red-500 mb-3"></i><p class="text-center text-slate-800 font-bold">Error loading email.</p></div>`; 
+            }
+        }
+
+        function downloadCurrentMail() {
+            if (!currentMailData) return;
+            const subject = currentMailData.subject || 'TempMail';
+            const content = currentMailData.html ? currentMailData.html.join('') : currentMailData.text;
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; 
+            a.download = `${subject.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.html`;
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a); URL.revokeObjectURL(url);
+        }
+
+        function closeModal() {
+            document.getElementById('email-modal').classList.add('hidden');
+            document.getElementById('email-modal').classList.remove('flex');
+            document.getElementById('modal-body').innerHTML = ''; currentMailData = null;
+        }
+    </script>
+</body>
+</html>
