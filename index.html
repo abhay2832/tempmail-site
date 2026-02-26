@@ -1,311 +1,315 @@
-‎
-‎<!DOCTYPE html>
-‎<html lang="en">
-‎<head>
-‎<meta charset="UTF-8">
-‎<meta name="viewport" content="width=device-width, initial-scale=1.0">
-‎<title>TempMail Pro</title>
-‎
-‎<style>
-‎:root{
-‎--bg1:#4c6ef5;
-‎--bg2:#7b2ff7;
-‎--card:#ffffff;
-‎--text:#111;
-‎--muted:#666;
-‎}
-‎
-‎body.dark{
-‎--bg1:#0f2027;
-‎--bg2:#203a43;
-‎--card:#1e1e1e;10
-‎--text:#f5f5f5;
-‎--muted:#aaa;
-‎}
-‎
-‎body{
-‎margin:0;
-‎font-family: 'Segoe UI', sans-serif;
-‎background:linear-gradient(135deg,var(--bg1),var(--bg2));
-‎display:flex;
-‎justify-content:center;
-‎align-items:center;
-‎min-height:100vh;
-‎padding:20px;
-‎transition:0.3s;
-‎}
-‎
-‎.container{
-‎width:100%;
-‎max-width:550px;
-‎background:var(--card);
-‎padding:25px;
-‎border-radius:16px;
-‎box-shadow:0 15px 40px rgba(0,0,0,0.25);
-‎transition:0.3s;
-‎}
-‎
-‎h1{
-‎text-align:center;
-‎margin-bottom:20px;
-‎color:var(--text);
-‎}
-‎
-‎.top-bar{
-‎display:flex;
-‎justify-content:space-between;
-‎align-items:center;
-‎margin-bottom:15px;
-‎}
-‎
-‎.toggle{
-‎cursor:pointer;
-‎font-size:14px;
-‎padding:6px 12px;
-‎border-radius:20px;
-‎background:#00000020;
-‎color:var(--text);
-‎}
-‎
-‎.email-box{
-‎display:flex;
-‎gap:10px;
-‎margin-bottom:15px;
-‎}
-‎
-‎input{
-‎flex:1;
-‎padding:12px;
-‎border-radius:8px;
-‎border:1px solid #ddd;
-‎font-size:14px;
-‎}
-‎
-‎button{
-‎padding:10px 15px;
-‎border:none;
-‎border-radius:8px;
-‎cursor:pointer;
-‎font-weight:500;
-‎background:#4c6ef5;
-‎color:white;
-‎transition:0.2s;
-‎}
-‎
-‎button:hover{
-‎transform:translateY(-2px);
-‎}
-‎
-‎.secondary{
-‎background:#868e96;
-‎}
-‎
-‎.inbox{
-‎margin-top:15px;
-‎max-height:350px;
-‎overflow-y:auto;
-‎}
-‎
-‎.message{
-‎background:#00000008;
-‎padding:12px;
-‎border-radius:10px;
-‎margin-bottom:10px;
-‎cursor:pointer;
-‎transition:0.2s;
-‎color:var(--text);
-‎}
-‎
-‎body.dark .message{
-‎background:#ffffff10;
-‎}
-‎
-‎.message:hover{
-‎transform:scale(1.02);
-‎}
-‎
-‎.message small{
-‎color:var(--muted);
-‎}
-‎
-‎.body-box{
-‎margin-top:10px;
-‎padding:10px;
-‎border-radius:8px;
-‎background:#00000010;
-‎white-space:pre-wrap;
-‎}
-‎
-‎.status{
-‎text-align:center;
-‎margin-top:10px;
-‎color:var(--muted);
-‎font-size:14px;
-‎}
-‎
-‎.empty{
-‎text-align:center;
-‎color:var(--muted);
-‎margin-top:20px;
-‎}
-‎</style>
-‎</head>
-‎
-‎<body>
-‎
-‎<div class="container">
-‎<div class="top-bar">
-‎<h1>TempMail Pro</h1>
-‎<div class="toggle" onclick="toggleDark()">🌙 Mode</div>
-‎</div>
-‎
-‎<div class="email-box">
-‎<input type="text" id="email" readonly>
-‎<button onclick="copyEmail()">Copy</button>
-‎</div>
-‎
-‎<div class="email-box">
-‎<button onclick="forceNew()">New Email</button>
-‎<button class="secondary" onclick="fetchMessages()">Refresh</button>
-‎</div>
-‎
-‎<div id="status" class="status"></div>
-‎<div id="inbox" class="inbox"></div>
-‎
-‎</div>
-‎
-‎<script>
-‎let token="";
-‎let email=localStorage.getItem("tm_email");
-‎let password=localStorage.getItem("tm_pass");
-‎
-‎window.onload=async()=>{
-‎if(localStorage.getItem("dark_mode")==="true"){
-‎document.body.classList.add("dark");
-‎}
-‎if(email && password){
-‎await login(false);
-‎}else{
-‎await createAccount();
-‎}
-‎};
-‎
-‎function toggleDark(){
-‎document.body.classList.toggle("dark");
-‎localStorage.setItem("dark_mode",
-‎document.body.classList.contains("dark"));
-‎}
-‎
-‎async function createAccount(){
-‎setStatus("Generating email...");
-‎const d=await fetch("https://api.mail.tm/domains");
-‎const dj=await d.json();
-‎const domain=dj["hydra:member"][0].domain;
-‎
-‎email=Math.random().toString(36).substring(2,10)+"@"+domain;
-‎password=Math.random().toString(36).substring(2,12);
-‎
-‎await fetch("https://api.mail.tm/accounts",{
-‎method:"POST",
-‎headers:{"Content-Type":"application/json"},
-‎body:JSON.stringify({address:email,password:password})
-‎});
-‎
-‎localStorage.setItem("tm_email",email);
-‎localStorage.setItem("tm_pass",password);
-‎await login(true);
-‎}
-‎
-‎async function login(isNew){
-‎const res=await fetch("https://api.mail.tm/token",{
-‎method:"POST",
-‎headers:{"Content-Type":"application/json"},
-‎body:JSON.stringify({address:email,password:password})
-‎});
-‎
-‎if(!res.ok){
-‎if(!isNew){
-‎localStorage.clear();
-‎return createAccount();
-‎}
-‎return;
-‎}
-‎
-‎const data=await res.json();
-‎token=data.token;
-‎document.getElementById("email").value=email;
-‎setStatus("Email Ready");
-‎fetchMessages();
-‎}
-‎
-‎async function fetchMessages(){
-‎if(!token)return;
-‎const r=await fetch("https://api.mail.tm/messages",{
-‎headers:{Authorization:"Bearer "+token}
-‎});
-‎const j=await r.json();
-‎renderInbox(j["hydra:member"]);
-‎}
-‎
-‎async function openMessage(id,container){
-‎const r=await fetch("https://api.mail.tm/messages/"+id,{
-‎headers:{Authorization:"Bearer "+token}
-‎});
-‎const j=await r.json();
-‎let content=j.text?.trim()?j.text:(j.html?.length?j.html[0]:"No content");
-‎const box=document.createElement("div");
-‎box.className="body-box";
-‎box.innerHTML=content;
-‎container.appendChild(box);
-‎}
-‎
-‎function renderInbox(msgs){
-‎const inbox=document.getElementById("inbox");
-‎inbox.innerHTML="";
-‎if(!msgs || msgs.length===0){
-‎inbox.innerHTML='<div class="empty">No emails yet</div>';
-‎return;
-‎}
-‎msgs.forEach(m=>{
-‎const div=document.createElement("div");
-‎div.className="message";
-‎div.innerHTML=`
-‎<strong>${escape(m.subject||"No Subject")}</strong><br>
-‎<small>From: ${escape(m.from.address)}</small><br>
-‎<small>${new Date(m.createdAt).toLocaleString()}</small>
-‎`;
-‎div.onclick=()=>{
-‎if(!div.querySelector(".body-box")){
-‎openMessage(m.id,div);
-‎}
-‎};
-‎inbox.appendChild(div);
-‎});
-‎}
-‎
-‎function forceNew(){
-‎localStorage.clear();
-‎createAccount();
-‎}
-‎
-‎function copyEmail(){
-‎navigator.clipboard.writeText(email);
-‎alert("Copied!");
-‎}
-‎
-‎function setStatus(t){
-‎document.getElementById("status").innerText=t;
-‎}
-‎
-‎function escape(t){
-‎const d=document.createElement("div");
-‎d.innerText=t;
-‎return d.innerHTML;
-‎}
-‎
-‎setInterval(fetchMessages,10000);
-‎</script>
-‎
-‎</body>
-‎</html>
-‎
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temp Mail - Secure & Fast Temporary Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .loader { border: 3px solid #e2e8f0; border-top: 3px solid #3b82f6; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-4xl mx-auto p-4 md:p-6 mt-6 md:mt-10">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-blue-600 mb-3 tracking-tight">
+                <i class="fa-solid fa-bolt text-yellow-400"></i> QuickTemp Mail
+            </h1>
+            <p class="text-gray-500 font-medium">Free, fast, and secure disposable email addresses</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 mb-8 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+            <label class="block text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Your Temporary Inbox</label>
+            <div class="flex justify-center items-center mb-5">
+                <input type="text" id="email-address" readonly class="w-full max-w-lg text-center text-xl md:text-2xl p-4 border-2 border-dashed border-gray-300 rounded-xl focus:outline-none bg-gray-50 font-mono text-blue-700 font-bold transition-all" value="Generating...">
+            </div>
+            <div class="flex flex-wrap justify-center gap-3 md:gap-4">
+                <button onclick="copyEmail()" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition shadow-md flex items-center gap-2 font-medium active:scale-95">
+                    <i class="fa-regular fa-copy"></i> Copy Email
+                </button>
+                <button onclick="generateNewEmail()" class="bg-slate-100 text-slate-700 px-8 py-3 rounded-lg hover:bg-slate-200 transition shadow-sm border border-slate-200 flex items-center gap-2 font-medium active:scale-95">
+                    <i class="fa-solid fa-arrows-rotate"></i> Change
+                </button>
+            </div>
+            <p id="copy-msg" class="text-emerald-600 text-sm mt-4 font-bold hidden transition-all duration-300">
+                <i class="fa-solid fa-circle-check"></i> Email copied successfully!
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div class="bg-slate-800 text-white p-5 flex justify-between items-center">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-inbox text-blue-400"></i> Live Inbox
+                    <span id="mail-count" class="bg-blue-500 text-xs px-2 py-0.5 rounded-full hidden">0</span>
+                </h2>
+                <div class="flex items-center gap-3">
+                    <div id="loading-spinner" class="loader hidden"></div>
+                    <button onclick="checkInbox()" class="text-sm bg-slate-700 px-4 py-2 rounded-lg hover:bg-slate-600 transition border border-slate-600 flex items-center gap-2 font-medium">
+                        <i class="fa-solid fa-rotate-right"></i> Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div id="inbox-content" class="p-0 min-h-[250px] bg-slate-50">
+                </div>
+        </div>
+
+        <div id="email-modal" class="fixed inset-0 bg-slate-900 bg-opacity-75 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+            <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[90vh] md:h-[85vh] overflow-hidden">
+                <div class="p-4 md:p-5 border-b flex justify-between items-start bg-slate-50">
+                    <div class="pr-4 flex-1">
+                        <h3 id="modal-subject" class="font-bold text-xl text-gray-900 mb-1 leading-tight">Subject</h3>
+                        <div class="text-sm text-gray-600 flex flex-col md:flex-row md:gap-4">
+                            <p><strong>From:</strong> <span id="modal-from" class="text-gray-800"></span></p>
+                            <p><strong>Date:</strong> <span id="modal-date" class="text-gray-800"></span></p>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition text-2xl">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div id="attachments-section" class="bg-blue-50 border-b border-blue-100 p-3 px-5 hidden flex-wrap gap-2 items-center">
+                    <span class="text-sm font-semibold text-blue-800 mr-2"><i class="fa-solid fa-paperclip"></i> Attachments:</span>
+                    <div id="attachments-list" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <div id="modal-body" class="flex-1 bg-white relative">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://www.1secmail.com/api/v1/';
+        let currentEmail = '';
+        let currentLogin = '';
+        let currentDomain = '';
+        let checkInterval;
+
+        document.addEventListener('DOMContentLoaded', generateNewEmail);
+
+        // 1. Generate Email securely
+        async function generateNewEmail() {
+            clearInterval(checkInterval);
+            const emailInput = document.getElementById('email-address');
+            const inbox = document.getElementById('inbox-content');
+            
+            emailInput.value = 'Generating...';
+            document.getElementById('mail-count').classList.add('hidden');
+            
+            inbox.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-64 text-gray-400">
+                    <i class="fa-solid fa-server fa-spin text-4xl mb-4 text-blue-400"></i>
+                    <p class="font-medium">Connecting to secure server...</p>
+                </div>`;
+            
+            try {
+                const response = await fetch(`${API_BASE}?action=genRandomMailbox&count=1`);
+                if (!response.ok) throw new Error('API down');
+                
+                const data = await response.json();
+                currentEmail = data[0];
+                const parts = currentEmail.split('@');
+                currentLogin = parts[0];
+                currentDomain = parts[1];
+                
+                emailInput.value = currentEmail;
+                checkInbox(); 
+                
+                // Set refresh interval to 7 seconds for faster updates
+                checkInterval = setInterval(checkInbox, 7000);
+            } catch (error) {
+                emailInput.value = 'Network Error. Click Change.';
+                inbox.innerHTML = '<p class="text-center text-red-500 mt-10 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Failed to connect. Please check your internet.</p>';
+            }
+        }
+
+        // 2. Modern Copy to Clipboard (Bug Fixed)
+        async function copyEmail() {
+            const emailValue = document.getElementById('email-address').value;
+            if(emailValue === 'Generating...' || emailValue.includes('Error')) return;
+            
+            try {
+                // Modern approach
+                await navigator.clipboard.writeText(emailValue);
+                showCopySuccess();
+            } catch (err) {
+                // Fallback for older browsers
+                const emailInput = document.getElementById('email-address');
+                emailInput.select();
+                document.execCommand('copy');
+                showCopySuccess();
+            }
+        }
+
+        function showCopySuccess() {
+            const msg = document.getElementById('copy-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 2500);
+        }
+
+        // 3. Fetch Inbox
+        async function checkInbox() {
+            if (!currentLogin || !currentDomain) return;
+            
+            const spinner = document.getElementById('loading-spinner');
+            spinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${API_BASE}?action=getMessages&login=${currentLogin}&domain=${currentDomain}`);
+                if (!response.ok) return;
+                
+                const messages = await response.json();
+                
+                // Update Badge Count
+                const countBadge = document.getElementById('mail-count');
+                if(messages.length > 0) {
+                    countBadge.innerText = messages.length;
+                    countBadge.classList.remove('hidden');
+                } else {
+                    countBadge.classList.add('hidden');
+                }
+
+                renderInbox(messages);
+            } catch (error) {
+                console.error('Fetch error:', error);
+            } finally {
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // 4. Render Inbox List
+        function renderInbox(messages) {
+            const inbox = document.getElementById('inbox-content');
+            
+            if (messages.length === 0) {
+                inbox.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-64 text-gray-400">
+                        <div class="bg-gray-100 p-6 rounded-full mb-4">
+                            <i class="fa-regular fa-envelope-open text-5xl text-gray-300"></i>
+                        </div>
+                        <p class="font-medium text-lg text-gray-500">Your inbox is empty</p>
+                        <p class="text-sm mt-1 text-gray-400">Waiting for incoming emails (Auto-refreshing)</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '<ul class="divide-y divide-gray-200">';
+            messages.forEach(msg => {
+                const safeFrom = msg.from.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const safeSubject = (msg.subject || '(No Subject)').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                
+                html += `
+                    <li class="p-4 hover:bg-blue-50 bg-white cursor-pointer transition-colors flex flex-col sm:flex-row justify-between sm:items-center gap-3 group" onclick="readEmail(${msg.id})">
+                        <div class="flex items-center gap-4 flex-1 min-w-0">
+                            <div class="bg-blue-100 text-blue-600 rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-base font-bold text-gray-900 truncate">${safeFrom}</p>
+                                <p class="text-sm text-gray-600 truncate">${safeSubject}</p>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500 whitespace-nowrap bg-gray-100 px-3 py-1.5 rounded-md font-medium">
+                            ${new Date(msg.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        </div>
+                    </li>`;
+            });
+            html += '</ul>';
+            inbox.innerHTML = html;
+        }
+
+        // 5. Read Email (Bug Fixed: Attachments & Link Clicks added)
+        async function readEmail(id) {
+            const modal = document.getElementById('email-modal');
+            const bodyDiv = document.getElementById('modal-body');
+            const attachmentsSec = document.getElementById('attachments-section');
+            const attachmentsList = document.getElementById('attachments-list');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            attachmentsSec.classList.add('hidden'); // Hide by default
+            
+            bodyDiv.innerHTML = `
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-white z-10">
+                    <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500 mb-3"></i>
+                    <p class="text-gray-500 font-medium">Loading message content...</p>
+                </div>`;
+
+            try {
+                const response = await fetch(`${API_BASE}?action=readMessage&login=${currentLogin}&domain=${currentDomain}&id=${id}`);
+                const data = await response.json();
+
+                document.getElementById('modal-subject').innerText = data.subject || '(No Subject)';
+                document.getElementById('modal-from').innerText = data.from;
+                document.getElementById('modal-date').innerText = new Date(data.date).toLocaleString();
+                
+                // Handle Attachments (New Feature)
+                if (data.attachments && data.attachments.length > 0) {
+                    attachmentsSec.classList.remove('hidden');
+                    attachmentsSec.classList.add('flex');
+                    attachmentsList.innerHTML = '';
+                    
+                    data.attachments.forEach(file => {
+                        const downloadUrl = `${API_BASE}?action=download&login=${currentLogin}&domain=${currentDomain}&id=${id}&file=${file.filename}`;
+                        attachmentsList.innerHTML += `
+                            <a href="${downloadUrl}" target="_blank" class="text-xs bg-white border border-blue-200 text-blue-700 px-3 py-1.5 rounded hover:bg-blue-50 transition flex items-center gap-1 shadow-sm">
+                                <i class="fa-solid fa-download"></i> ${file.filename}
+                            </a>`;
+                    });
+                }
+
+                const emailContent = data.htmlBody || `<div style="font-family: sans-serif; white-space: pre-wrap; padding: 20px; color: #1f2937;">${data.textBody.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>`;
+                
+                // SECURE IFRAME (Bug Fixed: allow-popups added so verification links can be clicked)
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.position = 'absolute';
+                iframe.style.top = '0';
+                iframe.style.left = '0';
+                iframe.style.border = 'none';
+                
+                // Crucial fix: allow links to open in new tabs, but keep scripts blocked!
+                iframe.sandbox = 'allow-popups allow-popups-to-escape-sandbox allow-same-origin'; 
+                
+                iframe.srcdoc = emailContent; 
+                
+                bodyDiv.innerHTML = '';
+                bodyDiv.appendChild(iframe);
+
+            } catch (error) {
+                bodyDiv.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-red-500 p-6 text-center">
+                        <i class="fa-solid fa-triangle-exclamation text-5xl mb-3"></i>
+                        <p class="font-bold">Failed to load email.</p>
+                        <p class="text-sm mt-1 text-gray-500">The server might be busy, close this and try again.</p>
+                    </div>`;
+            }
+        }
+
+        // 6. Close Modal
+        function closeModal() {
+            const modal = document.getElementById('email-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('modal-body').innerHTML = ''; 
+        }
+
+        // Close on background click
+        document.getElementById('email-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
+</body>
+</html>
