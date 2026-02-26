@@ -1,238 +1,506 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arya Mails - Premium Temporary Email</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: {
-                    colors: {
-                        darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
-                        brand: '#22d3ee', brandbg: 'rgba(34, 211, 238, 0.1)',
-                        primary: '#4f46e5', secondary: '#9333ea'
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'], }
-                } 
-            } 
-        }
-    </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Premium Landing Page Section</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; scroll-behavior: smooth; }
-        
-        @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
-        .color-shift { animation: hue-shift 8s infinite linear; }
-        .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
-        .spin-slow { animation: spin 2s linear infinite; }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
-        .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
+        /* --- Base & Variables --- */
+        :root {
+            --bg-color: #fafbfc;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary-blue: #3b82f6;
+            --primary-purple: #8b5cf6;
+            --gradient-text: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            --gradient-bg: linear-gradient(135deg, #4f46e5, #9333ea);
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
 
-        .stat-update { animation: highlight-stat 1s ease-out; }
-        @keyframes highlight-stat { 0% { color: #22d3ee; transform: scale(1.05); } 100% { color: inherit; transform: scale(1); } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            margin-top: 80px;
+        }
+
+        .section-tag {
+            color: var(--primary-blue);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: #eff6ff;
+            color: var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- How It Works Section --- */
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 30px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-bg);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .step-card .icon-box {
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            background: #f3e8ff;
+            color: var(--primary-purple);
+        }
+
+        /* --- FAQ Section --- */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            color: var(--text-muted);
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 20px;
+            max-height: 200px; /* Adjust if answer is very long */
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* --- CTA Section --- */
+        .cta-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 60px 20px;
+            text-align: center;
+            margin: 80px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-bg);
+            color: white;
+            margin-right: 15px;
+        }
         
-        .gradient-text { background: linear-gradient(135deg, #4f46e5, #9333ea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .dark .gradient-text { background: linear-gradient(135deg, #22d3ee, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary:hover {
+            opacity: 0.9;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: #f3f4f6;
+        }
+
+        /* --- Footer & Telegram Banner --- */
+        .footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0 20px;
+            margin-top: 60px;
+        }
+
+        .telegram-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 20px 30px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--primary-blue);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .footer-col:first-child {
+                grid-column: 1 / -1;
+            }
+            .telegram-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .btn-primary { margin-right: 0; margin-bottom: 10px; width: 100%; justify-content: center;}
+            .btn-outline { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen">
+<body>
 
-    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
-
-    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                <div class="color-shift w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-cyan-500 dark:to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
-                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Arya<span class="text-indigo-600 dark:text-brand color-shift"> Mails</span></span>
+    <section id="features" class="container">
+        <div class="section-header">
+            <div class="section-tag">Features</div>
+            <h2 class="section-title">Everything You Need for <span class="gradient-text">Email Privacy</span></h2>
+            <p class="section-subtitle">Our comprehensive suite of features keeps your real email address safe.</p>
+        </div>
+        <div class="features-grid">
+            <div class="card">
+                <div class="icon-box">✉️</div>
+                <h3 class="card-title">Instant Temp Email</h3>
+                <p class="card-text">Generate a disposable email address instantly.</p>
             </div>
-            
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-brandbg text-indigo-700 dark:text-brand text-xs font-semibold border border-indigo-200 dark:border-cyan-500/30 color-shift">
-                    <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
-                </div>
-                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer relative z-50">
-                    <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
-                </button>
+            <div class="card">
+                <div class="icon-box">🛡️</div>
+                <h3 class="card-title">Complete Privacy</h3>
+                <p class="card-text">Your identity stays protected from spam and trackers.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">⏱️</div>
+                <h3 class="card-title">Auto-Expiring</h3>
+                <p class="card-text">Emails automatically expire after your chosen duration.</p>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <div class="max-w-5xl mx-auto px-4 mt-8 mb-12" id="generator-top">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-cyan-500 dark:to-blue-600 color-shift"></div>
-            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
-            
-            <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-indigo-500 dark:focus:border-cyan-500" value="Generating...">
-                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
-                    <i class="fa-solid fa-circle-notch spin-slow text-3xl text-indigo-600 dark:text-brand color-shift"></i>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-3 relative z-10">
-                <button onclick="copyEmail()" class="color-shift bg-indigo-600 dark:bg-cyan-600 hover:bg-indigo-700 dark:hover:bg-cyan-500 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer">
-                    <i class="fa-regular fa-copy"></i> Copy Address
-                </button>
-                <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
-                    <i class="fa-solid fa-arrows-rotate"></i> Change Email
-                </button>
-            </div>
-            <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
+    <section id="how-it-works" class="container">
+        <div class="section-header">
+            <div class="section-tag">How It Works</div>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Get started in seconds</p>
         </div>
-    </div>
-
-    <div class="text-center max-w-3xl mx-auto px-4 mb-6">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors">Real-time <span class="text-indigo-600 dark:text-brand color-shift">Inbox</span></h2>
-        <p class="text-slate-500 dark:text-gray-400 text-sm md:text-base transition-colors">Receive and manage your temporary emails instantly.</p>
-    </div>
-
-    <div class="max-w-5xl mx-auto px-4 mb-10">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
-            
-            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-envelope text-indigo-600 dark:text-brand color-shift text-lg"></i>
-                    <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
-                    <span id="badge-new" class="color-shift bg-indigo-100 dark:bg-brandbg text-indigo-700 dark:text-brand text-xs px-2.5 py-1 rounded-full border border-indigo-200 dark:border-cyan-500/20 font-semibold hidden">0 new</span>
-                </div>
+        <div class="how-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <div class="icon-box">📨</div>
+                <h3 class="card-title">Generate Email</h3>
+                <p class="card-text">Click generate to create a temporary email.</p>
             </div>
-
-            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
-                <div class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500 dark:text-gray-500"></i> Auto-Sync</div>
-                
-                <button onclick="changeRefreshInterval()" class="color-shift bg-indigo-50 dark:bg-brandbg border border-indigo-200 dark:border-cyan-500/30 text-indigo-700 dark:text-brand px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:bg-indigo-100 dark:hover:bg-cyan-900/40 transition active:scale-95 cursor-pointer">
-                    <i id="interval-icon" class="fa-solid fa-rotate-right"></i> <span id="interval-text">10s</span>
-                </button>
-                
-                <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
-                </div>
-                
-                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-white transition ml-2 active:scale-95 cursor-pointer p-1">
-                    <i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span>
-                </button>
-                
-                <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer">
-                    <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
-                </button>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <div class="icon-box">📋</div>
+                <h3 class="card-title">Use Anywhere</h3>
+                <p class="card-text">Copy and use for signups or verifications.</p>
             </div>
-
-            <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
-                <div class="flex gap-6">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-filter"></i> All Emails</span>
-                </div>
-                <div id="total-emails" class="font-bold text-slate-800 dark:text-white">0 emails</div>
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <div class="icon-box">📥</div>
+                <h3 class="card-title">Receive Emails</h3>
+                <p class="card-text">All emails appear instantly in your inbox.</p>
             </div>
-            
-            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] transition-colors relative"></div>
         </div>
-    </div>
+    </section>
 
-    <div class="max-w-5xl mx-auto px-4 mb-20">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
-            
-            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
-                <div class="flex items-center gap-2.5 mb-6">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
-                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats <span class="text-emerald-500 lowercase font-medium ml-1">(updating)</span></h3>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-cyan-500/10 text-indigo-600 dark:text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
-                        <div>
-                            <div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">819</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
-                        <div>
-                            <div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">382</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
-                        <div>
-                            <div id="stat-generated" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">296.5K</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
-                        <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
-                        </div>
+    <section id="faq" class="container">
+        <div class="section-header">
+            <div class="section-tag">FAQ</div>
+            <h2 class="section-title">Frequently <span class="gradient-text">Asked Questions</span></h2>
+            <p class="section-subtitle">Everything you need to know</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What is a temporary email? <span class="arrow">▼</span></div>
+                <div class="faq-answer"><br>A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How long does it last? <span class="arrow">▼</span></div>
+                <div class="faq-answer"><br>By default, emails last for a few hours, but you can extend the time or delete it manually whenever you want.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="cta-section">
+            <h2 class="section-title">Ready to Protect Your <span class="gradient-text">Privacy?</span></h2>
+            <p class="section-subtitle" style="margin-bottom: 30px;">Join millions of users who trust our service.</p>
+            <div>
+                <a href="#" class="btn btn-primary">Generate Free Email →</a>
+                <a href="#" class="btn btn-outline">View Pricing</a>
+            </div>
+            <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">No credit card required.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="telegram-banner">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="icon-box" style="margin: 0; width: 40px; height: 40px;">✈️</div>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">Join our Telegram</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Get updates & announcements</p>
                     </div>
                 </div>
+                <a href="#" class="btn" style="background: #0ea5e9; color: white;">✈️ Join Now</a>
             </div>
-            
-            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors">
-                <div class="flex items-center gap-2.5 mb-6">
-                    <i class="fa-regular fa-lightbulb text-indigo-600 dark:text-brand color-shift text-lg"></i>
-                    <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
+
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #4f46e5; margin-bottom: 15px;">N Nullsto</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Generate instant, anonymous email addresses. Perfect for sign-ups, testing, and keeping your real inbox spam-free.</p>
                 </div>
-                <ul class="space-y-5 text-xs text-slate-600 dark:text-gray-300 font-medium">
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-indigo-50 dark:bg-brandbg text-indigo-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-indigo-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">1</span>
-                        <span class="leading-relaxed">Use temp emails for online signups to avoid spam.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-indigo-50 dark:bg-brandbg text-indigo-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-indigo-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">2</span>
-                        <span class="leading-relaxed">OTPs are now auto-highlighted in green directly in your inbox.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-indigo-50 dark:bg-brandbg text-indigo-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-indigo-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">3</span>
-                        <span class="leading-relaxed">Turn on Sound Notifications to get instant alerts.</span>
-                    </li>
-                </ul>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">How It Works</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Nullsto. All rights reserved.</p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy</a>
+                    <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms</a>
+                </div>
             </div>
         </div>
-    </div>
+    </footer>
 
-    <div class="max-w-5xl mx-auto px-4 mt-20 mb-20 text-center">
-        <h3 class="text-xs font-bold text-indigo-500 dark:text-gray-400 uppercase tracking-widest mb-3">FEATURES</h3>
-        <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Everything You Need for <span class="gradient-text color-shift">Email Privacy</span></h2>
-        <p class="text-slate-500 dark:text-gray-400 max-w-2xl mx-auto mb-12">Our comprehensive suite of features keeps your real email address safe from spam, hackers, and promotional emails.</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
-            <div class="bg-white dark:bg-darkpanel p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm hover:shadow-xl transition duration-300">
-                <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-cyan-500/10 text-indigo-600 dark:text-cyan-400 flex items-center justify-center text-xl mb-6 border border-indigo-100 dark:border-cyan-500/20"><i class="fa-regular fa-envelope"></i></div>
-                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Instant Temp Email</h4>
-                <p class="text-sm text-slate-500 dark:text-gray-400">Generate a disposable email address instantly with one click. No registration required.</p>
-            </div>
-            <div class="bg-white dark:bg-darkpanel p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm hover:shadow-xl transition duration-300">
-                <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-cyan-500/10 text-indigo-600 dark:text-cyan-400 flex items-center justify-center text-xl mb-6 border border-indigo-100 dark:border-cyan-500/20"><i class="fa-solid fa-shield-halved"></i></div>
-                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Complete Privacy</h4>
-                <p class="text-sm text-slate-500 dark:text-gray-400">Your identity stays completely protected. We do not track or save your personal data.</p>
-            </div>
-            <div class="bg-white dark:bg-darkpanel p-8 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm hover:shadow-xl transition duration-300">
-                <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-cyan-500/10 text-indigo-600 dark:text-cyan-400 flex items-center justify-center text-xl mb-6 border border-indigo-100 dark:border-cyan-500/20"><i class="fa-regular fa-clock"></i></div>
-                <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Auto-Expiring</h4>
-                <p class="text-sm text-slate-500 dark:text-gray-400">Emails and attachments automatically expire and get permanently deleted for your safety.</p>
-            </div>
-        </div>
-    </div>
+    <script>
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                
+                // Close all other open items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
 
-    <div class="max-w-5xl mx-auto px-4 mt-24 mb-20 text-center">
-        <h3 class="text-xs font-bold text-indigo-500 dark:text-gray-400 uppercase tracking-widest mb-3">HOW IT WORKS</h3>
-        <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">How It Works</h2>
-        <p class="text-slate-500 dark:text-gray-400 mb-16">Get started in seconds</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div class="bg-white dark:bg-darkpanel p-8 pt-10 rounded-2xl border border-slate-200 dark:border-darkborder shadow-sm relative">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-indigo-500 to-purple-600 dark:fro
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
