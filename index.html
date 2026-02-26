@@ -278,4 +278,265 @@
                 icon.classList.replace('fa-moon', 'fa-sun');
                 icon.classList.replace('text-yellow-400', 'text-slate-600');
             } else {
-                html.class
+                html.classList.add('dark'); 
+                icon.classList.replace('fa-sun', 'fa-moon');
+                icon.classList.replace('text-slate-600', 'text-yellow-400');
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                icon.classList.replace('text-yellow-400', 'text-slate-600');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+                icon.classList.replace('text-slate-600', 'text-yellow-400');
+            }
+        }
+
+        function toggleAudio() {
+            let icon = document.getElementById('notif-icon');
+            let text = document.getElementById('notif-text');
+            
+            if(!soundOn) {
+                soundOn = true;
+                document.getElementById('notification-sound').play().then(() => {
+                    document.getElementById('notification-sound').pause();
+                }).catch(e=>{});
+                
+                icon.classList.replace('fa-regular', 'fa-solid');
+                icon.classList.add('text-cyan-600', 'dark:text-brand', 'color-shift'); 
+                text.classList.add('text-cyan-600', 'dark:text-brand', 'color-shift');
+                text.innerText = "Sound On";
+            } else {
+                soundOn = false;
+                icon.classList.replace('fa-solid', 'fa-regular');
+                icon.classList.remove('text-cyan-600', 'dark:text-brand', 'color-shift'); 
+                text.classList.remove('text-cyan-600', 'dark:text-brand', 'color-shift');
+                text.innerText = "Sound Off";
+            }
+        }
+
+        function changeRefreshInterval() {
+            let arr = [10, 30, 50];
+            refreshSec = arr[(arr.indexOf(refreshSec) + 1) % arr.length];
+            document.getElementById('interval-text').innerText = refreshSec + 's';
+            if(document.getElementById('auto-time')) {
+                document.getElementById('auto-time').innerText = refreshSec;
+            }
+            if(syncTimer) {
+                clearInterval(syncTimer);
+                syncTimer = setInterval(checkMails, refreshSec * 1000);
+            }
+        }
+
+        function manualFetch() {
+            let btn = document.getElementById('fetch-icon');
+            btn.classList.add('fa-spin'); 
+            checkMails().finally(() => setTimeout(() => btn.classList.remove('fa-spin'), 500));
+        }
+
+        function copyEmail() {
+            let val = document.getElementById('email-address').value;
+            if(!val || val.includes('Generating')) return;
+            navigator.clipboard.writeText(val).then(() => {
+                let m = document.getElementById('copy-msg');
+                m.classList.remove('opacity-0');
+                setTimeout(() => m.classList.add('opacity-0'), 2000);
+            });
+        }
+
+        // ================== API LOGIC ==================
+        function forceNewAccount() {
+            localStorage.removeItem('mt_token');
+            localStorage.removeItem('mt_email');
+            token = null; address = null;
+            generateNewEmail();
+        }
+
+        async function generateNewEmail() {
+            if(syncTimer) clearInterval(syncTimer);
+            lastMailId = null;
+            let input = document.getElementById('email-address');
+            let overlay = document.getElementById('loading-overlay');
+            
+            overlay.classList.remove('hidden');
+            input.value = 'Generating...';
+            renderEmpty();
+
+            try {
+                let domRes = await fetch(`${API}/domains`);
+                let domData = await domRes.json();
+                let domainName = domData['hydra:member'][0].domain;
+
+                let randomStr = Math.random().toString(36).substring(2, 12);
+                let newAddress = `${randomStr}@${domainName}`;
+                let newPassword = 'PWD_' + Math.random().toString(36); 
+
+                await fetch(`${API}/accounts`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                let tokRes = await fetch(`${API}/token`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+                let tokData = await tokRes.json();
+                
+                token = tokData.token;
+                address = newAddress;
+                localStorage.setItem('mt_token', token);
+                localStorage.setItem('mt_email', address);
+
+                input.value = address;
+                overlay.classList.add('hidden');
+                startInboxSync();
+            } catch (err) {
+                overlay.classList.add('hidden');
+                input.value = 'Network Error. Change Email.';
+            }
+        }
+
+        function startInboxSync() {
+            checkMails(); 
+            if(syncTimer) clearInterval(syncTimer);
+            syncTimer = setInterval(checkMails, refreshSec * 1000);
+        }
+
+        // NEW: OTP Detection Engine
+        function extractOTP(text) {
+            if(!text) return null;
+            // Looks for standard 4 to 8 digit OTP numbers
+            const match = text.match(/\b\d{4,8}\b/);
+            return match ? match[0] : null;
+        }
+
+        async function checkMails() {
+            if (!token) return;
+            try {
+                let res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (res.status === 401 || res.status === 403) { forceNewAccount(); return; }
+                if(!res.ok) return;
+                
+                let data = await res.json();
+                let msgs = data['hydra:member'] || [];
+                
+                document.getElementById('total-emails').innerText = `${msgs.length} emails`;
+                
+                if (msgs.length > 0) {
+                    let topId = msgs[0].id;
+                    if (lastMailId !== null && topId !== lastMailId && soundOn) {
+                        let audio = document.getElementById('notification-sound');
+                        audio.currentTime = 0; audio.play().catch(e=>{});
+                    }
+                    lastMailId = topId;
+                    
+                    document.getElementById('badge-new').innerText = `${msgs.length} new`;
+                    document.getElementById('badge-new').classList.remove('hidden');
+                    renderList(msgs);
+                } else {
+                    document.getElementById('badge-new').classList.add('hidden');
+                    renderEmpty();
+                }
+            } catch (err) {} 
+        }
+
+        // ================== RENDERING ==================
+        function renderEmpty() {
+            document.getElementById('inbox-content').innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full p-16">
+                    <div class="text-slate-300 dark:text-gray-500 text-6xl mb-4 transition-colors"><i class="fa-solid fa-inbox"></i></div>
+                    <h3 class="text-slate-800 dark:text-white font-bold text-lg mb-2 transition-colors">No emails yet</h3>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm mb-4 transition-colors">Waiting for incoming messages...</p>
+                    <div class="flex justify-center mb-3">
+                        <span class="color-shift text-cyan-700 dark:text-brand text-xs font-semibold flex items-center gap-1.5 bg-cyan-50 dark:bg-brandbg px-3 py-1 rounded border border-cyan-200 dark:border-cyan-500/20 transition-colors">
+                            <i class="fa-solid fa-key"></i> Token-secured access
+                        </span>
+                    </div>
+                    <p class="text-slate-400 dark:text-gray-500 text-xs transition-colors">Auto-checking every <span id="auto-time">${refreshSec}</span> seconds...</p>
+                </div>`;
+        }
+
+        function renderList(msgs) {
+            let html = '<ul class="divide-y divide-slate-100 dark:divide-darkborder">';
+            msgs.forEach(m => {
+                // OTP Highlight Logic
+                let textToSearch = (m.subject || '') + " " + (m.intro || '');
+                let otp = extractOTP(textToSearch);
+                let otpBadge = otp ? `<span class="ml-3 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-md text-xs font-extrabold tracking-widest shadow-sm inline-flex items-center gap-1"><i class="fa-solid fa-key text-[10px]"></i> ${otp}</span>` : '';
+
+                html += `
+                    <li class="p-4 md:p-5 hover:bg-slate-50 dark:hover:bg-darkborder/30 cursor-pointer flex items-center gap-4 transition-colors" onclick="openMail('${m.id}')">
+                        <div class="color-shift bg-cyan-100 dark:bg-brandbg text-cyan-700 dark:text-brand rounded-full w-12 h-12 flex items-center justify-center font-bold border border-cyan-200 dark:border-cyan-500/20 transition-colors text-lg">
+                            ${m.from?.address?.charAt(0).toUpperCase() || 'M'}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-baseline mb-1">
+                                <p class="font-bold text-slate-800 dark:text-gray-100 truncate pr-4 transition-colors">${m.from?.address || 'Unknown'}</p>
+                                <span class="text-xs text-slate-500 dark:text-gray-400 bg-slate-100 dark:bg-darkbg px-2 py-1 rounded border border-slate-200 dark:border-darkborder font-medium transition-colors">${new Date(m.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                            </div>
+                            <div class="flex items-center">
+                                <p class="text-sm text-slate-600 dark:text-gray-400 truncate transition-colors font-medium">${m.subject || '(No Subject)'}</p>
+                                ${otpBadge}
+                            </div>
+                        </div>
+                    </li>`;
+            });
+            html += '</ul>';
+            document.getElementById('inbox-content').innerHTML = html;
+        }
+
+        // ================== MAIL READING ==================
+        async function openMail(id) {
+            let mod = document.getElementById('email-modal');
+            let bod = document.getElementById('modal-body');
+            mod.classList.remove('hidden'); mod.classList.add('flex');
+            bod.innerHTML = `<div class="absolute inset-0 flex items-center justify-center bg-white"><i class="color-shift fa-solid fa-circle-notch spin-slow text-3xl text-cyan-600 dark:text-brand"></i></div>`;
+
+            try {
+                let res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                let data = await res.json();
+                currentMail = data;
+                
+                // Show OTP in modal title if available
+                let otp = extractOTP((data.subject || '') + " " + (data.text || ''));
+                let titleOtp = otp ? ` <span class="bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm px-2 py-0.5 rounded border border-emerald-500/30 ml-2">OTP: ${otp}</span>` : '';
+                
+                document.getElementById('modal-subject').innerHTML = (data.subject || '(No Subject)') + titleOtp;
+                document.getElementById('modal-from').innerText = data.from?.address || 'Unknown';
+
+                let content = data.html ? data.html.join('') : `<div style="padding:20px; font-family:sans-serif; color:#333;">${data.text}</div>`;
+                let frame = document.createElement('iframe');
+                frame.style.width = '100%'; frame.style.height = '100%'; frame.style.border = 'none';
+                frame.sandbox = 'allow-popups allow-popups-to-escape-sandbox allow-same-origin'; 
+                frame.srcdoc = content;
+                bod.innerHTML = ''; bod.appendChild(frame);
+            } catch (err) { bod.innerHTML = `<p class="text-center text-red-500 mt-10 font-bold">Error loading email.</p>`; }
+        }
+
+        function downloadMail() {
+            if (!currentMail) return;
+            let c = currentMail.html ? currentMail.html.join('') : currentMail.text;
+            let b = new Blob([c], { type: 'text/html' });
+            let u = URL.createObjectURL(b);
+            let a = document.createElement('a');
+            a.href = u; a.download = 'email.html';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u);
+        }
+
+        function closeModal() {
+            document.getElementById('email-modal').classList.add('hidden');
+            document.getElementById('email-modal').classList.remove('flex');
+            document.getElementById('modal-body').innerHTML = ''; currentMail = null;
+        }
+    </script>
+</body>
+</html>
+
