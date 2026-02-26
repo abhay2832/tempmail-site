@@ -1,164 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aryan Mail – Disposable Email</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disposable Temporary Email</title>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-
+<style>
+body{font-family:Inter,system-ui}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+
+<body class="bg-slate-50 text-slate-800">
 
 <!-- NAVBAR -->
-<header class="bg-white shadow-sm">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-
-    <!-- ✅ EDITED LOGO -->
-    <div class="flex items-center gap-3 font-bold text-xl">
-      <div class="w-9 h-9 rounded-full bg-cyan-600 flex items-center justify-center text-white">
-        <i class="fa-solid fa-envelope"></i>
-      </div>
-      Aryan <span class="text-cyan-600">Mail</span>
-    </div>
-
-    <div class="hidden md:flex gap-6 text-sm">
-      <a href="#features" class="hover:text-cyan-600">Features</a>
-      <a href="#how" class="hover:text-cyan-600">How It Works</a>
-      <a href="#faq" class="hover:text-cyan-600">FAQ</a>
-    </div>
-
-    <button class="bg-cyan-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-cyan-700">
-      Get Started
-    </button>
-  </div>
+<header class="bg-white border-b sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+<div class="flex items-center gap-2 font-bold text-lg">
+<div class="w-8 h-8 rounded bg-indigo-600 text-white flex items-center justify-center">A</div>
+Aryan Mail
+</div>
+<nav class="hidden md:flex gap-6 text-sm">
+<a href="#">Features</a>
+<a href="#">Pricing</a>
+<a href="#">Blog</a>
+<a href="#">Contact</a>
+</nav>
+<div class="flex gap-3">
+<button class="text-sm">Sign In</button>
+<button class="bg-indigo-600 text-white px-4 py-1.5 rounded">Get Started</button>
+</div>
+</div>
 </header>
 
 <!-- HERO -->
-<section class="text-center py-16 px-6">
-  <h1 class="text-4xl font-bold mb-4">
-    Protect Your Privacy with <span class="text-cyan-600">Disposable Email</span>
-  </h1>
-  <p class="text-gray-600 max-w-xl mx-auto">
-    Generate instant, anonymous temporary email addresses. No registration required.
-  </p>
+<section class="max-w-5xl mx-auto px-4 mt-12 text-center">
+<span class="inline-block mb-4 px-3 py-1 text-xs bg-indigo-100 text-indigo-600 rounded-full">
+Trusted by 1M+ users worldwide
+</span>
+
+<h1 class="text-3xl md:text-4xl font-extrabold">
+Protect Your Privacy with
+<span class="text-indigo-600">Disposable Email</span>
+</h1>
+
+<p class="mt-3 text-slate-500">
+Generate instant, secure temporary email addresses.<br>No registration required.
+</p>
+
+<div class="mt-6 flex justify-center gap-3 text-sm">
+<span class="px-3 py-1 bg-slate-100 rounded">⚡ Instant</span>
+<span class="px-3 py-1 bg-slate-100 rounded">🛡 100% Anonymous</span>
+<span class="px-3 py-1 bg-slate-100 rounded">⏱ Auto Expiring</span>
+</div>
 </section>
 
-<!-- EMAIL BOX -->
-<section class="max-w-3xl mx-auto bg-white rounded-xl shadow p-6 text-center">
-  <p class="text-sm text-gray-500 mb-3">Your Temporary Email Address</p>
+<!-- EMAIL GENERATOR -->
+<section class="max-w-4xl mx-auto px-4 mt-10">
+<div class="bg-white rounded-xl shadow p-6 text-center border">
 
-  <div id="emailBox" class="bg-gray-100 p-4 rounded-lg text-lg font-mono">
-    creating@email.com
-  </div>
+<p class="text-xs text-slate-400 mb-2">
+By using this service you agree to our Terms & Privacy Policy
+</p>
 
-  <div class="flex justify-center gap-3 mt-5 flex-wrap">
-    <button onclick="copyEmail()" class="px-4 py-2 bg-cyan-600 text-white rounded-lg">
-      <i class="fa-solid fa-copy"></i> Copy
-    </button>
-    <button onclick="generateEmail()" class="px-4 py-2 border rounded-lg">
-      <i class="fa-solid fa-rotate"></i> New Email
-    </button>
-  </div>
+<p class="text-sm font-semibold mb-2">Your Temporary Email Address</p>
+
+<input id="emailBox" readonly
+class="w-full text-center bg-slate-100 p-4 rounded font-mono text-lg mb-4"
+value="Creating your email...">
+
+<div class="flex flex-wrap justify-center gap-3">
+<button onclick="copyEmail()" class="bg-indigo-600 text-white px-4 py-2 rounded">
+<i class="fa-regular fa-copy"></i> Copy
+</button>
+<button onclick="newAccount()" class="border px-4 py-2 rounded">
+<i class="fa-solid fa-rotate"></i> New Email
+</button>
+<button onclick="toggleSound()" class="border px-4 py-2 rounded">
+<i class="fa-solid fa-volume-high"></i> Sound
+</button>
+</div>
+
+<p id="copyMsg" class="text-green-500 text-sm mt-2 hidden">Copied!</p>
+</div>
 </section>
 
 <!-- INBOX -->
-<section class="max-w-4xl mx-auto mt-16 px-6">
-  <h2 class="text-2xl font-bold text-center mb-4">Real-time Inbox</h2>
-  <div class="bg-white rounded-xl shadow p-6 text-center text-gray-500">
-    Loading inbox...
-  </div>
+<section class="max-w-5xl mx-auto px-4 mt-14">
+<h2 class="text-2xl font-bold text-center">
+Real-time <span class="text-indigo-600">Inbox</span>
+</h2>
+<p class="text-center text-slate-500 text-sm mt-1">
+Receive and manage your temporary emails instantly.
+</p>
+
+<div class="mt-6 bg-white rounded-xl border shadow overflow-hidden">
+
+<div class="px-4 py-3 border-b flex justify-between items-center text-sm">
+<div class="flex gap-3 items-center">
+<span>⚡ Fast</span>
+<span id="timer">⟳ 10s</span>
+<span class="text-green-600">● Live</span>
+<span>🔒 Encrypted</span>
+</div>
+<button onclick="fetchMails()" class="border px-3 py-1.5 rounded">
+📩 Fetch Emails
+</button>
+</div>
+
+<div id="inbox" class="min-h-[250px] flex items-center justify-center text-slate-400">
+Loading inbox...
+</div>
+
+</div>
 </section>
 
-<!-- FEATURES -->
-<section id="features" class="py-20 px-6">
-  <h2 class="text-3xl font-bold text-center mb-12">Everything You Need for Email Privacy</h2>
+<!-- STATS -->
+<section class="max-w-5xl mx-auto px-4 mt-14">
+<div class="bg-white rounded-xl shadow border p-6 grid md:grid-cols-2 gap-6">
 
-  <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-    <div class="bg-white p-6 rounded-xl shadow text-center">
-      <i class="fa-solid fa-bolt text-cyan-600 text-3xl mb-3"></i>
-      <h3 class="font-semibold">Instant Email</h3>
-      <p class="text-sm text-gray-500">Generate disposable email instantly.</p>
-    </div>
+<div>
+<p class="text-sm font-semibold mb-2">LIVE STATS</p>
+<ul class="text-sm space-y-2">
+<li>📨 Emails Today</li>
+<li>👥 Inboxes Created</li>
+<li>🌐 Domains</li>
+</ul>
+</div>
 
-    <div class="bg-white p-6 rounded-xl shadow text-center">
-      <i class="fa-solid fa-user-shield text-cyan-600 text-3xl mb-3"></i>
-      <h3 class="font-semibold">Complete Privacy</h3>
-      <p class="text-sm text-gray-500">Your identity stays anonymous.</p>
-    </div>
+<div>
+<p class="text-sm font-semibold mb-2">Quick Tips</p>
+<ol class="text-sm space-y-1 list-decimal list-inside">
+<li>Use temp emails to avoid spam</li>
+<li>Enable notifications</li>
+<li>Emails auto delete</li>
+</ol>
+</div>
 
-    <div class="bg-white p-6 rounded-xl shadow text-center">
-      <i class="fa-solid fa-clock text-cyan-600 text-3xl mb-3"></i>
-      <h3 class="font-semibold">Auto-Expiring</h3>
-      <p class="text-sm text-gray-500">Emails auto delete after time.</p>
-    </div>
-  </div>
+</div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="how" class="py-16 bg-gray-100 px-6">
-  <h2 class="text թվական font-bold text-center mb-10">How It Works</h2>
+<section class="max-w-5xl mx-auto px-4 mt-16 text-center">
+<p class="text-xs text-indigo-600 font-semibold">HOW IT WORKS</p>
+<h2 class="text-2xl font-bold mt-1">Get started in seconds</h2>
 
-  <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto text-center">
-    <div class="bg-white p-6 rounded-xl shadow">
-      <h3 class="font-bold mb-2">01</h3>
-      <p>Generate Email</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow">
-      <h3 class="font-bold mb-2">02</h3>
-      <p>Use Anywhere</p>
-    </div>
-    <div class="bg-white p-6 rounded-xl shadow">
-      <h3 class="font-bold mb-2">03</h3>
-      <p>Receive Emails</p>
-    </div>
-  </div>
+<div class="mt-8 grid md:grid-cols-3 gap-6">
+
+<div class="bg-white p-6 rounded-xl shadow border">
+<div class="text-indigo-600 text-3xl mb-3"><i class="fa-solid fa-envelope"></i></div>
+<h3 class="font-bold">Generate Email</h3>
+<p class="text-sm text-slate-500">Create a temporary email instantly.</p>
+</div>
+
+<div class="bg-white p-6 rounded-xl shadow border">
+<div class="text-indigo-600 text-3xl mb-3"><i class="fa-solid fa-copy"></i></div>
+<h3 class="font-bold">Use Anywhere</h3>
+<p class="text-sm text-slate-500">Copy and use for signups.</p>
+</div>
+
+<div class="bg-white p-6 rounded-xl shadow border">
+<div class="text-indigo-600 text-3xl mb-3"><i class="fa-solid fa-inbox"></i></div>
+<h3 class="font-bold">Receive Emails</h3>
+<p class="text-sm text-slate-500">All emails appear instantly.</p>
+</div>
+
+</div>
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="py-16 px-6">
-  <h2 class="text-3xl font-bold text-center mb-6">Frequently Asked Questions</h2>
+<section class="max-w-4xl mx-auto px-4 mt-16 mb-20">
+<h2 class="text-2xl font-bold text-center">Frequently Asked Questions</h2>
 
-  <div class="max-w-3xl mx-auto space-y-4">
-    <details class="bg-white p-4 rounded-lg shadow">
-      <summary class="font-semibold cursor-pointer">What is a temporary email?</summary>
-      <p class="text-sm text-gray-600 mt-2">
-        A disposable email used to protect your real inbox.
-      </p>
-    </details>
+<div class="mt-6 space-y-3">
+<details class="bg-white border rounded p-4">
+<summary class="font-semibold cursor-pointer">What is a temporary email?</summary>
+<p class="mt-2 text-sm text-slate-500">
+A disposable email address used to protect your real inbox.
+</p>
+</details>
 
-    <details class="bg-white p-4 rounded-lg shadow">
-      <summary class="font-semibold cursor-pointer">How long does it last?</summary>
-      <p class="text-sm text-gray-600 mt-2">
-        Emails auto expire after some time.
-      </p>
-    </details>
-  </div>
+<details class="bg-white border rounded p-4">
+<summary class="font-semibold cursor-pointer">How long does it last?</summary>
+<p class="mt-2 text-sm text-slate-500">
+Emails auto delete after inactivity.
+</p>
+</details>
+</div>
 </section>
 
-<!-- FOOTER -->
-<footer class="bg-white border-t py-6 text-center text-sm text-gray-500">
-  © 2026 Aryan Mail. All rights reserved.
-</footer>
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
+<div class="bg-white rounded-xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden">
+<div class="p-4 border-b flex justify-between">
+<div>
+<h3 id="mSub" class="font-bold"></h3>
+<p class="text-sm">From: <span id="mFrom"></span></p>
+</div>
+<button onclick="closeModal()">✖</button>
+</div>
+<div id="mBody" class="flex-1"></div>
+</div>
+</div>
 
 <!-- SCRIPT -->
 <script>
-  function generateEmail() {
-    const rand = Math.random().toString(36).substring(2, 8);
-    document.getElementById("emailBox").innerText = rand + "@aryanmail.com";
-  }
+const API="https://api.mail.tm"
+let token=localStorage.getItem("t")
+let email=localStorage.getItem("e")
+let latest=null
+let sound=true
+let timer=10
 
-  function copyEmail() {
-    const email = document.getElementById("emailBox").innerText;
-    navigator.clipboard.writeText(email);
-    alert("Email copied!");
-  }
+setInterval(()=>{
+timer--; if(timer<=0) timer=10
+document.getElementById("timer").innerText="⟳ "+timer+"s"
+},1000)
 
-  generateEmail();
+async function init(){
+if(token&&email){
+emailBox.value=email
+fetchMails()
+setInterval(fetchMails,10000)
+}else create()
+}
+
+async function create(){
+let d=await fetch(API+"/domains").then(r=>r.json())
+let dom=d["hydra:member"][0].domain
+let name=Math.random().toString(36).slice(2,10)
+email=name+"@"+dom
+let pass="123456"
+await fetch(API+"/accounts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({address:email,password:pass})})
+let t=await fetch(API+"/token",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({address:email,password:pass})}).then(r=>r.json())
+token=t.token
+localStorage.setItem("t",token)
+localStorage.setItem("e",email)
+emailBox.value=email
+fetchMails()
+setInterval(fetchMails,10000)
+}
+
+async function fetchMails(){
+let r=await fetch(API+"/messages",{headers:{Authorization:"Bearer "+token}})
+if(!r.ok) return newAccount()
+let d=await r.json()
+let m=d["hydra:member"]
+if(!m.length){inbox.innerHTML="No emails yet";return}
+if(latest&&latest!==m[0].id&&sound){
+new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3").play()
+}
+latest=m[0].id
+inbox.innerHTML=m.map(x=>`
+<div onclick="readMail('${x.id}')" class="p-4 border-b cursor-pointer hover:bg-slate-100">
+<b>${x.from.address}</b><br>
+<span class="text-sm">${x.subject||"(No Subject)"}</span>
+</div>`).join("")
+}
+
+async function readMail(id){
+modal.classList.remove("hidden")
+modal.classList.add("flex")
+let r=await fetch(API+"/messages/"+id,{headers:{Authorization:"Bearer "+token}})
+let d=await r.json()
+mSub.innerText=d.subject||"(No Subject)"
+mFrom.innerText=d.from.address
+let f=document.createElement("iframe")
+f.style.width="100%"
+f.style.height="100%"
+f.srcdoc=d.html?d.html.join(""):d.text
+mBody.innerHTML=""
+mBody.appendChild(f)
+}
+
+function closeModal(){
+modal.classList.add("hidden")
+modal.classList.remove("flex")
+}
+
+function copyEmail(){
+navigator.clipboard.writeText(email)
+copyMsg.classList.remove("hidden")
+setTimeout(()=>copyMsg.classList.add("hidden"),1500)
+}
+
+function newAccount(){
+localStorage.clear()
+location.reload()
+}
+
+function toggleSound(){sound=!sound}
+
+init()
 </script>
 
 </body>
