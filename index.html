@@ -1,200 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nullsto Clone</title>
-  <style>
-    :root {
-      --bg: #f9f9f9;
-      --text: #333;
-      --primary: #007bff;
-      --secondary: #eee;
-      --header-bg: #fff;
-    }
-    [data-theme="dark"] {
-      --bg: #121212;
-      --text: #f1f1f1;
-      --primary: #0d6efd;
-      --secondary: #333;
-      --header-bg: #1e1e1e;
-    }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    header {
-      background: var(--header-bg);
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-    }
-    header .actions button {
-      margin-left: 10px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-secondary { background: var(--secondary); color: var(--text); }
-    section {
-      padding: 60px 40px;
-      text-align: center;
-    }
-    section h2 { margin-bottom: 20px; }
-    .steps {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 30px;
-    }
-    .step {
-      background: var(--header-bg);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      width: 250px;
-    }
-    .faq {
-      max-width: 600px;
-      margin: auto;
-      text-align: left;
-    }
-    .faq-item {
-      margin-bottom: 15px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
-    }
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
-      margin-top: 30px;
-    }
-    .stat {
-      background: var(--header-bg);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      width: 200px;
-    }
-    footer {
-      background: #222;
-      color: #ccc;
-      padding: 40px;
-      text-align: center;
-    }
-    footer a { color: #ccc; margin: 0 10px; text-decoration: none; }
-    .toggle-theme {
-      background: transparent;
-      border: 1px solid var(--text);
-      color: var(--text);
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disposable Temporary Email</title>
 
-<header>
-  <div class="logo"><strong>Nullsto</strong></div>
-  <nav>
-    <a href="#">Features</a>
-    <a href="#">Pricing</a>
-    <a href="#">Blog</a>
-    <a href="#">Contact</a>
-  </nav>
-  <div class="actions">
-    <button class="toggle-theme">🌙</button>
-    <button class="btn-secondary">Sign In</button>
-    <button class="btn-primary">Get Started</button>
-  </div>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{font-family:Inter,system-ui}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+<!-- NAVBAR -->
+<header class="bg-white border-b sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+<div class="flex items-center gap-2 font-bold text-lg">
+<div class="w-8 h-8 rounded bg-indigo-600 text-white flex items-center justify-center">N</div>
+Nullsto
+</div>
+<nav class="hidden md:flex gap-6 text-sm">
+<a href="#">Features</a>
+<a href="#">Pricing</a>
+<a href="#">Blog</a>
+<a href="#">Contact</a>
+</nav>
+<div class="flex gap-3">
+<button class="text-sm">Sign In</button>
+<button class="bg-indigo-600 text-white px-4 py-1.5 rounded">Get Started</button>
+</div>
+</div>
 </header>
 
-<section>
-  <h2>Get started in seconds</h2>
-  <div class="steps">
-    <div class="step"><h3>01</h3><p>Generate Email</p></div>
-    <div class="step"><h3>02</h3><p>Use Anywhere</p></div>
-    <div class="step"><h3>03</h3><p>Receive Emails</p></div>
-  </div>
+<!-- HERO -->
+<section class="max-w-5xl mx-auto px-4 mt-12 text-center">
+<span class="inline-block mb-4 px-3 py-1 text-xs bg-indigo-100 text-indigo-600 rounded-full">
+Trusted by 1M+ users worldwide
+</span>
+
+<h1 class="text-3xl md:text-4xl font-extrabold">
+Protect Your Privacy with
+<span class="text-indigo-600">Disposable Email</span>
+</h1>
+
+<p class="mt-3 text-slate-500">
+Generate instant, secure temporary email addresses.<br>No registration required.
+</p>
+
+<div class="mt-6 flex justify-center gap-3 text-sm">
+<span class="px-3 py-1 bg-slate-100 rounded">⚡ Instant</span>
+<span class="px-3 py-1 bg-slate-100 rounded">🛡 100% Anonymous</span>
+<span class="px-3 py-1 bg-slate-100 rounded">⏱ Auto Expiring</span>
+</div>
 </section>
 
-<section>
-  <h2>Frequently Asked Questions</h2>
-  <div class="faq">
-    <div class="faq-item">
-      <strong>What is a temporary email?</strong>
-      <p>A disposable email lets you sign up anywhere without revealing your real inbox.</p>
-    </div>
-    <div class="faq-item">
-      <strong>How long does it last?</strong>
-      <p>Emails auto-expire after a set duration, keeping your inbox clean.</p>
-    </div>
-  </div>
+<!-- EMAIL GENERATOR -->
+<section class="max-w-4xl mx-auto px-4 mt-10">
+<div class="bg-white rounded-xl shadow p-6 text-center border">
+
+<p class="text-xs text-slate-400 mb-2">
+By using this service you agree to our Terms & Privacy Policy
+</p>
+
+<p class="text-sm font-semibold mb-2">Your Temporary Email Address</p>
+
+<input id="emailBox" readonly
+class="w-full text-center bg-slate-100 p-4 rounded font-mono text-lg mb-4"
+value="Creating your email...">
+
+<div class="flex flex-wrap justify-center gap-3">
+<button onclick="copyEmail()" class="bg-indigo-600 text-white px-4 py-2 rounded">
+<i class="fa-regular fa-copy"></i> Copy
+</button>
+<button onclick="newAccount()" class="border px-4 py-2 rounded">
+<i class="fa-solid fa-rotate"></i> New Email
+</button>
+<button onclick="toggleSound()" class="border px-4 py-2 rounded">
+<i class="fa-solid fa-volume-high"></i> Sound
+</button>
+</div>
+
+<p id="copyMsg" class="text-green-500 text-sm mt-2 hidden">Copied!</p>
+</div>
 </section>
 
-<section>
-  <h2>Ready to Protect Your Privacy?</h2>
-  <p>Join millions of users who trust our service.</p>
-  <button class="btn-primary">Generate Free Email</button>
-  <button class="btn-secondary">View Pricing</button>
+<!-- INBOX -->
+<section class="max-w-5xl mx-auto px-4 mt-14">
+<h2 class="text-2xl font-bold text-center">
+Real-time <span class="text-indigo-600">Inbox</span>
+</h2>
+<p class="text-center text-slate-500 text-sm mt-1">
+Receive and manage your temporary emails instantly.
+</p>
+
+<div class="mt-6 bg-white rounded-xl border shadow overflow-hidden">
+
+<div class="px-4 py-3 border-b flex justify-between items-center text-sm">
+<div class="flex gap-3 items-center">
+<span>⚡ Fast</span>
+<span id="timer">⟳ 10s</span>
+<span class="text-green-600">● Live</span>
+<span>🔒 Encrypted</span>
+</div>
+<button onclick="fetchMails()" class="border px-3 py-1.5 rounded">
+📩 Fetch Emails
+</button>
+</div>
+
+<div id="inbox" class="min-h-[250px] flex items-center justify-center text-slate-400">
+Loading inbox...
+</div>
+
+</div>
 </section>
 
-<section>
-  <h2>Live Stats</h2>
-  <div class="stats">
-    <div class="stat"><h3>Emails Today</h3><p>1234</p></div>
-    <div class="stat"><h3>Inboxes Today</h3><p>567</p></div>
-    <div class="stat"><h3>Total Inboxes</h3><p>89012</p></div>
-    <div class="stat"><h3>Domains</h3><p>25</p></div>
-  </div>
+<!-- STATS -->
+<section class="max-w-5xl mx-auto px-4 mt-14">
+<div class="bg-white rounded-xl shadow border p-6 grid md:grid-cols-2 gap-6">
+
+<div>
+<p class="text-sm font-semibold mb-2">LIVE STATS</p>
+<ul class="text-sm space-y-2">
+<li>📨 Emails Today</li>
+<li>👥 Inboxes Created</li>
+<li>🌐 Domains</li>
+</ul>
+</div>
+
+<div>
+<p class="text-sm font-semibold mb-2">Quick Tips</p>
+<ol class="text-sm space-y-1 list-decimal list-inside">
+<li>Use temp emails to avoid spam</li>
+<li>Enable notifications</li>
+<li>Emails auto delete</li>
+</ol>
+</div>
+
+</div>
 </section>
 
-<footer>
-  <p>© 2026 Nullsto. All rights reserved.</p>
-  <p>
-    <a href="#">Privacy Policy</a> | 
-    <a href="#">Terms of Service</a> | 
-    <a href="#">Cookie Policy</a>
-  </p>
-</footer>
+<!-- HOW IT WORKS -->
+<section class="max-w-5xl mx-auto px-4 mt-16 text-center">
+<p class="text-xs text-indigo-600 font-semibold">HOW IT WORKS</p>
+<h2 class="text-2xl font-bold mt-1">Get started in seconds</h2>
 
+<div class="mt-8 grid md:grid-cols-3 gap-6">
+
+<div class="bg-white p-6 rounded-xl shadow border">
+<div class="text-indigo-600 text-3xl mb-3"><i class="fa-solid fa-envelope"></i></div>
+<h3 class="font-bold">Generate Email</h3>
+<p class="text-sm text-slate-500">Create a temporary email instantly.</p>
+</div>
+
+<div class="bg-white p-6 rounded-xl shadow border">
+<div class="text-indigo-600 text-3xl mb-3"><i class="fa-solid fa-copy"></i></div>
+<h3 class="font-bold">Use Anywhere</h3>
+<p class="text-sm text-slate-500">Copy and use for signups.</p>
+</div>
+
+<div class="bg-white p-6 rounded-xl shadow border">
+<div class="text-indigo-600 text-3xl mb-3"><i class="fa-solid fa-inbox"></i></div>
+<h3 class="font-bold">Receive Emails</h3>
+<p class="text-sm text-slate-500">All emails appear instantly.</p>
+</div>
+
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="max-w-4xl mx-auto px-4 mt-16 mb-20">
+<h2 class="text-2xl font-bold text-center">Frequently Asked Questions</h2>
+
+<div class="mt-6 space-y-3">
+<details class="bg-white border rounded p-4">
+<summary class="font-semibold cursor-pointer">What is a temporary email?</summary>
+<p class="mt-2 text-sm text-slate-500">
+A disposable email address used to protect your real inbox.
+</p>
+</details>
+
+<details class="bg-white border rounded p-4">
+<summary class="font-semibold cursor-pointer">How long does it last?</summary>
+<p class="mt-2 text-sm text-slate-500">
+Emails auto delete after inactivity.
+</p>
+</details>
+</div>
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4">
+<div class="bg-white rounded-xl w-full max-w-3xl h-[80vh] flex flex-col overflow-hidden">
+<div class="p-4 border-b flex justify-between">
+<div>
+<h3 id="mSub" class="font-bold"></h3>
+<p class="text-sm">From: <span id="mFrom"></span></p>
+</div>
+<button onclick="closeModal()">✖</button>
+</div>
+<div id="mBody" class="flex-1"></div>
+</div>
+</div>
+
+<!-- SCRIPT -->
 <script>
-  // Theme toggle
-  const toggleBtn = document.querySelector('.toggle-theme');
-  toggleBtn.addEventListener('click', () => {
-    const currentTheme = document.body.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-      document.body.removeAttribute('data-theme');
-      toggleBtn.textContent = '🌙';
-    } else {
-      document.body.setAttribute('data-theme', 'dark');
-      toggleBtn.textContent = '☀️';
-    }
-  });
+const API="https://api.mail.tm"
+let token=localStorage.getItem("t")
+let email=localStorage.getItem("e")
+let latest=null
+let sound=true
+let timer=10
 
-  // Demo button
-  document.querySelector('.btn-primary').addEventListener('click', () => {
-    alert('Temporary email generated (demo only)');
-  });
+setInterval(()=>{
+timer--; if(timer<=0) timer=10
+document.getElementById("timer").innerText="⟳ "+timer+"s"
+},1000)
+
+async function init(){
+if(token&&email){
+emailBox.value=email
+fetchMails()
+setInterval(fetchMails,10000)
+}else create()
+}
+
+async function create(){
+let d=await fetch(API+"/domains").then(r=>r.json())
+let dom=d["hydra:member"][0].domain
+let name=Math.random().toString(36).slice(2,10)
+email=name+"@"+dom
+let pass="123456"
+await fetch(API+"/accounts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({address:email,password:pass})})
+let t=await fetch(API+"/token",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({address:email,password:pass})}).then(r=>r.json())
+token=t.token
+localStorage.setItem("t",token)
+localStorage.setItem("e",email)
+emailBox.value=email
+fetchMails()
+setInterval(fetchMails,10000)
+}
+
+async function fetchMails(){
+let r=await fetch(API+"/messages",{headers:{Authorization:"Bearer "+token}})
+if(!r.ok) return newAccount()
+let d=await r.json()
+let m=d["hydra:member"]
+if(!m.length){inbox.innerHTML="No emails yet";return}
+if(latest&&latest!==m[0].id&&sound){
+new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3").play()
+}
+latest=m[0].id
+inbox.innerHTML=m.map(x=>`
+<div onclick="readMail('${x.id}')" class="p-4 border-b cursor-pointer hover:bg-slate-100">
+<b>${x.from.address}</b><br>
+<span class="text-sm">${x.subject||"(No Subject)"}</span>
+</div>`).join("")
+}
+
+async function readMail(id){
+modal.classList.remove("hidden")
+modal.classList.add("flex")
+let r=await fetch(API+"/messages/"+id,{headers:{Authorization:"Bearer "+token}})
+let d=await r.json()
+mSub.innerText=d.subject||"(No Subject)"
+mFrom.innerText=d.from.address
+let f=document.createElement("iframe")
+f.style.width="100%"
+f.style.height="100%"
+f.srcdoc=d.html?d.html.join(""):d.text
+mBody.innerHTML=""
+mBody.appendChild(f)
+}
+
+function closeModal(){
+modal.classList.add("hidden")
+modal.classList.remove("flex")
+}
+
+function copyEmail(){
+navigator.clipboard.writeText(email)
+copyMsg.classList.remove("hidden")
+setTimeout(()=>copyMsg.classList.add("hidden"),1500)
+}
+
+function newAccount(){
+localStorage.clear()
+location.reload()
+}
+
+function toggleSound(){sound=!sound}
+
+init()
 </script>
 
 </body>
