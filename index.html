@@ -44,6 +44,7 @@
         .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
+        /* Animation for updating stats */
         .stat-update { animation: highlight-stat 1s ease-out; }
         @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
     </style>
@@ -60,10 +61,10 @@
                 <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Aryan<span class="text-brand color-shift"> Mails</span></span>
             </div>
             
-            <div class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
-                <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 shadow-sm whitespace-nowrap">
+            <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
+                <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
                     <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
-                    <span class="text-xl inline-block">🇮🇳</span>
+                    <span class="text-xl drop-shadow-md">🇮🇳</span>
                 </div>
             </div>
 
@@ -104,7 +105,7 @@
                 </button>
                 
                 <button onclick="manualFetch()" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
-                    <i id="fast-bolt-icon" class="fa-solid fa-bolt"></i> Fast OTP
+                    <i class="fa-solid fa-bolt"></i> Fast OTP
                 </button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
@@ -419,6 +420,7 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
+        // LIVE STATS SIMULATION
         let statToday = 819;
         let statInboxes = 382;
         let statGenerated = 296500; 
@@ -532,37 +534,30 @@
             createNewAccount();
         }
 
-        // FIXED: OPTIMIZED MANUAL FETCH FOR FAST OTP
         async function manualFetch() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
-            const fastBoltIcon = document.getElementById('fast-bolt-icon');
-            
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
-            if(fastBoltIcon) fastBoltIcon.classList.add('fa-spin');
             
             try {
                 const res = await fetch(`${API}/messages`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
-                allMessages = data['hydra:member'] || [];
+                allMessages = data['hydra:member'];
                 
-                if (allMessages.length > 0) {
+                if (allMessages && allMessages.length >= 0) {
                     if(allMessages.length > lastMailCount && soundOn) {
                         const audio = document.getElementById('notification-sound');
                         if(audio) audio.play().catch(e => console.log(e));
                     }
                     lastMailCount = allMessages.length;
                     renderMails(); 
-                } else {
-                    renderMails(); // This will show the empty state if 0
                 }
             } catch (err) {
                 console.error("Fetch error:", err);
             } finally {
                 if(fetchIcon) fetchIcon.classList.remove('fa-spin');
-                if(fastBoltIcon) fastBoltIcon.classList.remove('fa-spin');
             }
         }
 
@@ -584,7 +579,7 @@
                 
                 sortedMails.forEach(msg => {
                     const div = document.createElement('div');
-                    div.className = "w-full bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition text-left";
+                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition w-full text-left";
                     div.innerHTML = `
                         <div class="flex justify-between items-center mb-1">
                             <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
@@ -670,13 +665,16 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initApp(); 
+            
             document.querySelectorAll('.faq-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const answer = btn.nextElementSibling;
                     const icon = btn.querySelector('.fa-chevron-down');
                     const isOpen = answer.style.maxHeight;
+
                     document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
                     document.querySelectorAll('.faq-btn .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
+
                     if (!isOpen) {
                         answer.style.maxHeight = answer.scrollHeight + "px";
                         icon.style.transform = 'rotate(180deg)';
