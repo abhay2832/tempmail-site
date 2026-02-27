@@ -56,7 +56,7 @@
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Initializing...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Connecting to Server...">
                 <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent"><i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand color-shift"></i></div>
             </div>
             <div class="flex flex-wrap justify-center gap-3 relative z-10">
@@ -277,7 +277,7 @@
                 </div>
                 <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+            <div id="modal-body-content" class="flex-1 w-full bg-white p-6 overflow-y-auto text-slate-800"></div>
         </div>
     </div>
 
@@ -314,7 +314,6 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // Fake Stats Simulator
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
@@ -355,27 +354,27 @@
             }
         }
 
-        // INSTANT GENERATION (Zero Delay)
         async function generateNewEmail() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             if(emailInput) emailInput.value = "Creating Email...";
             
             try {
-                // Instantly pick a domain and make a name locally (Super fast, no block risk)
                 const domRes = await fetch(`${API}?action=getDomainList&_=${Date.now()}`);
                 const domains = await domRes.json();
                 const selectedDomain = domains[0] || '1secmail.com';
 
-                const randomStr = Math.random().toString(36).substring(2, 8);
-                const randomNum = Math.floor(Math.random() * 9000) + 1000;
+                // CHOTA GMAIL LOGIC: 'ar' + 4 random characters (e.g. ar8k2p@1secmail.com)
+                const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                let randomStr = 'ar';
+                for(let i=0; i<4; i++) {
+                    randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
                 
-                login = `aryan${randomStr}${randomNum}`;
+                login = randomStr;
                 domain = selectedDomain;
                 address = `${login}@${domain}`;
 
                 localStorage.setItem('ar_email', address);
-                
-                // Naya account, naya clean slate
                 localStorage.removeItem('ar_deleted');
                 deletedMailIds = [];
 
@@ -387,8 +386,8 @@
                 startAutoSync();
 
             } catch (e) {
-                // Ultra safe fallback
-                login = `aryan${Math.floor(Math.random() * 9000000)}`;
+                // Failsafe small mail
+                login = `ar` + Math.floor(Math.random() * 9000);
                 domain = '1secmail.com';
                 address = `${login}@${domain}`;
                 localStorage.setItem('ar_email', address);
@@ -414,7 +413,6 @@
             generateNewEmail();
         }
 
-        // FETCH CORE (BULLETPROOF, NO FREEZING)
         async function fetchMails() {
             if (!login || !domain || isFetching) return;
             isFetching = true;
@@ -424,8 +422,6 @@
                 if (!res.ok) throw new Error("Network Bad");
                 
                 const newMails = await res.json();
-                
-                // Hide mails that user pressed "Clear" on
                 const filteredMails = newMails.filter(m => !deletedMailIds.includes(m.id));
                 
                 if (filteredMails.length > lastMailCount && soundOn) {
@@ -438,13 +434,12 @@
                 renderMails(); 
 
             } catch (error) {
-                console.log("Fetch Silent Fail (Will retry):", error);
+                console.log("Fetch Silent Fail:", error);
             } finally {
                 isFetching = false;
             }
         }
 
-        // BUTTON BINDINGS
         async function fetchMailsBtn(btnElement) {
             const icon = btnElement.querySelector('i');
             if(icon) icon.classList.add('fa-spin');
@@ -459,7 +454,6 @@
             const btnIcon = document.querySelector('#clear-btn i');
             if(btnIcon) btnIcon.className = "fa-solid fa-circle-notch fa-spin";
             
-            // Add current mails to local blacklist
             allMessages.forEach(m => {
                 if (!deletedMailIds.includes(m.id)) deletedMailIds.push(m.id);
             });
@@ -518,9 +512,9 @@
                 if(document.getElementById('modal-subject')) document.getElementById('modal-subject').innerText = data.subject || 'No Subject';
                 if(document.getElementById('modal-from')) document.getElementById('modal-from').innerText = data.from;
                 
-                const iframe = document.getElementById('modal-body-iframe');
-                if(iframe) {
-                    iframe.srcdoc = data.htmlBody || data.textBody || 'No content';
+                const contentDiv = document.getElementById('modal-body-content');
+                if(contentDiv) {
+                    contentDiv.innerHTML = data.htmlBody || data.textBody || 'No content';
                 }
                 
                 if(document.getElementById('email-modal')) document.getElementById('email-modal').classList.replace('hidden', 'flex');
@@ -529,8 +523,7 @@
 
         function closeModal() {
             if(document.getElementById('email-modal')) document.getElementById('email-modal').classList.replace('flex', 'hidden');
-            const iframe = document.getElementById('modal-body-iframe');
-            if (iframe) iframe.srcdoc = '';
+            if(document.getElementById('modal-body-content')) document.getElementById('modal-body-content').innerHTML = '';
         }
 
         function copyEmail() { 
@@ -541,7 +534,6 @@
             } 
         }
 
-        // NON-FREEZING SMART LOOP FOR SYNC
         async function syncLoopProcess() {
             if (!isSyncing) return;
             await fetchMails();
