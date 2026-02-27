@@ -56,7 +56,7 @@
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Connecting to Server...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Initializing...">
                 <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent"><i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand color-shift"></i></div>
             </div>
             <div class="flex flex-wrap justify-center gap-3 relative z-10">
@@ -300,10 +300,10 @@
         let login = '';
         let domain = '';
         
-        // GHOST BUG FIX: Track deleted emails locally so they don't reappear on auto-sync
         let deletedMailIds = JSON.parse(localStorage.getItem('ar_deleted')) || [];
         
-        let syncTimer = null;
+        let syncTimerId = null; 
+        let isFetching = false; 
         let isSyncing = true; 
         let allMessages = [];
         let soundOn = false;
@@ -314,6 +314,7 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
+        // Fake Stats Simulator
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
@@ -329,10 +330,10 @@
         function showPageModal(pageName) {
             document.getElementById('page-modal-title').innerText = pageName;
             let content = '';
-            if (pageName === 'Privacy Policy') content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Your Privacy is Our Priority</p><p>We do not track your IP or sell your data.</p>`;
+            if (pageName === 'Privacy Policy') content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Your Privacy is Our Priority</p><p>We do not track your IP or sell your data. All data resides on your browser.</p>`;
             else if (pageName === 'Terms of Service') content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Service Agreement</p><p>Use responsibly. Do not use for spam.</p>`;
             else if (pageName === 'API Access') content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Developer API</p><p>Join our Telegram to request an API key.</p>`;
-            else if (pageName === 'Premium Plans') content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Experience</p><p>Custom domains and API access coming soon.</p>`;
+            else if (pageName === 'Premium Plans') content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Experience</p><p>Custom domains coming soon.</p>`;
             else if (pageName === 'Blog & News') content = `<div class="text-center py-6"><i class="fa-solid fa-person-digging text-4xl text-slate-300 dark:text-gray-600 mb-4"></i><p class="font-bold text-lg text-slate-800 dark:text-white">Blog Under Construction</p></div>`;
             document.getElementById('page-modal-body').innerHTML = content;
             document.getElementById('page-modal').classList.replace('hidden', 'flex');
@@ -340,35 +341,41 @@
         function closePageModal() { document.getElementById('page-modal').classList.replace('flex', 'hidden'); }
 
         async function initApp() {
-            if (address) {
+            if (address && address.includes('@')) {
                 const parts = address.split('@');
                 login = parts[0];
                 domain = parts[1];
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
-                fetchMails();
-                if(isSyncing) startAutoSync();
+                
+                await fetchMails();
+                startAutoSync();
             } else {
                 await generateNewEmail();
             }
         }
 
+        // INSTANT GENERATION (Zero Delay)
         async function generateNewEmail() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            if(emailInput) emailInput.value = "Generating Real Email...";
+            if(emailInput) emailInput.value = "Creating Email...";
             
             try {
-                const res = await fetch(`${API}?action=genRandomMailbox&count=1&_=${Date.now()}`);
-                const data = await res.json();
+                // Instantly pick a domain and make a name locally (Super fast, no block risk)
+                const domRes = await fetch(`${API}?action=getDomainList&_=${Date.now()}`);
+                const domains = await domRes.json();
+                const selectedDomain = domains[0] || '1secmail.com';
+
+                const randomStr = Math.random().toString(36).substring(2, 8);
+                const randomNum = Math.floor(Math.random() * 9000) + 1000;
                 
-                address = data[0];
-                const parts = address.split('@');
-                login = parts[0];
-                domain = parts[1];
+                login = `aryan${randomStr}${randomNum}`;
+                domain = selectedDomain;
+                address = `${login}@${domain}`;
 
                 localStorage.setItem('ar_email', address);
                 
-                // Naya email aane par delete list clear karo
+                // Naya account, naya clean slate
                 localStorage.removeItem('ar_deleted');
                 deletedMailIds = [];
 
@@ -377,13 +384,18 @@
 
                 allMessages = [];
                 renderMails();
-                
-                if(isSyncing) startAutoSync();
+                startAutoSync();
 
             } catch (e) {
-                console.error("API Error:", e);
-                if(emailInput) emailInput.value = "Network Error! Retrying...";
-                setTimeout(generateNewEmail, 2000);
+                // Ultra safe fallback
+                login = `aryan${Math.floor(Math.random() * 9000000)}`;
+                domain = '1secmail.com';
+                address = `${login}@${domain}`;
+                localStorage.setItem('ar_email', address);
+                
+                if(emailInput) emailInput.value = address;
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                startAutoSync();
             }
         }
 
@@ -392,9 +404,8 @@
             localStorage.removeItem('ar_email');
             localStorage.removeItem('ar_deleted');
             deletedMailIds = [];
-            address = null;
-            login = '';
-            domain = '';
+            address = null; login = ''; domain = '';
+            
             if(emailInput) emailInput.value = "Generating...";
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             
@@ -403,18 +414,18 @@
             generateNewEmail();
         }
 
-        // ==========================================
-        // FETCH MAILS (LIVE, FAST & NO GHOST EMAILS)
-        // ==========================================
-
+        // FETCH CORE (BULLETPROOF, NO FREEZING)
         async function fetchMails() {
-            if (!login || !domain) return;
+            if (!login || !domain || isFetching) return;
+            isFetching = true;
 
             try {
                 const res = await fetch(`${API}?action=getMessages&login=${login}&domain=${domain}&_=${Date.now()}`, { cache: 'no-store' });
+                if (!res.ok) throw new Error("Network Bad");
+                
                 const newMails = await res.json();
                 
-                // Ghost Bug Fix applied here: ignore mails that user deleted
+                // Hide mails that user pressed "Clear" on
                 const filteredMails = newMails.filter(m => !deletedMailIds.includes(m.id));
                 
                 if (filteredMails.length > lastMailCount && soundOn) {
@@ -425,28 +436,30 @@
                 lastMailCount = filteredMails.length;
                 allMessages = filteredMails;
                 renderMails(); 
+
             } catch (error) {
-                console.error("Fetch Error:", error);
+                console.log("Fetch Silent Fail (Will retry):", error);
+            } finally {
+                isFetching = false;
             }
         }
 
-        async function fetchMailsBtn(buttonElement) {
-            const icon = buttonElement.querySelector('i');
+        // BUTTON BINDINGS
+        async function fetchMailsBtn(btnElement) {
+            const icon = btnElement.querySelector('i');
             if(icon) icon.classList.add('fa-spin');
             
             await fetchMails(); 
             
-            if(icon) setTimeout(() => icon.classList.remove('fa-spin'), 500);
+            if(icon) setTimeout(() => icon.classList.remove('fa-spin'), 400);
         }
 
-        // ==========================================
-        // BLACKLIST CLEAR INBOX (GHOST BUG FIXED)
-        // ==========================================
         function clearInbox() {
+            if (allMessages.length === 0) return;
             const btnIcon = document.querySelector('#clear-btn i');
             if(btnIcon) btnIcon.className = "fa-solid fa-circle-notch fa-spin";
             
-            // Current list me jo bhi id hai, usko blacklist (deleted) array me daal do
+            // Add current mails to local blacklist
             allMessages.forEach(m => {
                 if (!deletedMailIds.includes(m.id)) deletedMailIds.push(m.id);
             });
@@ -528,13 +541,20 @@
             } 
         }
 
+        // NON-FREEZING SMART LOOP FOR SYNC
+        async function syncLoopProcess() {
+            if (!isSyncing) return;
+            await fetchMails();
+            syncTimerId = setTimeout(syncLoopProcess, 5000);
+        }
+
         function startAutoSync() {
-            if (syncTimer) clearInterval(syncTimer);
-            syncTimer = setInterval(fetchMails, 5000); 
+            stopAutoSync();
+            if (isSyncing) syncLoopProcess();
         }
 
         function stopAutoSync() {
-            if (syncTimer) clearInterval(syncTimer);
+            if (syncTimerId) { clearTimeout(syncTimerId); syncTimerId = null; }
         }
 
         function toggleAutoSync() {
