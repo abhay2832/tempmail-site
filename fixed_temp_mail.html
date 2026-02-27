@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aryan Mails - Premium Temporary Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+<script>
+const API = "https://api.mail.tm";
+
+let token = null;
+let address = null;
+let password = null;
+let autoTimer = null;
+let autoSync = true;
+
+function generatePassword() {
+    return Math.random().toString(36).slice(-10);
+}
+
+async function getDomain() {
+    const res = await fetch(API + "/domains");
+    const data = await res.json();
+    return data["hydra:member"][0].domain;
+}
+
+async function createAccount() {
+    const domain = await getDomain();
+    password = generatePassword();
+    address = Math.random().toString(36).substring(2,10) + "@" + domain;
+
+    await fetch(API + "/accounts", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ address, password })
+    });
+
+    localStorage.setItem("mt_email", address);
+    localStorage.setItem("mt_password", password);
+}
+
+async function login() {
+    const res = await fetch(API + "/token", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ address, password })
+    });
+
+    const data = await res.json();
+    token = data.token;
+    localStorage.setItem("mt_token", token);
+}
+
+async function initMailbox() {
+    address = localStorage.getItem("mt_email");
+    password = localStorage.getItem("mt_password");
+
+    if (!address || !password) {
+        await createAccount();
+    }
+
+    await login();
+
+    document.getElementById("email-address").value = address;
+    document.getElementById("loading-overlay").style.display = "none";
+
+    fetchMails();
+
+    if (autoSync) {
+        autoTimer = setInterval(fetchMails, 10000);
+    }
+}
+
+async function fetchMails() {
+    const res = await fetch(API + "/messages", {
+        headers: { Authorization: "Bearer " + token }
+    });
+
+    const data = await res.json();
+    const mails = data["hydra:member"];
+
+    renderInbox(mails);
+}
+
+function renderInbox(mails) {
+    const box = document.getElementById("inbox-content");
+    box.innerHTML = "";
+
+    if (mails.length === 0) {
+        box.innerHTML = "<p>No mails yet</p>";
+        return;
+    }
+
+    mails.forEach(mail => {
+        const div = document.createElement("div");
+        div.className = "p-3 border-b border-gray-300 cursor-pointer";
+        div.innerHTML = `<b>${mail.from.address}</b><br>${mail.subject}`;
+        div.onclick = () => openMail(mail.id);
+        box.appendChild(div);
+    });
+
+    document.getElementById("total-emails").innerText = mails.length + " emails";
+}
+
+async function openMail(id) {
+    const res = await fetch(API + "/messages/" + id, {
+        headers: { Authorization: "Bearer " + token }
+    });
+
+    const data = await res.json();
+
+    document.getElementById("modal-subject").innerText = data.subject;
+    document.getElementById("modal-from").innerText = data.from.address;
+    document.getElementById("modal-body-iframe").srcdoc = data.html ? data.html[0] : data.text;
+
+    document.getElementById("email-modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("email-modal").style.display = "none";
+}
+
+function manualFetch() {
+    fetchMails();
+}
+
+function clearInboxUI() {
+    document.getElementById("inbox-content").innerHTML = "<p>Inbox Cleared</p>";
+}
+
+function toggleAutoSync() {
+    autoSync = !autoSync;
+
+    if (autoSync) {
+        autoTimer = setInterval(fetchMails, 10000);
+        document.getElementById("sync-text").innerText = "Auto-Sync: ON";
+    } else {
+        clearInterval(autoTimer);
+        document.getElementById("sync-text").innerText = "Auto-Sync: OFF";
+    }
+}
+
+function copyEmail() {
+    const text = document.getElementById("email-address").value;
+    navigator.clipboard.writeText(text);
+    document.getElementById("copy-msg").style.opacity = 1;
+    setTimeout(()=> {
+        document.getElementById("copy-msg").style.opacity = 0;
+    },2000);
+}
+
+function forceNewAccount() {
+    localStorage.clear();
+    location.reload();
+}
+
+initMailbox();
+</script>
+
+</body>
+</html>
