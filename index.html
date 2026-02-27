@@ -29,6 +29,7 @@
             --brand-bg: rgba(6, 182, 212, 0.1);
         }
 
+        html { scroll-behavior: smooth; } /* Smooth scrolling added */
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         
         @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
@@ -44,7 +45,6 @@
         .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
-        /* Animation for updating stats */
         .stat-update { animation: highlight-stat 1s ease-out; }
         @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
     </style>
@@ -224,7 +224,7 @@
         </div>
     </div>
 
-    <div class="text-center mb-12 mt-24 px-4">
+    <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">Features</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
         <p class="text-slate-500 dark:text-gray-400 text-lg">Our comprehensive suite of features keeps your real email address safe.</p>
@@ -248,7 +248,7 @@
         </div>
     </div>
 
-    <div class="text-center mb-12 px-4">
+    <div id="how-it-works" class="text-center mb-12 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Get Started in Seconds</h2>
     </div>
@@ -274,7 +274,7 @@
         </div>
     </div>
 
-    <div class="text-center mb-12 px-4">
+    <div id="faq" class="text-center mb-12 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">FAQ</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Frequently <span class="text-brand color-shift">Asked Questions</span></h2>
     </div>
@@ -333,7 +333,7 @@
                         <p class="text-slate-500 dark:text-gray-400 text-sm">Get updates, API news & announcements</p>
                     </div>
                 </div>
-                <a href="#" class="w-full md:w-auto bg-[#229ED9] hover:bg-[#1f8bc2] text-white px-6 py-3 rounded-xl transition font-semibold flex items-center justify-center gap-2 active:scale-95 shadow-md">
+                <a href="YOUR_TELEGRAM_LINK_HERE" target="_blank" class="w-full md:w-auto bg-[#229ED9] hover:bg-[#1f8bc2] text-white px-6 py-3 rounded-xl transition font-semibold flex items-center justify-center gap-2 active:scale-95 shadow-md cursor-pointer">
                     <i class="fa-brands fa-telegram"></i> Join Channel
                 </a>
             </div>
@@ -346,32 +346,32 @@
                     </div>
                     <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Generate instant, anonymous email addresses. Perfect for sign-ups, testing, and keeping your real inbox completely spam-free.</p>
                     <div class="flex gap-4">
-                        <a href="#" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="YOUR_TELEGRAM_LINK_HERE" target="_blank" title="Telegram" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition"><i class="fa-brands fa-telegram"></i></a>
                         <a href="#" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition"><i class="fa-brands fa-github"></i></a>
                     </div>
                 </div>
                 <div>
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Product</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
-                        <li><a href="#" class="hover:text-brand transition">Features</a></li>
-                        <li><a href="#" class="hover:text-brand transition">API Access</a></li>
-                        <li><a href="#" class="hover:text-brand transition">Premium</a></li>
+                        <li><a href="#features" class="hover:text-brand transition">Features</a></li>
+                        <li><button onclick="showPageModal('API Access')" class="hover:text-brand transition cursor-pointer focus:outline-none">API Access</button></li>
+                        <li><button onclick="showPageModal('Premium Plans')" class="hover:text-brand transition cursor-pointer focus:outline-none">Premium</button></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Resources</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
-                        <li><a href="#" class="hover:text-brand transition">How It Works</a></li>
-                        <li><a href="#" class="hover:text-brand transition">FAQ</a></li>
-                        <li><a href="#" class="hover:text-brand transition">Blog</a></li>
+                        <li><a href="#how-it-works" class="hover:text-brand transition">How It Works</a></li>
+                        <li><a href="#faq" class="hover:text-brand transition">FAQ</a></li>
+                        <li><button onclick="showPageModal('Blog & News')" class="hover:text-brand transition cursor-pointer focus:outline-none">Blog</button></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Legal</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
-                        <li><a href="#" class="hover:text-brand transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-brand transition">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-brand transition">Contact Us</a></li>
+                        <li><button onclick="showPageModal('Privacy Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Privacy Policy</button></li>
+                        <li><button onclick="showPageModal('Terms of Service')" class="hover:text-brand transition cursor-pointer focus:outline-none">Terms of Service</button></li>
+                        <li><button onclick="showPageModal('Contact Us')" class="hover:text-brand transition cursor-pointer focus:outline-none">Contact Us</button></li>
                     </ul>
                 </div>
             </div>
@@ -399,6 +399,22 @@
                 </div>
             </div>
             <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        </div>
+    </div>
+
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
+                <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="page-modal-body" class="p-6 overflow-y-auto text-slate-600 dark:text-gray-300 text-sm leading-relaxed space-y-4">
+                </div>
+            <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg text-right">
+                <button onclick="closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md">Got it</button>
+            </div>
         </div>
     </div>
 
@@ -464,6 +480,71 @@
             document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
         }
 
+        // --- NEW MODAL FUNCTION FOR PAGES ---
+        function showPageModal(pageName) {
+            const title = document.getElementById('page-modal-title');
+            const body = document.getElementById('page-modal-body');
+            
+            title.innerText = pageName;
+            
+            let content = '';
+            if (pageName === 'Privacy Policy') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Your Privacy is Our Priority</p>
+                    <p>At Aryan Mails, we do not require any personal information, registration, or passwords to use our service. All generated temporary email addresses, alongside their inbox contents, are securely wiped from our servers after your session ends.</p>
+                    <p>We do not track your IP address for malicious purposes, and we do not sell your data to third parties. Your online anonymity is 100% protected.</p>
+                `;
+            } else if (pageName === 'Terms of Service') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Service Agreement</p>
+                    <p>By using Aryan Mails, you agree to use the service responsibly. You may not use our disposable emails for illegal activities, spamming, harassment, or to abuse third-party services.</p>
+                    <p>We provide this service "as is" without any warranties. We reserve the right to block access or delete inboxes if we detect malicious activity or a violation of these terms.</p>
+                `;
+            } else if (pageName === 'Contact Us') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Get in Touch</p>
+                    <p>For any bug reports, business inquiries, or general support, the fastest way to reach the Aryan Mails team is through our official Telegram channel.</p>
+                    <p class="mt-4"><a href="YOUR_TELEGRAM_LINK_HERE" target="_blank" class="text-brand font-bold hover:underline"><i class="fa-brands fa-telegram"></i> Message us on Telegram</a></p>
+                `;
+            } else if (pageName === 'API Access') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Developer API (Beta)</p>
+                    <p>Want to automate your workflow? Our RESTful API allows you to programmatically generate emails, fetch messages, and manage domains.</p>
+                    <p>Documentation is currently available for Premium users. Join our Telegram to request an API key.</p>
+                `;
+            } else if (pageName === 'Premium Plans') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
+                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
+                        <li>Custom domain names</li>
+                        <li>Permanent email inboxes</li>
+                        <li>Ad-free experience</li>
+                        <li>Higher API rate limits</li>
+                    </ul>
+                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
+                `;
+            } else if (pageName === 'Blog & News') {
+                content = `
+                    <div class="text-center py-6">
+                        <i class="fa-solid fa-person-digging text-4xl text-slate-300 dark:text-gray-600 mb-4"></i>
+                        <p class="font-bold text-lg text-slate-800 dark:text-white">Blog Under Construction</p>
+                        <p class="text-slate-500">We are writing awesome articles on cybersecurity, privacy hacks, and more. Check back soon!</p>
+                    </div>
+                `;
+            }
+
+            body.innerHTML = content;
+            document.getElementById('page-modal').classList.remove('hidden');
+            document.getElementById('page-modal').classList.add('flex');
+        }
+
+        function closePageModal() {
+            document.getElementById('page-modal').classList.add('hidden');
+            document.getElementById('page-modal').classList.remove('flex');
+        }
+        // ------------------------------------
+
         async function initApp() {
             if (!address || !token) {
                 await createNewAccount();
@@ -482,10 +563,9 @@
                 const domainData = await domainRes.json();
                 const domain = domainData['hydra:member'][0].domain;
 
-                // REALISTIC NAME GENERATOR FIX
                 const prefixes = ['aryan', 'raj', 'amit', 'alex', 'sam', 'john', 'user', 'pro', 'mail', 'info'];
                 const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-                const randomNum = Math.floor(Math.random() * 90000) + 10000; // 5 digit number
+                const randomNum = Math.floor(Math.random() * 90000) + 10000; 
                 const newUsername = `${randomPrefix}${randomNum}`; 
                 
                 const newAddress = `${newUsername}@${domain}`;
@@ -538,12 +618,10 @@
             createNewAccount();
         }
 
-        // --- FAST OTP RESET LOGIC ---
         async function fastOtpReset() {
             const boltIcon = document.getElementById('fast-bolt-icon');
             if(boltIcon) boltIcon.classList.add('fa-spin');
             
-            // Purana token aur account delete taaki fresh start mile
             localStorage.removeItem('mt_token');
             localStorage.removeItem('mt_email');
             address = null;
@@ -553,9 +631,7 @@
             loadingOverlay.style.display = 'flex';
             clearInboxUI();
             
-            // Naya account banao
             await createNewAccount();
-            // Naye account ke emails fetch karo
             await manualFetch();
             
             if(boltIcon) boltIcon.classList.remove('fa-spin');
@@ -581,7 +657,7 @@
                     lastMailCount = allMessages.length;
                     renderMails(); 
                 } else {
-                    renderMails(); // update UI even if empty
+                    renderMails(); 
                 }
             } catch (err) {
                 console.error("Fetch error:", err);
