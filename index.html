@@ -299,7 +299,6 @@
         let address = localStorage.getItem('ar_email');
         let login = '';
         let domain = '';
-        
         let deletedMailIds = JSON.parse(localStorage.getItem('ar_deleted')) || [];
         
         let syncTimerId = null; 
@@ -314,6 +313,7 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
+        // Stats Simulator
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
@@ -363,12 +363,10 @@
                 const domains = await domRes.json();
                 const selectedDomain = domains[0] || '1secmail.com';
 
-                // CHOTA GMAIL LOGIC: 'ar' + 4 random characters (e.g. ar8k2p@1secmail.com)
+                // CHOTA GMAIL (ar + 4 chars)
                 const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
                 let randomStr = 'ar';
-                for(let i=0; i<4; i++) {
-                    randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
+                for(let i=0; i<4; i++) randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
                 
                 login = randomStr;
                 domain = selectedDomain;
@@ -386,12 +384,10 @@
                 startAutoSync();
 
             } catch (e) {
-                // Failsafe small mail
                 login = `ar` + Math.floor(Math.random() * 9000);
                 domain = '1secmail.com';
                 address = `${login}@${domain}`;
                 localStorage.setItem('ar_email', address);
-                
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
                 startAutoSync();
@@ -443,9 +439,7 @@
         async function fetchMailsBtn(btnElement) {
             const icon = btnElement.querySelector('i');
             if(icon) icon.classList.add('fa-spin');
-            
             await fetchMails(); 
-            
             if(icon) setTimeout(() => icon.classList.remove('fa-spin'), 400);
         }
 
@@ -471,7 +465,6 @@
 
         function renderMails() {
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
-            
             if (!inboxContent) return;
 
             if (allMessages.length === 0) {
