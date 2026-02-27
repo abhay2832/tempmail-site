@@ -56,13 +56,13 @@
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Generating Email...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Connecting to Server...">
                 <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent"><i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand color-shift"></i></div>
             </div>
             <div class="flex flex-wrap justify-center gap-3 relative z-10">
                 <button onclick="copyEmail()" class="color-shift bg-brand hover:brightness-110 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer"><i class="fa-regular fa-copy"></i> Copy Address</button>
-                <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i> Change Email</button>
-                <button onclick="fastFetchOTP()" id="fast-otp-btn" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95"><i id="fast-bolt-icon" class="fa-solid fa-bolt"></i> Fast OTP</button>
+                <button onclick="forceNewEmail()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i> Change Email</button>
+                <button onclick="fetchMailsBtn(this)" id="fast-otp-btn" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95"><i class="fa-solid fa-bolt"></i> Fast OTP</button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
         </div>
@@ -77,13 +77,13 @@
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
             <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
                 <div class="flex items-center gap-3"><i class="fa-solid fa-envelope text-brand color-shift text-lg"></i><span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span></div>
-                <button onclick="clearInboxUI()" id="clear-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold"><i class="fa-solid fa-trash-can" id="clear-icon"></i> Clear Inbox</button>
+                <button onclick="clearInbox()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold"><i class="fa-solid fa-trash-can"></i> Clear Inbox</button>
             </div>
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
                 <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer"><i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: ON</span></button>
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white"><span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live</div>
                 <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1"><i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span></button>
-                <button onclick="manualFetchBtnClick()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer"><i id="fetch-icon" class="fa-solid fa-arrows-rotate"></i> Fetch Mails</button>
+                <button onclick="fetchMailsBtn(this)" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i> Fetch Mails</button>
             </div>
             <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
                 <div class="flex gap-4 items-center">
@@ -295,23 +295,21 @@
     </div>
 
     <script>
-        const API = 'https://api.mail.gw';
+        const API = 'https://api.mail.tm'; // Using Standard Reliable API
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
         
-        let syncTimerId = null; // Changed to setTimeout logic
-        let isFetching = false; // Prevent multiple requests at once
-        let soundOn = false;
+        let syncInterval = null; 
         let isSyncing = true; 
         let allMessages = [];
-        let lastMailCount = 0; 
+        let soundOn = false;
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // Fake Live Stats
+        // Stats Simulation
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
@@ -321,10 +319,10 @@
         }
         setInterval(updateLiveStats, 3500); 
 
-        function generatePassword() { return "Pass" + Math.random().toString(36).substring(2, 10) + "X@1!"; }
+        // Theme and Modals
         function changeColorTheme() { const hue = Math.floor(Math.random() * 360); document.documentElement.style.setProperty('--brand-color', `hsl(${hue}, 75%, 50%)`); document.documentElement.style.setProperty('--brand-bg', `hsla(${hue}, 75%, 50%, 0.15)`); }
         function toggleTheme() { document.documentElement.classList.toggle('dark'); const isDark = document.documentElement.classList.contains('dark'); if(document.getElementById('theme-icon')) document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
-
+        
         function showPageModal(pageName) {
             document.getElementById('page-modal-title').innerText = pageName;
             let content = '';
@@ -338,174 +336,204 @@
         }
         function closePageModal() { document.getElementById('page-modal').classList.replace('flex', 'hidden'); }
 
+        // Core Application Logic
         async function initApp() {
-            if (!address || !token) { await createNewAccount(); } 
-            else { 
+            if (!address || !token) { 
+                generateNewEmail(); 
+            } else { 
                 if(emailInput) emailInput.value = address; 
                 if(loadingOverlay) loadingOverlay.style.display = 'none'; 
-                startSyncLoop(); // START LOOP
-                triggerFetchUI(); // First manual load
+                fetchMails(); // Fetch immediately on load
+                if(isSyncing) startAutoSync();
             }
         }
 
-        async function createNewAccount() {
+        async function generateNewEmail() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            if(emailInput) emailInput.value = "Connecting to Server...";
-            stopSyncLoop();
-
+            if(emailInput) emailInput.value = "Generating Email...";
+            
             try {
-                const domainRes = await fetch(`${API}/domains?_=${Date.now()}`); 
-                if(!domainRes.ok) throw new Error("API Blocked");
+                const domainRes = await fetch(`${API}/domains`);
                 const domainData = await domainRes.json();
-                const stableDomain = domainData['hydra:member'][0].domain; 
-                const newAddress = `ar${Math.random().toString(36).substring(2, 10)}@${stableDomain}`;
-                const newPassword = generatePassword();
+                const domain = domainData['hydra:member'][0].domain;
 
-                const createRes = await fetch(`${API}/accounts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ address: newAddress, password: newPassword }) });
-                if(!createRes.ok) throw new Error("Rejected");
+                // Safe and natural username
+                const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                let randomStr = '';
+                for(let i=0; i<8; i++) randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+                
+                const newAddress = `ar_${randomStr}@${domain}`;
+                const newPassword = 'Password123x!';
 
-                const loginRes = await fetch(`${API}/token`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ address: newAddress, password: newPassword }) });
-                if(!loginRes.ok) throw new Error("Login Failed");
+                await fetch(`${API}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
 
-                const tokenData = await loginRes.json();
-                address = newAddress; token = tokenData.token;
-                localStorage.setItem('mt_email', address); localStorage.setItem('mt_password', newPassword); localStorage.setItem('mt_token', token);
+                const tokenRes = await fetch(`${API}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                const tokenData = await tokenRes.json();
+
+                address = newAddress;
+                token = tokenData.token;
+                
+                localStorage.setItem('mt_email', address);
+                localStorage.setItem('mt_token', token);
 
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
+
+                allMessages = [];
+                renderMails();
                 
-                clearLocalInbox();
-                startSyncLoop();
-                
-            } catch (err) {
-                if(emailInput) emailInput.value = "Failed: Server Down";
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                if(isSyncing) startAutoSync();
+
+            } catch (e) {
+                if(emailInput) emailInput.value = "Network Error! Retrying...";
+                setTimeout(generateNewEmail, 2500);
             }
         }
 
-        function forceNewAccount() {
-            stopSyncLoop();
-            localStorage.clear(); address = null; token = null;
-            if(emailInput) emailInput.value = "Generating...";
-            if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            clearLocalInbox(); 
-            createNewAccount();
+        function forceNewEmail() {
+            stopAutoSync();
+            localStorage.clear();
+            address = null;
+            token = null;
+            allMessages = [];
+            generateNewEmail();
         }
 
-        // ==========================================
-        // BUTTON FIXES & BINDINGS (NO FREEZING)
-        // ==========================================
-
-        function manualFetchBtnClick() {
-            const btn = document.getElementById('fetch-icon');
-            if(btn) btn.classList.add('fa-spin');
-            triggerFetchUI().finally(() => {
-                if(btn) btn.classList.remove('fa-spin');
-            });
-        }
-
-        function fastFetchOTP() {
-            const btn = document.getElementById('fast-bolt-icon');
-            if(btn) btn.classList.add('fa-spin');
-            triggerFetchUI().finally(() => {
-                setTimeout(() => { if(btn) btn.classList.remove('fa-spin'); }, 500);
-            });
-        }
-
-        async function clearInboxUI() { 
-            if(!token || allMessages.length === 0) return;
-            const icon = document.getElementById('clear-icon');
-            if(icon) icon.className = "fa-solid fa-circle-notch fa-spin";
-            
-            const msgsToDelete = [...allMessages];
-            clearLocalInbox(); // INSTANT UI UPDATE
-
-            for(let msg of msgsToDelete) {
-                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
-            }
-            if(icon) icon.className = "fa-solid fa-trash-can";
-        }
-
-        // ==========================================
-        // CORE FETCH & RENDER ENGINE (BULLETPROOF)
-        // ==========================================
-
-        function startSyncLoop() {
-            if(syncTimerId) clearTimeout(syncTimerId);
-            if(isSyncing) {
-                // Recursive timeout to prevent overlapping server requests!
-                syncTimerId = setTimeout(async () => {
-                    await triggerFetchUI();
-                    startSyncLoop(); // Call itself ONLY when done
-                }, 5000); // 5 seconds
-            }
-        }
-
-        function stopSyncLoop() {
-            if(syncTimerId) { clearTimeout(syncTimerId); syncTimerId = null; }
-        }
-
-        async function triggerFetchUI() {
-            if(!token || isFetching) return;
-            isFetching = true;
-            
+        // --- THE MOST IMPORTANT FIX: BULLETPROOF FETCH ---
+        async function fetchMails() {
+            if (!token) return;
             try {
-                const res = await fetch(`${API}/messages?_=${Date.now()}`, { 
-                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' } 
+                // CACHE: NO-STORE ensures browser NEVER returns old data!
+                const response = await fetch(`${API}/messages?_=${Date.now()}`, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' },
+                    cache: 'no-store' 
                 });
-                
-                if (res.status === 401 || res.status === 403) { forceNewAccount(); return; }
-                if(!res.ok) throw new Error("Fetch Failed");
-                
-                const data = await res.json();
-                allMessages = data['hydra:member'] || [];
-                
-                if (allMessages.length > lastMailCount && soundOn) {
-                    const audio = document.getElementById('notification-sound');
-                    if(audio) audio.play().catch(e=>e);
+
+                if (response.status === 401 || response.status === 403) {
+                    forceNewEmail(); // Auto fix dead token
+                    return;
                 }
-                lastMailCount = allMessages.length;
-                
-                renderMails(); 
-            } catch (err) { 
-                console.error("Fetch Error:", err); 
-            } finally {
-                isFetching = false;
+
+                const data = await response.json();
+                if (data && data['hydra:member']) {
+                    const newCount = data['hydra:member'].length;
+                    // Play sound only if new mail arrives
+                    if (newCount > allMessages.length && soundOn) {
+                        const audio = document.getElementById('notification-sound');
+                        if(audio) audio.play().catch(e => e);
+                    }
+                    allMessages = data['hydra:member'];
+                    renderMails(); // IMMEDIATE UI UPDATE
+                }
+            } catch (error) {
+                console.error("Fetch Error:", error);
             }
         }
 
+        // --- BUTTON BINDINGS (WITH INSTANT SPINNERS) ---
+        async function fetchMailsBtn(buttonElement) {
+            const icon = buttonElement.querySelector('i');
+            if(icon) icon.classList.add('fa-spin');
+            
+            await fetchMails(); // Fetches live from server
+            
+            if(icon) setTimeout(() => icon.classList.remove('fa-spin'), 500);
+        }
+
+        async function clearInbox() {
+            if (!token || allMessages.length === 0) return;
+            
+            const btnIcon = document.querySelector('#clear-btn i');
+            if(btnIcon) btnIcon.className = "fa-solid fa-circle-notch fa-spin";
+            
+            const mailsToDelete = [...allMessages];
+            allMessages = []; 
+            renderMails(); // Clears UI instantly
+
+            // Delete from server quietly
+            for (let m of mailsToDelete) {
+                try {
+                    await fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                } catch(e) {}
+            }
+            if(btnIcon) btnIcon.className = "fa-solid fa-trash-can";
+        }
+
+        // --- AUTO REFRESH LOGIC ---
+        function startAutoSync() {
+            if (syncInterval) clearInterval(syncInterval);
+            syncInterval = setInterval(fetchMails, 5000); // Superfast 5 Second Refresh
+        }
+
+        function stopAutoSync() {
+            if (syncInterval) clearInterval(syncInterval);
+        }
+
+        function toggleAutoSync() {
+            isSyncing = !isSyncing;
+            const btnText = document.getElementById('sync-text');
+            const btnIcon = document.getElementById('sync-icon');
+
+            if (isSyncing) {
+                if(btnText) btnText.innerText = "Auto-Sync: ON";
+                if(btnIcon) btnIcon.className = "fa-solid fa-bolt text-amber-500";
+                startAutoSync();
+            } else {
+                if(btnText) btnText.innerText = "Auto-Sync: OFF";
+                if(btnIcon) btnIcon.className = "fa-solid fa-bolt text-gray-500";
+                stopAutoSync();
+            }
+        }
+
+        // --- RENDER DOM LOGIC ---
         function renderMails() {
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
             
-            if (allMessages.length > 0) {
-                if(inboxContent) { 
-                    inboxContent.innerHTML = ''; 
-                    inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center'); 
-                }
-                const sortOrder = document.getElementById('sort-mails') ? document.getElementById('sort-mails').value : 'newest';
-                let sortedMails = [...allMessages]; 
-                
-                if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-                else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-                
-                sortedMails.forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition w-full text-left";
-                    div.innerHTML = `<div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span><span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span></div><div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>`;
-                    div.onclick = () => openEmail(msg.id);
-                    if(inboxContent) inboxContent.appendChild(div);
-                });
-            } else {
-                if(inboxContent) { 
-                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p>Waiting for incoming emails...</p>`; 
-                    inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center'); 
-                }
+            if (!inboxContent) return;
+
+            if (allMessages.length === 0) {
+                inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p>Waiting for incoming emails...</p>`;
+                inboxContent.className = "min-h-[350px] max-h-[600px] overflow-y-auto bg-white dark:bg-[#0f1525] transition-colors relative p-2 flex flex-col items-center justify-center text-slate-400";
+                return;
             }
+
+            inboxContent.innerHTML = '';
+            inboxContent.className = "min-h-[350px] max-h-[600px] overflow-y-auto bg-white dark:bg-[#0f1525] transition-colors relative p-4";
+
+            const sortOrder = document.getElementById('sort-mails') ? document.getElementById('sort-mails').value : 'newest';
+            let sortedMails = [...allMessages]; 
+            
+            if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+            else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+            sortedMails.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = "bg-slate-50 dark:bg-darkpanel p-4 mb-3 rounded-xl shadow-sm border border-slate-200 dark:border-darkborder cursor-pointer hover:border-brand transition w-full text-left";
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
+                        <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
+                    </div>
+                    <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || '(No Subject)'}</div>
+                `;
+                div.onclick = () => openEmail(msg.id);
+                inboxContent.appendChild(div);
+            });
         }
 
         async function openEmail(id) {
             try {
-                const res = await fetch(`${API}/messages/${id}?_=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const res = await fetch(`${API}/messages/${id}?_=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` }, cache: 'no-store' });
                 const data = await res.json();
                 if(document.getElementById('modal-subject')) document.getElementById('modal-subject').innerText = data.subject || 'No Subject';
                 if(document.getElementById('modal-from')) document.getElementById('modal-from').innerText = data.from.address;
@@ -514,22 +542,16 @@
             } catch(err) { alert("Could not load email content."); }
         }
 
-        function clearLocalInbox() { allMessages = []; lastMailCount = 0; renderMails(); }
+        function closeModal() {
+            if(document.getElementById('email-modal')) document.getElementById('email-modal').classList.replace('flex', 'hidden');
+            if(document.getElementById('modal-body-iframe')) document.getElementById('modal-body-iframe').srcdoc = '';
+        }
 
-        function copyEmail() { if(emailInput && emailInput.value.includes('@')) { emailInput.select(); document.execCommand('copy'); const msg = document.getElementById('copy-msg'); if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); } } }
-        
-        function toggleAutoSync() { 
-            isSyncing = !isSyncing; 
-            const icon = document.getElementById('sync-icon'); 
-            const text = document.getElementById('sync-text'); 
-            if(isSyncing) { 
-                if(icon) icon.className = "fa-solid fa-bolt text-amber-500"; 
-                if(text) text.innerText = "Auto-Sync: ON"; 
-                startSyncLoop(); 
-            } else { 
-                if(icon) icon.className = "fa-solid fa-bolt text-gray-500"; 
-                if(text) text.innerText = "Auto-Sync: OFF"; 
-                stopSyncLoop(); 
+        function copyEmail() { 
+            if(emailInput && emailInput.value.includes('@')) { 
+                emailInput.select(); document.execCommand('copy'); 
+                const msg = document.getElementById('copy-msg'); 
+                if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); } 
             } 
         }
         
