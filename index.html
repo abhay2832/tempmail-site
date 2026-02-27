@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nullsto Premium Temp Email</title>
+    <title>Premium Landing Page Section</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- Base & Variables --- */
         :root {
             --bg-color: #fafbfc;
             --text-main: #111827;
@@ -18,141 +19,328 @@
             --border-color: #e5e7eb;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --radius-lg: 12px;
             --radius-xl: 16px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-        /* --- Header --- */
-        .header { background: var(--card-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
-        .header-inner { display: flex; justify-content: space-between; align-items: center; height: 70px; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-purple); display: flex; align-items: center; gap: 8px; }
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--primary-blue); }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
 
-        /* --- Buttons --- */
-        .btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; font-size: 1rem; justify-content: center; }
-        .btn-primary { background: var(--gradient-bg); color: white; }
-        .btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
-        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-outline:hover { background: #f3f4f6; }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-        /* --- Hero / Working App Section --- */
-        .hero { text-align: center; padding: 60px 0; }
-        .hero-title { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
-        .hero-subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 40px; }
-        .gradient-text { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            margin-top: 80px;
+        }
+
+        .section-tag {
+            color: var(--primary-blue);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: #eff6ff;
+            color: var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- How It Works Section --- */
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 30px 30px;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-bg);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .step-card .icon-box {
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            background: #f3e8ff;
+            color: var(--primary-purple);
+        }
+
+        /* --- FAQ Section --- */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            color: var(--text-muted);
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 20px;
+            max-height: 200px; /* Adjust if answer is very long */
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* --- CTA Section --- */
+        .cta-section {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 60px 20px;
+            text-align: center;
+            margin: 80px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-bg);
+            color: white;
+            margin-right: 15px;
+        }
         
-        .app-card { background: var(--card-bg); border-radius: var(--radius-xl); padding: 40px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); max-width: 800px; margin: 0 auto; text-align: left; }
-        .app-label { text-transform: uppercase; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 15px; text-align: center; }
-        
-        .input-group { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .email-input { flex: 1; min-width: 250px; background: #f8fafc; border: 2px solid var(--primary-blue); border-radius: 8px; padding: 15px 20px; font-size: 1.25rem; font-weight: 600; color: var(--text-main); text-align: center; outline: none; transition: all 0.2s; }
-        .email-input:focus { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
-        
-        .inbox-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; }
-        .status-badge { background: #ecfdf5; color: #059669; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px;}
-        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
-        .empty-state { text-align: center; padding: 50px 0; color: var(--text-muted); }
-        
-        @keyframes pulse { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        .btn-primary:hover {
+            opacity: 0.9;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
 
-        /* --- Lower Sections (Features, How it Works, FAQ, Footer) --- */
-        .section-header { text-align: center; margin-bottom: 50px; margin-top: 80px; }
-        .section-tag { color: var(--primary-blue); font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
-        .section-subtitle { color: var(--text-muted); font-size: 1.125rem; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
 
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-sm); transition: all 0.3s ease; }
-        .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
-        .icon-box { width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 1.5rem; }
-        .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 10px; }
-        .card-text { color: var(--text-muted); font-size: 0.95rem; }
+        .btn-outline:hover {
+            background: #f3f4f6;
+        }
 
-        .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
-        .step-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 40px 30px 30px; text-align: center; position: relative; box-shadow: var(--shadow-sm); }
-        .step-number { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--gradient-bg); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; }
-        .step-card .icon-box { margin: 0 auto 20px; border-radius: 50%; width: 60px; height: 60px; background: #f3e8ff; color: var(--primary-purple); }
+        /* --- Footer & Telegram Banner --- */
+        .footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 0 20px;
+            margin-top: 60px;
+        }
 
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); margin-bottom: 15px; overflow: hidden; box-shadow: var(--shadow-sm); }
-        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1.1rem; transition: background 0.2s; }
-        .faq-question:hover { background: #f8fafc; }
-        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; color: var(--text-muted); transition: max-height 0.3s ease-out, padding 0.3s ease; }
-        .faq-item.active .faq-answer { padding: 0 25px 20px; max-height: 200px; }
-        .arrow { transition: transform 0.3s ease; }
-        .faq-item.active .arrow { transform: rotate(180deg); }
+        .telegram-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 20px 30px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 50px;
+        }
 
-        .cta-section { background: var(--card-bg); border-radius: var(--radius-xl); padding: 60px 20px; text-align: center; margin: 80px 0; box-shadow: var(--shadow-md); }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
 
-        .footer { background: var(--card-bg); border-top: 1px solid var(--border-color); padding: 60px 0 20px; margin-top: 60px; }
-        .telegram-banner { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid var(--border-color); padding: 20px 30px; border-radius: var(--radius-lg); margin-bottom: 50px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .footer-col h4 { font-size: 0.875rem; text-transform: uppercase; color: var(--text-main); margin-bottom: 20px; letter-spacing: 1px; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 12px; }
-        .footer-col ul a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
-        .footer-col ul a:hover { color: var(--primary-blue); }
-        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.875rem; }
+        .footer-col h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
 
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--primary-blue);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .input-group { flex-direction: column; }
-            .btn { width: 100%; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .footer-col:first-child { grid-column: 1 / -1; }
-            .telegram-banner { flex-direction: column; text-align: center; gap: 15px; }
-            .nav-links { display: none; } /* Hide links on mobile for simplicity */
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .footer-col:first-child {
+                grid-column: 1 / -1;
+            }
+            .telegram-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .btn-primary { margin-right: 0; margin-bottom: 10px; width: 100%; justify-content: center;}
+            .btn-outline { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="container header-inner">
-            <div class="logo">
-                <div style="background: var(--primary-purple); color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; justify-content: center; align-items: center;">N</div>
-                Nullsto
-            </div>
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#faq">FAQ</a>
-                <a href="#" class="btn btn-outline" style="padding: 8px 16px;">Login</a>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero container">
-        <h1 class="hero-title">Your Private <span class="gradient-text">Temporary Inbox</span></h1>
-        <p class="hero-subtitle">Protect your real email address from spam, phishing, and unwanted newsletters. Generate a temporary email instantly.</p>
-        
-        <div class="app-card">
-            <p class="app-label">Your Temporary Email Address</p>
-            <div class="input-group">
-                <input type="text" id="email-address" class="email-input" value="generating..." readonly>
-                <button onclick="copyEmail()" id="copy-btn" class="btn btn-primary">📋 Copy</button>
-                <button onclick="generateEmail()" class="btn btn-outline">🔄 Refresh</button>
-            </div>
-
-            <div class="inbox-header">
-                <h3 style="font-size: 1.25rem; font-weight: 600;">📥 Inbox</h3>
-                <div class="status-badge">
-                    <div class="status-dot"></div> Auto-refreshing
-                </div>
-            </div>
-            
-            <div class="empty-state">
-                <div style="font-size: 3rem; margin-bottom: 10px;">📫</div>
-                <h4 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 5px;">Your inbox is empty</h4>
-                <p>Waiting for incoming emails...</p>
-            </div>
-        </div>
-    </section>
 
     <section id="features" class="container">
         <div class="section-header">
@@ -230,7 +418,7 @@
             <h2 class="section-title">Ready to Protect Your <span class="gradient-text">Privacy?</span></h2>
             <p class="section-subtitle" style="margin-bottom: 30px;">Join millions of users who trust our service.</p>
             <div>
-                <button onclick="window.scrollTo(0,0)" class="btn btn-primary">Generate Free Email →</button>
+                <a href="#" class="btn btn-primary">Generate Free Email →</a>
                 <a href="#" class="btn btn-outline">View Pricing</a>
             </div>
             <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">No credit card required.</p>
@@ -241,7 +429,7 @@
         <div class="container">
             <div class="telegram-banner">
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="icon-box" style="margin: 0; width: 40px; height: 40px; background: #38bdf8; color: white;">✈️</div>
+                    <div class="icon-box" style="margin: 0; width: 40px; height: 40px;">✈️</div>
                     <div>
                         <h3 style="font-size: 1.1rem; color: var(--text-main);">Join our Telegram</h3>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">Get updates & announcements</p>
@@ -252,13 +440,13 @@
 
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-purple); margin-bottom: 15px; display: flex; align-items: center; gap: 5px;"><div style="background: var(--primary-purple); color: white; width: 24px; height: 24px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 14px;">N</div> Nullsto</h3>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #4f46e5; margin-bottom: 15px;">N Nullsto</h3>
                     <p style="color: var(--text-muted); font-size: 0.95rem;">Generate instant, anonymous email addresses. Perfect for sign-ups, testing, and keeping your real inbox spam-free.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Product</h4>
                     <ul>
-                        <li><a href="#features">Features</a></li>
+                        <li><a href="#">Features</a></li>
                         <li><a href="#">Pricing</a></li>
                         <li><a href="#">Changelog</a></li>
                     </ul>
@@ -281,8 +469,8 @@
                 <div class="footer-col">
                     <h4>Resources</h4>
                     <ul>
-                        <li><a href="#faq">FAQ</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">How It Works</a></li>
                     </ul>
                 </div>
             </div>
@@ -290,48 +478,26 @@
             <div class="footer-bottom">
                 <p>© 2026 Nullsto. All rights reserved.</p>
                 <div style="display: flex; gap: 15px;">
-                    <a href="#">Privacy</a>
-                    <a href="#">Terms</a>
+                    <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy</a>
+                    <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Fake Email Generator Logic
-        const domains = ['@nullsto.com', '@tempbox.net', '@privatemail.org'];
-        
-        function generateEmail() {
-            const randomString = Math.random().toString(36).substring(2, 10);
-            const domain = domains[Math.floor(Math.random() * domains.length)];
-            const newEmail = randomString + domain;
-            document.getElementById('email-address').value = newEmail;
-        }
-
-        function copyEmail() {
-            const emailInput = document.getElementById('email-address');
-            emailInput.select();
-            emailInput.setSelectionRange(0, 99999); // For mobile devices
-            navigator.clipboard.writeText(emailInput.value);
-            
-            const btn = document.getElementById('copy-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '✅ Copied!';
-            setTimeout(() => { btn.innerHTML = originalText; }, 2000);
-        }
-
-        // Generate first email on load
-        window.onload = generateEmail;
-
-        // FAQ Accordion Logic
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const item = question.parentElement;
+                
+                // Close all other open items
                 document.querySelectorAll('.faq-item').forEach(otherItem => {
                     if (otherItem !== item) {
                         otherItem.classList.remove('active');
                     }
                 });
+
+                // Toggle current item
                 item.classList.toggle('active');
             });
         });
