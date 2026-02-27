@@ -61,7 +61,7 @@
                 <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Aryan<span class="text-brand color-shift"> Mails</span></span>
             </div>
             
-            <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
+            <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
                 <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
                     <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
                     <span class="text-xl drop-shadow-md">🇮🇳</span>
@@ -104,8 +104,8 @@
                     <i class="fa-solid fa-arrows-rotate"></i> Change Email
                 </button>
                 
-                <button onclick="manualFetch()" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
-                    <i class="fa-solid fa-bolt"></i> Fast OTP
+                <button onclick="fastOtpReset()" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
+                    <i id="fast-bolt-icon" class="fa-solid fa-bolt"></i> Fast OTP
                 </button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
@@ -534,6 +534,30 @@
             createNewAccount();
         }
 
+        // --- NEW FAST OTP RESET LOGIC ---
+        async function fastOtpReset() {
+            const boltIcon = document.getElementById('fast-bolt-icon');
+            if(boltIcon) boltIcon.classList.add('fa-spin');
+            
+            // Purana token aur account delete taaki fresh start mile
+            localStorage.removeItem('mt_token');
+            localStorage.removeItem('mt_email');
+            address = null;
+            token = null;
+            
+            emailInput.value = "Resetting Token...";
+            loadingOverlay.style.display = 'flex';
+            clearInboxUI();
+            
+            // Naya account banao
+            await createNewAccount();
+            // Naye account ke emails fetch karo
+            await manualFetch();
+            
+            if(boltIcon) boltIcon.classList.remove('fa-spin');
+        }
+        // --------------------------------
+
         async function manualFetch() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
@@ -546,13 +570,15 @@
                 const data = await res.json();
                 allMessages = data['hydra:member'];
                 
-                if (allMessages && allMessages.length >= 0) {
+                if (allMessages && allMessages.length > 0) {
                     if(allMessages.length > lastMailCount && soundOn) {
                         const audio = document.getElementById('notification-sound');
                         if(audio) audio.play().catch(e => console.log(e));
                     }
                     lastMailCount = allMessages.length;
                     renderMails(); 
+                } else {
+                    renderMails(); // update UI even if empty
                 }
             } catch (err) {
                 console.error("Fetch error:", err);
