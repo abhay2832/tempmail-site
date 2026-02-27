@@ -30,6 +30,7 @@
         }
 
         html { scroll-behavior: smooth; }
+        
         body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
         
         @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
@@ -45,6 +46,7 @@
         .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
         .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
 
+        /* Animation for updating stats */
         .stat-update { animation: highlight-stat 1s ease-out; }
         @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
     </style>
@@ -224,7 +226,7 @@
         </div>
     </div>
 
-    <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
+    <div id="features" class="text-center mb-12 mt-24 px-4">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">Features</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
         <p class="text-slate-500 dark:text-gray-400 text-lg">Our comprehensive suite of features keeps your real email address safe.</p>
@@ -248,7 +250,7 @@
         </div>
     </div>
 
-    <div id="how-it-works" class="text-center mb-12 px-4 pt-10">
+    <div id="how-it-works" class="text-center mb-12 px-4">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Get Started in Seconds</h2>
     </div>
@@ -274,7 +276,7 @@
         </div>
     </div>
 
-    <div id="faq" class="text-center mb-12 px-4 pt-10">
+    <div id="faq" class="text-center mb-12 px-4">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">FAQ</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Frequently <span class="text-brand color-shift">Asked Questions</span></h2>
     </div>
@@ -315,7 +317,7 @@
             <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Ready to Protect Your <span class="text-brand color-shift">Privacy?</span></h2>
             <p class="text-slate-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">Join millions of users who trust our service to keep their real inbox spam-free.</p>
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full sm:w-auto color-shift bg-brand hover:brightness-110 text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center justify-center gap-2 active:scale-95 shadow-md">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full sm:w-auto color-shift bg-brand hover:brightness-110 text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center justify-center gap-2 active:scale-95 shadow-md cursor-pointer">
                     Generate Free Email <i class="fa-solid fa-arrow-up"></i>
                 </button>
             </div>
@@ -346,14 +348,14 @@
                     </div>
                     <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Generate instant, anonymous email addresses. Perfect for sign-ups, testing, and keeping your real inbox completely spam-free.</p>
                     <div class="flex gap-4">
-                        <a href="https://t.me/aryanmails" target="_blank" title="Telegram" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition"><i class="fa-brands fa-telegram"></i></a>
-                        <a href="#" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://t.me/aryanmails" target="_blank" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition cursor-pointer"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition cursor-pointer"><i class="fa-brands fa-github"></i></a>
                     </div>
                 </div>
                 <div>
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Product</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
-                        <li><a href="#features" class="hover:text-brand transition">Features</a></li>
+                        <li><a href="#features" class="hover:text-brand transition cursor-pointer">Features</a></li>
                         <li><button onclick="showPageModal('API Access')" class="hover:text-brand transition cursor-pointer focus:outline-none">API Access</button></li>
                         <li><button onclick="showPageModal('Premium Plans')" class="hover:text-brand transition cursor-pointer focus:outline-none">Premium</button></li>
                     </ul>
@@ -361,8 +363,8 @@
                 <div>
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Resources</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
-                        <li><a href="#how-it-works" class="hover:text-brand transition">How It Works</a></li>
-                        <li><a href="#faq" class="hover:text-brand transition">FAQ</a></li>
+                        <li><a href="#how-it-works" class="hover:text-brand transition cursor-pointer">How It Works</a></li>
+                        <li><a href="#faq" class="hover:text-brand transition cursor-pointer">FAQ</a></li>
                         <li><button onclick="showPageModal('Blog & News')" class="hover:text-brand transition cursor-pointer focus:outline-none">Blog</button></li>
                     </ul>
                 </div>
@@ -371,7 +373,7 @@
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
                         <li><button onclick="showPageModal('Privacy Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Privacy Policy</button></li>
                         <li><button onclick="showPageModal('Terms of Service')" class="hover:text-brand transition cursor-pointer focus:outline-none">Terms of Service</button></li>
-                        <li><button onclick="showPageModal('Contact Us')" class="hover:text-brand transition cursor-pointer focus:outline-none">Contact Us</button></li>
+                        <li><a href="https://t.me/aryanmails" target="_blank" class="hover:text-brand transition cursor-pointer">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -406,14 +408,14 @@
         <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
-                <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
             <div id="page-modal-body" class="p-6 overflow-y-auto text-slate-600 dark:text-gray-300 text-sm leading-relaxed space-y-4">
             </div>
             <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg text-right">
-                <button onclick="closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md">Got it</button>
+                <button onclick="closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md cursor-pointer">Got it</button>
             </div>
         </div>
     </div>
@@ -436,6 +438,7 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
+        // LIVE STATS SIMULATION
         let statToday = 819;
         let statInboxes = 382;
         let statGenerated = 296500; 
@@ -445,9 +448,13 @@
             statInboxes += Math.floor(Math.random() * 2);
             statGenerated += Math.floor(Math.random() * 5);
 
-            document.getElementById('stat-today').innerText = statToday.toLocaleString();
-            document.getElementById('stat-inboxes').innerText = statInboxes.toLocaleString();
-            document.getElementById('stat-generated').innerText = (statGenerated / 1000).toFixed(1) + 'K';
+            const stElement = document.getElementById('stat-today');
+            const siElement = document.getElementById('stat-inboxes');
+            const sgElement = document.getElementById('stat-generated');
+
+            if(stElement) stElement.innerText = statToday.toLocaleString();
+            if(siElement) siElement.innerText = statInboxes.toLocaleString();
+            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
 
             const statElements = ['stat-today', 'stat-inboxes', 'stat-generated'];
             statElements.forEach(id => {
@@ -476,7 +483,10 @@
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
-            document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
+            const themeIcon = document.getElementById('theme-icon');
+            if(themeIcon) {
+                themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
+            }
         }
 
         function showPageModal(pageName) {
@@ -498,12 +508,6 @@
                     <p>By using Aryan Mails, you agree to use the service responsibly. You may not use our disposable emails for illegal activities, spamming, harassment, or to abuse third-party services.</p>
                     <p>We provide this service "as is" without any warranties. We reserve the right to block access or delete inboxes if we detect malicious activity or a violation of these terms.</p>
                 `;
-            } else if (pageName === 'Contact Us') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Get in Touch</p>
-                    <p>For any bug reports, business inquiries, or general support, the fastest way to reach the Aryan Mails team is through our official Telegram channel.</p>
-                    <p class="mt-4"><a href="https://t.me/aryanmails" target="_blank" class="text-brand font-bold hover:underline"><i class="fa-brands fa-telegram"></i> Message us on Telegram</a></p>
-                `;
             } else if (pageName === 'API Access') {
                 content = `
                     <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Developer API (Beta)</p>
@@ -514,7 +518,7 @@
                 content = `
                     <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
                     <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
                         <li>Custom domain names</li>
                         <li>Permanent email inboxes</li>
                         <li>Ad-free experience</li>
@@ -546,24 +550,25 @@
             if (!address || !token) {
                 await createNewAccount();
             } else {
-                emailInput.value = address;
-                loadingOverlay.style.display = 'none';
+                if(emailInput) emailInput.value = address;
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
                 startSync();
                 manualFetch();
             }
         }
 
         async function createNewAccount() {
-            loadingOverlay.style.display = 'flex';
+            if(loadingOverlay) loadingOverlay.style.display = 'flex';
             try {
                 const domainRes = await fetch(`${API}/domains`);
                 const domainData = await domainRes.json();
                 const domain = domainData['hydra:member'][0].domain;
 
-                const prefixes = ['aryan', 'raj', 'amit', 'alex', 'sam', 'john', 'user', 'pro', 'mail', 'info'];
+                const prefixes = ['aryan', 'raj', 'amit', 'alex', 'sam', 'user', 'pro', 'mail', 'info'];
                 const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-                const randomNum = Math.floor(Math.random() * 90000) + 10000; 
-                const newUsername = `${randomPrefix}${randomNum}`; 
+                const randomNum = Math.floor(Math.random() * 90000) + 10000;
+                const uniqueId = Math.random().toString(36).substring(2, 5); 
+                const newUsername = randomPrefix + randomNum + uniqueId; 
                 
                 const newAddress = `${newUsername}@${domain}`;
                 const newPassword = generatePassword();
@@ -590,17 +595,18 @@
                     localStorage.setItem('mt_password', password);
                     localStorage.setItem('mt_token', token);
 
-                    emailInput.value = address;
-                    loadingOverlay.style.display = 'none';
+                    if(emailInput) emailInput.value = address;
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
                     clearInboxUI();
                     startSync();
                 } else {
-                    emailInput.value = "Format Error. Please retry.";
-                    loadingOverlay.style.display = 'none';
+                    if(emailInput) emailInput.value = "Format Error. Please retry.";
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
                 }
             } catch (err) {
                 console.error("API Error:", err);
-                emailInput.value = "Network Error! Retrying...";
+                if(emailInput) emailInput.value = "Network Error! Retrying...";
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
             }
         }
 
@@ -609,8 +615,8 @@
             localStorage.removeItem('mt_token');
             address = null;
             token = null;
-            emailInput.value = "Generating...";
-            loadingOverlay.style.display = 'flex';
+            if(emailInput) emailInput.value = "Generating...";
+            if(loadingOverlay) loadingOverlay.style.display = 'flex';
             clearInboxUI();
             createNewAccount();
         }
@@ -624,8 +630,8 @@
             address = null;
             token = null;
             
-            emailInput.value = "Resetting Token...";
-            loadingOverlay.style.display = 'flex';
+            if(emailInput) emailInput.value = "Resetting Token...";
+            if(loadingOverlay) loadingOverlay.style.display = 'flex';
             clearInboxUI();
             
             await createNewAccount();
@@ -664,11 +670,13 @@
         }
 
         function renderMails() {
-            totalEmails.innerText = `${allMessages.length} emails`;
+            if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
             
             if (allMessages.length > 0) {
-                inboxContent.innerHTML = '';
-                inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
+                if(inboxContent) {
+                    inboxContent.innerHTML = '';
+                    inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
+                }
                 
                 const sortOrder = document.getElementById('sort-mails').value;
                 let sortedMails = [...allMessages]; 
@@ -690,11 +698,13 @@
                         <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>
                     `;
                     div.onclick = () => openEmail(msg.id);
-                    inboxContent.appendChild(div);
+                    if(inboxContent) inboxContent.appendChild(div);
                 });
             } else {
-                inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p>Waiting for incoming emails...</p>`;
-                inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
+                if(inboxContent) {
+                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p>Waiting for incoming emails...</p>`;
+                    inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
+                }
             }
         }
 
@@ -705,23 +715,32 @@
                 });
                 const data = await res.json();
                 
-                document.getElementById('modal-subject').innerText = data.subject || 'No Subject';
-                document.getElementById('modal-from').innerText = data.from.address;
+                const modalSubject = document.getElementById('modal-subject');
+                const modalFrom = document.getElementById('modal-from');
+                const modalBodyIframe = document.getElementById('modal-body-iframe');
+                const emailModal = document.getElementById('email-modal');
+
+                if(modalSubject) modalSubject.innerText = data.subject || 'No Subject';
+                if(modalFrom) modalFrom.innerText = data.from.address;
+                if(modalBodyIframe) modalBodyIframe.srcdoc = data.html ? data.html[0] : (data.text || 'No content');
                 
-                const iframe = document.getElementById('modal-body-iframe');
-                iframe.srcdoc = data.html ? data.html[0] : (data.text || 'No content');
-                
-                document.getElementById('email-modal').classList.remove('hidden');
-                document.getElementById('email-modal').classList.add('flex');
+                if(emailModal) {
+                    emailModal.classList.remove('hidden');
+                    emailModal.classList.add('flex');
+                }
             } catch(err) {
                 alert("Could not load email content.");
             }
         }
 
         function closeModal() {
-            document.getElementById('email-modal').classList.add('hidden');
-            document.getElementById('email-modal').classList.remove('flex');
-            document.getElementById('modal-body-iframe').srcdoc = '';
+            const emailModal = document.getElementById('email-modal');
+            const modalBodyIframe = document.getElementById('modal-body-iframe');
+            if(emailModal) {
+                emailModal.classList.add('hidden');
+                emailModal.classList.remove('flex');
+            }
+            if(modalBodyIframe) modalBodyIframe.srcdoc = '';
         }
 
         function clearInboxUI() { 
@@ -731,11 +750,15 @@
         }
 
         function copyEmail() {
-            emailInput.select();
-            document.execCommand('copy');
+            if(emailInput) {
+                emailInput.select();
+                document.execCommand('copy');
+            }
             const msg = document.getElementById('copy-msg');
-            msg.style.opacity = "1";
-            setTimeout(() => { msg.style.opacity = "0"; }, 2000);
+            if(msg) {
+                msg.style.opacity = "1";
+                setTimeout(() => { msg.style.opacity = "0"; }, 2000);
+            }
         }
 
         function startSync() {
@@ -748,19 +771,20 @@
             const icon = document.getElementById('sync-icon');
             const text = document.getElementById('sync-text');
             if(isSyncing) {
-                icon.className = "fa-solid fa-bolt text-amber-500";
-                text.innerText = "Auto-Sync: ON";
+                if(icon) icon.className = "fa-solid fa-bolt text-amber-500";
+                if(text) text.innerText = "Auto-Sync: ON";
                 startSync();
             } else {
-                icon.className = "fa-solid fa-bolt text-gray-500";
-                text.innerText = "Auto-Sync: OFF";
+                if(icon) icon.className = "fa-solid fa-bolt text-gray-500";
+                if(text) text.innerText = "Auto-Sync: OFF";
                 clearInterval(syncTimer);
             }
         }
 
         function toggleAudio() { 
             soundOn = !soundOn; 
-            document.getElementById('notif-text').innerText = soundOn ? "Sound On" : "Sound Off";
+            const text = document.getElementById('notif-text');
+            if(text) text.innerText = soundOn ? "Sound On" : "Sound Off";
             const icon = document.getElementById('notif-icon');
             if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
         }
@@ -779,7 +803,7 @@
 
                     if (!isOpen) {
                         answer.style.maxHeight = answer.scrollHeight + "px";
-                        icon.style.transform = 'rotate(180deg)';
+                        if(icon) icon.style.transform = 'rotate(180deg)';
                     }
                 });
             });
