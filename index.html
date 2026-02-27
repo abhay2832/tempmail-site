@@ -78,7 +78,7 @@
                 <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
                     <i class="fa-solid fa-arrows-rotate"></i> Change Email
                 </button>
-                <button onclick="manualFetch()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 shadow-md cursor-pointer">
+                <button onclick="manualFetch()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 shadow-md cursor-pointer text-sm">
                     <i class="fa-solid fa-rotate"></i> Refresh Inbox
                 </button>
             </div>
@@ -98,7 +98,6 @@
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-envelope text-cyan-600 dark:text-brand color-shift text-lg"></i>
                     <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
-                    <span id="badge-new" class="color-shift bg-cyan-100 dark:bg-brandbg text-cyan-700 dark:text-brand text-xs px-2.5 py-1 rounded-full border border-cyan-200 dark:border-cyan-500/20 font-semibold hidden">0 new</span>
                 </div>
                 <button onclick="clearInbox()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold">
                     <i class="fa-solid fa-trash-can"></i> Clear Inbox
@@ -136,7 +135,7 @@
         </div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4">
+    <div class="max-w-5xl mx-auto px-4 mb-8">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
             
             <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
@@ -153,7 +152,6 @@
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
                         </div>
                     </div>
-                    
                     <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
                         <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
                         <div>
@@ -161,7 +159,6 @@
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
                         </div>
                     </div>
-                    
                     <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
                         <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
                         <div>
@@ -169,7 +166,6 @@
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
                         </div>
                     </div>
-                    
                     <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
                         <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
                         <div>
@@ -234,13 +230,12 @@
         let soundOn = false;
         let currentMailObj = null;
 
-        // --- Original Live Stats Simulator ---
+        // --- Live Stats Simulator ---
         let stats = { today: 819, inboxes: 382, generated: 296500 };
         function updateLiveStats() {
-            let changed = false;
-            if(Math.random() > 0.4) { stats.today += Math.floor(Math.random() * 3) + 1; updateStatUI('stat-today', stats.today); changed = true; }
-            if(Math.random() > 0.6) { stats.inboxes += 1; updateStatUI('stat-inboxes', stats.inboxes); changed = true; }
-            if(Math.random() > 0.3) { stats.generated += Math.floor(Math.random() * 8) + 1; updateStatUI('stat-generated', (stats.generated / 1000).toFixed(1) + 'K'); changed = true; }
+            if(Math.random() > 0.4) { stats.today += Math.floor(Math.random() * 3) + 1; updateStatUI('stat-today', stats.today); }
+            if(Math.random() > 0.6) { stats.inboxes += 1; updateStatUI('stat-inboxes', stats.inboxes); }
+            if(Math.random() > 0.3) { stats.generated += Math.floor(Math.random() * 8) + 1; updateStatUI('stat-generated', (stats.generated / 1000).toFixed(1) + 'K'); }
         }
         function updateStatUI(id, val) {
             const el = document.getElementById(id);
@@ -253,20 +248,20 @@
         }
         setInterval(updateLiveStats, 3000);
 
-        // --- Init ---
+        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
             if (token && address) {
                 document.getElementById('email-address').value = address;
                 document.getElementById('loading-overlay').classList.add('hidden');
                 startInboxSync();
-                manualFetch();
+                manualFetch(); // Will auto-fix if token is expired
             } else {
                 generateNewEmail();
             }
         });
 
-        // --- UI Functions ---
+        // --- UI & Utility Functions ---
         function initTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -276,6 +271,7 @@
                 icon.classList.replace('text-yellow-400', 'text-slate-600');
             }
         }
+
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -330,9 +326,9 @@
             }
         }
 
-        // --- Mail API Logic ---
         function generatePassword() { return Math.random().toString(36).slice(-8) + "Aa1@"; }
 
+        // --- Core Mail API Logic ---
         async function generateNewEmail() {
             document.getElementById('loading-overlay').classList.remove('hidden');
             document.getElementById('email-address').value = "Generating...";
@@ -379,6 +375,7 @@
             localStorage.removeItem('mt_token');
             localStorage.removeItem('mt_email');
             password = generatePassword();
+            if(syncTimer) clearInterval(syncTimer);
             generateNewEmail();
         }
 
@@ -396,6 +393,18 @@
                 const res = await fetch(`${API}/messages`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
+
+                // TOKEN EXPIRED FIX: Auto-generate new account if current is dead
+                if (!res.ok) {
+                    if (res.status === 401 || res.status === 404) {
+                        console.log("Token expired. Automatically creating a new account...");
+                        document.getElementById('inbox-content').innerHTML = '<div class="text-center text-red-500 py-10 w-full font-bold">Session Expired! Generating new email automatically...</div>';
+                        forceNewAccount(); 
+                        return;
+                    }
+                    throw new Error("API Error: " + res.status);
+                }
+
                 const data = await res.json();
                 
                 if(data['hydra:member'].length > lastMailCount) {
@@ -442,7 +451,7 @@
             });
         }
 
-        // --- Mail Actions ---
+        // --- Mail Actions (Open, Delete, Download) ---
         async function openMessage(id) {
             document.getElementById('email-modal').classList.remove('hidden');
             document.getElementById('email-modal').classList.add('flex');
@@ -453,7 +462,7 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const mail = await res.json();
-                currentMailObj = mail; // save for download
+                currentMailObj = mail; 
                 
                 document.getElementById('modal-subject').innerText = mail.subject;
                 document.getElementById('modal-from').innerText = mail.from.address;
@@ -461,7 +470,7 @@
                 const iframe = document.getElementById('modal-body-iframe');
                 let htmlContent = mail.html ? mail.html[0] : (mail.text ? `<pre style="padding:20px; font-family:sans-serif; white-space:pre-wrap;">${mail.text}</pre>` : "No content");
                 
-                // Cutout.pro & other sites link fix
+                // CUTOUT.PRO FIX: Forces all links in the email to open in a new tab
                 const baseTag = '<base target="_blank">';
                 htmlContent = baseTag + htmlContent;
 
