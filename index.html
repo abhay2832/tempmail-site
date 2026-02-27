@@ -90,7 +90,7 @@
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Generating...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Connecting to Server...">
                 <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
                     <i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand color-shift"></i>
                 </div>
@@ -555,17 +555,18 @@
             }
         }
 
-        // PERFECTED: Always picks the first, most stable domain to prevent Format Errors
+        // COMPLETE FIX: No infinite loops, Handles Adblockers, Clears dead tokens
         async function createNewAccount() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             try {
                 const domainRes = await fetch(`${API}/domains`);
+                if(!domainRes.ok) throw new Error("API Blocked or Down");
+                
                 const domainData = await domainRes.json();
                 const stableDomain = domainData['hydra:member'][0].domain; 
 
-                // Guaranteed safe username format
-                const uniqueStr = Date.now().toString(36) + Math.floor(Math.random() * 1000);
-                const newUsername = `ar${uniqueStr}`; 
+                const uniqueStr = Date.now().toString(36).slice(-4) + Math.floor(Math.random() * 1000);
+                const newUsername = `aryan${uniqueStr}`; 
                 
                 const newAddress = `${newUsername}@${stableDomain}`;
                 const newPassword = generatePassword();
@@ -597,15 +598,14 @@
                     clearInboxUI();
                     startSync();
                 } else {
-                    const errData = await createRes.json();
-                    console.log("Account Creation Rejected by Mail.tm:", errData);
-                    if(emailInput) emailInput.value = "Creating fresh email...";
-                    setTimeout(() => forceNewAccount(), 1500); 
+                    // Safe exit, no infinite loops
+                    if(emailInput) emailInput.value = "Error: Too many requests. Wait 1 min.";
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
                 }
             } catch (err) {
                 console.error("API Error:", err);
-                if(emailInput) emailInput.value = "Network Error! Retrying...";
-                setTimeout(() => forceNewAccount(), 2000);
+                if(emailInput) emailInput.value = "API Blocked! Check Adblocker.";
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
             }
         }
 
@@ -648,6 +648,14 @@
                 const res = await fetch(`${API}/messages`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
+                
+                // FIX: Detect Expired/Dead Token and Reset Automatically
+                if (res.status === 401 || res.status === 403) {
+                    console.log("Token dead. Forcing new account.");
+                    forceNewAccount();
+                    return;
+                }
+
                 const data = await res.json();
                 allMessages = data['hydra:member'] || [];
                 
