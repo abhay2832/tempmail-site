@@ -56,13 +56,13 @@
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Connecting to Server...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Generating Email...">
                 <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent"><i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand color-shift"></i></div>
             </div>
             <div class="flex flex-wrap justify-center gap-3 relative z-10">
                 <button onclick="copyEmail()" class="color-shift bg-brand hover:brightness-110 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer"><i class="fa-regular fa-copy"></i> Copy Address</button>
                 <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i> Change Email</button>
-                <button onclick="fastFetchOTP()" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95"><i id="fast-bolt-icon" class="fa-solid fa-bolt"></i> Fast OTP</button>
+                <button onclick="fastFetchOTP()" id="fast-otp-btn" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95"><i id="fast-bolt-icon" class="fa-solid fa-bolt"></i> Fast OTP</button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
         </div>
@@ -77,13 +77,13 @@
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
             <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
                 <div class="flex items-center gap-3"><i class="fa-solid fa-envelope text-brand color-shift text-lg"></i><span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span></div>
-                <button onclick="clearInboxUI()" id="clear-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold"><i class="fa-solid fa-trash-can"></i> Clear Inbox</button>
+                <button onclick="clearInboxUI()" id="clear-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold"><i class="fa-solid fa-trash-can" id="clear-icon"></i> Clear Inbox</button>
             </div>
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
                 <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer"><i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: ON</span></button>
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white"><span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live</div>
                 <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1"><i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span></button>
-                <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer"><i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails</button>
+                <button onclick="manualFetchBtnClick()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer"><i id="fetch-icon" class="fa-solid fa-arrows-rotate"></i> Fetch Mails</button>
             </div>
             <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
                 <div class="flex gap-4 items-center">
@@ -298,28 +298,26 @@
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
-        let syncTimer = null;
-        let refreshSec = 5; // Lightning fast 5s refresh
-        let lastMailCount = 0; 
+        
+        let syncTimerId = null; // Changed to setTimeout logic
+        let isFetching = false; // Prevent multiple requests at once
         let soundOn = false;
         let isSyncing = true; 
         let allMessages = [];
+        let lastMailCount = 0; 
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
+        // Fake Live Stats
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
             if(document.getElementById('stat-today')) document.getElementById('stat-today').innerText = statToday.toLocaleString();
             if(document.getElementById('stat-inboxes')) document.getElementById('stat-inboxes').innerText = statInboxes.toLocaleString();
             if(document.getElementById('stat-generated')) document.getElementById('stat-generated').innerText = (statGenerated / 1000).toFixed(1) + 'K';
-            ['stat-today', 'stat-inboxes', 'stat-generated'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el && Math.random() > 0.4) { el.classList.remove('stat-update'); void el.offsetWidth; el.classList.add('stat-update'); }
-            });
         }
         setInterval(updateLiveStats, 3500); 
 
@@ -345,13 +343,16 @@
             else { 
                 if(emailInput) emailInput.value = address; 
                 if(loadingOverlay) loadingOverlay.style.display = 'none'; 
-                startSync(); manualFetch(); 
+                startSyncLoop(); // START LOOP
+                triggerFetchUI(); // First manual load
             }
         }
 
         async function createNewAccount() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             if(emailInput) emailInput.value = "Connecting to Server...";
+            stopSyncLoop();
+
             try {
                 const domainRes = await fetch(`${API}/domains?_=${Date.now()}`); 
                 if(!domainRes.ok) throw new Error("API Blocked");
@@ -372,8 +373,10 @@
 
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
+                
                 clearLocalInbox();
-                if(isSyncing) startSync();
+                startSyncLoop();
+                
             } catch (err) {
                 if(emailInput) emailInput.value = "Failed: Server Down";
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
@@ -381,30 +384,74 @@
         }
 
         function forceNewAccount() {
-            clearInterval(syncTimer); localStorage.clear(); address = null; token = null;
+            stopSyncLoop();
+            localStorage.clear(); address = null; token = null;
             if(emailInput) emailInput.value = "Generating...";
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            clearLocalInbox(); createNewAccount();
+            clearLocalInbox(); 
+            createNewAccount();
         }
 
-        // PERFECT FAST OTP: Only refreshes mails, does NOT change email address!
-        async function fastFetchOTP() {
-            const boltIcon = document.getElementById('fast-bolt-icon');
-            if(boltIcon) boltIcon.classList.add('fa-spin');
-            
-            await manualFetch(); 
-            
-            setTimeout(() => { if(boltIcon) boltIcon.classList.remove('fa-spin'); }, 800);
+        // ==========================================
+        // BUTTON FIXES & BINDINGS (NO FREEZING)
+        // ==========================================
+
+        function manualFetchBtnClick() {
+            const btn = document.getElementById('fetch-icon');
+            if(btn) btn.classList.add('fa-spin');
+            triggerFetchUI().finally(() => {
+                if(btn) btn.classList.remove('fa-spin');
+            });
         }
 
-        // PERFECT MANUAL FETCH: Fetches live data instantly, bypassing browser cache
-        async function manualFetch() {
-            if(!token) return;
-            const fetchIcon = document.getElementById('fetch-icon');
-            if(fetchIcon) fetchIcon.classList.add('fa-spin');
+        function fastFetchOTP() {
+            const btn = document.getElementById('fast-bolt-icon');
+            if(btn) btn.classList.add('fa-spin');
+            triggerFetchUI().finally(() => {
+                setTimeout(() => { if(btn) btn.classList.remove('fa-spin'); }, 500);
+            });
+        }
+
+        async function clearInboxUI() { 
+            if(!token || allMessages.length === 0) return;
+            const icon = document.getElementById('clear-icon');
+            if(icon) icon.className = "fa-solid fa-circle-notch fa-spin";
+            
+            const msgsToDelete = [...allMessages];
+            clearLocalInbox(); // INSTANT UI UPDATE
+
+            for(let msg of msgsToDelete) {
+                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
+            }
+            if(icon) icon.className = "fa-solid fa-trash-can";
+        }
+
+        // ==========================================
+        // CORE FETCH & RENDER ENGINE (BULLETPROOF)
+        // ==========================================
+
+        function startSyncLoop() {
+            if(syncTimerId) clearTimeout(syncTimerId);
+            if(isSyncing) {
+                // Recursive timeout to prevent overlapping server requests!
+                syncTimerId = setTimeout(async () => {
+                    await triggerFetchUI();
+                    startSyncLoop(); // Call itself ONLY when done
+                }, 5000); // 5 seconds
+            }
+        }
+
+        function stopSyncLoop() {
+            if(syncTimerId) { clearTimeout(syncTimerId); syncTimerId = null; }
+        }
+
+        async function triggerFetchUI() {
+            if(!token || isFetching) return;
+            isFetching = true;
+            
             try {
                 const res = await fetch(`${API}/messages?_=${Date.now()}`, { 
-                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } 
+                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' } 
                 });
                 
                 if (res.status === 401 || res.status === 403) { forceNewAccount(); return; }
@@ -420,11 +467,13 @@
                 lastMailCount = allMessages.length;
                 
                 renderMails(); 
-            } catch (err) { } 
-            finally { if(fetchIcon) fetchIcon.classList.remove('fa-spin'); }
+            } catch (err) { 
+                console.error("Fetch Error:", err); 
+            } finally {
+                isFetching = false;
+            }
         }
 
-        // PERFECT UI UPDATE: Re-renders HTML DOM instantly without delay
         function renderMails() {
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
             
@@ -465,31 +514,9 @@
             } catch(err) { alert("Could not load email content."); }
         }
 
-        function closeModal() {
-            if(document.getElementById('email-modal')) document.getElementById('email-modal').classList.replace('flex', 'hidden');
-            if(document.getElementById('modal-body-iframe')) document.getElementById('modal-body-iframe').srcdoc = '';
-        }
-
-        // PERFECT CLEAR INBOX: Deletes from screen instantly, and permanently drops from API.
-        async function clearInboxUI() { 
-            if(!token || allMessages.length === 0) return;
-            const btn = document.getElementById('clear-btn');
-            if(btn) btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Clearing...`;
-            
-            const msgsToDelete = [...allMessages];
-            clearLocalInbox(); // Hide from UI
-
-            for(let msg of msgsToDelete) {
-                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
-            }
-            if(btn) btn.innerHTML = `<i class="fa-solid fa-trash-can"></i> Clear Inbox`;
-        }
-        
         function clearLocalInbox() { allMessages = []; lastMailCount = 0; renderMails(); }
 
         function copyEmail() { if(emailInput && emailInput.value.includes('@')) { emailInput.select(); document.execCommand('copy'); const msg = document.getElementById('copy-msg'); if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); } } }
-        
-        function startSync() { if(syncTimer) clearInterval(syncTimer); syncTimer = setInterval(manualFetch, refreshSec * 1000); }
         
         function toggleAutoSync() { 
             isSyncing = !isSyncing; 
@@ -498,11 +525,11 @@
             if(isSyncing) { 
                 if(icon) icon.className = "fa-solid fa-bolt text-amber-500"; 
                 if(text) text.innerText = "Auto-Sync: ON"; 
-                startSync(); 
+                startSyncLoop(); 
             } else { 
                 if(icon) icon.className = "fa-solid fa-bolt text-gray-500"; 
                 if(text) text.innerText = "Auto-Sync: OFF"; 
-                clearInterval(syncTimer); 
+                stopSyncLoop(); 
             } 
         }
         
