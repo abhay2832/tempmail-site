@@ -482,8 +482,8 @@
                 const domainData = await domainRes.json();
                 const domain = domainData['hydra:member'][0].domain;
 
-                const randomStr = Math.random().toString(36).substring(2, 6); 
-                const newUsername = 'aryan.' + randomStr;
+                // YAHA CHANGE KIYA HAI - Sirf random characters, "aryan" hata diya
+                const newUsername = Math.random().toString(36).substring(2, 10); 
                 const newAddress = `${newUsername}@${domain}`;
                 const newPassword = generatePassword();
 
@@ -534,7 +534,7 @@
             createNewAccount();
         }
 
-        // --- NEW FAST OTP RESET LOGIC ---
+        // --- FAST OTP RESET LOGIC ---
         async function fastOtpReset() {
             const boltIcon = document.getElementById('fast-bolt-icon');
             if(boltIcon) boltIcon.classList.add('fa-spin');
@@ -556,7 +556,6 @@
             
             if(boltIcon) boltIcon.classList.remove('fa-spin');
         }
-        // --------------------------------
 
         async function manualFetch() {
             if(!token) return;
