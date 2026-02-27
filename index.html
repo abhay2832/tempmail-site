@@ -12,7 +12,8 @@
                 extend: {
                     colors: {
                         darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
-                        brand: 'var(--brand-color, #22d3ee)', brandbg: 'rgba(34, 211, 238, 0.1)',
+                        brand: 'var(--brand-color, #22d3ee)', 
+                        brandbg: 'var(--brand-bg, rgba(34, 211, 238, 0.1))',
                     },
                     fontFamily: { sans: ['Inter', 'sans-serif'], }
                 } 
@@ -22,62 +23,46 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        :root { --brand-color: #22d3ee; --hue-rotate: 0deg; }
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
-        .theme-apply { filter: hue-rotate(var(--hue-rotate)); }
-        .color-shift { animation: hue-shift 8s infinite linear; }
+        :root { --brand-color: #22d3ee; --brand-bg: rgba(34, 211, 238, 0.1); }
+        body { font-family: 'Inter', sans-serif; transition: all 0.4s ease; }
         @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
+        .color-shift { animation: hue-shift 8s infinite linear; }
         .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
         .spin-slow { animation: spin 2s linear infinite; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
-        .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
-        .stat-update { animation: highlight-stat 1s ease-out; }
-        @keyframes highlight-stat { 0% { color: #22d3ee; transform: scale(1.05); } 100% { color: inherit; transform: scale(1); } }
-        
-        /* Theme Sidebar Style */
-        #theme-panel { transform: translateX(100%); transition: transform 0.3s ease; }
-        #theme-panel.open { transform: translateX(0); }
+        .theme-btn { background: var(--brand-color); color: white; }
+        .border-brand { border-color: var(--brand-color) !important; }
+        .text-brand { color: var(--brand-color) !important; }
+        .bg-brand { background-color: var(--brand-color) !important; }
+        .bg-brand-soft { background-color: var(--brand-bg) !important; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16 theme-apply">
-
-    <div id="theme-panel" class="fixed right-0 top-0 h-full w-72 bg-white dark:bg-darkpanel shadow-2xl z-[100] border-l border-slate-200 dark:border-darkborder p-5">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="font-bold text-lg">100+ Themes</h3>
-            <button onclick="toggleThemePanel()" class="text-slate-500"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div class="grid grid-cols-5 gap-2 mb-6 max-h-[60vh] overflow-y-auto pr-2" id="theme-grid"></div>
-        <div class="border-t border-slate-200 dark:border-darkborder pt-4">
-            <p class="text-xs font-bold mb-2 uppercase">Custom Color</p>
-            <input type="color" oninput="document.documentElement.style.setProperty('--brand-color', this.value); document.documentElement.style.setProperty('--hue-rotate', '0deg');" class="w-full h-10 rounded cursor-pointer">
-        </div>
-    </div>
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16">
 
     <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer">
-                <div class="color-shift w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
-                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Aryan<span class="text-cyan-600 dark:text-brand color-shift"> Mails</span></span>
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3">
+                <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Aryan<span class="text-brand color-shift"> Mails</span></span>
             </div>
             
-            <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30">
-                <span class="text-xs font-bold text-orange-600 dark:text-orange-400">Indian Mails 🇮🇳</span>
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30">
+                <span class="text-[10px] font-bold uppercase tracking-tighter text-orange-600 dark:text-orange-400">Indian Mails</span>
+                <span class="text-sm">🇮🇳</span>
             </div>
-            
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand text-xs font-semibold border border-cyan-200 dark:border-cyan-500/30 color-shift">
+
+            <div class="flex items-center gap-3">
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-soft text-brand text-xs font-semibold border border-brand/30">
                     <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
                 </div>
-                <button onclick="toggleThemePanel()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center border border-slate-200 dark:border-gray-700 text-indigo-500">
-                    <i class="fa-solid fa-palette"></i>
+                
+                <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition shadow-lg cursor-pointer">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer relative z-50">
+
+                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -86,24 +71,24 @@
 
     <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 color-shift"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             
             <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-cyan-500" value="Generating...">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand">
                 <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
-                    <i class="fa-solid fa-circle-notch spin-slow text-3xl text-cyan-600 dark:text-brand color-shift"></i>
+                    <i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand"></i>
                 </div>
             </div>
 
             <div class="flex flex-wrap justify-center gap-3 relative z-10">
-                <button onclick="copyEmail()" class="color-shift bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer">
+                <button onclick="copyEmail()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer">
                     <i class="fa-regular fa-copy"></i> Copy Address
                 </button>
                 <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
                     <i class="fa-solid fa-arrows-rotate"></i> Change Email
                 </button>
-                <button onclick="manualFetch()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 shadow-md cursor-pointer text-sm">
+                <button onclick="manualFetch()" class="bg-brand hover:brightness-110 text-white px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 shadow-md cursor-pointer text-sm">
                     <i class="fa-solid fa-rotate"></i> Refresh Inbox
                 </button>
             </div>
@@ -111,257 +96,181 @@
         </div>
     </div>
 
-    <div class="text-center max-w-3xl mx-auto px-4 mb-6">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors">Real-time <span class="text-cyan-600 dark:text-brand color-shift">Inbox</span></h2>
-        <p class="text-slate-500 dark:text-gray-400 text-sm md:text-base transition-colors">Receive and manage your temporary emails instantly.</p>
-    </div>
-
     <div class="max-w-5xl mx-auto px-4 mb-10">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
-            
-            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
+            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-envelope text-cyan-600 dark:text-brand color-shift text-lg"></i>
+                    <i class="fa-solid fa-envelope text-brand text-lg"></i>
                     <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
                 </div>
-                <button onclick="clearInbox()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold">
+                <button onclick="clearInbox()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 text-sm font-semibold">
                     <i class="fa-solid fa-trash-can"></i> Clear Inbox
                 </button>
             </div>
 
-            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
-                <div class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-500 dark:text-gray-500"></i> Auto-Sync</div>
-                
-                <button onclick="changeRefreshInterval()" class="color-shift bg-cyan-50 dark:bg-brandbg border border-cyan-200 dark:border-cyan-500/30 text-cyan-700 dark:text-brand px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:bg-cyan-100 dark:hover:bg-cyan-900/40 transition active:scale-95 cursor-pointer">
+            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel">
+                <button onclick="changeRefreshInterval()" class="bg-brand-soft border border-brand/30 text-brand px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:brightness-95 transition active:scale-95 cursor-pointer">
                     <i id="interval-icon" class="fa-solid fa-rotate-right"></i> <span id="interval-text">10s</span>
                 </button>
-                
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
                 </div>
-                
-                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-cyan-600 dark:hover:text-white transition ml-2 active:scale-95 cursor-pointer p-1">
+                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
                     <i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span>
                 </button>
-                
                 <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer">
                     <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
                 </button>
             </div>
 
-            <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
-                <div class="flex gap-6">
-                    <span class="flex items-center gap-2"><i class="fa-solid fa-filter"></i> All Emails</span>
-                </div>
-                <div class="font-bold text-slate-800 dark:text-white"><span id="total-emails">0</span> emails</div>
-            </div>
-            
-            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] transition-colors relative flex flex-col p-2 gap-2"></div>
+            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] relative flex flex-col p-2 gap-2"></div>
         </div>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 mb-8">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
-            
-            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row">
+            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525]">
                 <div class="flex items-center gap-2.5 mb-6">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
-                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats <span class="text-emerald-500 lowercase font-medium ml-1">(updating)</span></h3>
+                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats</h3>
                 </div>
-                
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-cyan-100 dark:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
-                        <div>
-                            <div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">819</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
-                        </div>
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                        <div class="w-10 h-10 rounded-lg bg-brand-soft text-brand flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
+                        <div><div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1,240</div><div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today</div></div>
                     </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
-                        <div>
-                            <div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">382</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
-                        <div>
-                            <div id="stat-generated" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">296.5K</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
-                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
-                        <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
-                        </div>
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                        <div><div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">412</div><div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div></div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors">
-                <div class="flex items-center gap-2.5 mb-6">
-                    <i class="fa-regular fa-lightbulb text-cyan-600 dark:text-brand color-shift text-lg"></i>
-                    <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
-                </div>
-                <ul class="space-y-5 text-xs text-slate-600 dark:text-gray-300 font-medium">
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">1</span>
-                        <span class="leading-relaxed">Use temp emails for online signups to avoid spam.</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="w-5 h-5 rounded-full bg-cyan-50 dark:bg-brandbg text-cyan-700 dark:text-brand flex items-center justify-center flex-shrink-0 border border-cyan-200 dark:border-cyan-500/30 text-[10px] mt-0.5 color-shift">2</span>
-                        <span class="leading-relaxed">Links inside emails now open safely in a new tab.</span>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
 
-    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 hidden justify-center items-center p-4 z-50 backdrop-blur-sm">
         <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
-                <div class="pr-4 flex-1 min-w-0">
-                    <h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3>
-                    <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-cyan-600 dark:text-brand font-semibold color-shift"></span></p>
-                </div>
-                <div class="flex gap-2 flex-shrink-0">
-                    <button onclick="closeModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 rounded-lg transition">
-                        <i class="fa-solid fa-xmark text-xl"></i>
-                    </button>
-                </div>
+                <div class="pr-4 flex-1 min-w-0"><h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3><p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-brand font-semibold"></span></p></div>
+                <div class="flex gap-2"><button onclick="downloadMail()" class="p-2 text-slate-500 hover:text-brand bg-slate-200 dark:bg-darkborder/50 rounded-lg transition"><i class="fa-solid fa-download"></i></button><button onclick="closeModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 rounded-lg transition"><i class="fa-solid fa-xmark text-xl"></i></button></div>
             </div>
             <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
         </div>
     </div>
 
     <script>
-        // --- ALL YOUR ORIGINAL SCRIPTS ---
         const API = 'https://api.mail.tm';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
-        let password = localStorage.getItem('mt_password') || 'Aryan@Pass123';
-        let syncTimer = null;
-        let refreshSec = 10; 
+        let password = localStorage.getItem('mt_password') || 'Aryan@123';
+        let refreshSec = 10;
+        let lastMailCount = 0;
         let soundOn = false;
+        let currentMailObj = null;
 
-        // NEW: Theme Toggle logic
-        function toggleThemePanel() { document.getElementById('theme-panel').classList.toggle('open'); }
-        function initThemes() {
-            const grid = document.getElementById('theme-grid');
-            for (let i = 0; i < 100; i++) {
-                const hue = i * 3.6;
-                const btn = document.createElement('button');
-                btn.className = "w-full h-8 rounded border border-black/10 transition hover:scale-110";
-                btn.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
-                btn.onclick = () => {
-                    document.documentElement.style.setProperty('--hue-rotate', `${hue}deg`);
-                    localStorage.setItem('user-hue', `${hue}deg`);
-                };
-                grid.appendChild(btn);
-            }
+        // --- 100+ Magic Color Theme Engine ---
+        function changeColorTheme() {
+            // Generate random HSL color for variety (100+ possibilities)
+            const hue = Math.floor(Math.random() * 360);
+            const brandColor = `hsl(${hue}, 70%, 50%)`;
+            const brandBg = `hsl(${hue}, 70%, 90%, 0.2)`;
+            
+            document.documentElement.style.setProperty('--brand-color', brandColor);
+            document.documentElement.style.setProperty('--brand-bg', brandBg);
+            localStorage.setItem('custom-brand-color', brandColor);
+            localStorage.setItem('custom-brand-bg', brandBg);
         }
 
-        // Live Stats Simulator (Restored)
-        let stats = { today: 819, inboxes: 382, generated: 296500 };
-        function updateLiveStats() {
-            if(Math.random() > 0.4) { stats.today += 1; updateStatUI('stat-today', stats.today); }
-            if(Math.random() > 0.3) { stats.generated += 5; updateStatUI('stat-generated', (stats.generated / 1000).toFixed(1) + 'K'); }
+        // Restore custom theme on load
+        if(localStorage.getItem('custom-brand-color')) {
+            document.documentElement.style.setProperty('--brand-color', localStorage.getItem('custom-brand-color'));
+            document.documentElement.style.setProperty('--brand-bg', localStorage.getItem('custom-brand-bg'));
         }
-        function updateStatUI(id, val) {
-            const el = document.getElementById(id);
-            if(el) { el.innerText = val; el.classList.remove('stat-update'); void el.offsetWidth; el.classList.add('stat-update'); }
-        }
-        setInterval(updateLiveStats, 3000);
 
-        // API Functions (Restored)
+        // --- Core Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'light') toggleTheme();
+            if (token && address) {
+                document.getElementById('email-address').value = address;
+                document.getElementById('loading-overlay').classList.add('hidden');
+                manualFetch();
+                setInterval(manualFetch, refreshSec * 1000);
+            } else { generateNewEmail(); }
+        });
+
         async function generateNewEmail() {
+            document.getElementById('loading-overlay').classList.remove('hidden');
             try {
-                const domainResp = await fetch(`${API}/domains`);
-                const domains = await domainResp.json();
-                const domain = domains['hydra:member'][0].domain;
-                const newEmail = `aryan${Math.floor(Math.random()*99999)}@${domain}`;
+                const domRes = await fetch(`${API}/domains`);
+                const doms = await domRes.json();
+                const domain = doms['hydra:member'].sort((a,b) => a.domain.length - b.domain.length)[0].domain;
+                address = `aryan${Math.floor(100 + Math.random() * 899)}@${domain}`;
                 
-                await fetch(`${API}/accounts`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ address: newEmail, password: password })
-                });
-
-                const loginResp = await fetch(`${API}/token`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ address: newEmail, password: password })
-                });
-                const loginData = await loginResp.json();
-                token = loginData.token; address = newEmail;
-                localStorage.setItem('mt_token', token); localStorage.setItem('mt_email', address);
+                await fetch(`${API}/accounts`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({address, password}) });
+                const tokRes = await fetch(`${API}/token`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({address, password}) });
+                const tokData = await tokRes.json();
+                token = tokData.token;
+                
+                localStorage.setItem('mt_token', token);
+                localStorage.setItem('mt_email', address);
                 document.getElementById('email-address').value = address;
                 document.getElementById('loading-overlay').classList.add('hidden');
                 manualFetch();
             } catch (e) { console.error(e); }
         }
 
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const icon = document.getElementById('theme-icon');
-            icon.className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-moon text-yellow-400' : 'fa-solid fa-sun text-orange-500';
-        }
-
-        function copyEmail() {
-            const el = document.getElementById('email-address');
-            el.select(); document.execCommand('copy');
-            const msg = document.getElementById('copy-msg');
-            msg.style.opacity = '1'; setTimeout(() => msg.style.opacity = '0', 2000);
-        }
-
         async function manualFetch() {
             if(!token) return;
-            const resp = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const data = await resp.json();
-            const inbox = document.getElementById('inbox-content');
-            inbox.innerHTML = '';
-            document.getElementById('total-emails').innerText = data['hydra:member'].length;
-            
-            if(data['hydra:member'].length === 0) {
-                inbox.innerHTML = '<div class="text-center p-10 opacity-50">Inbox Empty</div>';
-                return;
-            }
-            data['hydra:member'].forEach(m => {
-                const div = document.createElement('div');
-                div.className = "p-4 border border-slate-200 dark:border-darkborder rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-darkborder/30";
-                div.onclick = () => openMail(m.id);
-                div.innerHTML = `<strong>${m.subject}</strong><br><small>${m.from.address}</small>`;
-                inbox.appendChild(div);
+            try {
+                const res = await fetch(`${API}/messages`, { headers: {'Authorization': `Bearer ${token}`} });
+                if(!res.ok) { forceNewAccount(); return; }
+                const data = await res.json();
+                if(data['hydra:member'].length > lastMailCount && soundOn) document.getElementById('notification-sound').play();
+                lastMailCount = data['hydra:member'].length;
+                renderMails(data['hydra:member']);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderMails(mails) {
+            const cont = document.getElementById('inbox-content');
+            cont.innerHTML = mails.length ? '' : '<div class="text-center text-slate-500 py-10 w-full">Inbox is empty...</div>';
+            mails.forEach(m => {
+                const d = document.createElement('div');
+                d.className = "flex items-center justify-between p-4 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl cursor-pointer hover:border-brand transition shadow-sm";
+                d.onclick = () => openMessage(m.id);
+                d.innerHTML = `<div class="flex-1 truncate"><div class="font-bold truncate">${m.subject || 'No Subject'}</div><div class="text-xs text-brand truncate">${m.from.address}</div></div><button onclick="deleteMessage('${m.id}', event)" class="p-2 text-red-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>`;
+                cont.appendChild(d);
             });
         }
 
-        async function openMail(id) {
-            const resp = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
-            const m = await resp.json();
-            document.getElementById('modal-subject').innerText = m.subject;
-            document.getElementById('modal-from').innerText = m.from.address;
-            document.getElementById('modal-body-iframe').srcdoc = m.html || m.intro;
+        async function openMessage(id) {
             document.getElementById('email-modal').classList.remove('hidden');
             document.getElementById('email-modal').classList.add('flex');
+            const res = await fetch(`${API}/messages/${id}`, { headers: {'Authorization': `Bearer ${token}`} });
+            const mail = await res.json();
+            currentMailObj = mail;
+            document.getElementById('modal-subject').innerText = mail.subject;
+            document.getElementById('modal-from').innerText = mail.from.address;
+            document.getElementById('modal-body-iframe').srcdoc = `<base target="_blank">${mail.html ? mail.html[0] : mail.text}`;
         }
 
-        function closeModal() { document.getElementById('email-modal').classList.add('hidden'); }
-        function forceNewAccount() { localStorage.clear(); location.reload(); }
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-icon').className = isDark ? "fa-solid fa-moon text-yellow-400" : "fa-solid fa-sun text-slate-600";
+        }
 
-        // Start App
-        document.addEventListener('DOMContentLoaded', () => {
-            initThemes();
-            const savedHue = localStorage.getItem('user-hue');
-            if(savedHue) document.documentElement.style.setProperty('--hue-rotate', savedHue);
-            if (token && address) {
-                document.getElementById('email-address').value = address;
-                document.getElementById('loading-overlay').classList.add('hidden');
-                manualFetch();
-            } else { generateNewEmail(); }
-        });
+        function copyEmail() {
+            navigator.clipboard.writeText(address);
+            document.getElementById('copy-msg').style.opacity = 1;
+            setTimeout(() => document.getElementById('copy-msg').style.opacity = 0, 2000);
+        }
+
+        function forceNewAccount() { localStorage.clear(); location.reload(); }
+        function closeModal() { document.getElementById('email-modal').className = "fixed inset-0 bg-slate-900/60 hidden justify-center items-center p-4 z-50 backdrop-blur-sm"; }
+        function toggleAudio() { soundOn = !soundOn; document.getElementById('notif-text').innerText = soundOn ? "Sound On" : "Sound Off"; }
+        async function clearInbox() { if(confirm("Clear all?")) { /* Logic already in manualFetch */ forceNewAccount(); } }
+        async function deleteMessage(id, e) { e.stopPropagation(); await fetch(`${API}/messages/${id}`, { method:'DELETE', headers:{'Authorization':`Bearer ${token}`} }); manualFetch(); }
     </script>
 </body>
 </html>
