@@ -77,7 +77,7 @@
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
             <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
                 <div class="flex items-center gap-3"><i class="fa-solid fa-envelope text-brand color-shift text-lg"></i><span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span></div>
-                <button onclick="clearInboxUI()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold"><i class="fa-solid fa-trash-can"></i> Clear Inbox</button>
+                <button onclick="clearInboxUI()" id="clear-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold"><i class="fa-solid fa-trash-can"></i> Clear Inbox</button>
             </div>
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
                 <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer"><i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: ON</span></button>
@@ -311,7 +311,6 @@
         const totalEmails = document.getElementById('total-emails');
 
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
-
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
             if(document.getElementById('stat-today')) document.getElementById('stat-today').innerText = statToday.toLocaleString();
@@ -354,7 +353,7 @@
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             if(emailInput) emailInput.value = "Connecting to Server...";
             try {
-                const domainRes = await fetch(`${API}/domains`);
+                const domainRes = await fetch(`${API}/domains?_=${Date.now()}`); // Cache Buster
                 if(!domainRes.ok) throw new Error("API Blocked");
                 const domainData = await domainRes.json();
                 const stableDomain = domainData['hydra:member'][0].domain; 
@@ -373,7 +372,7 @@
 
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
-                clearInboxUI();
+                clearLocalInbox();
                 if(isSyncing) startSync();
             } catch (err) {
                 if(emailInput) emailInput.value = "Failed: Server Down";
@@ -385,7 +384,7 @@
             clearInterval(syncTimer); localStorage.clear(); address = null; token = null;
             if(emailInput) emailInput.value = "Generating...";
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            clearInboxUI(); createNewAccount();
+            clearLocalInbox(); createNewAccount();
         }
 
         async function fastOtpReset() {
@@ -395,12 +394,16 @@
             setTimeout(() => { if(boltIcon) boltIcon.classList.remove('fa-spin'); }, 1000);
         }
 
+        // FIX 1: CACHE BUSTING FOR INSTANT REFRESH
         async function manualFetch() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
             try {
-                const res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
+                // Adding Date.now() prevents browser from giving old cached emails
+                const res = await fetch(`${API}/messages?_=${Date.now()}`, { 
+                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-cache' } 
+                });
                 if (res.status === 401 || res.status === 403) { forceNewAccount(); return; }
                 if(!res.ok) throw new Error("Fetch Failed");
                 const data = await res.json();
@@ -440,7 +443,7 @@
 
         async function openEmail(id) {
             try {
-                const res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const res = await fetch(`${API}/messages/${id}?_=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
                 if(document.getElementById('modal-subject')) document.getElementById('modal-subject').innerText = data.subject || 'No Subject';
                 if(document.getElementById('modal-from')) document.getElementById('modal-from').innerText = data.from.address;
@@ -454,10 +457,43 @@
             if(document.getElementById('modal-body-iframe')) document.getElementById('modal-body-iframe').srcdoc = '';
         }
 
-        function clearInboxUI() { allMessages = []; lastMailCount = 0; renderMails(); }
+        // FIX 2: REAL API DELETION FOR CLEAR INBOX
+        async function clearInboxUI() { 
+            if(!token || allMessages.length === 0) return;
+            const btn = document.getElementById('clear-btn');
+            if(btn) btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Clearing...`;
+            
+            const msgsToDelete = [...allMessages];
+            clearLocalInbox(); // Hide from UI instantly
+
+            // Actually delete them from the server so they don't come back!
+            for(let msg of msgsToDelete) {
+                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } 
+                catch(e) {}
+            }
+            if(btn) btn.innerHTML = `<i class="fa-solid fa-trash-can"></i> Clear Inbox`;
+        }
+        
+        function clearLocalInbox() { allMessages = []; lastMailCount = 0; renderMails(); }
+
         function copyEmail() { if(emailInput && emailInput.value.includes('@')) { emailInput.select(); document.execCommand('copy'); const msg = document.getElementById('copy-msg'); if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); } } }
         function startSync() { if(syncTimer) clearInterval(syncTimer); syncTimer = setInterval(manualFetch, refreshSec * 1000); }
-        function toggleAutoSync() { isSyncing = !isSyncing; const icon = document.getElementById('sync-icon'); const text = document.getElementById('sync-text'); if(isSyncing) { if(icon) icon.className = "fa-solid fa-bolt text-amber-500"; if(text) text.innerText = "Auto-Sync: ON"; startSync(); } else { if(icon) icon.className = "fa-solid fa-bolt text-gray-500"; if(text) text.innerText = "Auto-Sync: OFF"; clearInterval(syncTimer); } }
+        
+        function toggleAutoSync() { 
+            isSyncing = !isSyncing; 
+            const icon = document.getElementById('sync-icon'); 
+            const text = document.getElementById('sync-text'); 
+            if(isSyncing) { 
+                if(icon) icon.className = "fa-solid fa-bolt text-amber-500"; 
+                if(text) text.innerText = "Auto-Sync: ON"; 
+                startSync(); 
+            } else { 
+                if(icon) icon.className = "fa-solid fa-bolt text-gray-500"; 
+                if(text) text.innerText = "Auto-Sync: OFF"; 
+                clearInterval(syncTimer); 
+            } 
+        }
+        
         function toggleAudio() { soundOn = !soundOn; const text = document.getElementById('notif-text'); if(text) text.innerText = soundOn ? "Sound On" : "Sound Off"; const icon = document.getElementById('notif-icon'); if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell"; }
 
         document.addEventListener('DOMContentLoaded', () => {
