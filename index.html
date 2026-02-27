@@ -482,8 +482,12 @@
                 const domainData = await domainRes.json();
                 const domain = domainData['hydra:member'][0].domain;
 
-                // YAHA CHANGE KIYA HAI - Sirf random characters, "aryan" hata diya
-                const newUsername = Math.random().toString(36).substring(2, 10); 
+                // REALISTIC NAME GENERATOR FIX
+                const prefixes = ['aryan', 'raj', 'amit', 'alex', 'sam', 'john', 'user', 'pro', 'mail', 'info'];
+                const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                const randomNum = Math.floor(Math.random() * 90000) + 10000; // 5 digit number
+                const newUsername = `${randomPrefix}${randomNum}`; 
+                
                 const newAddress = `${newUsername}@${domain}`;
                 const newPassword = generatePassword();
 
