@@ -255,7 +255,7 @@
                 document.getElementById('email-address').value = address;
                 document.getElementById('loading-overlay').classList.add('hidden');
                 startInboxSync();
-                manualFetch(); // Will auto-fix if token is expired
+                manualFetch();
             } else {
                 generateNewEmail();
             }
@@ -335,9 +335,16 @@
             try {
                 const domainRes = await fetch(`${API}/domains`);
                 const domains = await domainRes.json();
-                const domain = domains['hydra:member'][0].domain;
                 
-                address = `aryan_${Math.floor(Math.random() * 100000)}@${domain}`;
+                // NEW LOGIC: Sort domains by length and pick the shortest one!
+                let domainList = domains['hydra:member'];
+                domainList.sort((a, b) => a.domain.length - b.domain.length);
+                const domain = domainList[0].domain;
+                
+                // Make the username shorter and realistic (e.g., aryan482@domain.com)
+                let randomNum = Math.floor(100 + Math.random() * 900);
+                address = `aryan${randomNum}@${domain}`;
+                
                 localStorage.setItem('mt_password', password);
 
                 await fetch(`${API}/accounts`, {
@@ -394,7 +401,6 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
-                // TOKEN EXPIRED FIX: Auto-generate new account if current is dead
                 if (!res.ok) {
                     if (res.status === 401 || res.status === 404) {
                         console.log("Token expired. Automatically creating a new account...");
@@ -470,7 +476,6 @@
                 const iframe = document.getElementById('modal-body-iframe');
                 let htmlContent = mail.html ? mail.html[0] : (mail.text ? `<pre style="padding:20px; font-family:sans-serif; white-space:pre-wrap;">${mail.text}</pre>` : "No content");
                 
-                // CUTOUT.PRO FIX: Forces all links in the email to open in a new tab
                 const baseTag = '<base target="_blank">';
                 htmlContent = baseTag + htmlContent;
 
