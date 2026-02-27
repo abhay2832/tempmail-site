@@ -62,8 +62,9 @@
             </div>
             
             <div class="absolute left-0 w-full flex justify-center pointer-events-none">
-                <div class="flex items-center px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
-                    <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails 🇮🇳</span>
+                <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
+                    <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
+                    <span class="text-xl drop-shadow-md">🇮🇳</span>
                 </div>
             </div>
 
@@ -102,8 +103,9 @@
                 <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
                     <i class="fa-solid fa-arrows-rotate"></i> Change Email
                 </button>
-                <button onclick="manualFetch()" class="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 shadow-md cursor-pointer text-sm active:scale-95">
-                    <i class="fa-solid fa-rotate"></i> Refresh Inbox
+                
+                <button onclick="manualFetch()" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
+                    <i class="fa-solid fa-bolt"></i> Fast OTP
                 </button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
@@ -442,8 +444,7 @@
                 }
             });
         }
-        setInterval(updateLiveStats, 3500); // Updates every 3.5 seconds
-        // -------------------------
+        setInterval(updateLiveStats, 3500); 
 
         function generatePassword() {
             return Math.random().toString(36).slice(-10) + "A1!";
