@@ -277,7 +277,7 @@
                 </div>
                 <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <div id="modal-body-content" class="flex-1 w-full bg-white p-6 overflow-y-auto text-slate-800"></div>
+            <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
         </div>
     </div>
 
@@ -295,11 +295,12 @@
     </div>
 
     <script>
-        const API = 'https://www.1secmail.com/api/v1/';
-        let address = localStorage.getItem('ar_email');
-        let login = '';
-        let domain = '';
-        let deletedMailIds = JSON.parse(localStorage.getItem('ar_deleted')) || [];
+        let API = 'https://api.mail.gw';
+        let fallbackAPI = 'https://api.mail.tm';
+
+        let token = localStorage.getItem('mt_token');
+        let address = localStorage.getItem('mt_email');
+        let deletedMailIds = JSON.parse(localStorage.getItem('mt_deleted')) || [];
         
         let syncTimerId = null; 
         let isFetching = false; 
@@ -313,7 +314,6 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // Stats Simulator
         let statToday = 819, statInboxes = 382, statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3); statInboxes += Math.floor(Math.random() * 2); statGenerated += Math.floor(Math.random() * 5);
@@ -340,17 +340,13 @@
         function closePageModal() { document.getElementById('page-modal').classList.replace('flex', 'hidden'); }
 
         async function initApp() {
-            if (address && address.includes('@')) {
-                const parts = address.split('@');
-                login = parts[0];
-                domain = parts[1];
-                if(emailInput) emailInput.value = address;
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
-                
-                await fetchMails();
-                startAutoSync();
-            } else {
-                await generateNewEmail();
+            if (!address || !token) { 
+                await generateNewEmail(); 
+            } else { 
+                if(emailInput) emailInput.value = address; 
+                if(loadingOverlay) loadingOverlay.style.display = 'none'; 
+                fetchMails(); 
+                if(isSyncing) startAutoSync();
             }
         }
 
@@ -359,21 +355,48 @@
             if(emailInput) emailInput.value = "Creating Email...";
             
             try {
-                const domRes = await fetch(`${API}?action=getDomainList&_=${Date.now()}`);
-                const domains = await domRes.json();
-                const selectedDomain = domains[0] || '1secmail.com';
-
-                // CHOTA GMAIL (ar + 4 chars)
-                const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                let randomStr = 'ar';
-                for(let i=0; i<4; i++) randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+                // Dual API check
+                let domRes = await fetch(`${API}/domains?_=${Date.now()}`);
+                if (!domRes.ok) {
+                    API = fallbackAPI; // Switch to TM if GW fails
+                    domRes = await fetch(`${API}/domains?_=${Date.now()}`);
+                }
                 
-                login = randomStr;
-                domain = selectedDomain;
-                address = `${login}@${domain}`;
+                const domData = await domRes.json();
+                const validDomains = domData['hydra:member'].filter(d => d.isActive === true);
+                const selectedDomain = validDomains[0].domain;
 
-                localStorage.setItem('ar_email', address);
-                localStorage.removeItem('ar_deleted');
+                // STRICT SMALL FORMAT: 'ar' + 6 random lowercase letters/numbers
+                const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                let uname = 'ar';
+                for(let i=0; i<6; i++) uname += chars[Math.floor(Math.random() * chars.length)];
+                
+                const newAddress = `${uname}@${selectedDomain}`;
+                const newPassword = 'SecurePass123!';
+
+                const createRes = await fetch(`${API}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                if(!createRes.ok) throw new Error("Format Error Bypass Failed");
+
+                const loginRes = await fetch(`${API}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                const tokenData = await loginRes.json();
+                
+                address = newAddress;
+                token = tokenData.token;
+
+                localStorage.setItem('mt_email', address);
+                localStorage.setItem('mt_token', token);
+                
+                localStorage.removeItem('mt_deleted');
                 deletedMailIds = [];
 
                 if(emailInput) emailInput.value = address;
@@ -384,22 +407,19 @@
                 startAutoSync();
 
             } catch (e) {
-                login = `ar` + Math.floor(Math.random() * 9000);
-                domain = '1secmail.com';
-                address = `${login}@${domain}`;
-                localStorage.setItem('ar_email', address);
-                if(emailInput) emailInput.value = address;
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
-                startAutoSync();
+                console.error(e);
+                if(emailInput) emailInput.value = "Retrying Connection...";
+                setTimeout(generateNewEmail, 2000); // Retry gracefully
             }
         }
 
         function forceNewEmail() {
             stopAutoSync();
-            localStorage.removeItem('ar_email');
-            localStorage.removeItem('ar_deleted');
+            localStorage.removeItem('mt_email');
+            localStorage.removeItem('mt_token');
+            localStorage.removeItem('mt_deleted');
             deletedMailIds = [];
-            address = null; login = ''; domain = '';
+            address = null; token = null;
             
             if(emailInput) emailInput.value = "Generating...";
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
@@ -410,14 +430,25 @@
         }
 
         async function fetchMails() {
-            if (!login || !domain || isFetching) return;
+            if (!token || isFetching) return;
             isFetching = true;
 
             try {
-                const res = await fetch(`${API}?action=getMessages&login=${login}&domain=${domain}&_=${Date.now()}`, { cache: 'no-store' });
-                if (!res.ok) throw new Error("Network Bad");
+                const res = await fetch(`${API}/messages?_=${Date.now()}`, { 
+                    headers: { 'Authorization': `Bearer ${token}`, 'Cache-Control': 'no-store' } 
+                });
                 
-                const newMails = await res.json();
+                if(res.status === 401 || res.status === 403) {
+                    forceNewEmail();
+                    return;
+                }
+
+                if (!res.ok) throw new Error("Fetch Error");
+                
+                const data = await res.json();
+                const newMails = data['hydra:member'] || [];
+                
+                // Ghost Email fix
                 const filteredMails = newMails.filter(m => !deletedMailIds.includes(m.id));
                 
                 if (filteredMails.length > lastMailCount && soundOn) {
@@ -439,7 +470,9 @@
         async function fetchMailsBtn(btnElement) {
             const icon = btnElement.querySelector('i');
             if(icon) icon.classList.add('fa-spin');
+            
             await fetchMails(); 
+            
             if(icon) setTimeout(() => icon.classList.remove('fa-spin'), 400);
         }
 
@@ -451,7 +484,7 @@
             allMessages.forEach(m => {
                 if (!deletedMailIds.includes(m.id)) deletedMailIds.push(m.id);
             });
-            localStorage.setItem('ar_deleted', JSON.stringify(deletedMailIds));
+            localStorage.setItem('mt_deleted', JSON.stringify(deletedMailIds));
             
             allMessages = [];
             lastMailCount = 0;
@@ -479,16 +512,16 @@
             const sortOrder = document.getElementById('sort-mails') ? document.getElementById('sort-mails').value : 'newest';
             let sortedMails = [...allMessages]; 
             
-            if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.date) - new Date(a.date));
-            else sortedMails.sort((a,b) => new Date(a.date) - new Date(b.date));
+            if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+            else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
 
             sortedMails.forEach(msg => {
                 const div = document.createElement('div');
                 div.className = "bg-slate-50 dark:bg-darkpanel p-4 mb-3 rounded-xl shadow-sm border border-slate-200 dark:border-darkborder cursor-pointer hover:border-brand transition w-full text-left";
                 div.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
-                        <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from}</span>
-                        <span class="text-xs text-slate-400">${msg.date}</span>
+                        <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
+                        <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
                     </div>
                     <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || '(No Subject)'}</div>
                 `;
@@ -499,15 +532,15 @@
 
         async function openEmail(id) {
             try {
-                const res = await fetch(`${API}?action=readMessage&login=${login}&domain=${domain}&id=${id}&_=${Date.now()}`);
+                const res = await fetch(`${API}/messages/${id}?_=${Date.now()}`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
                 
                 if(document.getElementById('modal-subject')) document.getElementById('modal-subject').innerText = data.subject || 'No Subject';
-                if(document.getElementById('modal-from')) document.getElementById('modal-from').innerText = data.from;
+                if(document.getElementById('modal-from')) document.getElementById('modal-from').innerText = data.from.address;
                 
-                const contentDiv = document.getElementById('modal-body-content');
-                if(contentDiv) {
-                    contentDiv.innerHTML = data.htmlBody || data.textBody || 'No content';
+                const iframe = document.getElementById('modal-body-iframe');
+                if(iframe) {
+                    iframe.srcdoc = data.html ? data.html[0] : (data.text || 'No content');
                 }
                 
                 if(document.getElementById('email-modal')) document.getElementById('email-modal').classList.replace('hidden', 'flex');
@@ -516,7 +549,8 @@
 
         function closeModal() {
             if(document.getElementById('email-modal')) document.getElementById('email-modal').classList.replace('flex', 'hidden');
-            if(document.getElementById('modal-body-content')) document.getElementById('modal-body-content').innerHTML = '';
+            const iframe = document.getElementById('modal-body-iframe');
+            if (iframe) iframe.srcdoc = '';
         }
 
         function copyEmail() { 
