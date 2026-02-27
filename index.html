@@ -1,276 +1,242 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aryan Mails - Premium Temporary Email</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: {
-                    colors: {
-                        darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
-                        brand: 'var(--brand-color, #22d3ee)', 
-                        brandbg: 'var(--brand-bg, rgba(34, 211, 238, 0.1))',
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'], }
-                } 
-            } 
-        }
-    </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Nullsto Premium Section</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        :root { --brand-color: #22d3ee; --brand-bg: rgba(34, 211, 238, 0.1); }
-        body { font-family: 'Inter', sans-serif; transition: all 0.4s ease; }
-        @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
-        .color-shift { animation: hue-shift 8s infinite linear; }
-        .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
-        .spin-slow { animation: spin 2s linear infinite; }
-        .theme-btn { background: var(--brand-color); color: white; }
-        .border-brand { border-color: var(--brand-color) !important; }
-        .text-brand { color: var(--brand-color) !important; }
-        .bg-brand { background-color: var(--brand-color) !important; }
-        .bg-brand-soft { background-color: var(--brand-bg) !important; }
+        :root {
+            --bg-color: #fafbfc;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --primary-blue: #3b82f6;
+            --primary-purple: #8b5cf6;
+            --gradient-text: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            --gradient-bg: linear-gradient(135deg, #4f46e5, #9333ea);
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .section-header { text-align: center; margin-bottom: 50px; margin-top: 80px; }
+        .section-tag { color: var(--primary-blue); font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
+        .gradient-text { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-subtitle { color: var(--text-muted); font-size: 1.125rem; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-sm); transition: all 0.3s ease; }
+        .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+        .icon-box { width: 48px; height: 48px; background: #eff6ff; color: var(--primary-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 1.5rem; }
+        .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 10px; }
+        .card-text { color: var(--text-muted); font-size: 0.95rem; }
+
+        .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
+        .step-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 40px 30px 30px; text-align: center; position: relative; box-shadow: var(--shadow-sm); }
+        .step-number { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--gradient-bg); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; }
+        .step-card .icon-box { margin: 0 auto 20px; border-radius: 50%; width: 60px; height: 60px; background: #f3e8ff; color: var(--primary-purple); }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg); margin-bottom: 15px; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1.1rem; transition: background 0.2s; }
+        .faq-question:hover { background: #f8fafc; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; color: var(--text-muted); transition: max-height 0.3s ease-out, padding 0.3s ease; }
+        .faq-item.active .faq-answer { padding: 0 25px 20px; max-height: 200px; }
+        .arrow { transition: transform 0.3s ease; }
+        .faq-item.active .arrow { transform: rotate(180deg); }
+
+        .cta-section { background: var(--card-bg); border-radius: var(--radius-xl); padding: 60px 20px; text-align: center; margin: 80px 0; box-shadow: var(--shadow-md); }
+        .btn { display: inline-flex; align-items: center; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; font-size: 1rem; }
+        .btn-primary { background: var(--gradient-bg); color: white; margin-right: 15px; }
+        .btn-primary:hover { opacity: 0.9; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); }
+        .btn-outline:hover { background: #f3f4f6; }
+
+        .footer { background: var(--card-bg); border-top: 1px solid var(--border-color); padding: 60px 0 20px; margin-top: 60px; }
+        .telegram-banner { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1px solid var(--border-color); padding: 20px 30px; border-radius: var(--radius-lg); margin-bottom: 50px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { font-size: 0.875rem; text-transform: uppercase; color: var(--text-main); margin-bottom: 20px; letter-spacing: 1px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+        .footer-col ul a:hover { color: var(--primary-blue); }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.875rem; }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-col:first-child { grid-column: 1 / -1; }
+            .telegram-banner { flex-direction: column; text-align: center; gap: 15px; }
+            .btn-primary { margin-right: 0; margin-bottom: 10px; width: 100%; justify-content: center;}
+            .btn-outline { width: 100%; justify-content: center; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16">
+<body>
 
-    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
-
-    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
-            <div class="flex items-center gap-3">
-                <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
-                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Aryan<span class="text-brand color-shift"> Mails</span></span>
+    <section id="features" class="container">
+        <div class="section-header">
+            <div class="section-tag">Features</div>
+            <h2 class="section-title">Everything You Need for <span class="gradient-text">Email Privacy</span></h2>
+            <p class="section-subtitle">Our comprehensive suite of features keeps your real email address safe.</p>
+        </div>
+        <div class="features-grid">
+            <div class="card">
+                <div class="icon-box">✉️</div>
+                <h3 class="card-title">Instant Temp Email</h3>
+                <p class="card-text">Generate a disposable email address instantly.</p>
             </div>
-            
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30">
-                <span class="text-[10px] font-bold uppercase tracking-tighter text-orange-600 dark:text-orange-400">Indian Mails</span>
-                <span class="text-sm">🇮🇳</span>
+            <div class="card">
+                <div class="icon-box">🛡️</div>
+                <h3 class="card-title">Complete Privacy</h3>
+                <p class="card-text">Your identity stays protected from spam and trackers.</p>
             </div>
-
-            <div class="flex items-center gap-3">
-                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-soft text-brand text-xs font-semibold border border-brand/30">
-                    <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
-                </div>
-                
-                <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition shadow-lg cursor-pointer">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </button>
-
-                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer">
-                    <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
-                </button>
+            <div class="card">
+                <div class="icon-box">⏱️</div>
+                <h3 class="card-title">Auto-Expiring</h3>
+                <p class="card-text">Emails automatically expire after your chosen duration.</p>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors">
-            <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
-            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
-            
-            <div class="relative max-w-2xl mx-auto mb-6">
-                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand">
-                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
-                    <i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand"></i>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap justify-center gap-3 relative z-10">
-                <button onclick="copyEmail()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-md cursor-pointer">
-                    <i class="fa-regular fa-copy"></i> Copy Address
-                </button>
-                <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
-                    <i class="fa-solid fa-arrows-rotate"></i> Change Email
-                </button>
-                <button onclick="manualFetch()" class="bg-brand hover:brightness-110 text-white px-6 py-3 rounded-xl transition font-semibold flex items-center gap-2 shadow-md cursor-pointer text-sm">
-                    <i class="fa-solid fa-rotate"></i> Refresh Inbox
-                </button>
-            </div>
-            <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
+    <section id="how-it-works" class="container">
+        <div class="section-header">
+            <div class="section-tag">How It Works</div>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Get started in seconds</p>
         </div>
-    </div>
-
-    <div class="max-w-5xl mx-auto px-4 mb-10">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
-            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-envelope text-brand text-lg"></i>
-                    <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
-                </div>
-                <button onclick="clearInbox()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 text-sm font-semibold">
-                    <i class="fa-solid fa-trash-can"></i> Clear Inbox
-                </button>
+        <div class="how-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <div class="icon-box">📨</div>
+                <h3 class="card-title">Generate Email</h3>
+                <p class="card-text">Click generate to create a temporary email.</p>
             </div>
-
-            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel">
-                <button onclick="changeRefreshInterval()" class="bg-brand-soft border border-brand/30 text-brand px-3 py-1.5 rounded-md flex items-center gap-1.5 hover:brightness-95 transition active:scale-95 cursor-pointer">
-                    <i id="interval-icon" class="fa-solid fa-rotate-right"></i> <span id="interval-text">10s</span>
-                </button>
-                <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
-                </div>
-                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
-                    <i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span>
-                </button>
-                <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer">
-                    <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
-                </button>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <div class="icon-box">📋</div>
+                <h3 class="card-title">Use Anywhere</h3>
+                <p class="card-text">Copy and use for signups or verifications.</p>
             </div>
-
-            <div id="inbox-content" class="min-h-[350px] bg-white dark:bg-[#0f1525] relative flex flex-col p-2 gap-2"></div>
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <div class="icon-box">📥</div>
+                <h3 class="card-title">Receive Emails</h3>
+                <p class="card-text">All emails appear instantly in your inbox.</p>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div class="max-w-5xl mx-auto px-4 mb-8">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row">
-            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525]">
-                <div class="flex items-center gap-2.5 mb-6">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
-                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats</h3>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                        <div class="w-10 h-10 rounded-lg bg-brand-soft text-brand flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
-                        <div><div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1,240</div><div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today</div></div>
-                    </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
-                        <div><div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight">412</div><div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div></div>
+    <section id="faq" class="container">
+        <div class="section-header">
+            <div class="section-tag">FAQ</div>
+            <h2 class="section-title">Frequently <span class="gradient-text">Asked Questions</span></h2>
+            <p class="section-subtitle">Everything you need to know</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What is a temporary email? <span class="arrow">▼</span></div>
+                <div class="faq-answer"><br>A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How long does it last? <span class="arrow">▼</span></div>
+                <div class="faq-answer"><br>By default, emails last for a few hours, but you can extend the time or delete it manually whenever you want.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="cta-section">
+            <h2 class="section-title">Ready to Protect Your <span class="gradient-text">Privacy?</span></h2>
+            <p class="section-subtitle" style="margin-bottom: 30px;">Join millions of users who trust our service.</p>
+            <div>
+                <a href="#" class="btn btn-primary">Generate Free Email →</a>
+                <a href="#" class="btn btn-outline">View Pricing</a>
+            </div>
+            <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">No credit card required.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="telegram-banner">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="icon-box" style="margin: 0; width: 40px; height: 40px;">✈️</div>
+                    <div>
+                        <h3 style="font-size: 1.1rem; color: var(--text-main);">Join our Telegram</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Get updates & announcements</p>
                     </div>
                 </div>
+                <a href="#" class="btn" style="background: #0ea5e9; color: white;">✈️ Join Now</a>
             </div>
-        </div>
-    </div>
 
-    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 hidden justify-center items-center p-4 z-50 backdrop-blur-sm">
-        <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
-            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
-                <div class="pr-4 flex-1 min-w-0"><h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3><p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-brand font-semibold"></span></p></div>
-                <div class="flex gap-2"><button onclick="downloadMail()" class="p-2 text-slate-500 hover:text-brand bg-slate-200 dark:bg-darkborder/50 rounded-lg transition"><i class="fa-solid fa-download"></i></button><button onclick="closeModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 rounded-lg transition"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: #4f46e5; margin-bottom: 15px;">N Nullsto</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Generate instant, anonymous email addresses. Perfect for sign-ups, testing, and keeping your real inbox spam-free.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">How It Works</a></li>
+                    </ul>
+                </div>
             </div>
-            <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+
+            <div class="footer-bottom">
+                <p>© 2026 Nullsto. All rights reserved.</p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy</a>
+                    <a href="#" style="color: var(--text-muted); text-decoration: none;">Terms</a>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
 
     <script>
-        const API = 'https://api.mail.tm';
-        let token = localStorage.getItem('mt_token');
-        let address = localStorage.getItem('mt_email');
-        let password = localStorage.getItem('mt_password') || 'Aryan@123';
-        let refreshSec = 10;
-        let lastMailCount = 0;
-        let soundOn = false;
-        let currentMailObj = null;
-
-        // --- 100+ Magic Color Theme Engine ---
-        function changeColorTheme() {
-            // Generate random HSL color for variety (100+ possibilities)
-            const hue = Math.floor(Math.random() * 360);
-            const brandColor = `hsl(${hue}, 70%, 50%)`;
-            const brandBg = `hsl(${hue}, 70%, 90%, 0.2)`;
-            
-            document.documentElement.style.setProperty('--brand-color', brandColor);
-            document.documentElement.style.setProperty('--brand-bg', brandBg);
-            localStorage.setItem('custom-brand-color', brandColor);
-            localStorage.setItem('custom-brand-bg', brandBg);
-        }
-
-        // Restore custom theme on load
-        if(localStorage.getItem('custom-brand-color')) {
-            document.documentElement.style.setProperty('--brand-color', localStorage.getItem('custom-brand-color'));
-            document.documentElement.style.setProperty('--brand-bg', localStorage.getItem('custom-brand-bg'));
-        }
-
-        // --- Core Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('theme') === 'light') toggleTheme();
-            if (token && address) {
-                document.getElementById('email-address').value = address;
-                document.getElementById('loading-overlay').classList.add('hidden');
-                manualFetch();
-                setInterval(manualFetch, refreshSec * 1000);
-            } else { generateNewEmail(); }
-        });
-
-        async function generateNewEmail() {
-            document.getElementById('loading-overlay').classList.remove('hidden');
-            try {
-                const domRes = await fetch(`${API}/domains`);
-                const doms = await domRes.json();
-                const domain = doms['hydra:member'].sort((a,b) => a.domain.length - b.domain.length)[0].domain;
-                address = `aryan${Math.floor(100 + Math.random() * 899)}@${domain}`;
-                
-                await fetch(`${API}/accounts`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({address, password}) });
-                const tokRes = await fetch(`${API}/token`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({address, password}) });
-                const tokData = await tokRes.json();
-                token = tokData.token;
-                
-                localStorage.setItem('mt_token', token);
-                localStorage.setItem('mt_email', address);
-                document.getElementById('email-address').value = address;
-                document.getElementById('loading-overlay').classList.add('hidden');
-                manualFetch();
-            } catch (e) { console.error(e); }
-        }
-
-        async function manualFetch() {
-            if(!token) return;
-            try {
-                const res = await fetch(`${API}/messages`, { headers: {'Authorization': `Bearer ${token}`} });
-                if(!res.ok) { forceNewAccount(); return; }
-                const data = await res.json();
-                if(data['hydra:member'].length > lastMailCount && soundOn) document.getElementById('notification-sound').play();
-                lastMailCount = data['hydra:member'].length;
-                renderMails(data['hydra:member']);
-            } catch (e) { console.error(e); }
-        }
-
-        function renderMails(mails) {
-            const cont = document.getElementById('inbox-content');
-            cont.innerHTML = mails.length ? '' : '<div class="text-center text-slate-500 py-10 w-full">Inbox is empty...</div>';
-            mails.forEach(m => {
-                const d = document.createElement('div');
-                d.className = "flex items-center justify-between p-4 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl cursor-pointer hover:border-brand transition shadow-sm";
-                d.onclick = () => openMessage(m.id);
-                d.innerHTML = `<div class="flex-1 truncate"><div class="font-bold truncate">${m.subject || 'No Subject'}</div><div class="text-xs text-brand truncate">${m.from.address}</div></div><button onclick="deleteMessage('${m.id}', event)" class="p-2 text-red-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>`;
-                cont.appendChild(d);
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                item.classList.toggle('active');
             });
-        }
-
-        async function openMessage(id) {
-            document.getElementById('email-modal').classList.remove('hidden');
-            document.getElementById('email-modal').classList.add('flex');
-            const res = await fetch(`${API}/messages/${id}`, { headers: {'Authorization': `Bearer ${token}`} });
-            const mail = await res.json();
-            currentMailObj = mail;
-            document.getElementById('modal-subject').innerText = mail.subject;
-            document.getElementById('modal-from').innerText = mail.from.address;
-            document.getElementById('modal-body-iframe').srcdoc = `<base target="_blank">${mail.html ? mail.html[0] : mail.text}`;
-        }
-
-        function toggleTheme() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            document.getElementById('theme-icon').className = isDark ? "fa-solid fa-moon text-yellow-400" : "fa-solid fa-sun text-slate-600";
-        }
-
-        function copyEmail() {
-            navigator.clipboard.writeText(address);
-            document.getElementById('copy-msg').style.opacity = 1;
-            setTimeout(() => document.getElementById('copy-msg').style.opacity = 0, 2000);
-        }
-
-        function forceNewAccount() { localStorage.clear(); location.reload(); }
-        function closeModal() { document.getElementById('email-modal').className = "fixed inset-0 bg-slate-900/60 hidden justify-center items-center p-4 z-50 backdrop-blur-sm"; }
-        function toggleAudio() { soundOn = !soundOn; document.getElementById('notif-text').innerText = soundOn ? "Sound On" : "Sound Off"; }
-        async function clearInbox() { if(confirm("Clear all?")) { /* Logic already in manualFetch */ forceNewAccount(); } }
-        async function deleteMessage(id, e) { e.stopPropagation(); await fetch(`${API}/messages/${id}`, { method:'DELETE', headers:{'Authorization':`Bearer ${token}`} }); manualFetch(); }
+        });
     </script>
 </body>
 </html>
