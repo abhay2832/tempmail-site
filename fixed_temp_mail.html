@@ -2,167 +2,107 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Temp Mail by Abhay</title>
+<title>Temp Mail Pro</title>
 
 <style>
-body {
-  font-family: Arial;
-  background:#0f172a;
-  color:white;
-  text-align:center;
-  padding:20px;
-}
-
-.box {
-  background:#1e293b;
-  padding:20px;
-  margin:20px auto;
-  border-radius:12px;
-  width:90%;
-  max-width:600px;
-}
-
-button {
-  padding:10px 15px;
-  margin:5px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.primary {background:#22c55e;}
-.danger {background:#ef4444;}
-.info {background:#3b82f6;}
-.warn {background:#f59e0b;}
-
-input {
-  width:80%;
-  padding:10px;
-  border-radius:6px;
-  border:none;
-  margin:10px 0;
-}
-
-.mail {
-  background:#334155;
-  padding:10px;
-  margin:8px 0;
-  border-radius:8px;
-  text-align:left;
-}
+body{background:#0f172a;color:#fff;font-family:sans-serif;text-align:center}
+.box{background:#1e293b;margin:20px auto;padding:20px;border-radius:10px;width:90%;max-width:600px}
+button{padding:10px;margin:5px;border:none;border-radius:8px;cursor:pointer}
+.primary{background:#22c55e}
+.info{background:#3b82f6}
+.danger{background:#ef4444}
+.mail{background:#334155;padding:10px;margin:10px;border-radius:8px;text-align:left}
 </style>
 </head>
 
 <body>
 
-<h2>📧 Temporary Email Service</h2>
+<h2>📧 Temp Mail Working</h2>
 
 <div class="box">
-  <h3>Your Email</h3>
-  <input id="email" readonly>
-  <br>
-  <button class="primary" onclick="generateEmail()">Generate New</button>
-  <button class="info" onclick="copyEmail()">Copy</button>
+<input id="email" readonly style="width:80%;padding:10px">
+<br>
+<button class="primary" onclick="generate()">New Email</button>
+<button class="info" onclick="copy()">Copy</button>
 </div>
 
 <div class="box">
-  <h3>Controls</h3>
-  <button class="info" onclick="fetchMails()">Fetch Mails</button>
-  <button class="warn" onclick="refreshInbox()">Refresh Inbox</button>
-  <button class="danger" onclick="clearInbox()">Clear Inbox</button>
-  <button class="primary" onclick="toggleAutoRefresh()">Auto Refresh</button>
+<button class="info" onclick="loadInbox()">Fetch</button>
+<button class="primary" onclick="autoToggle()">Auto Refresh</button>
+<button class="danger" onclick="clearBox()">Clear</button>
 </div>
 
 <div class="box">
-  <h3>Inbox</h3>
-  <div id="inbox">No mails yet...</div>
+<div id="inbox">Inbox empty</div>
 </div>
 
 <script>
-let currentEmail = "";
-let autoRefresh = false;
-let interval = null;
 
-function generateEmail() {
-  let rand = Math.floor(Math.random()*100000);
-  currentEmail = "user"+rand+"@1secmail.com";
-  document.getElementById("email").value = currentEmail;
-  document.getElementById("inbox").innerHTML = "Inbox empty...";
+let mail="";
+let timer=null;
+
+function generate(){
+let r=Math.floor(Math.random()*999999);
+mail="user"+r+"@1secmail.com";
+email.value=mail;
+inbox.innerHTML="Waiting for mails...";
 }
 
-function copyEmail() {
-  navigator.clipboard.writeText(currentEmail);
-  alert("Email Copied!");
+function copy(){
+navigator.clipboard.writeText(mail);
+alert("Copied");
 }
 
-async function fetchMails() {
-  if(!currentEmail) {
-    alert("Generate email first");
-    return;
-  }
+async function loadInbox(){
+if(!mail){alert("generate first");return;}
+let l=mail.split("@")[0];
+let d=mail.split("@")[1];
 
-  let [login, domain] = currentEmail.split("@");
+let res=await fetch(`https://api.allorigins.win/raw?url=https://www.1secmail.com/api/v1/?action=getMessages&login=${l}&domain=${d}`);
+let data=await res.json();
 
-  let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
-
-  let res = await fetch(url);
-  let data = await res.json();
-
-  let inbox = document.getElementById("inbox");
-
-  if(data.length === 0) {
-    inbox.innerHTML = "No messages yet...";
-    return;
-  }
-
-  inbox.innerHTML = "";
-
-  data.forEach(mail => {
-    let div = document.createElement("div");
-    div.className = "mail";
-    div.innerHTML = `
-      <b>From:</b> ${mail.from} <br>
-      <b>Subject:</b> ${mail.subject} <br>
-      <button onclick="readMail(${mail.id})">Open</button>
-    `;
-    inbox.appendChild(div);
-  });
+if(data.length==0){
+inbox.innerHTML="No mail yet";
+return;
 }
 
-async function readMail(id) {
-  let [login, domain] = currentEmail.split("@");
-
-  let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
-
-  let res = await fetch(url);
-  let data = await res.json();
-
-  alert("Subject: " + data.subject + "\n\n" + data.textBody);
+inbox.innerHTML="";
+data.forEach(m=>{
+let div=document.createElement("div");
+div.className="mail";
+div.innerHTML=`From: ${m.from}<br>Sub: ${m.subject}<br>
+<button onclick="read(${m.id})">Open</button>`;
+inbox.appendChild(div);
+});
 }
 
-function refreshInbox() {
-  fetchMails();
+async function read(id){
+let l=mail.split("@")[0];
+let d=mail.split("@")[1];
+
+let res=await fetch(`https://api.allorigins.win/raw?url=https://www.1secmail.com/api/v1/?action=readMessage&login=${l}&domain=${d}&id=${id}`);
+let data=await res.json();
+
+alert(data.subject+"\n\n"+data.textBody);
 }
 
-function clearInbox() {
-  document.getElementById("inbox").innerHTML = "Inbox cleared";
+function clearBox(){
+inbox.innerHTML="Cleared";
 }
 
-function toggleAutoRefresh() {
-  autoRefresh = !autoRefresh;
-
-  if(autoRefresh) {
-    interval = setInterval(fetchMails, 5000);
-    alert("Auto refresh ON");
-  } else {
-    clearInterval(interval);
-    alert("Auto refresh OFF");
-  }
+function autoToggle(){
+if(timer){
+clearInterval(timer);
+timer=null;
+alert("Auto OFF");
+}else{
+timer=setInterval(loadInbox,4000);
+alert("Auto ON");
+}
 }
 
-// auto generate email on load
-generateEmail();
+generate();
+
 </script>
 
 </body>
