@@ -422,13 +422,12 @@
         const API = 'https://api.mail.tm';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
-        let password = localStorage.getItem('mt_password') || generatePassword();
+        
         let syncTimer = null;
         let refreshSec = 10; 
         let lastMailCount = 0; 
         let soundOn = false;
         let isSyncing = true; 
-        
         let allMessages = [];
 
         const emailInput = document.getElementById('email-address');
@@ -467,7 +466,7 @@
         setInterval(updateLiveStats, 3500); 
 
         function generatePassword() {
-            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
+            return "Pass" + Math.random().toString(36).substring(2, 10) + "X@1!";
         }
 
         function changeColorTheme() {
@@ -492,46 +491,18 @@
             const body = document.getElementById('page-modal-body');
             
             title.innerText = pageName;
-            
             let content = '';
+            
             if (pageName === 'Privacy Policy') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Your Privacy is Our Priority</p>
-                    <p>At Aryan Mails, we do not require any personal information, registration, or passwords to use our service. All generated temporary email addresses, alongside their inbox contents, are securely wiped from our servers after your session ends.</p>
-                    <p>We do not track your IP address for malicious purposes, and we do not sell your data to third parties. Your online anonymity is 100% protected.</p>
-                `;
+                content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Your Privacy is Our Priority</p><p>At Aryan Mails, we do not require any personal information, registration, or passwords to use our service. All generated temporary email addresses, alongside their inbox contents, are securely wiped from our servers after your session ends.</p><p>We do not track your IP address for malicious purposes, and we do not sell your data to third parties. Your online anonymity is 100% protected.</p>`;
             } else if (pageName === 'Terms of Service') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Service Agreement</p>
-                    <p>By using Aryan Mails, you agree to use the service responsibly. You may not use our disposable emails for illegal activities, spamming, harassment, or to abuse third-party services.</p>
-                    <p>We provide this service "as is" without any warranties. We reserve the right to block access or delete inboxes if we detect malicious activity or a violation of these terms.</p>
-                `;
+                content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Service Agreement</p><p>By using Aryan Mails, you agree to use the service responsibly. You may not use our disposable emails for illegal activities, spamming, harassment, or to abuse third-party services.</p><p>We provide this service "as is" without any warranties.</p>`;
             } else if (pageName === 'API Access') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Developer API (Beta)</p>
-                    <p>Want to automate your workflow? Our RESTful API allows you to programmatically generate emails, fetch messages, and manage domains.</p>
-                    <p>Documentation is currently available for Premium users. Join our Telegram to request an API key.</p>
-                `;
+                content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Developer API (Beta)</p><p>Want to automate your workflow? Our RESTful API allows you to programmatically generate emails, fetch messages, and manage domains.</p><p>Join our Telegram to request an API key.</p>`;
             } else if (pageName === 'Premium Plans') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
-                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
-                        <li>Custom domain names</li>
-                        <li>Permanent email inboxes</li>
-                        <li>Ad-free experience</li>
-                        <li>Higher API rate limits</li>
-                    </ul>
-                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
-                `;
+                content = `<p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p><p>We are working hard to bring you Aryan Mails Premium! Coming soon in 2026.</p>`;
             } else if (pageName === 'Blog & News') {
-                content = `
-                    <div class="text-center py-6">
-                        <i class="fa-solid fa-person-digging text-4xl text-slate-300 dark:text-gray-600 mb-4"></i>
-                        <p class="font-bold text-lg text-slate-800 dark:text-white">Blog Under Construction</p>
-                        <p class="text-slate-500">We are writing awesome articles on cybersecurity, privacy hacks, and more. Check back soon!</p>
-                    </div>
-                `;
+                content = `<div class="text-center py-6"><i class="fa-solid fa-person-digging text-4xl text-slate-300 dark:text-gray-600 mb-4"></i><p class="font-bold text-lg text-slate-800 dark:text-white">Blog Under Construction</p><p class="text-slate-500">Check back soon!</p></div>`;
             }
 
             body.innerHTML = content;
@@ -544,6 +515,10 @@
             document.getElementById('page-modal').classList.remove('flex');
         }
 
+        // ==========================================
+        // NEW BULLETPROOF API LOGIC
+        // ==========================================
+
         async function initApp() {
             if (!address || !token) {
                 await createNewAccount();
@@ -555,68 +530,87 @@
             }
         }
 
-        // COMPLETE FIX: No infinite loops, Handles Adblockers, Clears dead tokens
         async function createNewAccount() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
+            if(emailInput) emailInput.value = "Connecting to Server...";
+
             try {
+                // 1. Get Domains Safely
                 const domainRes = await fetch(`${API}/domains`);
-                if(!domainRes.ok) throw new Error("API Blocked or Down");
+                if(!domainRes.ok) throw new Error("API Blocked. Turn off Adblocker/VPN.");
                 
                 const domainData = await domainRes.json();
-                const stableDomain = domainData['hydra:member'][0].domain; 
-
-                const uniqueStr = Date.now().toString(36).slice(-4) + Math.floor(Math.random() * 1000);
-                const newUsername = `aryan${uniqueStr}`; 
+                const domainsList = domainData['hydra:member'];
                 
-                const newAddress = `${newUsername}@${stableDomain}`;
+                let selectedDomain = domainsList[0].domain;
+                for (let i = 0; i < domainsList.length; i++) {
+                    if (domainsList[i].isActive) {
+                        selectedDomain = domainsList[i].domain;
+                        break;
+                    }
+                }
+
+                // 2. Generate Safe Email format
+                const randomStr = Math.random().toString(36).substring(2, 10);
+                const newAddress = `ar${randomStr}@${selectedDomain}`;
                 const newPassword = generatePassword();
 
+                // 3. Create Account
                 const createRes = await fetch(`${API}/accounts`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ address: newAddress, password: newPassword })
                 });
 
-                if(createRes.ok) {
-                    const loginRes = await fetch(`${API}/token`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ address: newAddress, password: newPassword })
-                    });
-                    
-                    const tokenData = await loginRes.json();
-                    address = newAddress;
-                    password = newPassword;
-                    token = tokenData.token;
-
-                    localStorage.setItem('mt_email', address);
-                    localStorage.setItem('mt_password', password);
-                    localStorage.setItem('mt_token', token);
-
-                    if(emailInput) emailInput.value = address;
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    clearInboxUI();
-                    startSync();
-                } else {
-                    // Safe exit, no infinite loops
-                    if(emailInput) emailInput.value = "Error: Too many requests. Wait 1 min.";
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
+                if(!createRes.ok) {
+                    const err = await createRes.json();
+                    throw new Error(err.message || "Account Rejected by Server");
                 }
+
+                // 4. Get Auth Token
+                const loginRes = await fetch(`${API}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+                
+                if(!loginRes.ok) throw new Error("Login Failed");
+
+                const tokenData = await loginRes.json();
+                
+                // 5. Save and Start
+                address = newAddress;
+                token = tokenData.token;
+
+                localStorage.setItem('mt_email', address);
+                localStorage.setItem('mt_password', newPassword);
+                localStorage.setItem('mt_token', token);
+
+                if(emailInput) emailInput.value = address;
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                
+                clearInboxUI();
+                startSync();
+
             } catch (err) {
-                console.error("API Error:", err);
-                if(emailInput) emailInput.value = "API Blocked! Check Adblocker.";
+                console.error("API Crash Error:", err);
+                if(emailInput) emailInput.value = `Error: ${err.message}`;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
             }
         }
 
         function forceNewAccount() {
             localStorage.removeItem('mt_email');
+            localStorage.removeItem('mt_password');
             localStorage.removeItem('mt_token');
             address = null;
             token = null;
+            clearInterval(syncTimer);
+            
             if(emailInput) emailInput.value = "Generating...";
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             clearInboxUI();
+            
             createNewAccount();
         }
 
@@ -624,23 +618,19 @@
             const boltIcon = document.getElementById('fast-bolt-icon');
             if(boltIcon) boltIcon.classList.add('fa-spin');
             
-            localStorage.removeItem('mt_token');
-            localStorage.removeItem('mt_email');
-            address = null;
-            token = null;
+            forceNewAccount(); // Reuses safe logic
             
-            if(emailInput) emailInput.value = "Resetting Token...";
-            if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            clearInboxUI();
-            
-            await createNewAccount();
-            await manualFetch();
-            
-            if(boltIcon) boltIcon.classList.remove('fa-spin');
+            setTimeout(() => {
+                if(boltIcon) boltIcon.classList.remove('fa-spin');
+            }, 1000);
         }
 
         async function manualFetch() {
-            if(!token) return;
+            if(!token) {
+                alert("Please wait for email to generate or refresh page.");
+                return;
+            }
+
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
             
@@ -649,12 +639,13 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 
-                // FIX: Detect Expired/Dead Token and Reset Automatically
-                if (res.status === 401 || res.status === 403) {
-                    console.log("Token dead. Forcing new account.");
+                if (res.status === 401) {
+                    console.log("Dead Token! Fixing it automatically...");
                     forceNewAccount();
                     return;
                 }
+
+                if(!res.ok) throw new Error("Could not fetch messages");
 
                 const data = await res.json();
                 allMessages = data['hydra:member'] || [];
@@ -670,7 +661,7 @@
                     renderMails(); 
                 }
             } catch (err) {
-                console.error("Fetch error:", err);
+                console.error("Fetch API error:", err);
             } finally {
                 if(fetchIcon) fetchIcon.classList.remove('fa-spin');
             }
@@ -685,7 +676,7 @@
                     inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
                 }
                 
-                const sortOrder = document.getElementById('sort-mails').value;
+                const sortOrder = document.getElementById('sort-mails').value || 'newest';
                 let sortedMails = [...allMessages]; 
                 
                 if (sortOrder === 'newest') {
@@ -757,14 +748,16 @@
         }
 
         function copyEmail() {
-            if(emailInput) {
+            if(emailInput && emailInput.value && emailInput.value.includes('@')) {
                 emailInput.select();
                 document.execCommand('copy');
-            }
-            const msg = document.getElementById('copy-msg');
-            if(msg) {
-                msg.style.opacity = "1";
-                setTimeout(() => { msg.style.opacity = "0"; }, 2000);
+                const msg = document.getElementById('copy-msg');
+                if(msg) {
+                    msg.style.opacity = "1";
+                    setTimeout(() => { msg.style.opacity = "0"; }, 2000);
+                }
+            } else {
+                alert("Please wait for the email address to generate.");
             }
         }
 
