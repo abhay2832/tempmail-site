@@ -1,161 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aryan Mails - Premium Temporary Email</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+<meta charset="UTF-8">
+<title>Temp Mail by Abhay</title>
+
+<style>
+body {
+  font-family: Arial;
+  background:#0f172a;
+  color:white;
+  text-align:center;
+  padding:20px;
+}
+
+.box {
+  background:#1e293b;
+  padding:20px;
+  margin:20px auto;
+  border-radius:12px;
+  width:90%;
+  max-width:600px;
+}
+
+button {
+  padding:10px 15px;
+  margin:5px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.primary {background:#22c55e;}
+.danger {background:#ef4444;}
+.info {background:#3b82f6;}
+.warn {background:#f59e0b;}
+
+input {
+  width:80%;
+  padding:10px;
+  border-radius:6px;
+  border:none;
+  margin:10px 0;
+}
+
+.mail {
+  background:#334155;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+  text-align:left;
+}
+</style>
+</head>
+
+<body>
+
+<h2>📧 Temporary Email Service</h2>
+
+<div class="box">
+  <h3>Your Email</h3>
+  <input id="email" readonly>
+  <br>
+  <button class="primary" onclick="generateEmail()">Generate New</button>
+  <button class="info" onclick="copyEmail()">Copy</button>
+</div>
+
+<div class="box">
+  <h3>Controls</h3>
+  <button class="info" onclick="fetchMails()">Fetch Mails</button>
+  <button class="warn" onclick="refreshInbox()">Refresh Inbox</button>
+  <button class="danger" onclick="clearInbox()">Clear Inbox</button>
+  <button class="primary" onclick="toggleAutoRefresh()">Auto Refresh</button>
+</div>
+
+<div class="box">
+  <h3>Inbox</h3>
+  <div id="inbox">No mails yet...</div>
+</div>
+
 <script>
-const API = "https://api.mail.tm";
+let currentEmail = "";
+let autoRefresh = false;
+let interval = null;
 
-let token = null;
-let address = null;
-let password = null;
-let autoTimer = null;
-let autoSync = true;
-
-function generatePassword() {
-    return Math.random().toString(36).slice(-10);
-}
-
-async function getDomain() {
-    const res = await fetch(API + "/domains");
-    const data = await res.json();
-    return data["hydra:member"][0].domain;
-}
-
-async function createAccount() {
-    const domain = await getDomain();
-    password = generatePassword();
-    address = Math.random().toString(36).substring(2,10) + "@" + domain;
-
-    await fetch(API + "/accounts", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ address, password })
-    });
-
-    localStorage.setItem("mt_email", address);
-    localStorage.setItem("mt_password", password);
-}
-
-async function login() {
-    const res = await fetch(API + "/token", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ address, password })
-    });
-
-    const data = await res.json();
-    token = data.token;
-    localStorage.setItem("mt_token", token);
-}
-
-async function initMailbox() {
-    address = localStorage.getItem("mt_email");
-    password = localStorage.getItem("mt_password");
-
-    if (!address || !password) {
-        await createAccount();
-    }
-
-    await login();
-
-    document.getElementById("email-address").value = address;
-    document.getElementById("loading-overlay").style.display = "none";
-
-    fetchMails();
-
-    if (autoSync) {
-        autoTimer = setInterval(fetchMails, 10000);
-    }
-}
-
-async function fetchMails() {
-    const res = await fetch(API + "/messages", {
-        headers: { Authorization: "Bearer " + token }
-    });
-
-    const data = await res.json();
-    const mails = data["hydra:member"];
-
-    renderInbox(mails);
-}
-
-function renderInbox(mails) {
-    const box = document.getElementById("inbox-content");
-    box.innerHTML = "";
-
-    if (mails.length === 0) {
-        box.innerHTML = "<p>No mails yet</p>";
-        return;
-    }
-
-    mails.forEach(mail => {
-        const div = document.createElement("div");
-        div.className = "p-3 border-b border-gray-300 cursor-pointer";
-        div.innerHTML = `<b>${mail.from.address}</b><br>${mail.subject}`;
-        div.onclick = () => openMail(mail.id);
-        box.appendChild(div);
-    });
-
-    document.getElementById("total-emails").innerText = mails.length + " emails";
-}
-
-async function openMail(id) {
-    const res = await fetch(API + "/messages/" + id, {
-        headers: { Authorization: "Bearer " + token }
-    });
-
-    const data = await res.json();
-
-    document.getElementById("modal-subject").innerText = data.subject;
-    document.getElementById("modal-from").innerText = data.from.address;
-    document.getElementById("modal-body-iframe").srcdoc = data.html ? data.html[0] : data.text;
-
-    document.getElementById("email-modal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("email-modal").style.display = "none";
-}
-
-function manualFetch() {
-    fetchMails();
-}
-
-function clearInboxUI() {
-    document.getElementById("inbox-content").innerHTML = "<p>Inbox Cleared</p>";
-}
-
-function toggleAutoSync() {
-    autoSync = !autoSync;
-
-    if (autoSync) {
-        autoTimer = setInterval(fetchMails, 10000);
-        document.getElementById("sync-text").innerText = "Auto-Sync: ON";
-    } else {
-        clearInterval(autoTimer);
-        document.getElementById("sync-text").innerText = "Auto-Sync: OFF";
-    }
+function generateEmail() {
+  let rand = Math.floor(Math.random()*100000);
+  currentEmail = "user"+rand+"@1secmail.com";
+  document.getElementById("email").value = currentEmail;
+  document.getElementById("inbox").innerHTML = "Inbox empty...";
 }
 
 function copyEmail() {
-    const text = document.getElementById("email-address").value;
-    navigator.clipboard.writeText(text);
-    document.getElementById("copy-msg").style.opacity = 1;
-    setTimeout(()=> {
-        document.getElementById("copy-msg").style.opacity = 0;
-    },2000);
+  navigator.clipboard.writeText(currentEmail);
+  alert("Email Copied!");
 }
 
-function forceNewAccount() {
-    localStorage.clear();
-    location.reload();
+async function fetchMails() {
+  if(!currentEmail) {
+    alert("Generate email first");
+    return;
+  }
+
+  let [login, domain] = currentEmail.split("@");
+
+  let url = `https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`;
+
+  let res = await fetch(url);
+  let data = await res.json();
+
+  let inbox = document.getElementById("inbox");
+
+  if(data.length === 0) {
+    inbox.innerHTML = "No messages yet...";
+    return;
+  }
+
+  inbox.innerHTML = "";
+
+  data.forEach(mail => {
+    let div = document.createElement("div");
+    div.className = "mail";
+    div.innerHTML = `
+      <b>From:</b> ${mail.from} <br>
+      <b>Subject:</b> ${mail.subject} <br>
+      <button onclick="readMail(${mail.id})">Open</button>
+    `;
+    inbox.appendChild(div);
+  });
 }
 
-initMailbox();
+async function readMail(id) {
+  let [login, domain] = currentEmail.split("@");
+
+  let url = `https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`;
+
+  let res = await fetch(url);
+  let data = await res.json();
+
+  alert("Subject: " + data.subject + "\n\n" + data.textBody);
+}
+
+function refreshInbox() {
+  fetchMails();
+}
+
+function clearInbox() {
+  document.getElementById("inbox").innerHTML = "Inbox cleared";
+}
+
+function toggleAutoRefresh() {
+  autoRefresh = !autoRefresh;
+
+  if(autoRefresh) {
+    interval = setInterval(fetchMails, 5000);
+    alert("Auto refresh ON");
+  } else {
+    clearInterval(interval);
+    alert("Auto refresh OFF");
+  }
+}
+
+// auto generate email on load
+generateEmail();
 </script>
 
 </body>
