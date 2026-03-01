@@ -837,6 +837,50 @@
                 </div>
             `;
         }
+        
+        // --- NAYA SUBSCRIBE FUNCTION (Bina page reload kiye Formsubmit ka use karte huye) ---
+        async function submitSubscribeForm(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('subscriber-email').value;
+            const btn = document.getElementById('subscribe-btn');
+            const msg = document.getElementById('subscribe-msg');
+            
+            btn.innerText = 'Subscribing...';
+            btn.disabled = true;
+
+            try {
+                // IMPORTANT: Yaha 'YOUR_EMAIL@gmail.com' ki jagah apna asli Gmail dalein jisme notification chahiye
+                const response = await fetch('https://formsubmit.co/ajax/YOUR_EMAIL@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: "New Blog Subscriber on Aryan Mails!",
+                        email: emailInput,
+                        message: "A new user has subscribed to your blog updates."
+                    })
+                });
+
+                if (response.ok) {
+                    msg.innerText = 'Subscribed successfully! Thank you.';
+                    msg.className = 'text-sm mt-2 text-emerald-500 font-semibold block';
+                    document.getElementById('subscribe-form').reset();
+                } else {
+                    msg.innerText = 'Error submitting. Please try again.';
+                    msg.className = 'text-sm mt-2 text-red-500 font-semibold block';
+                }
+            } catch (error) {
+                msg.innerText = 'Network error. Please try again.';
+                msg.className = 'text-sm mt-2 text-red-500 font-semibold block';
+            }
+
+            btn.innerText = 'Subscribe';
+            btn.disabled = false;
+            
+            setTimeout(() => { msg.classList.add('hidden'); }, 5000);
+        }
         // --- END BLOG DATA & FUNCTIONS ---
 
 
@@ -952,10 +996,13 @@
                         <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
                             <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
                             <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
-                            <form onsubmit="event.preventDefault(); alert('Subscribed successfully!');" class="flex flex-col sm:flex-row gap-3">
-                                <input type="email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
-                                <button type="submit" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md">Subscribe</button>
+                            
+                            <form id="subscribe-form" onsubmit="submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
+                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
+                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md">Subscribe</button>
                             </form>
+                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
+
                         </div>
                         <div>
                             <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
