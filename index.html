@@ -451,6 +451,157 @@
     </div>
 
     <script>
+        // --- BLOG DATA & FUNCTIONS ADDED HERE ---
+        const blogArticles = [
+            {
+                id: 'article1',
+                category: 'Privacy',
+                title: 'How to Protect Your Privacy Online in 2025: Complete Guide',
+                readTime: '12 min read',
+                date: '07/01/2026',
+                author: 'TempMail Team',
+                excerpt: 'Learn essential strategies to protect your online privacy in 2025. From temporary emails to VPNs, discover tools and practices to safeguard your digital identity.',
+                content: '<p class="mb-4">In 2025, online privacy is under more threat than ever before. With advanced tracking technologies and frequent data breaches, protecting your digital footprint is no longer optional—it is a necessity.</p><p class="mb-4">One of the most effective strategies is minimizing the places your primary email address is exposed. Data brokers and malicious actors often use your email to tie different pieces of your online life together across various databases.</p><p class="mb-4">By utilizing disposable temporary emails for one-time registrations, forum sign-ups, or downloading gated content, you immediately cut off a major avenue of tracking. Combine this with a robust VPN and privacy-focused browsers, and you take a massive step towards total digital anonymity.</p>'
+            },
+            {
+                id: 'article2',
+                category: 'Email Security',
+                title: 'Temporary Email vs Permanent Email: When to Use Each',
+                readTime: '10 min read',
+                date: '07/01/2026',
+                author: 'TempMail Team',
+                excerpt: 'Discover when to use temporary vs permanent email addresses. Learn optimal use cases for each type to protect your privacy while maintaining essential communications.',
+                content: '<p class="mb-4">Understanding the difference between your primary inbox and a disposable one is crucial for maintaining both security and organization in your digital life.</p><p class="mb-4"><strong>Permanent Emails</strong> (like your main Gmail or Outlook account) should be strictly reserved for critical communications: banking, government services, your employer, and close personal contacts. You want to guard this address carefully.</p><p class="mb-4"><strong>Temporary Emails</strong>, on the other hand, are your shield. Use them whenever a website demands an email address but you don’t fully trust them, or when you just want a quick discount code without subscribing to years of marketing spam. A temporary email is designed to be discarded, leaving no trace back to your real identity.</p>'
+            },
+            {
+                id: 'article3',
+                category: 'Email Tips',
+                title: 'Stop Spam Emails Forever: 10 Proven Strategies for 2025',
+                readTime: '11 min read',
+                date: '07/01/2026',
+                author: 'TempMail Team',
+                excerpt: 'Eliminate spam emails with 10 proven strategies for 2025. Learn to use temporary emails, optimize filters, and implement security practices for a clean inbox.',
+                content: '<p class="mb-4">Spam is not just annoying; it can be dangerous. Phishing attempts and malware are frequently delivered through unwanted emails. Keeping your inbox clean is a core component of cybersecurity.</p><p class="mb-4">The absolute best way to stop spam is to never receive it in the first place. That means never entering your real email into suspicious forms or untrusted e-commerce sites. Instead, generate a quick 10-minute mail address to handle the verification process.</p><p class="mb-4">Additionally, regularly audit the newsletters you are subscribed to, never click "unsubscribe" links in emails that look sketchy (as this just confirms your email is active), and rely heavily on disposable email generators to act as a buffer between the internet and your personal data.</p>'
+            },
+            {
+                id: 'article4',
+                category: 'Industry Trends',
+                title: 'The Rise of Disposable Email Services: Why Privacy Matters',
+                readTime: '13 min read',
+                date: '07/01/2026',
+                author: 'TempMail Team',
+                excerpt: 'Explore the growth of disposable email services and why online privacy matters. Learn how temporary emails protect against data breaches and surveillance.',
+                content: '<p class="mb-4">The demand for privacy-focused tools has skyrocketed in recent years. As public awareness of corporate data harvesting grows, internet users are pushing back and demanding tools that help them stay anonymous.</p><p class="mb-4">Disposable email services have evolved from simple "trash mail" sites into sophisticated platforms offering custom domains, seamless UI, and instant delivery. This rise in popularity directly correlates with the increase in global data breaches. When a platform gets hacked, users who signed up with a temporary email have absolutely zero risk, while others may have their credentials sold on the dark web.</p><p class="mb-4">Looking ahead, the integration of disposable identities will likely become a standard part of web browsing, empowering users to reclaim control over who gets access to their personal information.</p>'
+            }
+        ];
+
+        let currentBlogFilter = 'All';
+
+        function renderBlogContent() {
+            const container = document.getElementById('blog-container');
+            if(!container) return;
+
+            let filteredArticles = blogArticles;
+            if (currentBlogFilter !== 'All') {
+                filteredArticles = blogArticles.filter(a => a.category === currentBlogFilter);
+            }
+
+            // Categories Filter HTML
+            const categories = ['All', 'Privacy', 'Email Security', 'Email Tips', 'Industry Trends'];
+            let filtersHtml = '<div class="flex flex-wrap gap-2 mb-4">';
+            categories.forEach(cat => {
+                if (cat === currentBlogFilter) {
+                    filtersHtml += `<button onclick="setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition">${cat}</button>`;
+                } else {
+                    filtersHtml += `<button onclick="setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">${cat}</button>`;
+                }
+            });
+            filtersHtml += '</div>';
+
+            // Active Filter Strip HTML
+            let activeFilterHtml = `
+                <div class="flex flex-wrap items-center gap-3 bg-slate-100 dark:bg-darkbg p-3 rounded-lg text-sm border border-slate-200 dark:border-darkborder mb-8">
+                    <span class="font-bold text-slate-700 dark:text-gray-200">Active filter:</span>
+                    <span class="flex items-center gap-2 bg-white dark:bg-darkpanel px-3 py-1 rounded-md border border-slate-200 dark:border-darkborder text-slate-600 dark:text-gray-300">
+                        Category: ${currentBlogFilter}
+                        ${currentBlogFilter !== 'All' ? `<button onclick="setBlogFilter('All')" class="hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>` : ''}
+                    </span>
+                    ${currentBlogFilter !== 'All' ? `<button onclick="setBlogFilter('All')" class="text-red-500 hover:text-red-600 font-semibold ml-auto transition">Clear all</button>` : ''}
+                </div>
+            `;
+
+            // Grid HTML
+            let gridHtml = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+            if (filteredArticles.length === 0) {
+                gridHtml += `<div class="col-span-1 md:col-span-2 text-center py-10 text-slate-500">No articles found in this category.</div>`;
+            } else {
+                filteredArticles.forEach(post => {
+                    gridHtml += `
+                    <div onclick="openBlogPost('${post.id}')" class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full cursor-pointer">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-bold text-brand uppercase tracking-wider">${post.category}</span>
+                            <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-brand transition-colors">${post.title}</h4>
+                        <p class="text-slate-600 dark:text-gray-300 text-sm mb-4 flex-grow">${post.excerpt}</p>
+                        <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-darkborder mt-auto">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-800 dark:text-white">${post.author}</p>
+                                <p class="text-xs text-slate-500 dark:text-gray-400">${post.date}</p>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            }
+            gridHtml += '</div>';
+
+            container.innerHTML = filtersHtml + activeFilterHtml + gridHtml;
+        }
+
+        function setBlogFilter(category) {
+            currentBlogFilter = category;
+            renderBlogContent();
+        }
+
+        function openBlogPost(id) {
+            const post = blogArticles.find(a => a.id === id);
+            if(!post) return;
+            
+            const container = document.getElementById('blog-container');
+            if(!container) return;
+
+            // When article opens, replace container content with article data
+            container.innerHTML = `
+                <button onclick="renderBlogContent()" class="mb-6 flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand transition cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Blog
+                </button>
+                <div class="mb-6 border-b border-slate-200 dark:border-darkborder pb-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 rounded-full bg-brandbg text-brand text-xs font-bold uppercase tracking-wider">${post.category}</span>
+                        <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-4">${post.title}</h1>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800 dark:text-white">${post.author}</p>
+                            <p class="text-xs text-slate-500 dark:text-gray-400">Published on ${post.date}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="prose prose-slate dark:prose-invert max-w-none text-slate-700 dark:text-gray-300 text-[15px] leading-relaxed">
+                    ${post.content}
+                </div>
+            `;
+        }
+        // --- END BLOG DATA & FUNCTIONS ---
+
+
         // API Changed to mail.gw for higher success rate and real-time backend processing
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
@@ -563,7 +714,7 @@
                         <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
                             <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
                             <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
-                            <form onsubmit="event.preventDefault();" class="flex flex-col sm:flex-row gap-3">
+                            <form onsubmit="event.preventDefault(); alert('Subscribed successfully!');" class="flex flex-col sm:flex-row gap-3">
                                 <input type="email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
                                 <button type="submit" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md">Subscribe</button>
                             </form>
@@ -573,99 +724,15 @@
                             <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
                             <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
                         </div>
-                        <div class="flex flex-wrap gap-2">
-                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">All</button>
-                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">Privacy</button>
-                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">Email Security</button>
-                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">Email Tips</button>
-                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition">Industry Trends</button>
-                        </div>
-                        <div class="flex flex-wrap items-center gap-3 bg-slate-100 dark:bg-darkbg p-3 rounded-lg text-sm border border-slate-200 dark:border-darkborder">
-                            <span class="font-bold text-slate-700 dark:text-gray-200">Active filters:</span>
-                            <span class="flex items-center gap-2 bg-white dark:bg-darkpanel px-3 py-1 rounded-md border border-slate-200 dark:border-darkborder text-slate-600 dark:text-gray-300">
-                                Category: Industry Trends
-                                <button class="hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
-                            </span>
-                            <button class="text-red-500 hover:text-red-600 font-semibold ml-auto transition">Clear all</button>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                            
-                            <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full">
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Privacy</span>
-                                    <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> 12 min read</span>
-                                </div>
-                                <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-brand cursor-pointer transition-colors">How to Protect Your Privacy Online in 2025: Complete Guide</h4>
-                                <p class="text-slate-600 dark:text-gray-300 text-sm mb-4 flex-grow">Learn essential strategies to protect your online privacy in 2025. From temporary emails to VPNs, discover tools and practices to safeguard your digital identity.</p>
-                                <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-darkborder mt-auto">
-                                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-semibold text-slate-800 dark:text-white">TempMail Team</p>
-                                        <p class="text-xs text-slate-500 dark:text-gray-400">07/01/2026</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full">
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Email Security</span>
-                                    <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> 10 min read</span>
-                                </div>
-                                <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-brand cursor-pointer transition-colors">Temporary Email vs Permanent Email: When to Use Each</h4>
-                                <p class="text-slate-600 dark:text-gray-300 text-sm mb-4 flex-grow">Discover when to use temporary vs permanent email addresses. Learn optimal use cases for each type to protect your privacy while maintaining essential communications.</p>
-                                <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-darkborder mt-auto">
-                                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-semibold text-slate-800 dark:text-white">TempMail Team</p>
-                                        <p class="text-xs text-slate-500 dark:text-gray-400">07/01/2026</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full">
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Email Tips</span>
-                                    <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> 11 min read</span>
-                                </div>
-                                <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-brand cursor-pointer transition-colors">Stop Spam Emails Forever: 10 Proven Strategies for 2025</h4>
-                                <p class="text-slate-600 dark:text-gray-300 text-sm mb-4 flex-grow">Eliminate spam emails with 10 proven strategies for 2025. Learn to use temporary emails, optimize filters, and implement security practices for a clean inbox.</p>
-                                <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-darkborder mt-auto">
-                                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-semibold text-slate-800 dark:text-white">TempMail Team</p>
-                                        <p class="text-xs text-slate-500 dark:text-gray-400">07/01/2026</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full">
-                                <div class="flex justify-between items-center mb-3">
-                                    <span class="text-xs font-bold text-brand uppercase tracking-wider">Industry Trends</span>
-                                    <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> 13 min read</span>
-                                </div>
-                                <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-brand cursor-pointer transition-colors">The Rise of Disposable Email Services: Why Privacy Matters</h4>
-                                <p class="text-slate-600 dark:text-gray-300 text-sm mb-4 flex-grow">Explore the growth of disposable email services and why online privacy matters. Learn how temporary emails protect against data breaches and surveillance.</p>
-                                <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-darkborder mt-auto">
-                                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs font-semibold text-slate-800 dark:text-white">TempMail Team</p>
-                                        <p class="text-xs text-slate-500 dark:text-gray-400">07/01/2026</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                        <div id="blog-container"></div>
                     </div>
                 `;
+
+                // Set a tiny delay so the DOM has time to insert #blog-container before rendering the blog inside it
+                setTimeout(() => {
+                    currentBlogFilter = 'All'; // Jab bhi modal khule, 'All' se start ho
+                    renderBlogContent();
+                }, 10);
             }
 
             body.innerHTML = content;
