@@ -68,7 +68,6 @@
         .stat-update { animation: highlight-stat 1s ease-out; }
         @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
         
-        /* Custom scrollbar for domain list */
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
@@ -142,10 +141,10 @@
                         <i class="fa-solid fa-arrows-rotate text-brand"></i> New Email <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
                     </button>
                     <div id="new-email-dropdown" class="hidden absolute top-full mt-2 w-48 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl shadow-xl z-50 overflow-hidden text-left left-1/2 -translate-x-1/2">
-                        <div class="px-4 py-3 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium border-b border-slate-100 dark:border-darkborder flex items-center gap-2" onclick="forceNewAccount('human'); toggleDropdown('new-email-dropdown');">
+                        <div class="px-4 py-3 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium border-b border-slate-100 dark:border-darkborder flex items-center gap-2 text-slate-700 dark:text-white" onclick="forceNewAccount('human'); toggleDropdown('new-email-dropdown');">
                             <i class="fa-solid fa-user text-emerald-500 w-4"></i> Human Name
                         </div>
-                        <div class="px-4 py-3 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium flex items-center gap-2" onclick="forceNewAccount('robot'); toggleDropdown('new-email-dropdown');">
+                        <div class="px-4 py-3 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium flex items-center gap-2 text-slate-700 dark:text-white" onclick="forceNewAccount('robot'); toggleDropdown('new-email-dropdown');">
                             <i class="fa-solid fa-robot text-purple-500 w-4"></i> Robot Random
                         </div>
                     </div>
@@ -530,299 +529,39 @@
         // --- DROPDOWN TOGGLE LOGIC ---
         function toggleDropdown(id) {
             const el = document.getElementById(id);
-            if (el.classList.contains('hidden')) {
-                // Close all others first
-                document.querySelectorAll('.absolute.z-50').forEach(drop => drop.classList.add('hidden'));
+            const isHidden = el.classList.contains('hidden');
+            
+            document.getElementById('new-email-dropdown').classList.add('hidden');
+            document.getElementById('domain-dropdown').classList.add('hidden');
+            
+            if(isHidden) {
                 el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
             }
         }
         
-        // Hide dropdowns when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('button[onclick^="toggleDropdown"]')) {
-                document.querySelectorAll('[id$="-dropdown"]').forEach(drop => drop.classList.add('hidden'));
+            if (!e.target.closest('.relative')) {
+                document.getElementById('new-email-dropdown').classList.add('hidden');
+                document.getElementById('domain-dropdown').classList.add('hidden');
             }
         });
 
         // --- BLOG DATA & FUNCTIONS ADDED HERE ---
         const blogArticles = [
-            {
-                id: 'article1',
-                category: 'Privacy',
-                title: 'How to Protect Your Privacy Online in 2025: Complete Guide',
-                readTime: '12 min read',
-                date: '07/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Learn essential strategies to protect your online privacy in 2025. From temporary emails to VPNs, discover tools and practices to safeguard your digital identity.',
-                content: `
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Landscape of Digital Privacy</h3>
-                    <p class="mb-4 text-base leading-relaxed">In 2025, online privacy is under more threat than ever before. With advanced tracking technologies, AI-driven analytics, and frequent data breaches, protecting your digital footprint is no longer optional—it is an absolute necessity.</p>
-                    <p class="mb-4 text-base leading-relaxed">Data brokers and malicious actors often use your primary email address as a "digital fingerprint" to tie different pieces of your online life together across various databases. Once your email is compromised, your privacy is compromised.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">1. Shield Your Primary Email</h3>
-                    <p class="mb-4 text-base leading-relaxed">One of the most effective strategies is minimizing the places your primary email address is exposed. By utilizing disposable temporary emails for one-time registrations, forum sign-ups, or downloading gated content, you immediately cut off a major avenue of tracking.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">2. Utilize Strong VPNs and Private Browsers</h3>
-                    <p class="mb-4 text-base leading-relaxed">Combine temporary emails with a robust Virtual Private Network (VPN) and a privacy-focused browser (like Brave or Firefox with strict tracking protection). This multi-layered approach ensures that neither your IP address nor your inbox can be easily traced back to your real-world identity.</p>
-                `
-            },
-            {
-                id: 'article2',
-                category: 'Email Security',
-                title: 'Temporary Email vs Permanent Email: When to Use Each',
-                readTime: '10 min read',
-                date: '07/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Discover when to use temporary vs permanent email addresses. Learn optimal use cases for each type to protect your privacy while maintaining essential communications.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">Understanding the difference between your primary inbox and a disposable one is crucial for maintaining both security and organization in your digital life.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Role of Permanent Emails</h3>
-                    <p class="mb-4 text-base leading-relaxed"><strong>Permanent Emails</strong> (like your main Gmail, Outlook, or ProtonMail account) should be strictly reserved for critical communications. This includes:</p>
-                    <ul class="list-disc pl-5 mb-6 space-y-2 text-base">
-                        <li>Banking and financial services</li>
-                        <li>Government and legal portals</li>
-                        <li>Your employer and professional network</li>
-                        <li>Close personal contacts and family</li>
-                    </ul>
-                    <p class="mb-4 text-base leading-relaxed">You want to guard this address carefully and ensure it is protected with strong passwords and Two-Factor Authentication (2FA).</p>
-
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Power of Temporary Emails</h3>
-                    <p class="mb-4 text-base leading-relaxed"><strong>Temporary Emails</strong> are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. Ideal use cases include:</p>
-                    <ul class="list-disc pl-5 mb-6 space-y-2 text-base">
-                        <li>Accessing public Wi-Fi networks that require email verification.</li>
-                        <li>Getting a quick discount code without subscribing to years of marketing spam.</li>
-                        <li>Testing new apps or services anonymously.</li>
-                    </ul>
-                    <p class="mb-4 text-base leading-relaxed">A temporary email is designed to be discarded, leaving no trace back to your real identity and keeping your main inbox pristine.</p>
-                `
-            },
-            {
-                id: 'article3',
-                category: 'Email Tips',
-                title: 'Stop Spam Emails Forever: 10 Proven Strategies for 2025',
-                readTime: '11 min read',
-                date: '07/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Eliminate spam emails with 10 proven strategies for 2025. Learn to use temporary emails, optimize filters, and implement security practices for a clean inbox.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">Spam is not just annoying; it is a major security risk. Phishing attempts, malware, and sophisticated scams are frequently delivered through unwanted emails. Keeping your inbox clean is a core component of modern cybersecurity.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Strategy 1: Prevention is the Best Cure</h3>
-                    <p class="mb-4 text-base leading-relaxed">The absolute best way to stop spam is to never receive it in the first place. That means never entering your real email into suspicious forms, untrusted e-commerce sites, or shady newsletter popups. Instead, generate a quick 10-minute mail address to handle the verification process.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Strategy 2: Beware of the "Unsubscribe" Trap</h3>
-                    <p class="mb-4 text-base leading-relaxed">Never click "unsubscribe" links in emails that look sketchy or unsolicited. Spammers often use these links to verify that your email address is active and monitored by a real human. Once you click it, they sell your "active" email to other spammers.</p>
-
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Strategy 3: Hide Your Email Publicly</h3>
-                    <p class="mb-4 text-base leading-relaxed">Bots scrape the internet constantly looking for the "@" symbol. Never post your primary email address in plain text on Twitter, Reddit, public forums, or even your own website. If you must, use formats like "name [at] domain [dot] com" or rely heavily on disposable email generators to act as a public buffer.</p>
-                `
-            },
-            {
-                id: 'article4',
-                category: 'Industry Trends',
-                title: 'The Rise of Disposable Email Services: Why Privacy Matters',
-                readTime: '13 min read',
-                date: '07/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Explore the growth of disposable email services and why online privacy matters. Learn how temporary emails protect against data breaches and surveillance.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">The demand for privacy-focused tools has skyrocketed globally over the last few years. As public awareness of corporate data harvesting grows, internet users are aggressively pushing back and demanding tools that help them stay anonymous.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Evolution of Temp Mails</h3>
-                    <p class="mb-4 text-base leading-relaxed">Disposable email services have evolved significantly from simple, clunky "trash mail" sites into sophisticated platforms. Modern services now offer lightning-fast UI, live inbox updates, custom domains, and secure protocols. This rise in quality directly correlates with the increase in user demand for seamless privacy tools.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Protection Against Data Breaches</h3>
-                    <p class="mb-4 text-base leading-relaxed">When a massive platform gets hacked, millions of emails and passwords are leaked. Users who signed up for that platform using a temporary email face absolutely zero risk. Their primary inbox remains hidden, and their credentials cannot be cross-referenced or sold on the dark web.</p>
-
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Future of Digital Identity</h3>
-                    <p class="mb-4 text-base leading-relaxed">Looking ahead to 2026 and beyond, the integration of disposable identities will likely become a standard part of web browsing. We are moving towards an era where users, not corporations, dictate who gets access to their personal information.</p>
-                `
-            },
-            {
-                id: 'article5',
-                category: 'Privacy',
-                title: 'The Hidden Cost of "Free" Services',
-                readTime: '8 min read',
-                date: '10/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1614064641936-3899884d2498?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'If a product is free, you are the product. Explore how free apps and platforms monetize your personal data and email address.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">We all love free software, apps, and services. But in the modern digital economy, nothing is truly free. Companies have to keep the servers running, and if you aren't paying with your wallet, you are paying with your data.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">How Free Services Monetize You</h3>
-                    <p class="mb-4 text-base leading-relaxed">When you enter your email to access a "free eBook" or a "free trial," that email is immediately added to a database. Often, the terms of service (which nobody reads) allow that company to share or sell your contact information to third-party marketing partners.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Protecting Yourself</h3>
-                    <p class="mb-4 text-base leading-relaxed">To enjoy free services without compromising your identity, your best weapon is a disposable email address. By feeding these services a temporary email, you get the free value they offer without sacrificing your personal inbox to a lifetime of spam.</p>
-                `
-            },
-            {
-                id: 'article6',
-                category: 'Email Security',
-                title: 'How to Spot a Phishing Email in 2026',
-                readTime: '14 min read',
-                date: '15/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Phishing attacks have become highly sophisticated using AI. Learn the red flags and protect your sensitive information from modern scammers.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">Phishing is no longer just poorly spelled emails from a "foreign prince." In 2026, scammers use Artificial Intelligence to write grammatically perfect, highly personalized emails that look exactly like they came from your bank, your boss, or a trusted retailer.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Red Flags</h3>
-                    <ul class="list-disc pl-5 mb-6 space-y-2 text-base">
-                        <li><strong>Urgency:</strong> They demand immediate action (e.g., "Your account will be suspended in 2 hours").</li>
-                        <li><strong>Mismatched Domains:</strong> The display name might say "PayPal Support," but the actual email address is "support@pay-pal-security-update.com". Always inspect the sender's actual address.</li>
-                        <li><strong>Suspicious Links:</strong> Hover over any link before clicking. If the URL looks strange or uses a URL shortener, do not click it.</li>
-                    </ul>
-                    <p class="mb-4 text-base leading-relaxed">A good rule of thumb: If an email asks you to log in to resolve an issue, do not use the link in the email. Open your browser, type the website address manually, and check your account from there.</p>
-                `
-            },
-            {
-                id: 'article7',
-                category: 'Email Tips',
-                title: 'Organizing Your Digital Life with Multiple Inboxes',
-                readTime: '9 min read',
-                date: '18/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Stop mixing personal emails with work and spam. Learn the benefits of digital compartmentalization using multiple email addresses.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">If you use one email address for everything—banking, work, social media, and newsletters—you are doing it wrong. This approach leads to inbox clutter, missed important messages, and massive security risks.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Compartmentalization Strategy</h3>
-                    <p class="mb-4 text-base leading-relaxed">You should divide your digital life into distinct sectors:</p>
-                    <ul class="list-disc pl-5 mb-6 space-y-2 text-base">
-                        <li><strong>The Vault:</strong> An ultra-secure email used only for banking, government, and medical portals. Nobody else gets this address.</li>
-                        <li><strong>The Professional:</strong> Used for your career, resume, and LinkedIn.</li>
-                        <li><strong>The Social:</strong> Used for Facebook, Twitter, Instagram, and friends.</li>
-                        <li><strong>The Burner:</strong> A temporary email generator used for one-time signups, Wi-Fi access, and sketchy downloads.</li>
-                    </ul>
-                    <p class="mb-4 text-base leading-relaxed">This strategy ensures that even if one sector is breached or filled with spam, the rest of your digital life remains unaffected.</p>
-                `
-            },
-            {
-                id: 'article8',
-                category: 'Industry Trends',
-                title: 'AI and the Future of Email Spam Filters',
-                readTime: '11 min read',
-                date: '22/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Artificial Intelligence is changing the war on spam. Look at how machine learning is predicting and blocking malicious emails before they hit your inbox.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">The battle between email providers and spammers has always been an arms race. But the introduction of deep machine learning and AI has shifted the battlefield entirely.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Predictive Filtering</h3>
-                    <p class="mb-4 text-base leading-relaxed">Traditional spam filters worked on static rules (e.g., if the email contains the word "Viagra" or "Lottery," block it). Modern AI filters do not rely on simple keywords. They analyze sender behavior, IP reputation, email structural anomalies, and even the sentiment of the text.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Spammers Strike Back</h3>
-                    <p class="mb-4 text-base leading-relaxed">However, spammers are also using AI. They use language models to write unique, highly persuasive phishing emails at a massive scale, bypassing older filters. This is why relying solely on your email provider's filter isn't enough; using disposable emails to avoid giving out your address entirely remains the ultimate defense.</p>
-                `
-            },
-            {
-                id: 'article9',
-                category: 'Privacy',
-                title: 'Why Data Brokers Want Your Email Address',
-                readTime: '10 min read',
-                date: '25/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Data brokers make billions selling your information. Understand how they use your email address as the ultimate identifier.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">Have you ever wondered how an ad for a product you viewed on your phone suddenly appears on your laptop's web browser? The answer is data brokers, and their favorite tool is your email address.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Universal Identifier</h3>
-                    <p class="mb-4 text-base leading-relaxed">In the advertising industry, an email address is better than a name. People change addresses, they use nicknames, and cookies can be cleared. But most people keep the same email address for a decade or more.</p>
-                    <p class="mb-4 text-base leading-relaxed">When you sign in to a smart TV, buy something online, and log into a mobile app using the exact same email, data brokers connect those dots. They build a comprehensive profile of your habits, income, and desires, which is then sold to the highest bidder.</p>
-                    <p class="mb-4 text-base leading-relaxed">Breaking this chain is simple: use different emails. Temporary and disposable emails prevent data brokers from linking your isolated actions into a single profile.</p>
-                `
-            },
-            {
-                id: 'article10',
-                category: 'Email Security',
-                title: 'The Importance of 2FA in Email Security',
-                readTime: '7 min read',
-                date: '28/01/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1614064642224-69695d852a4e?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'A password is no longer enough. Find out why Two-Factor Authentication is non-negotiable for securing your primary inbox.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">If a hacker gets the password to your primary email, it is game over. Your email is the master key to your digital life. Every other service you use (banks, social media, shopping) relies on your email for password resets.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Why Passwords Fail</h3>
-                    <p class="mb-4 text-base leading-relaxed">Passwords are stolen in database breaches, guessed by algorithms, or handed over accidentally in phishing scams. No matter how complex your password is, it is a single point of failure.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Enter Two-Factor Authentication (2FA)</h3>
-                    <p class="mb-4 text-base leading-relaxed">2FA requires a second piece of evidence before granting access. Even if a hacker has your password, they cannot log in without the temporary code generated on your phone (via an Authenticator app or SMS). If you haven't enabled 2FA on your primary email yet, stop reading this and go do it right now.</p>
-                `
-            },
-            {
-                id: 'article11',
-                category: 'Email Tips',
-                title: 'How to Unsubscribe from Unwanted Emails Safely',
-                readTime: '6 min read',
-                date: '02/02/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1596526131158-6a3bf73f760d?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Not all unsubscribe buttons are safe. Learn the right way to remove yourself from mailing lists without inviting more spam.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">Your inbox is flooded with newsletters you don't remember signing up for. The instinct is to scroll to the bottom and hit "Unsubscribe." But wait—is that safe?</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Good vs. The Bad</h3>
-                    <p class="mb-4 text-base leading-relaxed">If the email is from a legitimate, recognizable brand (like Amazon or Netflix), the unsubscribe link is legally required and safe to use. However, if the email is from a shady sender or obvious spammer, clicking "unsubscribe" actually signals to them that your email is active. They will take you off that specific list, but sell your "verified" email to ten other spammers.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Better Solution</h3>
-                    <p class="mb-4 text-base leading-relaxed">For suspicious emails, do not click anything. Use your email client's "Mark as Spam" or "Block Sender" feature instead. Over time, this trains the algorithm to keep that garbage out of your inbox automatically.</p>
-                `
-            },
-            {
-                id: 'article12',
-                category: 'Industry Trends',
-                title: 'The Shift Towards Decentralized Email Protocols',
-                readTime: '15 min read',
-                date: '05/02/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Big tech controls the email ecosystem. Discover how blockchain and decentralized protocols are trying to revolutionize digital communication.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">Today, the vast majority of global email traffic is controlled by a few massive tech corporations. This centralization raises serious concerns about censorship, data mining, and single points of failure.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">What is Decentralized Email?</h3>
-                    <p class="mb-4 text-base leading-relaxed">Emerging technologies, often built on blockchain or peer-to-peer networks, are attempting to create a decentralized email ecosystem. In these systems, no single corporation owns the servers. Emails are encrypted end-to-end and stored across distributed nodes, making them nearly impossible to hack, censor, or read by third parties.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Challenges Ahead</h3>
-                    <p class="mb-4 text-base leading-relaxed">While promising, decentralized email faces huge hurdles. Usability is complex, and interoperability with traditional protocols (like IMAP/SMTP) is difficult. However, as the demand for absolute privacy grows, expect these alternative protocols to gain serious traction in the coming years.</p>
-                `
-            },
-            {
-                id: 'article13',
-                category: 'Privacy',
-                title: 'Mobile Apps vs. Web Browsers: Which is Safer?',
-                readTime: '9 min read',
-                date: '10/02/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Should you check your email via a dedicated app or a web browser? We break down the privacy implications of both methods.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">How you access your email can be just as important as the service you use. Many users prefer the convenience of dedicated mobile apps, while others stick to web browsers. Which is better for your privacy?</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Problem with Apps</h3>
-                    <p class="mb-4 text-base leading-relaxed">Dedicated email apps often request broad permissions on your device. They might want access to your contacts, location, and local storage. Furthermore, some free email apps secretly route your traffic through their own servers to analyze your inbox for advertising purposes.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Web Browser Advantage</h3>
-                    <p class="mb-4 text-base leading-relaxed">Using a secure, privacy-focused web browser (like Brave) to access your email often provides a more sandboxed environment. Browsers have strict rules about what a website can access. Plus, you can easily use ad-blockers and tracking-prevention extensions that aren't available inside a standalone app.</p>
-                `
-            },
-            {
-                id: 'article14',
-                category: 'Email Security',
-                title: 'Password Managers: Your First Line of Defense',
-                readTime: '10 min read',
-                date: '14/02/2026',
-                author: 'TempMail Team',
-                image: 'https://images.unsplash.com/photo-1507925922837-326f12d9348d?auto=format&fit=crop&w=1000&q=80',
-                excerpt: 'Stop reusing passwords. A password manager is the single most important tool you can use alongside temporary emails to stay secure.',
-                content: `
-                    <p class="mb-4 text-base leading-relaxed">If you are using the same password for your email, your bank, and your favorite online forum, you are a ticking time bomb. Password reuse is the number one reason people get hacked.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">Why Human Memory Isn't Enough</h3>
-                    <p class="mb-4 text-base leading-relaxed">It is impossible for a human to remember 50 different, highly complex passwords (like "j8#Fk29!pLz"). Because of this, people default to easy-to-guess passwords or add a simple "1" at the end of their usual phrase.</p>
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-8">The Solution</h3>
-                    <p class="mb-4 text-base leading-relaxed">A reputable password manager (like Bitwarden or 1Password) solves this. It generates complex, unique passwords for every single site and stores them in an encrypted vault. You only ever need to remember one master password. Combined with a disposable email generator for untrusted sites, a password manager makes you virtually immune to basic credential-stuffing attacks.</p>
-                `
-            }
+            { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2025', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2025, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
+            { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
+            { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with 10 proven strategies for 2025.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
+            { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' },
+            { id: 'article5', category: 'Privacy', title: 'The Hidden Cost of Free Services', readTime: '8 min read', date: '10/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1614064641936-3899884d2498?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore how free apps monetize your personal data.', content: '<p class="mb-4">When you enter your email to access a "free eBook" or trial, that email is added to a database and sold to marketers. To enjoy free services without compromising your identity, your best weapon is a disposable email address.</p>' },
+            { id: 'article6', category: 'Email Security', title: 'Spot a Phishing Email', readTime: '14 min read', date: '15/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn the red flags and protect your sensitive information.', content: '<p class="mb-4">Scammers use AI to write perfect phishing emails. Red flags include sudden urgency, mismatched domains (e.g., support@pay-pal-update.com instead of paypal.com), and suspicious links. Always type website URLs manually instead of clicking email links.</p>' },
+            { id: 'article7', category: 'Email Tips', title: 'Organizing Your Digital Life', readTime: '9 min read', date: '18/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn the benefits of digital compartmentalization.', content: '<p class="mb-4">You should divide your digital life: a secure Vault for banking, a Professional email for work, a Social email for friends, and a Burner (Temp Mail) for sketchy downloads. This ensures that a spam breach in one sector doesn\'t ruin your entire digital life.</p>' },
+            { id: 'article8', category: 'Industry Trends', title: 'AI and Spam Filters', readTime: '11 min read', date: '22/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80', excerpt: 'How machine learning is predicting and blocking malicious emails.', content: '<p class="mb-4">AI filters do not rely on simple keywords anymore; they analyze sender behavior and text sentiment. However, spammers use AI to bypass these filters. Relying solely on provider filters isn\'t enough; using disposable emails is the ultimate defense.</p>' },
+            { id: 'article9', category: 'Privacy', title: 'Why Brokers Want Your Email', readTime: '10 min read', date: '25/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80', excerpt: 'Understand how brokers use your email as the ultimate identifier.', content: '<p class="mb-4">In advertising, your email is better than your name because people rarely change it. When you log into different apps with the same email, brokers connect the dots to build a massive profile on you. Temporary emails break this tracking chain instantly.</p>' },
+            { id: 'article10', category: 'Email Security', title: 'Importance of 2FA', readTime: '7 min read', date: '28/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1614064642224-69695d852a4e?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why Two-Factor Authentication is non-negotiable.', content: '<p class="mb-4">If a hacker gets your primary email password, they get everything. 2FA requires a second piece of evidence (like an Authenticator code) before granting access. It makes stolen passwords useless. Always enable 2FA on your permanent accounts.</p>' },
+            { id: 'article11', category: 'Email Tips', title: 'Unsubscribe Safely', readTime: '6 min read', date: '02/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131158-6a3bf73f760d?auto=format&fit=crop&w=1000&q=80', excerpt: 'The right way to remove yourself from mailing lists.', content: '<p class="mb-4">Clicking "unsubscribe" on spam emails signals to the spammer that your account is active, leading to more spam. Instead of clicking links in suspicious emails, use your email client\'s "Mark as Spam" or "Block Sender" feature.</p>' },
+            { id: 'article12', category: 'Industry Trends', title: 'Decentralized Email Protocols', readTime: '15 min read', date: '05/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80', excerpt: 'How blockchain is trying to revolutionize digital communication.', content: '<p class="mb-4">Centralized email raises censorship and privacy concerns. Decentralized protocols encrypt emails across distributed nodes, making them impossible to hack or read. While complex to use currently, they are the future of absolute privacy.</p>' },
+            { id: 'article13', category: 'Privacy', title: 'Apps vs. Web Browsers', readTime: '9 min read', date: '10/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=1000&q=80', excerpt: 'The privacy implications of checking email via apps vs browsers.', content: '<p class="mb-4">Dedicated email apps often request broad device permissions like location and contacts. Browsers provide a more sandboxed, secure environment where you can run ad-blockers and strict tracking protection tools easily.</p>' },
+            { id: 'article14', category: 'Email Security', title: 'Password Managers', readTime: '10 min read', date: '14/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1507925922837-326f12d9348d?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why a password manager is your first line of defense.', content: '<p class="mb-4">Password reuse is the number one reason people get hacked. A password manager generates and stores complex, unique passwords for every single site. Combined with disposable emails, it makes you virtually immune to credential-stuffing attacks.</p>' }
         ];
 
         let currentBlogFilter = 'All';
@@ -974,14 +713,13 @@
                 const data = await res.json();
                 let apiDomains = data['hydra:member'].map(d => d.domain);
                 
-                // Hardcoded fallback domains to always show 10 options to users
+                // Extra domains to ensure we show 10 to user
                 const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
                 
-                // Merge and slice to exactly 10 domains
                 availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
                 
                 if(apiDomains.length > 0 && !activeDomain) {
-                    activeDomain = apiDomains[0]; // Set active to guaranteed working one
+                    activeDomain = apiDomains[0]; 
                 }
                 renderDomainDropdown();
             } catch(e) { 
@@ -1071,6 +809,7 @@
                 startEmailTimer(600); 
             }
 
+            // Background Delete old mails (5 mins)
             setInterval(() => {
                 if (!allMessages || allMessages.length === 0) return;
                 const now = new Date();
@@ -1084,11 +823,12 @@
         }
 
         async function createNewAccount(type = 'human') {
+            // Anti Abuse Rate Limit
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
-            if(recent.length >= 15) { 
-                alert("Anti-Abuse System: You have reached the maximum limit of 15 emails per hour. Please try again later.");
+            if(recent.length >= 50) { 
+                alert("Anti-Abuse System: You have reached the maximum limit of 50 emails per hour. Please try again later.");
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
                 return;
             }
@@ -1152,9 +892,8 @@
                 } else {
                     const errData = await createRes.json();
                     console.log("Account Creation Rejected:", errData);
-                    alert(`The domain @${stableDomain} is currently overloaded or inactive. System is switching to a working domain...`);
+                    alert(`The domain @${stableDomain} is currently overloaded. System is switching to a working domain...`);
                     
-                    // Fallback to guaranteed active domain from API
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
                     activeDomain = domainData['hydra:member'][0].domain;
@@ -1470,7 +1209,7 @@
                     <p class="mb-2">At Aryan Mails, we do not require personal information, registration, or passwords. All generated temporary email addresses are wiped after your session ends.</p>
                     <p class="text-red-500 font-bold mb-2">Anti-Abuse Measures:</p>
                     <ul class="list-disc pl-5 space-y-1 mb-2">
-                        <li>Strict rate limits are applied to IP addresses. Max 15 emails per hour.</li>
+                        <li>Strict rate limits are applied to IP addresses. Max 50 emails per hour.</li>
                         <li>Emails older than 5 minutes are auto-deleted.</li>
                         <li>Max inbox capacity is strictly 40 emails.</li>
                     </ul>
@@ -1490,7 +1229,7 @@
                     <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
                     
                     <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
                     </a>
                 `;
             } else if (pageName === 'API Access') {
@@ -1564,6 +1303,6 @@
                 });
             });
         });
-        </script>
-    </body>
+    </script>
+</body>
 </html>
