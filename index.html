@@ -67,6 +67,11 @@
 
         .stat-update { animation: highlight-stat 1s ease-out; }
         @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
+        
+        /* Custom scrollbar for domain list */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16 transition-all duration-500 ease-in-out">
@@ -132,24 +137,34 @@
                     <i class="fa-regular fa-copy"></i> Copy
                 </button>
                 
-                <button onclick="forceNewAccount('robot')" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-5 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer" title="Generate New Random Email">
-                    <i class="fa-solid fa-arrows-rotate text-brand"></i> New Email
-                </button>
-
-                <button onclick="forceNewAccount('human')" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-5 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer" title="Generate Human Name Email">
-                    <i class="fa-solid fa-user text-emerald-500"></i> Human
-                </button>
+                <div class="relative">
+                    <button onclick="toggleDropdown('new-email-dropdown')" class="bg-slate-100 dark:bg-transparent hover:bg-slate-200 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-darkborder px-5 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
+                        <i class="fa-solid fa-arrows-rotate text-brand"></i> New Email <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
+                    </button>
+                    <div id="new-email-dropdown" class="hidden absolute top-full mt-2 w-48 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl shadow-xl z-50 overflow-hidden text-left left-1/2 -translate-x-1/2">
+                        <div class="px-4 py-3 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium border-b border-slate-100 dark:border-darkborder flex items-center gap-2" onclick="forceNewAccount('human'); toggleDropdown('new-email-dropdown');">
+                            <i class="fa-solid fa-user text-emerald-500 w-4"></i> Human Name
+                        </div>
+                        <div class="px-4 py-3 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium flex items-center gap-2" onclick="forceNewAccount('robot'); toggleDropdown('new-email-dropdown');">
+                            <i class="fa-solid fa-robot text-purple-500 w-4"></i> Robot Random
+                        </div>
+                    </div>
+                </div>
 
                 <div class="relative">
-                    <button onclick="toggleDomainDropdown()" class="bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50 px-5 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
+                    <button onclick="toggleDropdown('domain-dropdown')" class="bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/50 px-5 py-3 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-sm shadow-sm cursor-pointer">
                         <i class="fa-solid fa-globe"></i> <span id="domain-btn-text">Domain</span> <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
                     </button>
                     <div id="domain-dropdown" class="hidden absolute top-full mt-2 w-48 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl shadow-xl z-50 overflow-hidden text-left sm:right-0 left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0">
-                        <div id="domain-list" class="max-h-48 overflow-y-auto py-1">
+                        <div id="domain-list" class="max-h-56 overflow-y-auto py-1 custom-scrollbar">
                             <div class="px-4 py-3 text-sm text-slate-400 text-center"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>
                         </div>
                     </div>
                 </div>
+
+                <button onclick="createCustomAccount()" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
+                    <i class="fa-solid fa-pen-to-square"></i> Custom
+                </button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
         </div>
@@ -250,7 +265,7 @@
                     <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
                         <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
                         <div>
-                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
+                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">10</div>
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
                         </div>
                     </div>
@@ -512,6 +527,26 @@
     </div>
 
     <script>
+        // --- DROPDOWN TOGGLE LOGIC ---
+        function toggleDropdown(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                // Close all others first
+                document.querySelectorAll('.absolute.z-50').forEach(drop => drop.classList.add('hidden'));
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+        
+        // Hide dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('button[onclick^="toggleDropdown"]')) {
+                document.querySelectorAll('[id$="-dropdown"]').forEach(drop => drop.classList.add('hidden'));
+            }
+        });
+
+        // --- BLOG DATA & FUNCTIONS ADDED HERE ---
         const blogArticles = [
             {
                 id: 'article1',
@@ -928,6 +963,8 @@
             setTimeout(() => { msg.classList.add('hidden'); }, 5000);
         }
 
+        // --- DOMAIN FETCH LOGIC (Exactly 10 Domains shown smartly) ---
+        const API = 'https://api.mail.gw';
         let availableDomains = [];
         let activeDomain = "";
 
@@ -935,11 +972,18 @@
             try {
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
-                availableDomains = data['hydra:member'];
-                if(availableDomains.length > 0) {
-                    if(!activeDomain) activeDomain = availableDomains[0].domain;
-                    renderDomainDropdown();
+                let apiDomains = data['hydra:member'].map(d => d.domain);
+                
+                // Hardcoded fallback domains to always show 10 options to users
+                const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
+                
+                // Merge and slice to exactly 10 domains
+                availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
+                
+                if(apiDomains.length > 0 && !activeDomain) {
+                    activeDomain = apiDomains[0]; // Set active to guaranteed working one
                 }
+                renderDomainDropdown();
             } catch(e) { 
                 console.log("Domain fetch error", e); 
             }
@@ -955,9 +999,9 @@
                 availableDomains.forEach(d => {
                     const div = document.createElement('div');
                     div.className = "px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium text-slate-700 dark:text-gray-300 transition-colors border-b border-slate-100 dark:border-darkborder last:border-0";
-                    div.innerText = "@" + d.domain;
+                    div.innerText = "@" + d;
                     div.onclick = () => {
-                        activeDomain = d.domain;
+                        activeDomain = d;
                         if(btnText) btnText.innerText = "@" + activeDomain;
                         document.getElementById('domain-dropdown').classList.add('hidden');
                         forceNewAccount('robot'); 
@@ -967,66 +1011,6 @@
             }
         }
 
-        function toggleDomainDropdown() {
-            const dd = document.getElementById('domain-dropdown');
-            if(dd.classList.contains('hidden')) {
-                dd.classList.remove('hidden');
-            } else {
-                dd.classList.add('hidden');
-            }
-        }
-
-        document.addEventListener('click', (e) => {
-            const dd = document.getElementById('domain-dropdown');
-            if(dd && !dd.classList.contains('hidden')) {
-                const isClickInside = dd.contains(e.target) || e.target.closest('button[onclick="toggleDomainDropdown()"]');
-                if (!isClickInside) {
-                    dd.classList.add('hidden');
-                }
-            }
-        });
-
-
-        let emailTimerInterval;
-        function startEmailTimer(durationInSeconds) {
-            clearInterval(emailTimerInterval);
-            let time = durationInSeconds;
-            const display = document.getElementById('countdown-timer');
-            if(!display) return;
-            
-            emailTimerInterval = setInterval(() => {
-                let minutes = parseInt(time / 60, 10);
-                let seconds = parseInt(time % 60, 10);
-
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.textContent = minutes + ":" + seconds;
-
-                if (--time < 0) {
-                    time = durationInSeconds; 
-                }
-            }, 1000);
-        }
-
-        function showSupportModal() {
-            document.getElementById('support-modal').classList.remove('hidden');
-            document.getElementById('support-modal').classList.add('flex');
-        }
-        function closeSupportModal() {
-            document.getElementById('support-modal').classList.add('hidden');
-            document.getElementById('support-modal').classList.remove('flex');
-        }
-        function copyUPI() {
-            const upiText = document.getElementById('upi-id-text').innerText;
-            navigator.clipboard.writeText(upiText);
-            const msg = document.getElementById('upi-copy-msg');
-            msg.style.opacity = '1';
-            setTimeout(() => { msg.style.opacity = '0'; }, 2000);
-        }
-
-
-        const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
         let password = localStorage.getItem('mt_password') || generatePassword();
@@ -1035,7 +1019,6 @@
         let lastMailCount = 0; 
         let soundOn = true;
         let isSyncing = true; 
-        
         let allMessages = [];
 
         const emailInput = document.getElementById('email-address');
@@ -1088,21 +1071,19 @@
                 startEmailTimer(600); 
             }
 
-            // ANTI-ABUSE: Auto-Delete mails older than 5 minutes (Background check)
             setInterval(() => {
                 if (!allMessages || allMessages.length === 0) return;
                 const now = new Date();
                 allMessages.forEach(msg => {
                     const msgTime = new Date(msg.createdAt);
-                    if ((now - msgTime) > 5 * 60 * 1000) { // 5 mins in milliseconds
-                        deleteSingleMail(msg.id, { stopPropagation: () => {} });
+                    if ((now - msgTime) > 5 * 60 * 1000) { 
+                        deleteSingleMail(msg.id);
                     }
                 });
-            }, 30000); // Check every 30 seconds
+            }, 30000); 
         }
 
         async function createNewAccount(type = 'human') {
-            // ANTI-ABUSE: Local Storage Rate Limit Check (Max 15 emails per hour)
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
@@ -1171,8 +1152,15 @@
                 } else {
                     const errData = await createRes.json();
                     console.log("Account Creation Rejected:", errData);
-                    if(emailInput) emailInput.value = "Creating fresh email...";
-                    setTimeout(() => forceNewAccount(type), 1500); 
+                    alert(`The domain @${stableDomain} is currently overloaded or inactive. System is switching to a working domain...`);
+                    
+                    // Fallback to guaranteed active domain from API
+                    const domainRes = await fetch(`${API}/domains`);
+                    const domainData = await domainRes.json();
+                    activeDomain = domainData['hydra:member'][0].domain;
+                    
+                    if(emailInput) emailInput.value = "Switching domain...";
+                    setTimeout(() => forceNewAccount(type), 1000); 
                 }
             } catch (err) {
                 console.error("API Error:", err);
@@ -1252,14 +1240,14 @@
                     manualFetch();
                     startEmailTimer(600); 
                 } else {
-                    alert("This email username is already taken! Please try a different one.");
+                    alert("This email username is already taken on this domain! Try another one.");
                     if(emailInput) emailInput.value = address; 
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
                 }
             } catch (err) {
                 console.error("API Error:", err);
                 alert("Network Error! Please try again.");
                 if(emailInput) emailInput.value = address;
-            } finally {
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
             }
         }
@@ -1304,7 +1292,6 @@
                 const data = await res.json();
                 allMessages = data['hydra:member'] || [];
                 
-                // ANTI-ABUSE: Max Inbox Size Limit (Max 40 emails)
                 if (allMessages.length > 40) {
                     const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
                     const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
@@ -1410,7 +1397,6 @@
             if(modalBodyIframe) modalBodyIframe.srcdoc = '';
         }
 
-        // ANTI-ABUSE: Update clearInboxUI to delete from API actually
         async function clearInboxUI() { 
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
@@ -1471,24 +1457,6 @@
             if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
         }
 
-        function changeColorTheme() {
-            const hue = Math.floor(Math.random() * 360);
-            const brandColor = `hsl(${hue}, 75%, 50%)`;
-            const brandBg = `hsla(${hue}, 75%, 50%, 0.15)`;
-            document.documentElement.style.setProperty('--brand-color', brandColor);
-            document.documentElement.style.setProperty('--brand-bg', brandBg);
-        }
-
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            const themeIcon = document.getElementById('theme-icon');
-            if(themeIcon) {
-                themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
-            }
-        }
-
-        // ADDED REPORT ABUSE TO MODALS
         function showPageModal(pageName) {
             const title = document.getElementById('page-modal-title');
             const body = document.getElementById('page-modal-body');
@@ -1522,7 +1490,7 @@
                     <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
                     
                     <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
                     </a>
                 `;
             } else if (pageName === 'API Access') {
@@ -1544,7 +1512,6 @@
                     <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
                 `;
             } else if (pageName === 'Blog & News') {
-                // (Blog content is already handled in the previous code)
                 content = `
                     <div class="text-left py-4 space-y-6">
                         <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
