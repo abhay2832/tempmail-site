@@ -559,10 +559,35 @@
                 `;
             } else if (pageName === 'Blog & News') {
                 content = `
-                    <div class="text-center py-6">
-                        <i class="fa-solid fa-person-digging text-4xl text-slate-300 dark:text-gray-600 mb-4"></i>
-                        <p class="font-bold text-lg text-slate-800 dark:text-white">Blog Under Construction</p>
-                        <p class="text-slate-500">We are writing awesome articles on cybersecurity, privacy hacks, and more. Check back soon!</p>
+                    <div class="text-left py-4 space-y-6">
+                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
+                            <form onsubmit="event.preventDefault();" class="flex flex-col sm:flex-row gap-3">
+                                <input type="email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
+                                <button type="submit" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md">Subscribe</button>
+                            </form>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
+                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">All</button>
+                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">Privacy</button>
+                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">Email Security</button>
+                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition">Email Tips</button>
+                            <button class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition">Industry Trends</button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 bg-slate-100 dark:bg-darkbg p-3 rounded-lg text-sm border border-slate-200 dark:border-darkborder">
+                            <span class="font-bold text-slate-700 dark:text-gray-200">Active filters:</span>
+                            <span class="flex items-center gap-2 bg-white dark:bg-darkpanel px-3 py-1 rounded-md border border-slate-200 dark:border-darkborder text-slate-600 dark:text-gray-300">
+                                Category: Industry Trends
+                                <button class="hover:text-red-500 transition"><i class="fa-solid fa-xmark"></i></button>
+                            </span>
+                            <button class="text-red-500 hover:text-red-600 font-semibold ml-auto transition">Clear all</button>
+                        </div>
                     </div>
                 `;
             }
@@ -928,5 +953,3 @@
         </script>
     </body>
 </html>
-
-    
