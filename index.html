@@ -32,7 +32,8 @@
         }
 
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        /* Smoothness upgrade for Dark Mode transition */
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; }
         
         @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
         .color-shift { animation: hue-shift 8s infinite linear; }
@@ -51,11 +52,11 @@
         @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16 transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16 transition-all duration-500 ease-in-out">
 
     <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors">
+    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-500">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between relative">
             
             <div class="flex items-center gap-3 cursor-pointer z-10 w-1/3">
@@ -79,7 +80,7 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
 
-                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer">
+                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -87,7 +88,7 @@
     </nav>
 
     <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors duration-500">
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
             <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             
@@ -115,14 +116,14 @@
     </div>
 
     <div class="text-center max-w-3xl mx-auto px-4 mb-6">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors">Real-time <span class="text-brand color-shift">Inbox</span></h2>
-        <p class="text-slate-500 dark:text-gray-400 text-sm md:text-base transition-colors">Receive and manage your temporary emails instantly.</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors duration-500">Real-time <span class="text-brand color-shift">Inbox</span></h2>
+        <p class="text-slate-500 dark:text-gray-400 text-sm md:text-base transition-colors duration-500">Receive and manage your temporary emails instantly.</p>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 mb-10">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors duration-500">
             
-            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors">
+            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors duration-500">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-envelope text-brand color-shift text-lg"></i>
                     <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
@@ -132,7 +133,7 @@
                 </button>
             </div>
 
-            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors relative z-10">
+            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors duration-500 relative z-10">
                 <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer">
                     <i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: ON</span>
                 </button>
@@ -140,14 +141,14 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
                 </div>
                 <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
-                    <i id="notif-icon" class="fa-regular fa-bell"></i> <span id="notif-text">Sound Off</span>
+                    <i id="notif-icon" class="fa-solid fa-bell text-brand"></i> <span id="notif-text">Sound On</span>
                 </button>
                 <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer">
                     <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
                 </button>
             </div>
 
-            <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors">
+            <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors duration-500">
                 <div class="flex gap-4 items-center">
                     <span class="flex items-center gap-2"><i class="fa-solid fa-filter"></i> All Emails</span>
                     <select id="sort-mails" onchange="renderMails()" class="bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded px-2 py-1 text-slate-700 dark:text-gray-300 focus:outline-none focus:border-brand cursor-pointer">
@@ -158,43 +159,44 @@
                 <div id="total-emails" class="font-bold text-slate-800 dark:text-white">0 emails</div>
             </div>
             
-            <div id="inbox-content" class="min-h-[350px] max-h-[600px] overflow-y-auto bg-white dark:bg-[#0f1525] transition-colors relative p-2 flex flex-col items-center justify-center text-slate-400">
+            <div id="inbox-content" class="min-h-[350px] max-h-[600px] overflow-y-auto bg-white dark:bg-[#0f1525] transition-colors duration-500 relative p-2 flex flex-col items-center justify-center text-slate-400">
                 <i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i>
-                <p>Waiting for incoming emails...</p>
+                <p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p>
+                <p>Waiting for emails...</p>
             </div>
         </div>
     </div>
 
     <div class="max-w-5xl mx-auto px-4 mb-8">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors">
-            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors duration-500">
+            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors duration-500">
                 <div class="flex items-center gap-2.5 mb-6">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
                     <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats <span class="text-emerald-500 lowercase font-medium ml-1">(updating real-time)</span></h3>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
                         <div class="w-10 h-10 rounded-lg bg-brandbg text-brand flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
                         <div>
                             <div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight inline-block transition-transform duration-300">819</div>
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
                         <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
                         <div>
                             <div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight inline-block transition-transform duration-300">382</div>
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
                         <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
                         <div>
                             <div id="stat-generated" class="text-slate-900 dark:text-white font-bold text-xl leading-tight inline-block transition-transform duration-300">296.5K</div>
                             <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
                         </div>
                     </div>
-                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
                         <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
                         <div>
                             <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">1</div>
@@ -203,7 +205,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors">
+            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors duration-500">
                 <div class="flex items-center gap-2.5 mb-6">
                     <i class="fa-regular fa-lightbulb text-brand color-shift text-lg"></i>
                     <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
@@ -228,7 +230,7 @@
 
     <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">Features</div>
-        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
         <p class="text-slate-500 dark:text-gray-400 text-lg">Our comprehensive suite of features keeps your real email address safe.</p>
     </div>
 
@@ -252,7 +254,7 @@
 
     <div id="how-it-works" class="text-center mb-12 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
-        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Get Started in Seconds</h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Get Started in Seconds</h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto px-4 mb-24 mt-8">
@@ -278,12 +280,12 @@
 
     <div id="faq" class="text-center mb-12 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">FAQ</div>
-        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Frequently <span class="text-brand color-shift">Asked Questions</span></h2>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Frequently <span class="text-brand color-shift">Asked Questions</span></h2>
     </div>
 
     <div class="max-w-3xl mx-auto px-4 mb-24">
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors">
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
                 What is a temporary email?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
@@ -291,8 +293,8 @@
                 <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites or apps.</p>
             </div>
         </div>
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors">
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
                 How long do the emails last?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
@@ -300,8 +302,8 @@
                 <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Emails stay in your inbox as long as you keep the browser tab open and don't refresh the address. Once you generate a new email or close the session, the data is securely wiped.</p>
             </div>
         </div>
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors">
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
                 Is it really free?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
@@ -312,7 +314,7 @@
     </div>
 
     <div class="max-w-4xl mx-auto px-4 mb-16">
-        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-3xl p-10 md:p-14 text-center shadow-xl relative overflow-hidden transition-colors">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-3xl p-10 md:p-14 text-center shadow-xl relative overflow-hidden transition-colors duration-500">
             <div class="absolute top-0 left-0 w-full h-1.5 bg-brand color-shift"></div>
             <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Ready to Protect Your <span class="text-brand color-shift">Privacy?</span></h2>
             <p class="text-slate-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">Join millions of users who trust our service to keep their real inbox spam-free.</p>
@@ -325,9 +327,9 @@
         </div>
     </div>
 
-    <footer class="border-t border-slate-200 dark:border-darkborder bg-white dark:bg-[#0b1121] transition-colors pt-12 mt-10">
+    <footer class="border-t border-slate-200 dark:border-darkborder bg-white dark:bg-[#0b1121] transition-colors duration-500 pt-12 mt-10">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50 dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-6 rounded-2xl mb-12 shadow-sm transition-colors">
+            <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50 dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-6 rounded-2xl mb-12 shadow-sm transition-colors duration-500">
                 <div class="flex items-center gap-4 mb-4 md:mb-0">
                     <div class="w-12 h-12 bg-[#229ED9] text-white rounded-xl flex items-center justify-center text-2xl shadow-md"><i class="fa-brands fa-telegram"></i></div>
                     <div>
@@ -428,7 +430,8 @@
         let syncTimer = null;
         let refreshSec = 10; 
         let lastMailCount = 0; 
-        let soundOn = false;
+        // Changed to true (Notification Always ON)
+        let soundOn = true;
         let isSyncing = true; 
         
         let allMessages = [];
@@ -641,10 +644,33 @@
             if(boltIcon) boltIcon.classList.remove('fa-spin');
         }
 
+        // ADDED: Function to delete a single mail
+        async function deleteSingleMail(id, event) {
+            event.stopPropagation();
+            try {
+                const res = await fetch(`${API}/messages/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if(res.ok) {
+                    allMessages = allMessages.filter(m => m.id !== id);
+                    renderMails();
+                }
+            } catch(err) {
+                console.error("Delete error:", err);
+            }
+        }
+
         async function manualFetch() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
+            
+            // ADDED: Loading Animation while fetching
+            if (allMessages.length === 0 && inboxContent) {
+                inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
+                inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
+            }
             
             try {
                 const res = await fetch(`${API}/messages`, {
@@ -690,11 +716,18 @@
                 
                 sortedMails.forEach(msg => {
                     const div = document.createElement('div');
-                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition w-full text-left";
+                    // Slightly smoother transition
+                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition-all duration-300 w-full text-left";
+                    // ADDED: Delete Single Mail button (Trash icon) in the template
                     div.innerHTML = `
                         <div class="flex justify-between items-center mb-1">
                             <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
-                            <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
+                                <button onclick="deleteSingleMail('${msg.id}', event)" class="text-red-500 hover:text-red-700 hover:scale-110 transition-transform p-1" title="Delete Mail">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>
                     `;
@@ -703,7 +736,8 @@
                 });
             } else {
                 if(inboxContent) {
-                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p>Waiting for incoming emails...</p>`;
+                    // ADDED: Error / Empty Messages requested
+                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p><p>Waiting for emails...</p>`;
                     inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
                 }
             }
@@ -745,6 +779,7 @@
         }
 
         function clearInboxUI() { 
+            // In a real app we might DELETE all from API, but keeping UI clear logic
             allMessages = [];
             lastMailCount = 0;
             renderMails();
