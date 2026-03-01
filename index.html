@@ -32,7 +32,6 @@
         }
 
         html { scroll-behavior: smooth; }
-        /* Smoothness upgrade for Dark Mode transition */
         body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; }
         
         @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
@@ -107,8 +106,8 @@
                     <i class="fa-solid fa-arrows-rotate"></i> Change Email
                 </button>
                 
-                <button onclick="fastOtpReset()" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
-                    <i id="fast-bolt-icon" class="fa-solid fa-bolt"></i> Fast OTP
+                <button onclick="createCustomAccount()" class="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 rounded-xl transition font-black flex items-center gap-2 shadow-lg cursor-pointer text-sm active:scale-95">
+                    <i class="fa-solid fa-pen-to-square"></i> Custom Email
                 </button>
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
@@ -140,9 +139,15 @@
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
                 </div>
+                
                 <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
                     <i id="notif-icon" class="fa-solid fa-bell text-brand"></i> <span id="notif-text">Sound On</span>
                 </button>
+
+                <button onclick="fastOtpReset()" class="flex items-center gap-1.5 hover:text-amber-500 transition ml-2 active:scale-95 cursor-pointer p-1 text-slate-600 dark:text-gray-400 font-semibold" title="Fast OTP">
+                    <i id="fast-bolt-icon" class="fa-solid fa-bolt text-amber-500"></i> <span class="hidden sm:inline">Fast OTP</span>
+                </button>
+
                 <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer">
                     <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
                 </button>
@@ -430,7 +435,6 @@
         let syncTimer = null;
         let refreshSec = 10; 
         let lastMailCount = 0; 
-        // Changed to true (Notification Always ON)
         let soundOn = true;
         let isSyncing = true; 
         
@@ -560,7 +564,6 @@
             }
         }
 
-        // PERFECTED: Always picks the first, most stable domain to prevent Format Errors
         async function createNewAccount() {
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             try {
@@ -568,9 +571,11 @@
                 const domainData = await domainRes.json();
                 const stableDomain = domainData['hydra:member'][0].domain; 
 
-                // Guaranteed safe username format
-                const uniqueStr = Date.now().toString(36) + Math.floor(Math.random() * 1000);
-                const newUsername = `ar${uniqueStr}`; 
+                // CHANGED: Generating Shorter, Realistic looking emails
+                const prefixes = ['mail', 'box', 'drop', 'user', 'send', 'fast', 'temp', 'pro'];
+                const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
+                const num = Math.floor(10000 + Math.random() * 90000); 
+                const newUsername = pfx + num; 
                 
                 const newAddress = `${newUsername}@${stableDomain}`;
                 const newPassword = generatePassword();
@@ -625,6 +630,73 @@
             createNewAccount();
         }
 
+        // NEW CUSTOM ACCOUNT FUNCTION
+        async function createCustomAccount() {
+            const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
+            if (!customPrefix) return;
+            
+            const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
+            if (!cleanPrefix) {
+                alert("Invalid username. Use only letters and numbers.");
+                return;
+            }
+
+            if(loadingOverlay) loadingOverlay.style.display = 'flex';
+            if(emailInput) emailInput.value = "Creating custom email...";
+            
+            try {
+                const domainRes = await fetch(`${API}/domains`);
+                const domainData = await domainRes.json();
+                const stableDomain = domainData['hydra:member'][0].domain; 
+
+                const newAddress = `${cleanPrefix}@${stableDomain}`;
+                const newPassword = generatePassword();
+
+                const createRes = await fetch(`${API}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                if(createRes.ok) {
+                    const loginRes = await fetch(`${API}/token`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: newAddress, password: newPassword })
+                    });
+                    
+                    const tokenData = await loginRes.json();
+                    
+                    localStorage.removeItem('mt_token');
+                    localStorage.removeItem('mt_email');
+                    
+                    address = newAddress;
+                    password = newPassword;
+                    token = tokenData.token;
+
+                    localStorage.setItem('mt_email', address);
+                    localStorage.setItem('mt_password', password);
+                    localStorage.setItem('mt_token', token);
+
+                    if(emailInput) emailInput.value = address;
+                    clearInboxUI();
+                    
+                    if(syncTimer) clearInterval(syncTimer);
+                    startSync();
+                    manualFetch();
+                } else {
+                    alert("This email username is already taken! Please try a different one.");
+                    if(emailInput) emailInput.value = address; 
+                }
+            } catch (err) {
+                console.error("API Error:", err);
+                alert("Network Error! Please try again.");
+                if(emailInput) emailInput.value = address;
+            } finally {
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
+            }
+        }
+
         async function fastOtpReset() {
             const boltIcon = document.getElementById('fast-bolt-icon');
             if(boltIcon) boltIcon.classList.add('fa-spin');
@@ -644,7 +716,6 @@
             if(boltIcon) boltIcon.classList.remove('fa-spin');
         }
 
-        // ADDED: Function to delete a single mail
         async function deleteSingleMail(id, event) {
             event.stopPropagation();
             try {
@@ -666,7 +737,6 @@
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
             
-            // ADDED: Loading Animation while fetching
             if (allMessages.length === 0 && inboxContent) {
                 inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
                 inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
@@ -716,9 +786,7 @@
                 
                 sortedMails.forEach(msg => {
                     const div = document.createElement('div');
-                    // Slightly smoother transition
                     div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition-all duration-300 w-full text-left";
-                    // ADDED: Delete Single Mail button (Trash icon) in the template
                     div.innerHTML = `
                         <div class="flex justify-between items-center mb-1">
                             <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
@@ -736,7 +804,6 @@
                 });
             } else {
                 if(inboxContent) {
-                    // ADDED: Error / Empty Messages requested
                     inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p><p>Waiting for emails...</p>`;
                     inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
                 }
@@ -779,7 +846,6 @@
         }
 
         function clearInboxUI() { 
-            // In a real app we might DELETE all from API, but keeping UI clear logic
             allMessages = [];
             lastMailCount = 0;
             renderMails();
