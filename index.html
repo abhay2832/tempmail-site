@@ -168,9 +168,14 @@
                     <i class="fa-solid fa-envelope text-brand color-shift text-lg"></i>
                     <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
                 </div>
-                <button onclick="clearInboxUI()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-2 transition shadow-sm active:scale-95 cursor-pointer text-sm font-semibold">
-                    <i class="fa-solid fa-trash-can"></i> Clear Inbox
-                </button>
+                <div class="flex items-center gap-2">
+                    <button onclick="showPageModal('Report Abuse')" class="bg-amber-500 hover:bg-amber-600 text-white px-3 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <span class="hidden sm:inline">Report</span>
+                    </button>
+                    <button onclick="clearInboxUI()" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-trash-can"></i> Clear
+                    </button>
+                </div>
             </div>
 
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors duration-500 relative z-10">
@@ -426,7 +431,7 @@
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
                         <li><button onclick="showPageModal('Privacy Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Privacy Policy</button></li>
                         <li><button onclick="showPageModal('Terms of Service')" class="hover:text-brand transition cursor-pointer focus:outline-none">Terms of Service</button></li>
-                        <li><a href="https://t.me/aryanmails" target="_blank" class="hover:text-brand transition cursor-pointer">Contact Us</a></li>
+                        <li><button onclick="showPageModal('Report Abuse')" class="hover:text-brand transition cursor-pointer focus:outline-none">Report Abuse</button></li>
                     </ul>
                 </div>
             </div>
@@ -507,7 +512,6 @@
     </div>
 
     <script>
-        // --- BLOG DATA & FUNCTIONS ADDED HERE ---
         const blogArticles = [
             {
                 id: 'article1',
@@ -923,10 +927,7 @@
             btn.disabled = false;
             setTimeout(() => { msg.classList.add('hidden'); }, 5000);
         }
-        // --- END BLOG DATA & FUNCTIONS ---
 
-
-        // NAYA DOMAIN FETCH AUR SELECTOR LOGIC
         let availableDomains = [];
         let activeDomain = "";
 
@@ -959,7 +960,7 @@
                         activeDomain = d.domain;
                         if(btnText) btnText.innerText = "@" + activeDomain;
                         document.getElementById('domain-dropdown').classList.add('hidden');
-                        forceNewAccount('robot'); // Change domain = new email automatically
+                        forceNewAccount('robot'); 
                     };
                     dropdown.appendChild(div);
                 });
@@ -975,7 +976,6 @@
             }
         }
 
-        // Close dropdown if clicked outside
         document.addEventListener('click', (e) => {
             const dd = document.getElementById('domain-dropdown');
             if(dd && !dd.classList.contains('hidden')) {
@@ -987,7 +987,6 @@
         });
 
 
-        // TIMER LOGIC
         let emailTimerInterval;
         function startEmailTimer(durationInSeconds) {
             clearInterval(emailTimerInterval);
@@ -1005,12 +1004,11 @@
                 display.textContent = minutes + ":" + seconds;
 
                 if (--time < 0) {
-                    time = durationInSeconds; // Visual ke liye timer reset ho jayega
+                    time = durationInSeconds; 
                 }
             }, 1000);
         }
 
-        // SUPPORT MODAL FUNCTIONS
         function showSupportModal() {
             document.getElementById('support-modal').classList.remove('hidden');
             document.getElementById('support-modal').classList.add('flex');
@@ -1028,13 +1026,12 @@
         }
 
 
-        // API Changed to mail.gw for higher success rate and real-time backend processing
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
         let password = localStorage.getItem('mt_password') || generatePassword();
         let syncTimer = null;
-        let refreshSec = 5; // Updated to 5 seconds for Real-Time OTP fetch
+        let refreshSec = 5; 
         let lastMailCount = 0; 
         let soundOn = true;
         let isSyncing = true; 
@@ -1046,7 +1043,6 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // LIVE STATS SIMULATION
         let statToday = 819;
         let statInboxes = 382;
         let statGenerated = 296500; 
@@ -1081,7 +1077,7 @@
         }
 
         async function initApp() {
-            await fetchDomainsList(); // Fetch domains first
+            await fetchDomainsList(); 
             if (!address || !token) {
                 await createNewAccount('human'); 
             } else {
@@ -1091,12 +1087,35 @@
                 manualFetch();
                 startEmailTimer(600); 
             }
+
+            // ANTI-ABUSE: Auto-Delete mails older than 5 minutes (Background check)
+            setInterval(() => {
+                if (!allMessages || allMessages.length === 0) return;
+                const now = new Date();
+                allMessages.forEach(msg => {
+                    const msgTime = new Date(msg.createdAt);
+                    if ((now - msgTime) > 5 * 60 * 1000) { // 5 mins in milliseconds
+                        deleteSingleMail(msg.id, { stopPropagation: () => {} });
+                    }
+                });
+            }, 30000); // Check every 30 seconds
         }
 
         async function createNewAccount(type = 'human') {
+            // ANTI-ABUSE: Local Storage Rate Limit Check (Max 15 emails per hour)
+            const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
+            const now = Date.now();
+            const recent = history.filter(t => now - t < 60 * 60 * 1000); 
+            if(recent.length >= 15) { 
+                alert("Anti-Abuse System: You have reached the maximum limit of 15 emails per hour. Please try again later.");
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                return;
+            }
+            recent.push(now);
+            localStorage.setItem('mt_limit', JSON.stringify(recent));
+
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             try {
-                // Use active selected domain, or fetch if not available
                 let stableDomain = activeDomain;
                 if (!stableDomain) {
                     const domainRes = await fetch(`${API}/domains`);
@@ -1253,7 +1272,7 @@
         }
 
         async function deleteSingleMail(id, event) {
-            event.stopPropagation();
+            if(event && event.stopPropagation) event.stopPropagation();
             try {
                 const res = await fetch(`${API}/messages/${id}`, {
                     method: 'DELETE',
@@ -1285,6 +1304,16 @@
                 const data = await res.json();
                 allMessages = data['hydra:member'] || [];
                 
+                // ANTI-ABUSE: Max Inbox Size Limit (Max 40 emails)
+                if (allMessages.length > 40) {
+                    const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
+                    extraMails.forEach(m => {
+                        fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                    });
+                    allMessages = allMessages.filter(m => !extraMails.some(e => e.id === m.id));
+                }
+
                 if (allMessages.length > 0) {
                     if(allMessages.length > lastMailCount && soundOn) {
                         const audio = document.getElementById('notification-sound');
@@ -1381,10 +1410,25 @@
             if(modalBodyIframe) modalBodyIframe.srcdoc = '';
         }
 
-        function clearInboxUI() { 
+        // ANTI-ABUSE: Update clearInboxUI to delete from API actually
+        async function clearInboxUI() { 
+            const fetchIcon = document.getElementById('fetch-icon');
+            if(fetchIcon) fetchIcon.classList.add('fa-spin');
+            
+            for (const msg of allMessages) {
+                try {
+                    await fetch(`${API}/messages/${msg.id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                } catch(e) {}
+            }
+
             allMessages = [];
             lastMailCount = 0;
             renderMails();
+            
+            if(fetchIcon) fetchIcon.classList.remove('fa-spin');
         }
 
         function copyEmail() {
@@ -1442,6 +1486,96 @@
             if(themeIcon) {
                 themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
             }
+        }
+
+        // ADDED REPORT ABUSE TO MODALS
+        function showPageModal(pageName) {
+            const title = document.getElementById('page-modal-title');
+            const body = document.getElementById('page-modal-body');
+            
+            title.innerText = pageName;
+            
+            let content = '';
+            if (pageName === 'Privacy Policy') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Your Privacy & Anti-Abuse Policies</p>
+                    <p class="mb-2">At Aryan Mails, we do not require personal information, registration, or passwords. All generated temporary email addresses are wiped after your session ends.</p>
+                    <p class="text-red-500 font-bold mb-2">Anti-Abuse Measures:</p>
+                    <ul class="list-disc pl-5 space-y-1 mb-2">
+                        <li>Strict rate limits are applied to IP addresses. Max 15 emails per hour.</li>
+                        <li>Emails older than 5 minutes are auto-deleted.</li>
+                        <li>Max inbox capacity is strictly 40 emails.</li>
+                    </ul>
+                    <p>We do not track your IP address for malicious purposes, but we actively prevent server abuse and spam generation.</p>
+                `;
+            } else if (pageName === 'Terms of Service') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Service Agreement & Restrictions</p>
+                    <p>By using Aryan Mails, you agree to use the service responsibly.</p>
+                    <p class="font-bold text-red-500 mb-2 mt-4">ZERO TOLERANCE FOR ABUSE:</p>
+                    <p>You may not use our disposable emails for illegal activities, spamming, harassment, botting, or to abuse third-party services. We reserve the right to block access, log IP data for abuse prevention, or delete inboxes if we detect malicious activity or a violation of these terms.</p>
+                `;
+            } else if (pageName === 'Report Abuse') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
+                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
+                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
+                    
+                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4">
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
+                    </a>
+                `;
+            } else if (pageName === 'API Access') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Developer API (Beta)</p>
+                    <p>Want to automate your workflow? Our RESTful API allows you to programmatically generate emails, fetch messages, and manage domains.</p>
+                    <p>Documentation is currently available for Premium users. Join our Telegram to request an API key.</p>
+                `;
+            } else if (pageName === 'Premium Plans') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
+                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
+                        <li>Custom domain names</li>
+                        <li>Permanent email inboxes</li>
+                        <li>Ad-free experience</li>
+                        <li>Higher API rate limits</li>
+                    </ul>
+                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
+                `;
+            } else if (pageName === 'Blog & News') {
+                // (Blog content is already handled in the previous code)
+                content = `
+                    <div class="text-left py-4 space-y-6">
+                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
+                            
+                            <form id="subscribe-form" onsubmit="submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
+                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
+                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md">Subscribe</button>
+                            </form>
+                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
+
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
+                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
+                        </div>
+                        <div id="blog-container"></div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    currentBlogFilter = 'All';
+                    renderBlogContent();
+                }, 10);
+            }
+
+            body.innerHTML = content;
+            document.getElementById('page-modal').classList.remove('hidden');
+            document.getElementById('page-modal').classList.add('flex');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
