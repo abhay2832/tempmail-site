@@ -701,16 +701,8 @@
             const boltIcon = document.getElementById('fast-bolt-icon');
             if(boltIcon) boltIcon.classList.add('fa-spin');
             
-            localStorage.removeItem('mt_token');
-            localStorage.removeItem('mt_email');
-            address = null;
-            token = null;
-            
-            if(emailInput) emailInput.value = "Resetting Token...";
-            if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            clearInboxUI();
-            
-            await createNewAccount();
+            // Ab ye function tumhara email delete nahi karega, 
+            // sirf immediately new mails (OTPs) ko fetch karega
             await manualFetch();
             
             if(boltIcon) boltIcon.classList.remove('fa-spin');
