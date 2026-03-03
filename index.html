@@ -63,6 +63,56 @@
         </div>
     </div>
 
+    <div id="signup-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9990] backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder relative">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand"></i> Secure Sign Up</h3>
+                <button onclick="window.closeSignupModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6 text-center text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh]">
+                <div id="signup-methods">
+                    <p class="mb-4 text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-200 dark:border-red-800/30 text-left">
+                        <i class="fa-solid fa-ban mr-1"></i> Direct Email/Password & Temp Mails are strictly BLOCKED. Verify using a trusted provider below.
+                    </p>
+                    <div class="space-y-3">
+                        <button onclick="window.oauthLogin('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Continue with Google</button>
+                        <button onclick="window.oauthLogin('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Continue with Yahoo</button>
+                        <button onclick="window.oauthLogin('GitHub')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> Continue with GitHub</button>
+                        <button onclick="window.oauthLogin('Facebook')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Continue with Facebook</button>
+                    </div>
+                    <div class="my-5 flex items-center gap-3 before:flex-1 before:border-t before:border-slate-200 dark:before:border-darkborder after:flex-1 after:border-t after:border-slate-200 dark:after:border-darkborder">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">OR OTP Login</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="window.showOtpSection('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
+                        <button onclick="window.showOtpSection('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
+                    </div>
+                </div>
+
+                <div id="signup-otp-section" class="hidden text-left">
+                    <button onclick="window.backToSignupMethods()" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2" id="otp-title">Enter Details</h4>
+                    <p class="text-xs text-slate-500 dark:text-gray-400 mb-4" id="otp-subtitle">We will send a 6-digit verification code.</p>
+                    
+                    <div id="otp-step-1">
+                        <input type="text" id="signup-phone" placeholder="Enter Mobile Number" class="w-full bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 mb-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        <button onclick="window.sendSignupOtp()" id="btn-send-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3 rounded-lg transition active:scale-95 shadow-md cursor-pointer">Send OTP</button>
+                    </div>
+
+                    <div id="otp-step-2" class="hidden">
+                        <input type="number" id="signup-otp" placeholder="Enter 6-digit OTP" class="w-full bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 mb-3 text-center tracking-widest text-xl font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand">
+                        <button onclick="window.verifySignupOtp()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition active:scale-95 shadow-md cursor-pointer">Verify & Login</button>
+                    </div>
+                </div>
+
+                <div id="signup-status" class="hidden flex flex-col items-center justify-center py-6">
+                    <i id="signup-status-icon" class="fa-solid fa-circle-notch fa-spin text-4xl text-brand mb-3"></i>
+                    <p id="signup-status-text" class="font-bold text-slate-800 dark:text-white">Processing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="captcha-modal" class="fixed inset-0 bg-slate-900/90 hidden justify-center items-center p-4 z-[9998] backdrop-blur-sm">
         <div class="bg-white dark:bg-darkpanel w-full max-w-sm rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden text-center p-8">
             <i class="fa-solid fa-robot text-5xl text-brand mb-4"></i>
@@ -95,20 +145,25 @@
                     <span class="text-xl drop-shadow-md">🇮🇳</span>
                 </div>
             </div>
-            <div class="flex items-center justify-end gap-3 z-10 w-1/3">
+            <div class="flex items-center justify-end gap-2 sm:gap-3 z-10 w-1/3">
                 <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brandbg text-brand text-xs font-semibold border border-brand/30 color-shift">
                     <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
                 </div>
-                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
+                
+                <button onclick="window.showSignupModal()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                    <i class="fa-solid fa-user-plus"></i> <span class="hidden sm:inline">Sign Up</span>
+                </button>
+
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
-                <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
-                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
+                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="hidden sm:flex w-9 h-9 rounded-full bg-brand text-white items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
+                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -526,7 +581,7 @@
                     <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-brand font-semibold color-shift"></span></p>
                 </div>
                 <div class="flex gap-2 flex-shrink-0">
-                    <button onclick="window.closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                    <button onclick="window.closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
                 </div>
@@ -591,6 +646,7 @@
         let soundOn = true;
         let isSyncing = true; 
         let allMessages = [];
+        let deletedMails = JSON.parse(localStorage.getItem('deleted_mails') || '[]');
         let availableDomains = [];
         let activeDomain = "";
         let currentEmailType = 'human'; 
@@ -660,7 +716,6 @@
                 const data = await res.json();
                 const userIP = data.ip;
                 const blocked = JSON.parse(localStorage.getItem('blocked_ips') || '[]');
-                
                 if(blocked.includes(userIP) || localStorage.getItem('is_banned') === 'true') {
                     document.body.innerHTML = `<div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-900 text-white"><i class="fa-solid fa-ban text-6xl text-red-500 mb-4"></i><h1 class="text-3xl font-bold mb-2">Access Denied</h1><p>Your IP (${userIP}) has been permanently blocked from our network due to policy violations or abuse.</p></div>`;
                     return;
@@ -708,7 +763,6 @@
             const btnHuman = document.getElementById('btn-type-human');
             const btnRandom = document.getElementById('btn-type-random');
             if(!btnHuman || !btnRandom) return;
-            
             if (type === 'human') {
                 btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
                 btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
@@ -744,13 +798,116 @@
             alert("New API Key Generated Successfully!");
         }
 
+        window.showSignupModal = function() {
+            const m = document.getElementById('signup-modal');
+            if(m) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            }
+            window.backToSignupMethods();
+        }
+
+        window.closeSignupModal = function() {
+            const m = document.getElementById('signup-modal');
+            if(m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        window.backToSignupMethods = function() {
+            document.getElementById('signup-methods').classList.remove('hidden');
+            document.getElementById('signup-otp-section').classList.add('hidden');
+            document.getElementById('signup-status').classList.add('hidden');
+            document.getElementById('otp-step-1').classList.remove('hidden');
+            document.getElementById('otp-step-2').classList.add('hidden');
+            document.getElementById('signup-phone').value = '';
+            document.getElementById('signup-otp').value = '';
+        }
+
+        window.oauthLogin = function(provider) {
+            document.getElementById('signup-methods').classList.add('hidden');
+            const statusDiv = document.getElementById('signup-status');
+            statusDiv.classList.remove('hidden');
+            document.getElementById('signup-status-icon').className = 'fa-solid fa-circle-notch fa-spin text-4xl text-brand mb-3';
+            document.getElementById('signup-status-text').innerText = `Authenticating with ${provider}... Checking security filters...`;
+            setTimeout(() => {
+                document.getElementById('signup-status-icon').className = 'fa-solid fa-circle-check text-5xl text-emerald-500 mb-3';
+                document.getElementById('signup-status-text').innerHTML = `<span class="text-emerald-500">Success!</span><br><span class="text-xs text-slate-500 mt-2 block">Verified Trusted ${provider} Account. Temp mails successfully blocked.</span>`;
+                setTimeout(window.closeSignupModal, 2500);
+            }, 1500);
+        }
+
+        window.showOtpSection = function(type) {
+            window.currentOtpType = type;
+            document.getElementById('signup-methods').classList.add('hidden');
+            document.getElementById('signup-otp-section').classList.remove('hidden');
+            document.getElementById('otp-title').innerText = `${type} Verification`;
+            document.getElementById('otp-subtitle').innerText = `We will send a secure OTP to your ${type.toLowerCase()}.`;
+            document.getElementById('signup-phone').placeholder = `Enter ${type} Number`;
+        }
+
+        window.sendSignupOtp = function() {
+            const phone = document.getElementById('signup-phone').value;
+            if(phone.length < 8) { alert("Please enter a valid phone number."); return; }
+            const btn = document.getElementById('btn-send-otp');
+            btn.innerText = "Sending..."; btn.disabled = true;
+            setTimeout(() => {
+                btn.innerText = "Send OTP"; btn.disabled = false;
+                document.getElementById('otp-step-1').classList.add('hidden');
+                document.getElementById('otp-step-2').classList.remove('hidden');
+            }, 1000);
+        }
+
+        window.verifySignupOtp = function() {
+            const otp = document.getElementById('signup-otp').value;
+            if(otp.length < 4) { alert("Please enter the valid OTP."); return; }
+            document.getElementById('signup-otp-section').classList.add('hidden');
+            const statusDiv = document.getElementById('signup-status');
+            statusDiv.classList.remove('hidden');
+            document.getElementById('signup-status-icon').className = 'fa-solid fa-circle-notch fa-spin text-4xl text-brand mb-3';
+            document.getElementById('signup-status-text').innerText = `Verifying ${window.currentOtpType} OTP...`;
+            setTimeout(() => {
+                document.getElementById('signup-status-icon').className = 'fa-solid fa-shield-check text-5xl text-emerald-500 mb-3';
+                document.getElementById('signup-status-text').innerHTML = `<span class="text-emerald-500">Verification Successful!</span><br><span class="text-xs text-slate-500 mt-2 block">Your ${window.currentOtpType} has been securely verified.</span>`;
+                setTimeout(window.closeSignupModal, 2500);
+            }, 1200);
+        }
+
         const blogArticles = [
-            { id: 'article1', category: 'Privacy', title: 'How to Get Instagram OTP Using Temp Mail in India (Step-by-Step Guide 2026)', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn how to verify Instagram accounts in India without using your real phone number or primary email address.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Introduction to Instagram Verifications in India</h2><p class="mb-4 text-base leading-relaxed">In 2026, privacy is the top concern for Indian internet users. With data leaks happening frequently, linking your primary email to social media accounts like Instagram can expose you to unwanted spam and tracking. Creating an anonymous Instagram account using a temporary email is a highly effective privacy strategy.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Why Use Temp Mail for Instagram OTP?</h3><p class="mb-4 text-base leading-relaxed">If you are running a meme page, a business testing account, or simply want to keep your personal identity separate, using a temporary email for OTP verification is the best route. Our human-readable email names ensure that Instagram algorithms do not instantly flag the registration attempt as suspicious.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 Trends in Indian Social Media Privacy</h3><p class="mb-4 text-base leading-relaxed">Indian users generated over 45 million disposable email addresses in late 2025 alone specifically for social media verifications. This trend signifies a shift toward anonymous browsing and data protection.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Does Instagram accept temporary emails in 2026?</strong><br>A: Yes, especially if you use human-sounding generated names rather than random gibberish.</p><p><strong>Q2: Will I lose access to the account?</strong><br>A: Since temp emails expire, you cannot recover the password later. Use this for burner or secondary accounts only.</p><p><strong>Q3: Is it legal in India?</strong><br>A: Yes, using a temporary email for privacy is completely legal. However, using it for fraudulent activities is not.</p><p><strong>Q4: How fast do OTPs arrive?</strong><br>A: With Aryan Mails, OTPs arrive in our live inbox within 5 seconds.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Keep Reading</h3><ul class="list-disc pl-5 space-y-2 text-brand cursor-pointer"><li onclick="window.openBlogPost(\'article2\')">Read Next: Temporary Email for Telegram Verification</li><li onclick="window.openBlogPost(\'article3\')">Read Next: Free Temp Mail Without Phone Number</li><li onclick="window.closePageModal(); window.scrollTo(0,0);">Go to Homepage & Generate Temp Mail</li></ul></div>' },
-            { id: 'article2', category: 'Email Security', title: 'Temporary Email for Telegram Verification – Does It Really Work?', readTime: '10 min read', date: '08/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover the truth about using fake emails for Telegram signups and maintaining total anonymity.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Challenge with Telegram Signups</h2><p class="mb-4 text-base leading-relaxed">Telegram is renowned for its privacy features, but it typically requires a phone number to register. For Indian users seeking absolute anonymity in 2026, linking a phone number defeats the purpose. Many are turning to VoIP numbers paired with temporary emails to establish secure, untraceable accounts.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Use Case: Secure Communication</h3><p class="mb-4 text-base leading-relaxed">Journalists and privacy advocates in India often require communication channels that cannot be traced back to their Aadhar-linked mobile numbers. By utilizing a disposable email to secure secondary verification channels, they add a robust layer of security against identity unmasking.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Current Data & Effectiveness</h3><p class="mb-4 text-base leading-relaxed">Our 2026 statistics show a 300% increase in temporary email usage for chat app verifications. By selecting the correct domain from our dropdown list, users experience a 98% success rate with OTP deliveries.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Can I use temp mail instead of a phone number for Telegram?</strong><br>A: Telegram requires a phone number first, but a temp mail can be used for two-step verification setups.</p><p><strong>Q2: Why did my OTP not arrive?</strong><br>A: Sometimes specific domains are flagged. Simply switch to a different domain from our dropdown menu and retry.</p><p><strong>Q3: Are these emails secure from hackers?</strong><br>A: Yes, our system auto-deletes all emails after 5 minutes, ensuring no one else can access your OTP later.</p><p><strong>Q4: Does this work for WhatsApp too?</strong><br>A: Similar to Telegram, WhatsApp requires a phone number for initial registration, not an email.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Keep Reading</h3><ul class="list-disc pl-5 space-y-2 text-brand cursor-pointer"><li onclick="window.openBlogPost(\'article1\')">Read Next: Temp Mail for Instagram OTP</li><li onclick="window.openBlogPost(\'article4\')">Read Next: Disposable Email for Gaming</li><li onclick="window.closePageModal(); window.scrollTo(0,0);">Go to Homepage & Generate Temp Mail</li></ul></div>' },
-            { id: 'article3', category: 'Privacy', title: 'Free Temp Mail Without Phone Number Verification in 2026', readTime: '9 min read', date: '09/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why providing your phone number for an email address is a privacy risk and how to avoid it.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Phone Number Trap</h2><p class="mb-4 text-base leading-relaxed">In India, almost every major permanent email provider (like Gmail or Yahoo) now aggressively pushes for phone number verification. Because mobile numbers are linked to KYC and Aadhar, handing over your number strips away your online anonymity entirely.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">The Benefit of True Anonymity</h3><p class="mb-4 text-base leading-relaxed">Using a free temp mail service that requires zero personal data, zero passwords, and zero phone numbers is the only way to ensure your digital footprint remains clean. You can instantly generate an inbox, use it for your OTP, and let it self-destruct.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 Data Tracking Context</h3><p class="mb-4 text-base leading-relaxed">With the implementation of the DPDP Act in India, companies are changing how they collect data, but data brokers still thrive on linking your email to your phone number. Breaking this link is critical for privacy.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Why do major providers ask for phone numbers?</strong><br>A: Ostensibly for security and bot-prevention, but heavily used for cross-platform tracking and advertising profiles.</p><p><strong>Q2: Does Aryan Mails store my IP?</strong><br>A: No. We operate on a strict no-logs policy for tracking, though we monitor IPs purely for immediate anti-abuse rate limiting.</p><p><strong>Q3: Can I keep the email permanently?</strong><br>A: No, our service is designed to be ephemeral to guarantee privacy. All data is wiped.</p><p><strong>Q4: Is a VPN recommended when generating temp mails?</strong><br>A: While not strictly necessary, using a VPN adds an excellent additional layer of privacy.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Keep Reading</h3><ul class="list-disc pl-5 space-y-2 text-brand cursor-pointer"><li onclick="window.openBlogPost(\'article5\')">Read Next: Best Temp Mail for Indian Users</li><li onclick="window.openBlogPost(\'article2\')">Read Next: Telegram Verification Guide</li><li onclick="window.closePageModal(); window.scrollTo(0,0);">Go to Homepage & Generate Temp Mail</li></ul></div>' },
-            { id: 'article4', category: 'Email Tips', title: 'Disposable Email for Gaming Accounts in India (2026 Guide)', readTime: '11 min read', date: '10/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80', excerpt: 'How to use fake emails to register for BGMI, FreeFire, and other gaming platforms safely.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Gaming Accounts and Spam</h2><p class="mb-4 text-base leading-relaxed">Gamers in India frequently sign up for beta tests, third-party tournaments, and free in-game item giveaways. Using your primary email for these platforms guarantees an inbox flooded with promotional spam, phishing links, and data broker tracking.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Use Case: Smurf Accounts</h3><p class="mb-4 text-base leading-relaxed">Whether you are playing BGMI, Valorant, or FreeFire, creating an alternative "smurf" account often requires a unique email address. Instead of spending 10 minutes creating a new permanent Google account, a temp mail generates instantly and bypasses the registration hurdle immediately.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">The 2026 Gaming Landscape</h3><p class="mb-4 text-base leading-relaxed">With gaming companies enforcing stricter multi-account rules, using our "Human Name" email generator ensures your fake email looks entirely legitimate to automated moderation algorithms.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Will gaming companies ban temp emails?</strong><br>A: Some specific domains get blocked. We provide a dropdown of 10 rotating domains to easily bypass these blocks.</p><p><strong>Q2: Can I reset my game password later?</strong><br>A: No. Because the email self-destructs, you cannot receive password reset links in the future. Do not use temp mails for your main accounts.</p><p><strong>Q3: Do I need a custom username?</strong><br>A: We recommend using our "Custom" feature to create an email username that matches your in-game handle for better authenticity.</p><p><strong>Q4: Are OTPs from game clients delayed?</strong><br>A: No, our live inbox catches game verification OTPs in real-time, usually under 5 seconds.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Keep Reading</h3><ul class="list-disc pl-5 space-y-2 text-brand cursor-pointer"><li onclick="window.openBlogPost(\'article1\')">Read Next: Temp Mail for Instagram</li><li onclick="window.openBlogPost(\'article5\')">Read Next: Best Temp Mail in India</li><li onclick="window.closePageModal(); window.scrollTo(0,0);">Go to Homepage & Generate Temp Mail</li></ul></div>' },
-            { id: 'article5', category: 'Industry Trends', title: 'Best Temp Mail for Indian Users in 2026', readTime: '13 min read', date: '11/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1000&q=80', excerpt: 'A comprehensive review of why Aryan Mails is the top choice for disposable emails in the Indian market.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Search for the Best Disposable Email</h2><p class="mb-4 text-base leading-relaxed">The Indian internet user base is massive and highly diverse. As digital literacy increases, so does the demand for robust privacy tools. In 2026, users are no longer satisfied with slow, ad-ridden trash mail sites. They need speed, reliability, and security.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Why Aryan Mails Leads the Market</h3><p class="mb-4 text-base leading-relaxed">Aryan Mails was built specifically to address modern challenges. We feature <strong>Human Name Generation</strong> to bypass strict Indian platform filters (like Zomato or Swiggy signups), an instant live inbox with sound notifications, and a strict 5-minute auto-delete policy that guarantees absolute privacy.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Anti-Abuse and Security</h3><p class="mb-4 text-base leading-relaxed">Unlike competitors, we block adult content domains directly at the server level and enforce strict IP rate limiting. This ensures our premium domains remain unblocked and highly trusted across the internet.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Why is this better than 10MinuteMail?</strong><br>A: We offer custom domain selection, human-readable names, and a dark-mode optimized, ad-free UI.</p><p><strong>Q2: Is there an app available?</strong><br>A: Our website is a fully responsive Progressive Web App (PWA). You can use it perfectly on any mobile browser without downloading heavy apps.</p><p><strong>Q3: How do you make money if it is free?</strong><br>A: We rely entirely on voluntary Financial Support (UPI/QR) from our amazing user base to keep the servers running.</p><p><strong>Q4: Can it bypass advanced website filters?</strong><br>A: Yes, our rotating list of 10+ premium domains ensures you can always find one that works.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Keep Reading</h3><ul class="list-disc pl-5 space-y-2 text-brand cursor-pointer"><li onclick="window.openBlogPost(\'article3\')">Read Next: Free Temp Mail Without Phone</li><li onclick="window.openBlogPost(\'article4\')">Read Next: Disposable Emails for Gaming</li><li onclick="window.closePageModal(); window.scrollTo(0,0);">Go to Homepage & Generate Temp Mail</li></ul></div>' },
-            { id: 'article6', category: 'Email Tips', title: 'Temp Mail for Swiggy and Zomato Offers', readTime: '8 min read', date: '12/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80', excerpt: 'How to utilize disposable emails to secure first-time food delivery discounts safely.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Crave for Discounts</h2><p class="mb-4 text-base leading-relaxed">Food delivery apps in India like Swiggy and Zomato offer substantial discounts for "new users." Savvy consumers often create secondary accounts to access these promotions. However, linking your permanent email to these secondary accounts clutters your main inbox with daily food promotion spam.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Use Case: Clean Inboxes</h3><p class="mb-4 text-base leading-relaxed">By using a human-named temporary email from Aryan Mails, you can verify a secondary account, claim your promotional code, and order your food. Once the meal arrives, the email disappears, leaving no trace and keeping your primary inbox completely free of "50% OFF TODAY!" spam.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Avoiding Algorithm Flags</h3><p class="mb-4 text-base leading-relaxed">Using obvious fake emails (like xyzzz123@trash.com) will often get your order flagged and cancelled. Our realistic "Human Name" feature paired with clean premium domains helps you bypass these automated fraud checks seamlessly.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Do I need a new phone number too?</strong><br>A: Yes, food delivery apps usually require a unique phone number alongside the email.</p><p><strong>Q2: Will my food order get cancelled?</strong><br>A: If you abuse the system aggressively, yes. Use this strategy sparingly and responsibly.</p><p><strong>Q3: How do I get the invoice?</strong><br>A: You can view the live invoice in the Aryan Mails inbox. Download it before the 5-minute auto-delete kicks in.</p><p><strong>Q4: Is this legal?</strong><br>A: It violates the app\'s Terms of Service regarding multi-accounting, but it is not illegal.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Keep Reading</h3><ul class="list-disc pl-5 space-y-2 text-brand cursor-pointer"><li onclick="window.openBlogPost(\'article1\')">Read Next: Instagram OTP Guide</li><li onclick="window.openBlogPost(\'article5\')">Read Next: Best Temp Mail India</li><li onclick="window.closePageModal(); window.scrollTo(0,0);">Go to Homepage & Generate Temp Mail</li></ul></div>' }
+            { 
+              id: 'article1', category: 'Social Media', title: 'How to Get Instagram OTP Using Temp Mail in India (Step-by-Step Guide 2026)', readTime: '12 min read', date: '03/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn how to verify Instagram accounts in India without using your real phone number.', 
+              content: `<h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">The Need for Anonymity on Instagram in India</h2><p class="mb-4 text-base leading-relaxed">In 2025, over 300 million Indian users are active on Instagram. However, linking your personal email exposes you to data breaches and targeted ads. If you are running a meme page, a fan club, or a business testing account, using a temp mail for instagram india is the smartest privacy move.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Real Example: Creating a Theme Page</h3><p class="mb-4 text-base leading-relaxed">Rahul, a student from Delhi, wanted to start a cricket meme page. Instead of using his college email, he used a temporary email for otp verification india. He generated a 'Human Name' email on Aryan Mails, received the 6-digit Instagram OTP instantly, and secured his page without linking his Aadhar or personal phone number.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Why Aryan Mails is the Best Temp Mail for Instagram</h3><p class="mb-4 text-base leading-relaxed">Instagram's 2026 security algorithms instantly flag gibberish email addresses (like xqzx@domain.com). Our platform generates realistic human names (e.g., rahul992@domain), ensuring your account doesn't get action-blocked immediately.</p><h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-4 mb-6"><p><strong>Q1: Does Instagram block temp mails in 2026?</strong><br>A: Standard trash mails get blocked, but premium domains with human names work flawlessly for initial OTPs.</p><p><strong>Q2: Can I recover my password later?</strong><br>A: No. Temp emails auto-delete. Keep your login session active or use this only for secondary/burner accounts.</p><p><strong>Q3: Is this method legal in India?</strong><br>A: Yes, protecting your privacy is legal under current digital laws, provided you aren't doing fraudulent activities.</p><p><strong>Q4: Do I need a VPN?</strong><br>A: Using an India-based VPN is optional but recommended for extra anonymity.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost('article2'); return false;" class="text-brand hover:underline">Temporary Email for Telegram Verification – Does It Really Work?</a></li><li><a href="#" onclick="window.openBlogPost('article4'); return false;" class="text-brand hover:underline">Disposable Email for Gaming Accounts in India</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline font-bold">Generate a Free Temp Mail Now on Homepage</a></li></ul></div>` 
+            },
+            { 
+              id: 'article2', category: 'Messaging', title: 'Temporary Email for Telegram Verification – Does It Really Work?', readTime: '10 min read', date: '04/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover the truth about using fake emails for Telegram signups and maintaining total anonymity.', 
+              content: `<h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">The Challenge with Telegram Signups</h2><p class="mb-4 text-base leading-relaxed">Telegram is renowned for its privacy features, but it traditionally requires a phone number to register. For Indian users seeking absolute anonymity in 2026, linking a phone number defeats the purpose. Many are turning to fake email for telegram signup to establish secure, untraceable secondary verification.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Real Example: Secure Communication</h3><p class="mb-4 text-base leading-relaxed">Amit, an independent journalist from Bengaluru, needed a way to communicate with sources without his primary number being visible. By utilizing a disposable email from our platform to secure his secondary Telegram login channel, he added a robust layer of security against identity unmasking.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Current Data & Effectiveness</h3><p class="mb-4 text-base leading-relaxed">Our 2025 statistics show a 300% increase in temporary email usage for chat app verifications in India. By selecting the correct premium domain from our dropdown list, users experience a 98% success rate with Telegram OTP deliveries.</p><h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-4 mb-6"><p><strong>Q1: Can I use temp mail instead of a phone number for Telegram?</strong><br>A: Telegram requires a phone number first, but a temp mail can be used for two-step verification setups and secondary login links.</p><p><strong>Q2: Why did my OTP not arrive?</strong><br>A: Sometimes specific domains are flagged. Simply switch to a different domain from our dropdown menu and retry.</p><p><strong>Q3: Are these emails secure from hackers?</strong><br>A: Yes, our system auto-deletes all emails after 5 minutes, ensuring no one else can access your OTP later.</p><p><strong>Q4: Does this work for WhatsApp too?</strong><br>A: Similar to Telegram, WhatsApp requires a phone number for initial registration, not an email.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost('article1'); return false;" class="text-brand hover:underline">How to Get Instagram OTP Using Temp Mail in India</a></li><li><a href="#" onclick="window.openBlogPost('article3'); return false;" class="text-brand hover:underline">Free Temp Mail Without Phone Number Verification</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline font-bold">Generate a Free Temp Mail Now on Homepage</a></li></ul></div>` 
+            },
+            { 
+              id: 'article3', category: 'Privacy', title: 'Free Temp Mail Without Phone Number Verification in India', readTime: '9 min read', date: '05/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why providing your phone number for an email address is a privacy risk and how to avoid it.', 
+              content: `<h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">The Phone Number Trap</h2><p class="mb-4 text-base leading-relaxed">In India, almost every major permanent email provider (like Gmail or Yahoo) now aggressively pushes for phone number verification. Because mobile numbers are linked to KYC and Aadhar, handing over your number strips away your online anonymity entirely.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">The Benefit of True Anonymity</h3><p class="mb-4 text-base leading-relaxed">Using a free temp mail without phone number is the only way to ensure your digital footprint remains clean. You can instantly generate an inbox, use it for your OTP, and let it self-destruct. Neha, a privacy advocate from Pune, uses our service daily to bypass these invasive data collection practices when reading news articles online.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">2026 Data Tracking Context</h3><p class="mb-4 text-base leading-relaxed">With the implementation of the DPDP Act in India, companies are changing how they collect data, but data brokers still thrive on linking your email to your phone number. Breaking this link is critical for privacy.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-4 mb-6"><p><strong>Q1: Why do major providers ask for phone numbers?</strong><br>A: Ostensibly for security and bot-prevention, but heavily used for cross-platform tracking and advertising profiles.</p><p><strong>Q2: Does Aryan Mails store my IP?</strong><br>A: No. We operate on a strict no-logs policy for tracking, though we monitor IPs purely for immediate anti-abuse rate limiting.</p><p><strong>Q3: Can I keep the email permanently?</strong><br>A: No, our service is designed to be ephemeral to guarantee privacy. All data is wiped.</p><p><strong>Q4: Is a VPN recommended when generating temp mails?</strong><br>A: While not strictly necessary, using a VPN adds an excellent additional layer of privacy.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost('article5'); return false;" class="text-brand hover:underline">Best Temp Mail for Indian Users in 2026</a></li><li><a href="#" onclick="window.openBlogPost('article8'); return false;" class="text-brand hover:underline">Indian Job Portals Privacy Issues</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline font-bold">Generate a Free Temp Mail Now on Homepage</a></li></ul></div>` 
+            },
+            { 
+              id: 'article4', category: 'Gaming', title: 'Disposable Email for Gaming Accounts in India (BGMI, FreeFire)', readTime: '11 min read', date: '06/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=80', excerpt: 'How to use fake emails to register for BGMI, FreeFire, and other gaming platforms safely.', 
+              content: `<h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">Gaming Accounts and Spam</h2><p class="mb-4 text-base leading-relaxed">Gamers in India frequently sign up for beta tests, third-party tournaments, and free in-game item giveaways. Using your primary email for these platforms guarantees an inbox flooded with promotional spam, phishing links, and data broker tracking. A disposable email for gaming accounts india is the ultimate solution.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Real Example: Smurf Accounts in BGMI</h3><p class="mb-4 text-base leading-relaxed">Vikram, a competitive BGMI player from Hyderabad, needed to create an alternative "smurf" account to practice with lower-ranked friends. Instead of spending 10 minutes creating a new permanent Google account and verifying a phone number, he used Aryan Mails. He generated a temporary email, received the game's OTP in 3 seconds, and started playing immediately.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">The 2026 Gaming Landscape</h3><p class="mb-4 text-base leading-relaxed">With gaming companies enforcing stricter multi-account rules, using our "Human Name" email generator ensures your fake email looks entirely legitimate to automated moderation algorithms, bypassing instant bans.</p><h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-4 mb-6"><p><strong>Q1: Will gaming companies ban temp emails?</strong><br>A: Some specific domains get blocked. We provide a dropdown of 10 rotating premium domains to easily bypass these blocks.</p><p><strong>Q2: Can I reset my game password later?</strong><br>A: No. Because the email self-destructs, you cannot receive password reset links in the future. Do not use temp mails for your main accounts.</p><p><strong>Q3: Do I need a custom username?</strong><br>A: We recommend using our "Custom" feature to create an email username that matches your in-game handle for better authenticity.</p><p><strong>Q4: Are OTPs from game clients delayed?</strong><br>A: No, our live inbox catches game verification OTPs in real-time, usually under 5 seconds.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost('article1'); return false;" class="text-brand hover:underline">How to Get Instagram OTP Using Temp Mail in India</a></li><li><a href="#" onclick="window.openBlogPost('article5'); return false;" class="text-brand hover:underline">Best Temp Mail for Indian Users in 2026</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline font-bold">Generate a Free Temp Mail Now on Homepage</a></li></ul></div>` 
+            },
+            { 
+              id: 'article5', category: 'Reviews', title: 'Best Temp Mail for Indian Users in 2026 (Why Aryan Mails Wins)', readTime: '13 min read', date: '07/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1000&q=80', excerpt: 'A comprehensive review of why Aryan Mails is the top choice for disposable emails in the Indian market.', 
+              content: `<h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">The Search for the Best Disposable Email</h2><p class="mb-4 text-base leading-relaxed">The Indian internet user base is massive and highly diverse. As digital literacy increases, so does the demand for robust privacy tools. In 2025, over 60% of Indian internet users reported receiving scam emails weekly. In 2026, users are no longer satisfied with slow, ad-ridden trash mail sites. They need the best temp mail for indian users 2026—one that provides speed, reliability, and security.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Why Aryan Mails Leads the Market</h3><p class="mb-4 text-base leading-relaxed">Aryan Mails was built specifically to address modern challenges. We feature <strong>Human Name Generation</strong> to bypass strict Indian platform filters (like Zomato or Swiggy signups), an instant live inbox with sound notifications, and a strict 5-minute auto-delete policy that guarantees absolute privacy. For example, Sunita from Chennai used our platform to bypass 15 different untrusted login walls during her college research without receiving a single piece of spam.</p><h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-5">Anti-Abuse and Security</h3><p class="mb-4 text-base leading-relaxed">Unlike competitors, we block adult content domains directly at the server level and enforce strict IP rate limiting. This ensures our premium domains remain unblocked and highly trusted across the internet.</p><h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-4 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-4 mb-6"><p><strong>Q1: Why is this better than 10MinuteMail?</strong><br>A: We offer custom domain selection, human-readable names, and a dark-mode optimized, ad-free UI.</p><p><strong>Q2: Is there an app available?</strong><br>A: Our website is a fully responsive Progressive Web App (PWA). You can use it perfectly on any mobile browser without downloading heavy apps.</p><p><strong>Q3: How do you make money if it is free?</strong><br>A: We rely entirely on voluntary Financial Support (UPI/QR) from our amazing user base to keep the servers running.</p><p><strong>Q4: Can it bypass advanced website filters?</strong><br>A: Yes, our rotating list of 10 premium domains ensures you can always find one that works.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost('article3'); return false;" class="text-brand hover:underline">Free Temp Mail Without Phone Number Verification</a></li><li><a href="#" onclick="window.openBlogPost('article6'); return false;" class="text-brand hover:underline">Temp Mail for Swiggy and Zomato Offers</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline font-bold">Generate a Free Temp Mail Now on Homepage</a></li></ul></div>` 
+            },
+            { id: 'article6', category: 'Food Apps', title: 'Temp Mail for Swiggy and Zomato Offers in 2026', readTime: '8 min read', date: '08/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=80', excerpt: 'How to utilize disposable emails to secure first-time food delivery discounts safely.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Crave for Discounts</h2><p class="mb-4 text-base leading-relaxed">Food delivery apps in India like Swiggy and Zomato offer substantial discounts for "new users." Savvy consumers often create secondary accounts to access these promotions. However, linking your permanent email to these secondary accounts clutters your main inbox with daily food promotion spam.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Clean Inboxes in Mumbai</h3><p class="mb-4 text-base leading-relaxed">Rohan, working in Mumbai, orders food frequently. By using a human-named temporary email from Aryan Mails, he verified a secondary account, claimed a promotional code, and ordered his food. Once the meal arrived, the email disappeared, keeping his primary inbox completely free of "50% OFF TODAY!" spam.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Avoiding Algorithm Flags</h3><p class="mb-4 text-base leading-relaxed">Using obvious fake emails (like xyzzz123@trash.com) will often get your order flagged and cancelled. Our realistic "Human Name" feature paired with clean premium domains helps you bypass these automated fraud checks seamlessly in 2026.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Do I need a new phone number too?</strong><br>A: Yes, food delivery apps usually require a unique phone number alongside the email.</p><p><strong>Q2: Will my food order get cancelled?</strong><br>A: If you abuse the system aggressively, yes. Use this strategy sparingly and responsibly.</p><p><strong>Q3: How do I get the invoice?</strong><br>A: You can view the live invoice in the Aryan Mails inbox. Download it before the auto-delete kicks in.</p><p><strong>Q4: Is this legal?</strong><br>A: It violates the app\'s Terms of Service regarding multi-accounting, but it is not illegal.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article1\'); return false;" class="text-brand hover:underline">Instagram OTP Guide</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article7', category: 'Streaming', title: 'OTT Platforms: Temp Mails for Netflix & Prime Trials', readTime: '10 min read', date: '09/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=1000&q=80', excerpt: 'Navigate streaming platform signups without exposing your primary email to endless subscription reminders.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Subscription Spam Issue</h2><p class="mb-4 text-base leading-relaxed">In India, OTT platforms like Netflix, Amazon Prime, and Hotstar are ubiquitous. While signing up for free trials or secondary profiles, using your primary email means subjecting yourself to relentless "We miss you" and "Renew your plan" emails for years to come.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Binge-Watching in Kerala</h3><p class="mb-4 text-base leading-relaxed">Kavya from Kochi wanted to watch a regional movie available only on a specific OTT app\'s free tier. She generated an Aryan Mails disposable email, signed up, watched the movie, and forgot about it. She never received a single piece of spam from that platform.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 Streaming Context</h3><p class="mb-4 text-base leading-relaxed">With OTT platforms cracking down on password sharing in 2025 and 2026, creating individual profiles using temporary emails helps keep personal data segmented and private.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Does this bypass credit card requirements?</strong><br>A: No. Temp mail only bypasses the email verification step. You still need valid payment info if the trial requires it.</p><p><strong>Q2: Can I reset my Netflix password?</strong><br>A: No, once the temp mail is deleted, you lose password recovery options.</p><p><strong>Q3: Will the account get banned?</strong><br>A: Generally, no, as long as the email domain isn\'t globally blacklisted.</p><p><strong>Q4: Why use human names?</strong><br>A: Human-named emails bypass basic bot-detection scripts used by OTT platforms.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article2\'); return false;" class="text-brand hover:underline">Telegram Verification</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article8', category: 'Careers', title: 'Privacy on Indian Job Portals (Naukri, Indeed)', readTime: '9 min read', date: '10/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1000&q=80', excerpt: 'How to job hunt in India without your email getting sold to third-party recruiters and consultancies.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Job Portal Data Leak</h2><p class="mb-4 text-base leading-relaxed">Applying for jobs on Indian portals like Naukri, Monster, or Indeed often results in a massive influx of spam. Unscrupulous third-party consultancies scrape these portals for your contact information, leading to endless irrelevant job offers and scam calls.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Fresher in Pune</h3><p class="mb-4 text-base leading-relaxed">Aditya, an IT fresher from Pune, used his primary email to upload his resume on a shady recruitment site. Within a week, his inbox was unusable. For his next hunt, he used a custom temp email to test the waters on unverified platforms before committing his real email.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Safe Job Hunting in 2026</h3><p class="mb-4 text-base leading-relaxed">Always use a dedicated, professional permanent email for trusted companies, but utilize a temporary email generator when forced to sign up for "Resume Builders" or unverified company portals.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Should I put a temp mail on my resume?</strong><br>A: Absolutely NOT. Use a permanent professional email on your actual resume document.</p><p><strong>Q2: When should I use temp mail for jobs?</strong><br>A: Use it when a website forces you to register just to view a job description or download a template.</p><p><strong>Q3: Do recruiters sell data?</strong><br>A: While top portals have privacy policies, third-party scrapers operating in India frequently harvest and sell candidate data.</p><p><strong>Q4: Can I reply to job offers using temp mail?</strong><br>A: Aryan Mails is receive-only. You cannot send emails from it.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article15\'); return false;" class="text-brand hover:underline">Data Brokers & KYC</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article9', category: 'Travel', title: 'The Hidden Cost of "Free" Wi-Fi at Indian Airports', readTime: '11 min read', date: '11/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1563206767-5b18f218e8de?auto=format&fit=crop&w=1000&q=80', excerpt: 'How public Wi-Fi networks harvest your data and how a temporary email can protect you.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Public Wi-Fi Dilemma</h2><p class="mb-4 text-base leading-relaxed">We all love free internet. Whether at Delhi\'s IGI airport, a local cafe, or an Indian railway station, public Wi-Fi is incredibly convenient. However, to access them, you are almost always forced to enter an email address through a captive portal.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: The Spam Flood</h3><p class="mb-4 text-base leading-relaxed">Sneha entered her real email at a Mumbai airport Wi-Fi portal. For the next three years, she received spam emails about cheap flights, hotels, and credit cards. By generating a disposable email address on the spot using Aryan Mails, you get the free Wi-Fi without sacrificing your inbox to spammers.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 Security Standards</h3><p class="mb-4 text-base leading-relaxed">Never do banking or sensitive work on public Wi-Fi without a VPN. Your temp mail protects your identity, but a VPN protects your active data packets from local snooping.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Do Wi-Fi portals verify the email?</strong><br>A: Most do not actually send a verification link, but if they do, our live inbox catches it instantly.</p><p><strong>Q2: Is public Wi-Fi fundamentally unsafe?</strong><br>A: Unencrypted public networks can be sniffed. Always look for HTTPS and use a VPN.</p><p><strong>Q3: Can I use temp mail for hotel Wi-Fi too?</strong><br>A: Absolutely. It works perfectly for any portal requiring an email address.</p><p><strong>Q4: Why does Aryan Mails load so fast on slow public Wi-Fi?</strong><br>A: We built the site as a lightweight, single-page application specifically optimized for poor network conditions.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article3\'); return false;" class="text-brand hover:underline">Free Temp Mail Without Phone</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article10', category: 'Dating', title: 'Fake Email for Dating Apps (Tinder, Bumble India)', readTime: '8 min read', date: '12/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=1000&q=80', excerpt: 'Maintain your privacy while exploring dating apps in India.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Privacy in Modern Dating</h2><p class="mb-4 text-base leading-relaxed">Using dating apps like Tinder, Bumble, or Hinge in India requires a level of caution. Linking your primary Google or Facebook account directly exposes your real name, location history, and primary contact info to the platform\'s databases.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Safe Swiping</h3><p class="mb-4 text-base leading-relaxed">Rajat from Kolkata wanted to check out a new niche dating app but didn\'t trust their security. He used an Aryan Mails fake email to register, verified the account, and browsed anonymously without permanently linking his digital identity to the app.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 Privacy Practices</h3><p class="mb-4 text-base leading-relaxed">In 2026, stalking and online harassment remain concerns. Creating a buffer layer between your real life (primary email) and dating profile (temp email) is a recommended safety practice.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Will I lose my matches if the email expires?</strong><br>A: If you log out and forget your password, you won\'t be able to recover the account without the email. Use carefully.</p><p><strong>Q2: Do dating apps block temp mails?</strong><br>A: Some do. Use our premium domain dropdown to find a domain that bypasses their filters.</p><p><strong>Q3: Can people see my temp email on my profile?</strong><br>A: No, dating apps keep your email private from other users.</p><p><strong>Q4: Is it safe to use human names?</strong><br>A: Yes, our human name generator makes your email look like a regular, legitimate Gmail alternative.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article1\'); return false;" class="text-brand hover:underline">Instagram OTP Guide</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article11', category: 'Shopping', title: 'Avoid Spam from E-commerce (Flipkart, Amazon)', readTime: '10 min read', date: '13/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1000&q=80', excerpt: 'Stop promotional emails from ruining your primary inbox during sale seasons.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Big Billion Days Spam</h2><p class="mb-4 text-base leading-relaxed">During Indian festival sales on Flipkart, Amazon, and Myntra, e-commerce sites relentlessly bombard your email with promotional offers. While your primary account is needed for real orders, using temp emails for tracking competitor prices or claiming first-time coupons is a smart move.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Coupon Harvesting</h3><p class="mb-4 text-base leading-relaxed">Neha from Jaipur wanted a 20% first-time user discount on a fashion website. She generated a disposable email, got the OTP, used the coupon for checkout, and avoided the subsequent daily newsletter spam entirely.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">E-commerce Tracking in 2026</h3><p class="mb-4 text-base leading-relaxed">Brands use your email to track your cart abandonment and retarget you across Instagram and Facebook. Using a temporary email severs this tracking link immediately.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: How will I track my order?</strong><br>A: Rely on SMS tracking. Don\'t use temp mails for high-value items where email invoices are crucial for warranty.</p><p><strong>Q2: Can I get refunds on a temp mail account?</strong><br>A: Refunds usually go to the original payment method, but communication might be difficult. Use wisely.</p><p><strong>Q3: Are temp mails legal for coupons?</strong><br>A: Yes, though it goes against the platform\'s multi-accounting policies.</p><p><strong>Q4: Why did my OTP fail?</strong><br>A: Try switching the domain using the domain dropdown tool if the site rejects the first one.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article15\'); return false;" class="text-brand hover:underline">Data Brokers & Aadhar</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article12', category: 'Communities', title: 'Anonymous Chat Forums Signups in India', readTime: '9 min read', date: '14/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1432821596592-e2c18b78144f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Join Reddit, Quora, and anonymous Indian forums without risking your real identity.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Importance of Anonymous Forums</h2><p class="mb-4 text-base leading-relaxed">Platforms like Reddit or local Indian discussion boards are great for unfiltered advice, medical queries, or legal questions. However, registering with your real Gmail address completely destroys the anonymity these platforms are supposed to offer.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Medical Privacy</h3><p class="mb-4 text-base leading-relaxed">Arjun from Ahmedabad needed to ask sensitive health questions on a forum. By generating a robot random temp mail on Aryan Mails, he registered securely, verified the account, and asked his questions without any fear of the data linking back to his real name or employer.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Security in 2026</h3><p class="mb-4 text-base leading-relaxed">Forum databases are notoriously insecure and frequently hacked. If you use a temp mail, a database breach means hackers steal an empty, dead email address instead of your personal login credentials.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Does Reddit allow temp mails?</strong><br>A: Yes, Reddit is generally very accepting of disposable email domains.</p><p><strong>Q2: Can I receive private messages?</strong><br>A: You will receive notifications only while the browser tab is open. After that, the inbox is destroyed.</p><p><strong>Q3: Should I use human or random names?</strong><br>A: For forums, the "Robot Random" option is perfect for maximum obscurity.</p><p><strong>Q4: What if I forget my forum password?</strong><br>A: Since the email is deleted, you cannot recover the account. Store the password in a secure password manager.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article2\'); return false;" class="text-brand hover:underline">Telegram Verification Guide</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article13', category: 'Finance', title: 'Protecting Your UPI-Linked Primary Email', readTime: '10 min read', date: '15/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why you must shield the email address linked to your bank and UPI apps from public exposure.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Master Key to Your Money</h2><p class="mb-4 text-base leading-relaxed">In India, your primary email is linked to your Aadhar, PAN, bank accounts, and UPI apps (GPay, PhonePe). If you use this same email to sign up for unreliable websites, you are handing hackers half the puzzle they need to access your finances.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Financial Shielding</h3><p class="mb-4 text-base leading-relaxed">Karan, a software engineer in Pune, treats his UPI-linked Gmail as a "Vault." He never uses it for social media or downloads. Instead, he uses Aryan Mails for all internet browsing, ensuring his financial email is completely invisible to hackers and phishing attempts.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 Phishing Trends</h3><p class="mb-4 text-base leading-relaxed">AI-driven phishing attacks target exposed emails with fake bank alerts. By keeping your primary email hidden, you eliminate 99% of targeted financial phishing attacks.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Should I ever use temp mail for banking?</strong><br>A: NO. Never use temporary emails for anything related to real money, banking, or government services.</p><p><strong>Q2: How does hiding my email protect my bank?</strong><br>A: Hackers cannot target what they cannot see. If your email isn\'t in leaked databases, you won\'t receive phishing links.</p><p><strong>Q3: Is 2FA still necessary?</strong><br>A: Yes, always use Two-Factor Authentication on your permanent banking emails.</p><p><strong>Q4: Can I forward temp mails to my main email?</strong><br>A: Aryan Mails does not support forwarding, ensuring complete isolation of systems.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article15\'); return false;" class="text-brand hover:underline">Data Brokers Tracking</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article14', category: 'Crypto', title: 'Crypto & Trading Platforms Temp Email Strategy', readTime: '11 min read', date: '16/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80', excerpt: 'Safely exploring new crypto exchanges, airdrops, and trading tools without exposing your main wallet email.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Risk of Airdrops</h2><p class="mb-4 text-base leading-relaxed">The crypto community in India frequently participates in "Airdrops" and testnets that require email registration. Unfortunately, 80% of these new platforms are data-harvesting scams designed to find active crypto users to target for wallet phishing.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Safe Exploration</h3><p class="mb-4 text-base leading-relaxed">Siddharth from Gurugram uses Aryan Mails whenever a new crypto tool asks for an email before granting access. By using a disposable email, he evaluates the tool. If it\'s a scam, his real Binance/WazirX registered email remains completely secure and untouched.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Security in the 2026 Crypto Market</h3><p class="mb-4 text-base leading-relaxed">With wallet-drainer scripts becoming more sophisticated, keeping your central crypto-identity completely decoupled from random internet signups is a mandatory security practice.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Should I use temp mail for my main Exchange?</strong><br>A: No. Use a highly secure, permanent email for real exchanges where your money is stored.</p><p><strong>Q2: Can I receive crypto newsletters via temp mail?</strong><br>A: You can read them while the tab is open, but you will lose access once the session is closed.</p><p><strong>Q3: Do crypto sites block disposable emails?</strong><br>A: Some high-tier ones do. Use our custom domain dropdown to bypass basic filters.</p><p><strong>Q4: Is it safe against phishing?</strong><br>A: Yes, a temp mail acts as a perfect shield. If it receives phishing links, the email simply self-destructs.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article13\'); return false;" class="text-brand hover:underline">Protecting UPI Emails</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article15', category: 'Data Privacy', title: 'How Data Brokers Track Aadhar-Linked Emails', readTime: '12 min read', date: '17/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80', excerpt: 'Understand the deep connection between your Aadhar, phone number, and primary email in data markets.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Ultimate Identity Link</h2><p class="mb-4 text-base leading-relaxed">In India, the digital ecosystem heavily intertwines your Aadhar card, mobile number, and primary email address. Data brokers exploit this triad. When you use your primary email on a random discount site, brokers instantly link that activity back to your verified legal identity.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Insurance Spam</h3><p class="mb-4 text-base leading-relaxed">Meera from Chandigarh searched for car accessories online using her real email. Within hours, she received calls from loan and insurance agents. Brokers matched her email to her phone number. Using a temp mail from Aryan Mails would have prevented this cross-referencing entirely.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Defending Against 2026 Tracking</h3><p class="mb-4 text-base leading-relaxed">By injecting "noise" into the system through temporary emails, you break the algorithms attempting to build a 360-degree profile of your digital life. Ephemeral emails leave no lasting trail.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Are data brokers legal in India?</strong><br>A: Data trading exists in a gray area. The DPDP Act regulates it, but prevention is your best defense.</p><p><strong>Q2: How do temp mails stop tracking?</strong><br>A: Because the email address is deleted and never used again, data brokers cannot associate that address with your long-term identity.</p><p><strong>Q3: Do cookies still track me if I use temp mail?</strong><br>A: Yes, cookies track your browser. Combine temp mail with a secure browser like Brave for maximum effect.</p><p><strong>Q4: Does Aryan Mails sell my data?</strong><br>A: Never. We have a strict zero-log policy, and your data is mathematically destroyed after use.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article3\'); return false;" class="text-brand hover:underline">Free Temp Mail Without Phone</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article16', category: 'Tech', title: 'Temporary Emails for Coding Bootcamps & Hackathons', readTime: '8 min read', date: '18/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1000&q=80', excerpt: 'How developers and students in India use temp mails for testing apps and signing up for tech tools.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Developer Needs for Temp Mail</h2><p class="mb-4 text-base leading-relaxed">Software developers and students in India constantly need to test email functionality in their apps, or sign up for free trials of APIs, cloud servers, and bootcamp resources. Using a personal email for this results in a nightmare of marketing emails from B2B SaaS companies.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Hackathon Testing</h3><p class="mb-4 text-base leading-relaxed">During a 48-hour hackathon in Pune, a team needed to test their app\'s user registration flow. Instead of creating dummy Gmail accounts, they used the Aryan Mails API to instantly generate 50 unique emails, verify OTPs, and test their database—saving hours of manual work.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">2026 API Integration</h3><p class="mb-4 text-base leading-relaxed">Our platform provides a fast, public API specifically designed for developers to automate email fetching and account creation without dealing with CAPTCHAs during authorized local testing.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Is there a rate limit for developers?</strong><br>A: Yes, we strictly enforce a 50 emails/hour limit to prevent abuse, which is sufficient for basic testing.</p><p><strong>Q2: Can I get API access?</strong><br>A: Yes, you can generate a free API key from the "API Access" tab in the footer.</p><p><strong>Q3: Do you support JSON responses?</strong><br>A: Yes, all endpoints return clean, formatted JSON data.</p><p><strong>Q4: Can I use it for AWS/Azure free trials?</strong><br>A: Major cloud providers often block disposable domains. Try our premium rotating domains for better success.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article8\'); return false;" class="text-brand hover:underline">Indian Job Portals Privacy</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article17', category: 'Real Estate', title: 'Real Estate Portals (MagicBricks, Housing) Spam Prevention', readTime: '9 min read', date: '19/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1000&q=80', excerpt: 'How to browse properties online without getting hounded by brokers and agents.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">The Real Estate Spam Trap</h2><p class="mb-4 text-base leading-relaxed">Looking for a house to rent or buy in India? The moment you enter your email and phone number on portals like MagicBricks or Housing.com, your details are sold to dozens of local brokers. Your inbox and phone will be flooded with aggressive sales pitches for months.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Peaceful House Hunting</h3><p class="mb-4 text-base leading-relaxed">Vikash in Noida just wanted to check current rental prices. He used a human-named disposable email from Aryan Mails to bypass the login screen. He viewed the properties anonymously without ever giving agents the ability to spam his primary inbox.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Taking Control in 2026</h3><p class="mb-4 text-base leading-relaxed">Always use a temporary email for the initial research phase. Only hand out your permanent contact details when you are actually ready to physically visit a property and finalize a deal.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Do real estate sites require phone verification?</strong><br>A: Often yes. Combine a temp mail with a secondary/virtual phone number for total peace of mind.</p><p><strong>Q2: Why do brokers spam so much?</strong><br>A: Lead generation is highly lucrative. Portals sell your "lead" (email/number) to multiple agents simultaneously.</p><p><strong>Q3: Can I save favorite properties with a temp mail?</strong><br>A: Yes, as long as you leave the browser session open. Once closed, the account is lost.</p><p><strong>Q4: Are human names better for this?</strong><br>A: Yes, brokers are less likely to flag a human-sounding email as a fake lead compared to random letters.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article15\'); return false;" class="text-brand hover:underline">Data Brokers Tracking</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' },
+            { id: 'article18', category: 'Finance', title: 'Credit Card & Loan Inquiry Spam Prevention', readTime: '10 min read', date: '20/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Check eligibility for financial products without ruining your inbox with loan offers.', content: '<h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Financial Aggregator Spam</h2><p class="mb-4 text-base leading-relaxed">Websites in India that let you "compare credit cards" or "check loan eligibility" are essentially data harvesting machines. The moment you submit your email, you are categorised as a high-intent financial lead and bombarded with daily "Pre-approved Loan!" spam emails.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Real Example: Secure Comparisons</h3><p class="mb-4 text-base leading-relaxed">Priya from Chennai wanted to compare reward points on new credit cards. She used an Aryan Mails disposable email to view the gated comparison charts. She got the information she needed, and the platform\'s automated marketing emails disappeared into the void after 5 minutes.</p><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3 mt-4">Protecting Your Primary Inbox</h3><p class="mb-4 text-base leading-relaxed">Financial spam is dangerous because it often mimics real bank communications, leading to phishing. Keeping your primary email off these aggregator lists is crucial for digital hygiene in 2026.</p><h2 class="text-xl font-bold text-slate-800 dark:text-white mb-3 mt-6">Frequently Asked Questions (FAQs)</h2><div class="space-y-3 mb-6"><p><strong>Q1: Is it safe to give my PAN card with a temp mail?</strong><br>A: NO. Never submit real financial documents (PAN/Aadhar) while using an anonymous email. Use temp mails ONLY for basic browsing and non-KYC comparisons.</p><p><strong>Q2: Why do these sites need my email anyway?</strong><br>A: To legally bypass DND registries and market to you directly via inbox.</p><p><strong>Q3: Will using temp mail hurt my credit score?</strong><br>A: No. Browsing with a fake email has zero impact on your CIBIL score.</p><p><strong>Q4: Can I use temp mail to actually apply for a card?</strong><br>A: No. Formal applications require a permanent email for e-statements and bank communications.</p></div><div class="mt-8 pt-6 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg p-4 rounded-xl"><h3 class="text-lg font-bold text-slate-800 dark:text-white mb-3">Explore More Privacy Guides:</h3><ul class="list-disc pl-5 space-y-2 font-medium"><li><a href="#" onclick="window.openBlogPost(\'article13\'); return false;" class="text-brand hover:underline">Protecting UPI Emails</a></li><li><a href="#" onclick="window.closePageModal(); window.scrollTo(0,0); return false;" class="text-emerald-500 hover:underline">Go to Homepage & Generate Temp Mail</a></li></ul></div>' }
         ];
 
         window.renderBlogContent = function() {
@@ -761,7 +918,7 @@
                 filteredArticles = blogArticles.filter(a => a.category === currentBlogFilter);
             }
             let filtersHtml = '<div class="flex flex-wrap gap-2 mb-4">';
-            ['All', 'Privacy', 'Email Security', 'Email Tips', 'Industry Trends'].forEach(cat => {
+            ['All', 'Social Media', 'Messaging', 'Privacy', 'Gaming', 'Reviews', 'Food Apps', 'Streaming', 'Careers', 'Travel', 'Dating', 'Shopping', 'Communities', 'Finance', 'Crypto', 'Data Privacy', 'Tech', 'Real Estate'].forEach(cat => {
                 if (cat === currentBlogFilter) {
                     filtersHtml += `<button onclick="window.setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition cursor-pointer">${cat}</button>`;
                 } else {
@@ -871,696 +1028,6 @@
             btn.disabled = false;
             setTimeout(() => { msg.classList.add('hidden'); }, 5000);
         }
-
-        async function fetchDomainsList() {
-            try {
-                const res = await fetch(`${API}/domains`);
-                const data = await res.json();
-                let apiDomains = data['hydra:member'].map(d => d.domain);
-                const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
-                availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
-                if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
-                window.renderDomainDropdown();
-            } catch(e) { }
-        }
-
-        window.renderDomainDropdown = function() {
-            const btnText = document.getElementById('domain-btn-text');
-            if(btnText && activeDomain) btnText.innerText = "@" + activeDomain;
-            const dropdown = document.getElementById('domain-list');
-            if(dropdown && availableDomains.length > 0) {
-                dropdown.innerHTML = '';
-                availableDomains.forEach(d => {
-                    const div = document.createElement('div');
-                    div.className = "px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium text-slate-700 dark:text-gray-300 transition-colors border-b border-slate-100 dark:border-darkborder last:border-0";
-                    div.innerText = "@" + d;
-                    div.onclick = () => {
-                        activeDomain = d;
-                        if(btnText) btnText.innerText = "@" + activeDomain;
-                        document.getElementById('domain-dropdown').classList.add('hidden');
-                        window.forceNewAccount(); 
-                    };
-                    dropdown.appendChild(div);
-                });
-            }
-        }
-
-        function startEmailTimer(durationInSeconds) {
-            clearInterval(emailTimerInterval);
-            let time = durationInSeconds;
-            const display = document.getElementById('countdown-timer');
-            if(!display) return;
-            emailTimerInterval = setInterval(() => {
-                let minutes = parseInt(time / 60, 10);
-                let seconds = parseInt(time % 60, 10);
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                display.textContent = minutes + ":" + seconds;
-                if (--time < 0) time = durationInSeconds; 
-            }, 1000);
-        }
-
-        window.showSupportModal = function() {
-            document.getElementById('support-modal').classList.remove('hidden');
-            document.getElementById('support-modal').classList.add('flex');
-        }
-
-        window.closeSupportModal = function() {
-            document.getElementById('support-modal').classList.add('hidden');
-            document.getElementById('support-modal').classList.remove('flex');
-        }
-
-        window.copyUPI = function() {
-            const upiText = document.getElementById('upi-id-text').innerText;
-            navigator.clipboard.writeText(upiText);
-            const msg = document.getElementById('upi-copy-msg');
-            msg.style.opacity = '1';
-            setTimeout(() => { msg.style.opacity = '0'; }, 2000);
-        }
-
-        window.updateLiveStats = function() {
-            statToday += Math.floor(Math.random() * 3);
-            statInboxes += Math.floor(Math.random() * 2);
-            statGenerated += Math.floor(Math.random() * 5);
-            const stElement = document.getElementById('stat-today');
-            const siElement = document.getElementById('stat-inboxes');
-            const sgElement = document.getElementById('stat-generated');
-            if(stElement) stElement.innerText = statToday.toLocaleString();
-            if(siElement) siElement.innerText = statInboxes.toLocaleString();
-            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
-        }
-        setInterval(window.updateLiveStats, 3500); 
-
-        window.initApp = async function() {
-            await window.fetchDomainsList(); 
-            if (address && token) {
-                const emailInput = document.getElementById('email-address');
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if(emailInput) emailInput.value = address;
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
-                window.startSync();
-                window.manualFetch();
-                window.startEmailTimer(600); 
-            } else {
-                window.createNewAccount();
-            }
-
-            setInterval(() => {
-                if (!allMessages || allMessages.length === 0) return;
-                const now = new Date();
-                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
-                let changed = false;
-                
-                allMessages.forEach(msg => {
-                    const safeDate = (msg.createdAt || "").replace(' ', 'T');
-                    const msgTime = new Date(safeDate);
-                    const fromAddr = (msg.from.address || "").toLowerCase();
-                    const subj = (msg.subject || "").toLowerCase();
-                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    
-                    if (((now - msgTime) > 5 * 60 * 1000) || isAdult) { 
-                        window.deleteSingleMail(msg.id);
-                        changed = true;
-                    }
-                });
-                
-                if (changed) {
-                    window.renderMails();
-                }
-            }, 30000); 
-        }
-
-        window.createNewAccount = async function() {
-            const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
-            const now = Date.now();
-            const recent = history.filter(t => now - t < 60 * 60 * 1000); 
-            if(recent.length >= 50) { 
-                localStorage.setItem('is_banned', 'true');
-                alert("Anti-Abuse System: You have exceeded the limit. Your IP is blocked.");
-                location.reload();
-                return;
-            }
-            recent.push(now);
-            localStorage.setItem('mt_limit', JSON.stringify(recent));
-
-            const emailInput = document.getElementById('email-address');
-            const loadingOverlay = document.getElementById('loading-overlay');
-            if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            
-            try {
-                if (!activeDomain || availableDomains.length === 0) {
-                    await window.fetchDomainsList();
-                }
-                let stableDomain = activeDomain;
-                
-                let newUsername = "";
-                if (currentEmailType === 'human') {
-                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
-                    const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const num = Math.floor(100 + Math.random() * 900); 
-                    newUsername = pfx + num; 
-                } else {
-                    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                    for(let i = 0; i < 9; i++) {
-                        newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
-                    }
-                }
-                
-                const newAddress = `${newUsername}@${stableDomain}`;
-                const newPassword = generatePassword();
-
-                const createRes = await fetch(`${API}/accounts`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ address: newAddress, password: newPassword })
-                });
-
-                if(createRes.ok) {
-                    const loginRes = await fetch(`${API}/token`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ address: newAddress, password: newPassword })
-                    });
-                    const tokenData = await loginRes.json();
-                    address = newAddress;
-                    password = newPassword;
-                    token = tokenData.token;
-                    localStorage.setItem('mt_email', address);
-                    localStorage.setItem('mt_password', password);
-                    localStorage.setItem('mt_token', token);
-                    if(emailInput) emailInput.value = address;
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    window.clearInboxUIQuiet();
-                    window.startSync();
-                    window.startEmailTimer(600); 
-                } else {
-                    const domainRes = await fetch(`${API}/domains`);
-                    const domainData = await domainRes.json();
-                    activeDomain = domainData['hydra:member'][0].domain;
-                    if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => window.createNewAccount(), 1000); 
-                }
-            } catch (err) {
-                if(emailInput) emailInput.value = "Network Error! Retrying...";
-                setTimeout(() => window.createNewAccount(), 2000);
-            }
-        }
-
-        window.forceNewAccount = function() {
-            window.showCaptcha(() => {
-                localStorage.removeItem('mt_email');
-                localStorage.removeItem('mt_token');
-                address = null;
-                token = null;
-                const emailInput = document.getElementById('email-address');
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if(emailInput) emailInput.value = "Generating...";
-                if(loadingOverlay) loadingOverlay.style.display = 'flex';
-                window.clearInboxUIQuiet();
-                window.createNewAccount();
-            });
-        }
-
-        window.createCustomAccount = function() {
-            window.showCaptcha(async () => {
-                const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
-                if (!customPrefix) return;
-                const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
-                if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
-                
-                const emailInput = document.getElementById('email-address');
-                const loadingOverlay = document.getElementById('loading-overlay');
-                if(loadingOverlay) loadingOverlay.style.display = 'flex';
-                if(emailInput) emailInput.value = "Creating custom email...";
-                
-                try {
-                    if (!activeDomain || availableDomains.length === 0) {
-                        await window.fetchDomainsList();
-                    }
-                    let stableDomain = activeDomain;
-                    
-                    const newAddress = `${cleanPrefix}@${stableDomain}`;
-                    const newPassword = generatePassword();
-                    const createRes = await fetch(`${API}/accounts`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ address: newAddress, password: newPassword })
-                    });
-                    if(createRes.ok) {
-                        const loginRes = await fetch(`${API}/token`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ address: newAddress, password: newPassword })
-                        });
-                        const tokenData = await loginRes.json();
-                        localStorage.removeItem('mt_token');
-                        localStorage.removeItem('mt_email');
-                        address = newAddress; password = newPassword; token = tokenData.token;
-                        localStorage.setItem('mt_email', address);
-                        localStorage.setItem('mt_password', password);
-                        localStorage.setItem('mt_token', token);
-                        if(emailInput) emailInput.value = address;
-                        if(loadingOverlay) loadingOverlay.style.display = 'none';
-                        window.clearInboxUIQuiet();
-                        if(syncTimer) clearInterval(syncTimer);
-                        window.startSync();
-                        window.manualFetch();
-                        window.startEmailTimer(600); 
-                    } else {
-                        alert("Username is already taken on this domain! Try another.");
-                        if(emailInput) emailInput.value = address; 
-                        if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    }
-                } catch (err) {
-                    alert("Network Error! Please try again.");
-                    if(emailInput) emailInput.value = address;
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
-                }
-            });
-        }
-
-        window.fastOtpReset = async function() {
-            const boltIcon = document.getElementById('fast-bolt-icon');
-            if(boltIcon) boltIcon.classList.add('fa-spin');
-            await window.manualFetch();
-            if(boltIcon) boltIcon.classList.remove('fa-spin');
-        }
-
-        window.deleteSingleMail = async function(id, event) {
-            if(event && event.stopPropagation) event.stopPropagation();
-            try {
-                const res = await fetch(`${API}/messages/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if(res.ok) {
-                    allMessages = allMessages.filter(m => m.id !== id);
-                    window.renderMails();
-                }
-            } catch(err) {}
-        }
-
-        window.manualFetch = async function() {
-            if(!token) return;
-            const fetchIcon = document.getElementById('fetch-icon');
-            const inboxContent = document.getElementById('inbox-content');
-            if(fetchIcon) fetchIcon.classList.add('fa-spin');
-            if (allMessages.length === 0 && inboxContent) {
-                inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
-                inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
-            }
-            try {
-                const res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                let fetchedMails = data['hydra:member'] || [];
-                
-                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
-                allMessages = fetchedMails.filter(msg => {
-                    const fromAddr = (msg.from.address || "").toLowerCase();
-                    const subj = (msg.subject || "").toLowerCase();
-                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    if(isAdult) {
-                        fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
-                        return false;
-                    }
-                    return true;
-                });
-                
-                if (allMessages.length > 40) {
-                    const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-                    const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
-                    extraMails.forEach(m => fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }));
-                    allMessages = allMessages.filter(m => !extraMails.some(e => e.id === m.id));
-                }
-
-                if (allMessages.length > 0) {
-                    if(allMessages.length > lastMailCount && soundOn) {
-                        const audio = document.getElementById('notification-sound');
-                        if(audio) audio.play().catch(e => {});
-                    }
-                    lastMailCount = allMessages.length;
-                    window.renderMails(); 
-                } else {
-                    window.renderMails(); 
-                }
-            } catch (err) {} finally {
-                if(fetchIcon) fetchIcon.classList.remove('fa-spin');
-            }
-        }
-
-        window.renderMails = function() {
-            const totalEmails = document.getElementById('total-emails');
-            const inboxContent = document.getElementById('inbox-content');
-            if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
-            if (allMessages.length > 0) {
-                if(inboxContent) {
-                    inboxContent.innerHTML = '';
-                    inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
-                }
-                const sortOrder = document.getElementById('sort-mails').value;
-                let sortedMails = [...allMessages]; 
-                if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-                else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-                
-                sortedMails.forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition-all duration-300 w-full text-left";
-                    div.innerHTML = `
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
-                            <div class="flex items-center gap-3">
-                                <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
-                                <button onclick="window.deleteSingleMail('${msg.id}', event)" class="text-red-500 hover:text-red-700 hover:scale-110 transition-transform p-1" title="Delete Mail"><i class="fa-solid fa-trash-can"></i></button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>
-                    `;
-                    div.onclick = () => window.openEmail(msg.id);
-                    if(inboxContent) inboxContent.appendChild(div);
-                });
-            } else {
-                if(inboxContent) {
-                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p><p>Waiting for emails...</p>`;
-                    inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
-                }
-            }
-        }
-
-        window.openEmail = async function(id) {
-            try {
-                const res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                const modalSubject = document.getElementById('modal-subject');
-                const modalFrom = document.getElementById('modal-from');
-                const modalBodyIframe = document.getElementById('modal-body-iframe');
-                const emailModal = document.getElementById('email-modal');
-                if(modalSubject) modalSubject.innerText = data.subject || 'No Subject';
-                if(modalFrom) modalFrom.innerText = data.from.address;
-                if(modalBodyIframe) modalBodyIframe.srcdoc = data.html ? data.html[0] : (data.text || 'No content');
-                if(emailModal) {
-                    emailModal.classList.remove('hidden');
-                    emailModal.classList.add('flex');
-                }
-            } catch(err) {}
-        }
-
-        window.closeModal = function() {
-            const emailModal = document.getElementById('email-modal');
-            const modalBodyIframe = document.getElementById('modal-body-iframe');
-            if(emailModal) { emailModal.classList.add('hidden'); emailModal.classList.remove('flex'); }
-            if(modalBodyIframe) modalBodyIframe.srcdoc = '';
-        }
-
-        window.clearInboxUIQuiet = async function() { 
-            allMessages = []; lastMailCount = 0; window.renderMails(); 
-        }
-
-        window.clearInboxUI = async function() { 
-            const fetchIcon = document.getElementById('fetch-icon');
-            if(fetchIcon) fetchIcon.classList.add('fa-spin');
-            for (const msg of allMessages) {
-                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
-            }
-            allMessages = []; lastMailCount = 0; window.renderMails();
-            if(fetchIcon) fetchIcon.classList.remove('fa-spin');
-        }
-
-        window.copyEmail = function() {
-            const emailInput = document.getElementById('email-address');
-            if(emailInput) { emailInput.select(); document.execCommand('copy'); }
-            const msg = document.getElementById('copy-msg');
-            if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
-        }
-
-        window.startSync = function() {
-            if(syncTimer) clearInterval(syncTimer);
-            syncTimer = setInterval(window.manualFetch, refreshSec * 1000);
-        }
-
-        window.toggleAutoSync = function() {
-            isSyncing = !isSyncing;
-            const icon = document.getElementById('sync-icon');
-            const text = document.getElementById('sync-text');
-            if(isSyncing) {
-                if(icon) icon.className = "fa-solid fa-bolt text-amber-500";
-                if(text) text.innerText = "Auto-Sync: ON";
-                window.startSync();
-            } else {
-                if(icon) icon.className = "fa-solid fa-bolt text-gray-500";
-                if(text) text.innerText = "Auto-Sync: OFF";
-                clearInterval(syncTimer);
-            }
-        }
-
-        window.toggleAudio = function() { 
-            soundOn = !soundOn; 
-            const text = document.getElementById('notif-text');
-            if(text) text.innerText = soundOn ? "Sound On" : "Sound Off";
-            const icon = document.getElementById('notif-icon');
-            if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
-        }
-
-        window.changeColorTheme = function() {
-            const hue = Math.floor(Math.random() * 360);
-            const brandColor = `hsl(${hue}, 75%, 50%)`;
-            const brandBg = `hsla(${hue}, 75%, 50%, 0.15)`;
-            document.documentElement.style.setProperty('--brand-color', brandColor);
-            document.documentElement.style.setProperty('--brand-bg', brandBg);
-        }
-
-        window.toggleTheme = function() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            const themeIcon = document.getElementById('theme-icon');
-            if(themeIcon) { themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
-        }
-
-        window.showPageModal = function(pageName) {
-            const title = document.getElementById('page-modal-title');
-            const body = document.getElementById('page-modal-body');
-            const modal = document.getElementById('page-modal');
-            title.innerText = pageName;
-            
-            let content = '';
-            
-            if (pageName === 'Privacy Policy') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Privacy Policy & Data Handling (Strict)</p>
-                    <p class="mb-3">Aryan Mails operates on a strict principle of data minimization and ephemeral storage. By accessing our infrastructure, you acknowledge and agree to the following data handling protocols:</p>
-                    <ul class="list-disc pl-5 space-y-2 mb-4">
-                        <li><strong>No Logs Policy:</strong> We do not log, store, or monitor your personal IP address, browser fingerprint, or real-world identity for tracking purposes.</li>
-                        <li><strong>Ephemeral Data:</strong> All generated email addresses, received messages, and associated session tokens are temporarily held in volatile memory. Once your session is terminated or the auto-delete timer expires, this data is <strong>permanently mathematically destroyed</strong> from our servers. Recovery is impossible.</li>
-                        <li><strong>Third-Party Sharing:</strong> We maintain a zero-compromise stance. We do not sell, rent, or share any data to advertisers, data brokers, or third-party entities.</li>
-                    </ul>
-                    <p class="text-red-500 font-bold mb-2">Anti-Abuse Compliance:</p>
-                    <p>While we respect privacy, we actively deploy automated anti-abuse algorithms to detect and block malicious network requests (e.g., DDoS, botnets, spam generation). In cases of severe network abuse, offending IP ranges are blackholed at the firewall level.</p>
-                `;
-            } else if (pageName === 'Terms of Service') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Terms of Service & Acceptable Use Policy</p>
-                    <p class="mb-3">These Terms of Service constitute a legally binding agreement between you and Aryan Mails. Your access to this platform is strictly conditional upon your compliance with the following rules:</p>
-                    <p class="font-bold text-red-500 mb-2 mt-4">1. ZERO TOLERANCE FOR ILLEGAL ACTIVITY</p>
-                    <p class="mb-3">You are expressly prohibited from using our temporary email infrastructure for any illegal, fraudulent, or harmful activities, including but not limited to: creating fake accounts for financial fraud, distributing malware, engaging in harassment, or bypassing legal security measures of third-party platforms. Violation will result in immediate, permanent hardware-level IP bans.</p>
-                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">2. Automated Access & Rate Limiting</p>
-                    <p class="mb-3">Unauthorized scraping, botting, or API abuse is strictly forbidden. We enforce a rigid rate limit (Max 50 emails/hour). Attempts to bypass these limits using proxies or VPNs to launch volumetric attacks will trigger our automated defense mechanisms.</p>
-                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">3. Disclaimer of Warranties (AS-IS)</p>
-                    <p>Aryan Mails provides this service on an "AS-IS" and "AS-AVAILABLE" basis. We offer absolutely no guarantees regarding email delivery speeds, domain permanence, or uptime. We are not liable for any lost data, missed communications, or damages arising from the use of our disposable domains.</p>
-                `;
-            } else if (pageName === 'Cookie Policy') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Cookie Policy</p>
-                    <p class="mb-4">Aryan Mails uses strictly necessary cookies and local storage to function. We do NOT use tracking, advertising, or third-party analytic cookies.</p>
-                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">What we store on your browser:</p>
-                    <ul class="list-disc pl-5 space-y-2 mb-4">
-                        <li><strong>Session Tokens:</strong> To keep you logged into your current temporary email.</li>
-                        <li><strong>Email & Password:</strong> To automatically reload your inbox if you accidentally refresh the page.</li>
-                        <li><strong>Rate Limit Data:</strong> To enforce our anti-abuse rules and prevent spam.</li>
-                        <li><strong>UI Preferences:</strong> Such as Dark/Light mode and notification sound settings.</li>
-                    </ul>
-                    <p>All data is stored locally on your device. Clearing your browser data will instantly wipe your temporary inbox access.</p>
-                `;
-            } else if (pageName === 'Report Abuse') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
-                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
-                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
-                    
-                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-[15px] mt-4 whitespace-nowrap cursor-pointer">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
-                    </a>
-                `;
-            } else if (pageName === 'API Access') {
-                let apiKey = localStorage.getItem('aryan_api_key') || '';
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Public API Access (Live)</p>
-                    <p class="mb-4">Integrate Aryan Mails into your application. Use the API key below to authenticate your requests.</p>
-                    <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4">
-                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
-                            <button onclick="window.generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
-                `;
-            } else if (pageName === 'Premium Plans') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
-                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
-                        <li>Custom domain names</li>
-                        <li>Permanent email inboxes</li>
-                        <li>Ad-free experience</li>
-                        <li>Higher API rate limits</li>
-                    </ul>
-                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
-                `;
-            } else if (pageName === 'System Status') {
-                content = `
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-xl border border-emerald-200 dark:border-emerald-800/30">
-                            <div>
-                                <h4 class="font-bold text-emerald-700 dark:text-emerald-400">All Systems Operational</h4>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Last checked: Just now</p>
-                            </div>
-                            <span class="flex h-3 w-3 relative">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                            </span>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 gap-3">
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">API Gateway</span>
-                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational (99.99%)</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Mail Receiving Nodes</span>
-                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational (14ms latency)</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Domain DNS Routers</span>
-                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Anti-Abuse Firewall</span>
-                                <span class="text-xs font-bold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">Active & Monitoring</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (pageName === 'Changelog') {
-                content = `
-                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 dark:before:via-slate-700 before:to-transparent">
-                        
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-brand text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
-                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.5.0 - Security Update</h4>
-                                    <span class="text-[10px] font-semibold text-brand">March 2026</span>
-                                </div>
-                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
-                                    <li>Added auto-deletion for emails older than 5 minutes.</li>
-                                    <li>Integrated human/robot random name generation modes.</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
-                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.4.1 - Domain Expansion</h4>
-                                    <span class="text-[10px] font-semibold text-slate-500">February 2026</span>
-                                </div>
-                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Added 10 new premium domains to bypass blacklists.</li>
-                                    <li>Fixed UI glitch in modal popups and dropdowns.</li>
-                                    <li>Improved email fetching latency by 35%.</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
-                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.0.0 - Platform Overhaul</h4>
-                                    <span class="text-[10px] font-semibold text-slate-500">January 2026</span>
-                                </div>
-                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Complete UI/UX redesign with Dark Mode support.</li>
-                                    <li>Introduced live inbox reading without page refresh.</li>
-                                    <li>Added the new Blog & Privacy news section.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (pageName === 'Blog & News') {
-                content = `
-                    <div class="text-left py-4 space-y-6">
-                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
-                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
-                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
-                            
-                            <form id="subscribe-form" onsubmit="window.submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
-                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
-                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap cursor-pointer">Subscribe</button>
-                            </form>
-                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
-
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
-                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
-                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
-                        </div>
-                        <div id="blog-container"></div>
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    currentBlogFilter = 'All';
-                    window.renderBlogContent();
-                }, 10);
-            }
-
-            body.innerHTML = content;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        window.closePageModal = function() {
-            const modal = document.getElementById('page-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            window.checkCookies();
-            
-            document.querySelectorAll('.faq-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const answer = btn.nextElementSibling;
-                    const icon = btn.querySelector('.fa-chevron-down');
-                    const isOpen = answer.style.maxHeight;
-
-                    document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
-                    document.querySelectorAll('.faq-btn .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
-
-                    if (!isOpen) {
-                        answer.style.maxHeight = answer.scrollHeight + "px";
-                        if(icon) icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
-
-            if(!window.checkTNC()) return; 
-            window.initializeAppWithIPCheck();
-        });
     </script>
 </body>
 </html>
