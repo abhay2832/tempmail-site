@@ -84,7 +84,7 @@
                 <p class="font-bold text-base">To enter Aryan Mails, you MUST agree to our strict Terms of Service:</p>
                 <ul class="list-disc pl-5 space-y-2 font-medium">
                     <li><strong class="text-red-500">Zero Tolerance:</strong> You will NOT use our temporary emails for any illegal, fraudulent, or malicious activities.</li>
-                    <li><strong class="text-red-500">Sole Responsibility:</strong> You assume full legal and personal responsibility for all actions conducted using emails generated on this platform. Misuse of this service is completely prohibited.</li>
+                    <li><strong class="text-red-500">Sole Responsibility:</strong> The user assumes complete and sole legal responsibility for any actions taken using emails generated on this platform. Misuse of this service is strictly prohibited.</li>
                     <li><strong class="text-red-500">No Owner Liability:</strong> The website owner and administrators hold absolutely NO responsibility or liability for user actions, data loss, or third-party breaches.</li>
                     <li><strong class="text-red-500">Content Filtering:</strong> Adult websites (e.g., PornHub, xvideos) and illicit platforms are strictly filtered and explicitly blocked on our servers.</li>
                 </ul>
@@ -154,7 +154,7 @@
     <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors duration-500">
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
-            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
+            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Premium Secure Email</p>
             
             <div class="relative max-w-2xl mx-auto mb-4">
                 <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Generating...">
@@ -298,7 +298,7 @@
                         <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
                         <div>
                             <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">10+</div>
-                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Premium Domains</div>
                         </div>
                     </div>
                 </div>
@@ -621,6 +621,12 @@
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
+        
+        function generatePassword() {
+            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
+        }
+        let password = localStorage.getItem('mt_password') || generatePassword();
+        
         let syncTimer = null;
         let refreshSec = 5; 
         let lastMailCount = 0; 
@@ -636,16 +642,6 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-
-        function generatePassword() {
-            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
-        }
-        let password = localStorage.getItem('mt_password') || generatePassword();
-
-        const emailInput = document.getElementById('email-address');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const inboxContent = document.getElementById('inbox-content');
-        const totalEmails = document.getElementById('total-emails');
 
         window.checkCookies = function() {
             if (!localStorage.getItem('cookie_accepted')) {
@@ -918,11 +914,8 @@
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
                 let apiDomains = data['hydra:member'].map(d => d.domain);
-                
                 const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
-                
                 availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
-                
                 if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
                 window.renderDomainDropdown();
             } catch(e) { }
