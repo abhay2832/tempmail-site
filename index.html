@@ -3,75 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Temp Mail - Free Disposable Temporary Email Generator</title>
 <meta name="title" content="Temp Mail - Free Disposable Temporary Email Generator">
 <meta name="description" content="Protect your personal email from spam, bots, and phishing. Use our free, fast, and secure disposable temporary email generator. No registration required.">
 <meta name="keywords" content="temp mail, temporary email, disposable email, fake email generator, 10 minute mail, free temp mail, trash mail">
 <meta name="author" content="Abhay">
-
 <meta name="google-site-verification" content="w8bZ1rUYA9pefoRFydWksZPuIQFHHyhQAVg2ERpsuKY" />
-
 <link rel="canonical" href="https://abhay2832.github.io/tempmail-site/">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://abhay2832.github.io/tempmail-site/">
-<meta property="og:title" content="Temp Mail - Free Disposable Temporary Email">
-<meta property="og:description" content="Keep your real inbox clean. Generate a free temporary email address instantly to avoid spam and unwanted newsletters.">
-
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://abhay2832.github.io/tempmail-site/">
-<meta property="twitter:title" content="Temp Mail - Secure & Free Fake Email">
-<meta property="twitter:description" content="Protect your privacy with our instant disposable email service. Fast, free, and secure.">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { 
-            darkMode: 'class', 
-            theme: { 
-                extend: {
-                    colors: {
-                        darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
-                        brand: 'var(--brand-color)', 
-                        brandbg: 'var(--brand-bg)',
-                    },
-                    fontFamily: { sans: ['Inter', 'sans-serif'], }
-                } 
-            } 
-        }
-    </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        
-        :root {
-            --brand-color: #06b6d4; 
-            --brand-bg: rgba(6, 182, 212, 0.1);
-        }
-
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; }
-        
-        @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
-        .color-shift { animation: hue-shift 8s infinite linear; }
-        
-        .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
-        .spin-slow { animation: spin 2s linear infinite; }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
-        .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
-
-        .stat-update { animation: highlight-stat 1s ease-out; }
-        @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
-        
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
-    </style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', brand: 'var(--brand-color)', brandbg: 'var(--brand-bg)' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    :root { --brand-color: #06b6d4; --brand-bg: rgba(6, 182, 212, 0.1); }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; }
+    @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
+    .color-shift { animation: hue-shift 8s infinite linear; }
+    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
+    .spin-slow { animation: spin 2s linear infinite; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
+    .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    .stat-update { animation: highlight-stat 1s ease-out; }
+    @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+</style>
 </head>
 <body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16 transition-all duration-500 ease-in-out">
 
@@ -154,7 +118,7 @@
     <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors duration-500">
             <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
-            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Premium Secure Email</p>
+            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
             
             <div class="relative max-w-2xl mx-auto mb-4">
                 <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Generating...">
@@ -621,12 +585,6 @@
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
-        
-        function generatePassword() {
-            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
-        }
-        let password = localStorage.getItem('mt_password') || generatePassword();
-        
         let syncTimer = null;
         let refreshSec = 5; 
         let lastMailCount = 0; 
@@ -642,6 +600,11 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
+
+        function generatePassword() {
+            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
+        }
+        let password = localStorage.getItem('mt_password') || generatePassword();
 
         window.checkCookies = function() {
             if (!localStorage.getItem('cookie_accepted')) {
@@ -909,7 +872,7 @@
             setTimeout(() => { msg.classList.add('hidden'); }, 5000);
         }
 
-        window.fetchDomainsList = async function() {
+        async function fetchDomainsList() {
             try {
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
@@ -942,7 +905,7 @@
             }
         }
 
-        window.startEmailTimer = function(durationInSeconds) {
+        function startEmailTimer(durationInSeconds) {
             clearInterval(emailTimerInterval);
             let time = durationInSeconds;
             const display = document.getElementById('countdown-timer');
@@ -1423,7 +1386,7 @@
                     <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
                     
                     <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-[15px] mt-4 whitespace-nowrap cursor-pointer">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
                     </a>
                 `;
             } else if (pageName === 'API Access') {
@@ -1489,32 +1452,48 @@
             } else if (pageName === 'Changelog') {
                 content = `
                     <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 dark:before:via-slate-700 before:to-transparent">
+                        
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                             <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-brand text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                             <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
                                 <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.6.0 - Advanced API & Security</h4>
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.5.0 - Security Update</h4>
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Migrated to advanced mail.gw core API for 100% universal inbox acceptance.</li>
                                     <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
                                     <li>Added auto-deletion for emails older than 5 minutes.</li>
-                                    <li>Added mathematical CAPTCHA to block automated bot creation.</li>
+                                    <li>Integrated human/robot random name generation modes.</li>
                                 </ul>
                             </div>
                         </div>
+
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                             <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                             <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
                                 <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.5.0 - Domain Expansion</h4>
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.4.1 - Domain Expansion</h4>
                                     <span class="text-[10px] font-semibold text-slate-500">February 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
                                     <li>Added 10 new premium domains to bypass blacklists.</li>
-                                    <li>Added explicit adult-content filtering for inbound emails.</li>
-                                    <li>Integrated Financial Support options with UPI & direct pay.</li>
+                                    <li>Fixed UI glitch in modal popups and dropdowns.</li>
+                                    <li>Improved email fetching latency by 35%.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.0.0 - Platform Overhaul</h4>
+                                    <span class="text-[10px] font-semibold text-slate-500">January 2026</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
+                                    <li>Complete UI/UX redesign with Dark Mode support.</li>
+                                    <li>Introduced live inbox reading without page refresh.</li>
+                                    <li>Added the new Blog & Privacy news section.</li>
                                 </ul>
                             </div>
                         </div>
