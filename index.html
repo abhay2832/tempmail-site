@@ -84,9 +84,9 @@
                 <p class="font-bold text-base">To enter Aryan Mails, you MUST agree to our strict Terms of Service:</p>
                 <ul class="list-disc pl-5 space-y-2 font-medium">
                     <li><strong class="text-red-500">Zero Tolerance:</strong> You will NOT use our temporary emails for any illegal, fraudulent, or malicious activities.</li>
-                    <li><strong class="text-red-500">Sole Responsibility:</strong> Agar koi user in emails ka galat use karta hai, toh uski saari zimmedari sirf aur sirf uss user ki hogi.</li>
+                    <li><strong class="text-red-500">Sole Responsibility:</strong> If any user misuses these emails, the sole responsibility will lie strictly with the user. Misuse of this service is completely prohibited.</li>
                     <li><strong class="text-red-500">No Owner Liability:</strong> The website owner and administrators hold absolutely NO responsibility for user actions or third-party breaches.</li>
-                    <li>Adult websites (e.g., PornHub, xvideos) and illicit platforms are strictly filtered and blocked on our servers.</li>
+                    <li><strong class="text-red-500">Content Filtering:</strong> Adult websites (e.g., PornHub, xvideos) and illicit platforms are strictly filtered and blocked on our servers.</li>
                 </ul>
                 <div class="mt-6 flex items-start gap-3 bg-slate-100 dark:bg-darkbg p-4 rounded-lg border border-slate-300 dark:border-darkborder">
                     <input type="checkbox" id="tnc-checkbox" class="mt-1 w-5 h-5 cursor-pointer accent-brand">
@@ -104,12 +104,10 @@
             <i class="fa-solid fa-robot text-5xl text-brand mb-4"></i>
             <h3 class="font-black text-xl text-slate-900 dark:text-white mb-2">Anti-Bot Check</h3>
             <p class="text-slate-500 dark:text-gray-400 text-sm mb-6">Please solve this simple math problem to prove you are human.</p>
-            
             <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4 text-2xl font-bold tracking-widest text-slate-800 dark:text-white" id="captcha-question">
                 5 + 3 = ?
             </div>
             <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-4">
-            
             <button onclick="verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md">Verify & Generate Email</button>
         </div>
     </div>
@@ -121,39 +119,31 @@
         </button>
     </div>
 
-    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
-
     <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-500">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between relative">
-            
             <div class="flex items-center gap-3 cursor-pointer z-10 w-1/3">
                 <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
                 <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Aryan<span class="text-brand color-shift"> Mails</span></span>
             </div>
-            
             <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
                 <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
                     <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
                     <span class="text-xl drop-shadow-md">🇮🇳</span>
                 </div>
             </div>
-
             <div class="flex items-center justify-end gap-3 z-10 w-1/3">
                 <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brandbg text-brand text-xs font-semibold border border-brand/30 color-shift">
                     <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
                 </div>
-
                 <button onclick="showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
                 <button onclick="showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
-                
                 <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-
                 <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
@@ -174,9 +164,7 @@
             </div>
 
             <div class="flex flex-col items-center gap-5 relative z-10">
-                
                 <div class="flex flex-wrap justify-center items-center gap-3">
-                    
                     <div class="flex items-center bg-slate-100 dark:bg-[#1e293b] rounded-lg p-1 text-sm font-medium border border-slate-200 dark:border-darkborder shadow-sm">
                         <button id="btn-type-human" onclick="setEmailType('human')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer">
                             <i class="fa-regular fa-user text-xs"></i> Human
@@ -200,23 +188,19 @@
                     <div class="flex items-center gap-2 text-slate-600 dark:text-gray-300 font-semibold text-sm bg-slate-50 dark:bg-[#1e293b] px-3 py-2 rounded-lg border border-slate-200 dark:border-darkborder whitespace-nowrap">
                         <span class="w-2 h-2 rounded-full bg-blue-500"></span> <span id="countdown-timer">10:00</span>
                     </div>
-
                 </div>
 
                 <div class="flex flex-wrap justify-center items-center gap-3">
                     <button onclick="copyEmail()" class="bg-[#8ba4f9] hover:bg-[#7390f5] text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-md cursor-pointer whitespace-nowrap">
                         <i class="fa-regular fa-copy"></i> Copy
                     </button>
-                    
-                    <button onclick="requestNewAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-sm cursor-pointer whitespace-nowrap" title="Generate New Email based on selection">
+                    <button onclick="forceNewAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-sm cursor-pointer whitespace-nowrap" title="Generate New Email based on selection">
                         <i class="fa-solid fa-arrows-rotate text-slate-500 dark:text-gray-400"></i> New Email
                     </button>
-
-                    <button onclick="requestCustomAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 shadow-sm cursor-pointer text-[15px] active:scale-95 whitespace-nowrap">
+                    <button onclick="createCustomAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 shadow-sm cursor-pointer text-[15px] active:scale-95 whitespace-nowrap">
                         <i class="fa-solid fa-pen text-slate-500 dark:text-gray-400"></i> Custom
                     </button>
                 </div>
-
             </div>
             <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
         </div>
@@ -229,7 +213,6 @@
 
     <div class="max-w-5xl mx-auto px-4 mb-10">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors duration-500">
-            
             <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors duration-500">
                 <div class="flex items-center gap-3">
                     <i class="fa-solid fa-envelope text-brand color-shift text-lg"></i>
@@ -252,15 +235,12 @@
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
                 </div>
-                
                 <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
                     <i id="notif-icon" class="fa-solid fa-bell text-brand"></i> <span id="notif-text">Sound On</span>
                 </button>
-
                 <button onclick="fastOtpReset()" class="flex items-center gap-1.5 hover:text-amber-500 transition ml-2 active:scale-95 cursor-pointer p-1 text-slate-600 dark:text-gray-400 font-semibold" title="Fast OTP">
                     <i id="fast-bolt-icon" class="fa-solid fa-bolt text-amber-500"></i> <span class="hidden sm:inline">Fast OTP</span>
                 </button>
-
                 <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer whitespace-nowrap">
                     <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
                 </button>
@@ -573,6 +553,72 @@
         </div>
     </div>
 
+    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
+                <div class="pr-4 flex-1 min-w-0">
+                    <h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3>
+                    <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-brand font-semibold color-shift"></span></p>
+                </div>
+                <div class="flex gap-2 flex-shrink-0">
+                    <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        </div>
+    </div>
+
+    <div id="support-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-emerald-500"></i> Support Aryan Mails</h3>
+                <button onclick="closeSupportModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 text-center text-slate-600 dark:text-gray-300 text-sm leading-relaxed overflow-y-auto max-h-[80vh]">
+                <p class="mb-4 text-base">Your support helps us keep the servers running and the service 100% free! We accept all UPI payments including <b>Google Pay, PhonePe, Paytm, and Navi</b>.</p>
+                
+                <div class="bg-white p-4 rounded-xl inline-block mb-4 border border-slate-200 shadow-md">
+                    <img id="upi-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" alt="UPI QR Code" class="w-48 h-48 mx-auto">
+                </div>
+                
+                <p class="font-semibold text-slate-800 dark:text-white mb-2">Scan QR or Copy UPI ID:</p>
+                <div class="flex items-center justify-between bg-slate-100 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg p-3 max-w-sm mx-auto shadow-inner mb-2">
+                    <span class="font-mono text-brand font-bold text-base" id="upi-id-text">pp90990341@ybl</span>
+                    <button onclick="copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
+                </div>
+                <p id="upi-copy-msg" class="text-xs text-emerald-500 font-bold mb-4 opacity-0 transition-opacity">UPI ID Copied to clipboard!</p>
+
+                <div class="border-t border-slate-200 dark:border-darkborder pt-5 mt-2">
+                    <p class="font-semibold text-slate-800 dark:text-white mb-3 text-base">Pay Directly via App (Mobile Only):</p>
+                    <a href="upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base whitespace-nowrap">
+                        <i class="fa-solid fa-bolt"></i> Tap to Pay Direct
+                    </a>
+                    <p class="text-xs mt-3 text-slate-500 dark:text-gray-400">Clicking above will open your default UPI app.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
+                <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="page-modal-body" class="p-6 overflow-y-auto text-slate-600 dark:text-gray-300 text-sm leading-relaxed space-y-4">
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg text-right">
+                <button onclick="closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md cursor-pointer whitespace-nowrap">Got it</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
@@ -592,13 +638,18 @@
         let availableDomains = [];
         let activeDomain = "";
         let currentEmailType = 'human'; 
+        let captchaAnswer = 0;
+        let captchaSuccessCallback = null;
+        let emailTimerInterval;
+        let statToday = 819; 
+        let statInboxes = 382; 
+        let statGenerated = 296500;
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // --- IP CHECK & T&C LOGIC ---
         function checkCookies() {
             if (!localStorage.getItem('cookie_accepted')) {
                 const banner = document.getElementById('cookie-banner');
@@ -607,7 +658,7 @@
             }
         }
 
-        window.acceptCookies = function() {
+        function acceptCookies() {
             localStorage.setItem('cookie_accepted', 'true');
             const banner = document.getElementById('cookie-banner');
             banner.classList.add('translate-y-full');
@@ -626,7 +677,7 @@
             return true;
         }
 
-        window.acceptTNC = function() {
+        function acceptTNC() {
             const cb = document.getElementById('tnc-checkbox');
             if(!cb.checked) {
                 alert("You must check the box to agree to the Terms and Conditions.");
@@ -636,7 +687,7 @@
             document.getElementById('tnc-modal').classList.add('hidden');
             document.getElementById('tnc-modal').classList.remove('flex');
             initializeAppWithIPCheck(); 
-        };
+        }
 
         async function initializeAppWithIPCheck() {
             try {
@@ -655,33 +706,31 @@
             }
         }
 
-        // --- CAPTCHA LOGIC ---
-        let captchaAnswer = 0;
         function showCaptcha(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
             captchaAnswer = num1 + num2;
             document.getElementById('captcha-question').innerText = `${num1} + ${num2} = ?`;
+            document.getElementById('captcha-input').value = "";
             const modal = document.getElementById('captcha-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            window.captchaSuccessCallback = callback;
+            captchaSuccessCallback = callback;
         }
 
-        window.verifyCaptcha = function() {
+        function verifyCaptcha() {
             const val = parseInt(document.getElementById('captcha-input').value);
             if(val === captchaAnswer) {
                 document.getElementById('captcha-modal').classList.add('hidden');
                 document.getElementById('captcha-modal').classList.remove('flex');
-                if(window.captchaSuccessCallback) window.captchaSuccessCallback();
+                if(captchaSuccessCallback) captchaSuccessCallback();
             } else {
                 alert("Incorrect CAPTCHA. Are you a bot?");
                 document.getElementById('captcha-input').value = "";
             }
-        };
+        }
 
-        // --- UI TOGGLES ---
-        window.setEmailType = function(type) {
+        function setEmailType(type) {
             currentEmailType = type;
             const btnHuman = document.getElementById('btn-type-human');
             const btnRandom = document.getElementById('btn-type-random');
@@ -695,7 +744,7 @@
             }
         }
 
-        window.toggleDomainDropdown = function() {
+        function toggleDomainDropdown() {
             const el = document.getElementById('domain-dropdown');
             if (el.classList.contains('hidden')) {
                 el.classList.remove('hidden');
@@ -712,15 +761,14 @@
             }
         });
 
-        window.generateAPIKey = function() {
+        function generateAPIKey() {
             const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('aryan_api_key', key);
             const disp = document.getElementById('api-key-display');
             if(disp) disp.value = key;
             alert("New API Key Generated Successfully!");
-        };
+        }
 
-        // --- BLOG DATA ---
         const blogArticles = [
             { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2025', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2025, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
             { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
@@ -728,7 +776,7 @@
             { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' }
         ];
 
-        window.renderBlogContent = function() {
+        function renderBlogContent() {
             const container = document.getElementById('blog-container');
             if(!container) return;
 
@@ -786,12 +834,12 @@
             container.innerHTML = filtersHtml + activeFilterHtml + gridHtml;
         }
 
-        window.setBlogFilter = function(category) {
+        function setBlogFilter(category) {
             currentBlogFilter = category;
             renderBlogContent();
         }
 
-        window.openBlogPost = function(id) {
+        function openBlogPost(id) {
             const post = blogArticles.find(a => a.id === id);
             if(!post) return;
             const container = document.getElementById('blog-container');
@@ -820,7 +868,7 @@
             `;
         }
         
-        window.submitSubscribeForm = async function(event) {
+        async function submitSubscribeForm(event) {
             event.preventDefault();
             const emailInput = document.getElementById('subscriber-email').value;
             const btn = document.getElementById('subscribe-btn');
@@ -852,7 +900,6 @@
             setTimeout(() => { msg.classList.add('hidden'); }, 5000);
         }
 
-        // --- DOMAINS ---
         async function fetchDomainsList() {
             try {
                 const res = await fetch(`${API}/domains`);
@@ -886,8 +933,6 @@
             }
         }
 
-        // --- TIMER ---
-        let emailTimerInterval;
         function startEmailTimer(durationInSeconds) {
             clearInterval(emailTimerInterval);
             let time = durationInSeconds;
@@ -903,16 +948,17 @@
             }, 1000);
         }
 
-        // --- CORE FUNCTIONS ---
-        window.showSupportModal = function() {
+        function showSupportModal() {
             document.getElementById('support-modal').classList.remove('hidden');
             document.getElementById('support-modal').classList.add('flex');
         }
-        window.closeSupportModal = function() {
+
+        function closeSupportModal() {
             document.getElementById('support-modal').classList.add('hidden');
             document.getElementById('support-modal').classList.remove('flex');
         }
-        window.copyUPI = function() {
+
+        function copyUPI() {
             const upiText = document.getElementById('upi-id-text').innerText;
             navigator.clipboard.writeText(upiText);
             const msg = document.getElementById('upi-copy-msg');
@@ -920,7 +966,6 @@
             setTimeout(() => { msg.style.opacity = '0'; }, 2000);
         }
 
-        let statToday = 819; let statInboxes = 382; let statGenerated = 296500; 
         function updateLiveStats() {
             statToday += Math.floor(Math.random() * 3);
             statInboxes += Math.floor(Math.random() * 2);
@@ -936,9 +981,7 @@
 
         async function initApp() {
             await fetchDomainsList(); 
-            if (!address || !token) {
-                // Check if it's the very first time (T&C check handles flow)
-            } else {
+            if (address && token) {
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
                 startSync();
@@ -946,7 +989,6 @@
                 startEmailTimer(600); 
             }
 
-            // Adult content & old mail auto-delete logic
             setInterval(() => {
                 if (!allMessages || allMessages.length === 0) return;
                 const now = new Date();
@@ -1042,7 +1084,7 @@
             }
         }
 
-        window.forceNewAccount = function() {
+        function forceNewAccount() {
             showCaptcha(() => {
                 localStorage.removeItem('mt_email');
                 localStorage.removeItem('mt_token');
@@ -1055,7 +1097,7 @@
             });
         }
 
-        window.createCustomAccount = function() {
+        function createCustomAccount() {
             showCaptcha(async () => {
                 const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
                 if (!customPrefix) return;
@@ -1110,14 +1152,14 @@
             });
         }
 
-        window.fastOtpReset = async function() {
+        async function fastOtpReset() {
             const boltIcon = document.getElementById('fast-bolt-icon');
             if(boltIcon) boltIcon.classList.add('fa-spin');
             await manualFetch();
             if(boltIcon) boltIcon.classList.remove('fa-spin');
         }
 
-        window.deleteSingleMail = async function(id, event) {
+        async function deleteSingleMail(id, event) {
             if(event && event.stopPropagation) event.stopPropagation();
             try {
                 const res = await fetch(`${API}/messages/${id}`, {
@@ -1131,7 +1173,7 @@
             } catch(err) {}
         }
 
-        window.manualFetch = async function() {
+        async function manualFetch() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
@@ -1144,7 +1186,6 @@
                 const data = await res.json();
                 let fetchedMails = data['hydra:member'] || [];
                 
-                // Adult filter on fetch
                 const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
                 allMessages = fetchedMails.filter(msg => {
                     const fromAddr = (msg.from.address || "").toLowerCase();
@@ -1179,7 +1220,7 @@
             }
         }
 
-        window.renderMails = function() {
+        function renderMails() {
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
             if (allMessages.length > 0) {
                 if(inboxContent) {
@@ -1215,7 +1256,7 @@
             }
         }
 
-        window.openEmail = async function(id) {
+        async function openEmail(id) {
             try {
                 const res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
@@ -1233,7 +1274,7 @@
             } catch(err) {}
         }
 
-        window.closeModal = function() {
+        function closeModal() {
             const emailModal = document.getElementById('email-modal');
             const modalBodyIframe = document.getElementById('modal-body-iframe');
             if(emailModal) { emailModal.classList.add('hidden'); emailModal.classList.remove('flex'); }
@@ -1244,7 +1285,7 @@
             allMessages = []; lastMailCount = 0; renderMails(); 
         }
 
-        window.clearInboxUI = async function() { 
+        async function clearInboxUI() { 
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
             for (const msg of allMessages) {
@@ -1254,7 +1295,7 @@
             if(fetchIcon) fetchIcon.classList.remove('fa-spin');
         }
 
-        window.copyEmail = function() {
+        function copyEmail() {
             if(emailInput) { emailInput.select(); document.execCommand('copy'); }
             const msg = document.getElementById('copy-msg');
             if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
@@ -1265,7 +1306,7 @@
             syncTimer = setInterval(manualFetch, refreshSec * 1000);
         }
 
-        window.toggleAutoSync = function() {
+        function toggleAutoSync() {
             isSyncing = !isSyncing;
             const icon = document.getElementById('sync-icon');
             const text = document.getElementById('sync-text');
@@ -1280,7 +1321,7 @@
             }
         }
 
-        window.toggleAudio = function() { 
+        function toggleAudio() { 
             soundOn = !soundOn; 
             const text = document.getElementById('notif-text');
             if(text) text.innerText = soundOn ? "Sound On" : "Sound Off";
@@ -1288,7 +1329,7 @@
             if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
         }
 
-        window.changeColorTheme = function() {
+        function changeColorTheme() {
             const hue = Math.floor(Math.random() * 360);
             const brandColor = `hsl(${hue}, 75%, 50%)`;
             const brandBg = `hsla(${hue}, 75%, 50%, 0.15)`;
@@ -1296,20 +1337,21 @@
             document.documentElement.style.setProperty('--brand-bg', brandBg);
         }
 
-        window.toggleTheme = function() {
+        function toggleTheme() {
             document.documentElement.classList.toggle('dark');
             const isDark = document.documentElement.classList.contains('dark');
             const themeIcon = document.getElementById('theme-icon');
             if(themeIcon) { themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
         }
 
-        window.showPageModal = function(pageName) {
+        function showPageModal(pageName) {
             const title = document.getElementById('page-modal-title');
             const body = document.getElementById('page-modal-body');
             const modal = document.getElementById('page-modal');
             title.innerText = pageName;
             
             let content = '';
+            
             if (pageName === 'Privacy Policy') {
                 content = `
                     <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Privacy Policy & Data Handling (Strict)</p>
@@ -1320,7 +1362,7 @@
                         <li><strong>Third-Party Sharing:</strong> We maintain a zero-compromise stance. We do not sell, rent, or share any data to advertisers, data brokers, or third-party entities.</li>
                     </ul>
                     <p class="text-red-500 font-bold mb-2">Anti-Abuse Compliance:</p>
-                    <p>While we respect privacy, we actively deploy automated anti-abuse algorithms to detect and block malicious network requests. In cases of severe network abuse, offending IP ranges are blackholed at the firewall level.</p>
+                    <p>While we respect privacy, we actively deploy automated anti-abuse algorithms to detect and block malicious network requests (e.g., DDoS, botnets, spam generation). In cases of severe network abuse, offending IP ranges are blackholed at the firewall level.</p>
                 `;
             } else if (pageName === 'Terms of Service') {
                 content = `
@@ -1346,29 +1388,6 @@
                     </ul>
                     <p>All data is stored locally on your device. Clearing your browser data will instantly wipe your temporary inbox access.</p>
                 `;
-            } else if (pageName === 'Report Abuse') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
-                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
-                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
-                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-[15px] mt-4 whitespace-nowrap">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
-                    </a>
-                `;
-            } else if (pageName === 'API Access') {
-                let apiKey = localStorage.getItem('aryan_api_key') || '';
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Public API Access (Live)</p>
-                    <p class="mb-4">Integrate Aryan Mails into your application. Use the API key below to authenticate your requests.</p>
-                    <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4">
-                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
-                            <button onclick="generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap"><i class="fa-solid fa-arrows-rotate"></i></button>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
-                `;
             } else if (pageName === 'System Status') {
                 content = `
                     <div class="space-y-4">
@@ -1382,6 +1401,7 @@
                               <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                             </span>
                         </div>
+                        
                         <div class="grid grid-cols-1 gap-3">
                             <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
                                 <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">API Gateway</span>
@@ -1405,6 +1425,7 @@
             } else if (pageName === 'Changelog') {
                 content = `
                     <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 dark:before:via-slate-700 before:to-transparent">
+                        
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                             <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-brand text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                             <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
@@ -1413,12 +1434,13 @@
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented strict IP-based rate limiting.</li>
-                                    <li>Added math CAPTCHA to stop bots.</li>
-                                    <li>Added active filtering for adult domain inbound emails.</li>
+                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
+                                    <li>Added auto-deletion for emails older than 5 minutes.</li>
+                                    <li>Integrated human/robot random name generation modes.</li>
                                 </ul>
                             </div>
                         </div>
+
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                             <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
                             <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
@@ -1428,11 +1450,51 @@
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
                                     <li>Added 10 new premium domains to bypass blacklists.</li>
-                                    <li>Added Financial Support options with UPI & direct pay.</li>
+                                    <li>Fixed UI glitch in modal popups and dropdowns.</li>
+                                    <li>Improved email fetching latency by 35%.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.0.0 - Platform Overhaul</h4>
+                                    <span class="text-[10px] font-semibold text-slate-500">January 2026</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
+                                    <li>Complete UI/UX redesign with Dark Mode support.</li>
+                                    <li>Introduced live inbox reading without page refresh.</li>
+                                    <li>Added the new Blog & Privacy news section.</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                `;
+            } else if (pageName === 'Report Abuse') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
+                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
+                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
+                    
+                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4 whitespace-nowrap">
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
+                    </a>
+                `;
+            } else if (pageName === 'API Access') {
+                let apiKey = localStorage.getItem('aryan_api_key') || '';
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Public API Access (Live)</p>
+                    <p class="mb-4">Integrate Aryan Mails into your application. Use the API key below to authenticate your requests.</p>
+                    <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4">
+                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
+                            <button onclick="generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap"><i class="fa-solid fa-arrows-rotate"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
                 `;
             } else if (pageName === 'Premium Plans') {
                 content = `
@@ -1452,11 +1514,13 @@
                         <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
                             <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
                             <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
+                            
                             <form id="subscribe-form" onsubmit="submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
                                 <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
                                 <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap">Subscribe</button>
                             </form>
                             <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
+
                         </div>
                         <div>
                             <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
@@ -1466,7 +1530,11 @@
                         <div id="blog-container"></div>
                     </div>
                 `;
-                setTimeout(() => { currentBlogFilter = 'All'; renderBlogContent(); }, 10);
+
+                setTimeout(() => {
+                    currentBlogFilter = 'All';
+                    renderBlogContent();
+                }, 10);
             }
 
             body.innerHTML = content;
@@ -1474,15 +1542,14 @@
             modal.classList.add('flex');
         }
 
-        window.closePageModal = function() {
+        function closePageModal() {
             const modal = document.getElementById('page-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
 
-        // INITIALIZATION
         document.addEventListener('DOMContentLoaded', () => {
-            if(!checkTNC()) return; // Blocks everything if TNC is not agreed to
+            if(!checkTNC()) return; 
             initializeAppWithIPCheck();
             
             document.querySelectorAll('.faq-btn').forEach(btn => {
