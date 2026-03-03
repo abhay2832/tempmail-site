@@ -63,52 +63,168 @@
         </div>
     </div>
 
-    <div id="signup-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9990] backdrop-blur-sm transition-opacity">
-        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder relative">
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/80 hidden justify-center items-center p-4 z-[9990] backdrop-blur-md transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder relative">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
-                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand"></i> Secure Sign Up</h3>
-                <button onclick="window.closeSignupModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2" id="auth-modal-title"><i class="fa-solid fa-shield-halved text-brand"></i> Secure Portal</h3>
+                <button onclick="window.closeAuthModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
-            <div class="p-6 text-center text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh]">
-                <div id="signup-methods">
-                    <p class="mb-4 text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-200 dark:border-red-800/30 text-left">
-                        <i class="fa-solid fa-ban mr-1"></i> Direct Email/Password & Temp Mails are strictly BLOCKED. Verify using a trusted provider below.
-                    </p>
-                    <div class="space-y-3">
-                        <button onclick="window.oauthLogin('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Continue with Google</button>
-                        <button onclick="window.oauthLogin('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Continue with Yahoo</button>
-                        <button onclick="window.oauthLogin('GitHub')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> Continue with GitHub</button>
-                        <button onclick="window.oauthLogin('Facebook')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Continue with Facebook</button>
+            <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh]">
+                
+                <div id="view-auth-init" class="block text-center">
+                    <div class="w-16 h-16 bg-brandbg text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-solid fa-lock"></i></div>
+                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
+                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Please select an option to continue securely.</p>
+                    <div class="space-y-4">
+                        <button onclick="window.setAuthMode('login')" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg transition active:scale-95 cursor-pointer text-base">Login (Existing User)</button>
+                        <button onclick="window.setAuthMode('signup')" class="w-full bg-white dark:bg-darkbg border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold py-3.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer text-base">Signup (New User)</button>
                     </div>
-                    <div class="my-5 flex items-center gap-3 before:flex-1 before:border-t before:border-slate-200 dark:before:border-darkborder after:flex-1 after:border-t after:border-slate-200 dark:after:border-darkborder">
-                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">OR OTP Login</span>
+                </div>
+
+                <div id="view-method-select" class="hidden">
+                    <button onclick="window.switchAuthView('view-auth-init')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1" id="method-select-title">Choose Method</h4>
+                    <p class="text-xs text-red-500 font-semibold bg-red-50 dark:bg-red-900/20 p-2 rounded-md mb-5 border border-red-200 dark:border-red-800/30">OTP Verification is MANDATORY for all methods.</p>
+                    
+                    <div class="space-y-3">
+                        <button onclick="window.selectMethod('Google')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
+                        <button onclick="window.selectMethod('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Yahoo</button>
+                        <button onclick="window.selectMethod('GitHub')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> GitHub</button>
+                        <button onclick="window.selectMethod('Facebook')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Facebook</button>
+                    </div>
+                    <div class="my-4 flex items-center gap-3 before:flex-1 before:border-t before:border-slate-200 dark:before:border-darkborder after:flex-1 after:border-t after:border-slate-200 dark:after:border-darkborder">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone Verification</span>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="window.showOtpSection('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
-                        <button onclick="window.showOtpSection('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
+                        <button onclick="window.selectMethod('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
+                        <button onclick="window.selectMethod('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
                     </div>
                 </div>
 
-                <div id="signup-otp-section" class="hidden text-left">
-                    <button onclick="window.backToSignupMethods()" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2" id="otp-title">Enter Details</h4>
-                    <p class="text-xs text-slate-500 dark:text-gray-400 mb-4" id="otp-subtitle">We will send a 6-digit verification code.</p>
+                <div id="view-google-options" class="hidden text-center">
+                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <i class="fa-brands fa-google text-4xl text-blue-500 mb-3"></i>
+                    <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Google Verification</h4>
+                    <div class="space-y-3">
+                        <button onclick="window.startGoogleFlow('manual')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
+                            <span>Manual Gmail Entry + OTP</span>
+                            <span class="text-xs text-slate-500 font-normal">Type your email manually to receive code</span>
+                        </button>
+                        <button onclick="window.startGoogleFlow('oauth')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
+                            <span>Direct Google Account Login</span>
+                            <span class="text-xs text-slate-500 font-normal">Auto-fetch verified Gmail & send OTP</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="view-input-identifier" class="hidden">
+                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2" id="input-ident-title">Enter Details</h4>
+                    <p class="text-xs text-slate-500 dark:text-gray-400 mb-4" id="input-ident-desc">We need to send a secure verification code.</p>
                     
-                    <div id="otp-step-1">
-                        <input type="text" id="signup-phone" placeholder="Enter Mobile Number" class="w-full bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 mb-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
-                        <button onclick="window.sendSignupOtp()" id="btn-send-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3 rounded-lg transition active:scale-95 shadow-md cursor-pointer">Send OTP</button>
+                    <div id="phone-input-group" class="hidden mb-4">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Country Code & Number</label>
+                        <div class="flex gap-2">
+                            <select id="auth-country-code" class="bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-2 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium w-1/3">
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+61">🇬🇧 +61</option>
+                                <option value="+971">🇦🇪 +971</option>
+                            </select>
+                            <input type="number" id="auth-phone-number" placeholder="Mobile Number" class="w-2/3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        </div>
                     </div>
 
-                    <div id="otp-step-2" class="hidden">
-                        <input type="number" id="signup-otp" placeholder="Enter 6-digit OTP" class="w-full bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 mb-3 text-center tracking-widest text-xl font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand">
-                        <button onclick="window.verifySignupOtp()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition active:scale-95 shadow-md cursor-pointer">Verify & Login</button>
+                    <div id="email-input-group" class="hidden mb-4">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Email Address</label>
+                        <input type="email" id="auth-email-address" placeholder="Enter verified email" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
                     </div>
+
+                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer flex justify-center items-center gap-2">
+                        <span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                    <p id="auth-req-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
                 </div>
 
-                <div id="signup-status" class="hidden flex flex-col items-center justify-center py-6">
-                    <i id="signup-status-icon" class="fa-solid fa-circle-notch fa-spin text-4xl text-brand mb-3"></i>
-                    <p id="signup-status-text" class="font-bold text-slate-800 dark:text-white mt-3 text-center"></p>
+                <div id="view-otp" class="hidden">
+                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Contact</button>
+                    <div class="text-center mb-6">
+                        <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"><i class="fa-solid fa-shield-check"></i></div>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Verification Required</h4>
+                        <p class="text-xs text-slate-500 dark:text-gray-400" id="otp-sent-to-text">Sent to ...</p>
+                    </div>
+
+                    <div id="single-otp-group" class="mb-4">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Enter Verification Code</label>
+                        <input type="number" id="auth-otp-1" placeholder="6-digit code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center tracking-[0.5em] text-2xl font-black text-slate-800 dark:text-white focus:outline-none focus:border-brand">
+                    </div>
+
+                    <div id="dual-otp-group" class="hidden mb-4 space-y-4">
+                        <p class="text-xs text-amber-600 font-bold bg-amber-50 dark:bg-amber-900/20 p-2 rounded border border-amber-200 dark:border-amber-800/30"><i class="fa-solid fa-lock"></i> WhatsApp Dual Verification Active: Both codes required.</p>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">SMS OTP</label>
+                            <input type="number" id="auth-otp-sms" placeholder="SMS Code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-2.5 text-center tracking-widest text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">WhatsApp OTP</label>
+                            <input type="number" id="auth-otp-wa" placeholder="WhatsApp Code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-emerald-300 dark:border-emerald-800 rounded-xl px-4 py-2.5 text-center tracking-widest text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
+
+                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Verify & Authenticate</button>
+                    <p id="auth-verify-error" class="text-red-500 text-sm font-bold mt-3 hidden text-center border border-red-200 bg-red-50 dark:bg-red-900/20 p-2 rounded"></p>
                 </div>
+
+                <div id="view-register-details" class="hidden">
+                    <div class="text-center mb-5">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3"><i class="fa-solid fa-user-plus"></i></div>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white">Account Verified</h4>
+                        <p class="text-xs text-slate-500 dark:text-gray-400">Complete your profile to finalize signup.</p>
+                    </div>
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Full Name</label>
+                            <input type="text" id="reg-fullname" placeholder="John Doe" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Age</label>
+                            <input type="number" id="reg-age" placeholder="18+" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        </div>
+                    </div>
+                    <button onclick="window.finalizeSignup()" id="btn-finalize-signup" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Create Profile</button>
+                    <p id="reg-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
+                </div>
+
+                <div id="view-profile" class="hidden">
+                    <div class="bg-gradient-to-r from-brand to-blue-600 rounded-2xl p-6 text-white text-center relative shadow-lg mb-6">
+                        <div class="w-20 h-20 bg-white rounded-full mx-auto border-4 border-white/20 flex items-center justify-center text-brand text-3xl font-black shadow-md mb-3" id="profile-initial">A</div>
+                        <h4 class="text-2xl font-black mb-1" id="profile-name">User Name</h4>
+                        <div class="inline-flex items-center justify-center gap-1.5 bg-white/20 px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span id="profile-plan">Premium Active</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mb-6 bg-slate-50 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder">
+                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Verified Contact</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-white" id="profile-contact">...</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Auth Method</span>
+                            <span class="text-sm font-semibold text-brand bg-brandbg px-2 py-0.5 rounded" id="profile-method">...</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Age</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-white" id="profile-age">...</span>
+                        </div>
+                    </div>
+
+                    <button onclick="window.triggerLogout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-bold py-3.5 rounded-xl transition shadow-sm cursor-pointer flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-power-off"></i> Secure Logout
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -120,7 +236,7 @@
             <p class="text-slate-500 dark:text-gray-400 text-sm mb-6">Please solve this simple math problem to prove you are human.</p>
             <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4 text-2xl font-bold tracking-widest text-slate-800 dark:text-white" id="captcha-question"></div>
             <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-4">
-            <button onclick="window.verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md cursor-pointer">Verify & Generate Email</button>
+            <button onclick="window.verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md cursor-pointer">Verify & Continue</button>
         </div>
     </div>
 
@@ -150,30 +266,24 @@
                     <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
                 </div>
                 
-                <div id="auth-ui-container" class="flex items-center gap-2">
-                    <div id="nav-signup-btn">
-                        <button onclick="window.showSignupModal()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
-                            <i class="fa-solid fa-user-plus"></i> <span class="hidden sm:inline">Sign Up</span>
-                        </button>
-                    </div>
-                    <div id="nav-user-ui" class="hidden items-center gap-2">
-                        <div class="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 text-white shadow-md text-xs" title="Verified User"><i class="fa-solid fa-check"></i></div>
-                        <button onclick="window.logoutAuth()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-200 dark:bg-darkborder hover:bg-red-500 hover:text-white text-slate-700 dark:text-gray-300 text-sm font-bold shadow-sm transition-all cursor-pointer whitespace-nowrap" title="Logout">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                        </button>
-                    </div>
-                </div>
+                <button id="nav-signup-btn" onclick="window.openAuthPortal()" class="flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                    <i class="fa-solid fa-user-shield"></i> <span class="hidden sm:inline">Signup / Login</span>
+                </button>
+                
+                <button id="nav-profile-btn" onclick="window.openAuthPortal()" class="hidden items-center gap-2 px-5 py-2 rounded-full bg-brand hover:brightness-110 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                    <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
+                </button>
 
-                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-1 whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
-                <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer text-lg">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
-                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="hidden sm:flex w-9 h-9 rounded-full bg-brand text-white items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer">
+                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="hidden sm:flex w-9 h-9 rounded-full bg-brand text-white items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-1">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
+                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-1">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -408,7 +518,7 @@
         </div>
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">02</div>
-            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-copy"></i></div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-regular fa-copy"></i></div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Use Anywhere</h3>
             <p class="text-slate-500 dark:text-gray-400 text-sm">Copy and paste it for signups, testing, or verifying untrusted sites.</p>
         </div>
@@ -667,219 +777,406 @@
         let statInboxes = 382; 
         let statGenerated = 296500;
 
-        // --- SECURE SIMULATED BACKEND ---
-        const MockBackend = {
-            db: {}, 
-            generateToken: function(user) {
-                return btoa(JSON.stringify({ user: user, exp: Date.now() + 86400000 })) + "." + "mock_signature_secure_hash";
-            },
-            sendOtp: function(type, id) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        if(!id || id.length < 8) return reject("Invalid phone/WhatsApp number.");
-                        const now = Date.now();
-                        if(this.db[id] && this.db[id].expiry > now) {
-                            return reject("OTP already sent. Please wait before requesting again.");
-                        }
-                        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-                        this.db[id] = { otp: otp, expiry: now + 120000 }; 
-                        console.log(`[BACKEND SIMULATION] Secure OTP for ${id} is ${otp}`);
-                        resolve(otp);
-                    }, 800);
-                });
-            },
-            verifyOtp: function(id, inputOtp) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const record = this.db[id];
-                        if(!record) return reject("No OTP requested for this ID.");
-                        if(Date.now() > record.expiry) {
-                            delete this.db[id];
-                            return reject("OTP has expired.");
-                        }
-                        if(record.otp !== inputOtp) {
-                            return reject("Invalid OTP. Authentication failed.");
-                        }
-                        delete this.db[id]; 
-                        const token = this.generateToken(id);
-                        resolve({ token: token, user: id });
-                    }, 800);
-                });
-            },
-            oauthAuthenticate: function(provider) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const validProviders = ['Google', 'Yahoo', 'GitHub', 'Facebook'];
-                        if(!validProviders.includes(provider)) return reject("Invalid Provider");
-                        const token = this.generateToken(provider + "_user");
-                        resolve({ token: token, user: provider + "_user" });
-                    }, 1200);
-                });
-            }
-        };
-
-        // --- AUTH UI STATE ---
-        window.checkAuthSession = function() {
-            const session = localStorage.getItem('auth_session');
-            const signupBtn = document.getElementById('nav-signup-btn');
-            const userUi = document.getElementById('nav-user-ui');
-            
-            if (session) {
-                if(signupBtn) signupBtn.classList.add('hidden');
-                if(userUi) {
-                    userUi.classList.remove('hidden');
-                    userUi.classList.add('flex');
-                }
-            } else {
-                if(signupBtn) signupBtn.classList.remove('hidden');
-                if(userUi) {
-                    userUi.classList.add('hidden');
-                    userUi.classList.remove('flex');
-                }
-            }
-        };
-
-        window.logoutAuth = function() {
-            localStorage.removeItem('auth_session');
-            window.checkAuthSession();
-        };
-
-        window.showSignupModal = function() {
-            const m = document.getElementById('signup-modal');
-            if(m) {
-                m.classList.remove('hidden');
-                m.classList.add('flex');
-            }
-            window.backToSignupMethods();
-        }
-
-        window.closeSignupModal = function() {
-            const m = document.getElementById('signup-modal');
-            if(m) {
-                m.classList.add('hidden');
-                m.classList.remove('flex');
-            }
-        }
-
-        window.backToSignupMethods = function() {
-            document.getElementById('signup-methods').classList.remove('hidden');
-            document.getElementById('signup-otp-section').classList.add('hidden');
-            document.getElementById('signup-status').classList.add('hidden');
-            document.getElementById('otp-step-1').classList.remove('hidden');
-            document.getElementById('otp-step-2').classList.add('hidden');
-            document.getElementById('signup-phone').value = '';
-            document.getElementById('signup-otp').value = '';
-        }
-
-        window.oauthLogin = function(provider) {
-            document.getElementById('signup-methods').classList.add('hidden');
-            const statusDiv = document.getElementById('signup-status');
-            statusDiv.classList.remove('hidden');
-            const icon = document.getElementById('signup-status-icon');
-            const text = document.getElementById('signup-status-text');
-            
-            icon.className = 'fa-solid fa-circle-notch fa-spin text-4xl text-brand mb-3';
-            text.innerText = `Authenticating with ${provider}... Validating Token...`;
-            
-            MockBackend.oauthAuthenticate(provider)
-                .then(res => {
-                    icon.className = 'fa-solid fa-circle-check text-5xl text-emerald-500 mb-3';
-                    text.innerHTML = `<span class="text-emerald-500">OAuth Success!</span><br><span class="text-xs text-slate-500 mt-2 block">Verified Trusted ${provider} Account.</span>`;
-                    
-                    localStorage.setItem('auth_session', JSON.stringify({
-                        type: 'OAuth',
-                        provider: provider,
-                        token: res.token
-                    }));
-                    
-                    setTimeout(() => {
-                        window.closeSignupModal();
-                        window.checkAuthSession();
-                    }, 1500);
-                })
-                .catch(err => {
-                    icon.className = 'fa-solid fa-circle-xmark text-5xl text-red-500 mb-3';
-                    text.innerHTML = `<span class="text-red-500">OAuth Failed!</span><br><span class="text-xs text-slate-500 mt-2 block">${err}</span>`;
-                    setTimeout(window.backToSignupMethods, 2000);
-                });
-        }
-
-        window.showOtpSection = function(type) {
-            window.currentOtpType = type;
-            document.getElementById('signup-methods').classList.add('hidden');
-            document.getElementById('signup-otp-section').classList.remove('hidden');
-            document.getElementById('otp-title').innerText = `${type} Verification`;
-            document.getElementById('otp-subtitle').innerText = `We will send a secure OTP to your ${type.toLowerCase()}.`;
-            document.getElementById('signup-phone').placeholder = `Enter ${type} Number`;
-        }
-
-        window.sendSignupOtp = function() {
-            const phone = document.getElementById('signup-phone').value;
-            if(phone.length < 8) { alert("Please enter a valid phone number."); return; }
-            const btn = document.getElementById('btn-send-otp');
-            btn.innerText = "Sending..."; btn.disabled = true;
-            
-            window.currentAuthId = phone;
-            
-            MockBackend.sendOtp(window.currentOtpType, phone)
-                .then(otp => {
-                    alert(`[System Simulation] OTP Sent via ${window.currentOtpType}!\n\nFor testing purposes, your OTP is: ${otp}`);
-                    btn.innerText = "Send OTP"; btn.disabled = false;
-                    document.getElementById('otp-step-1').classList.add('hidden');
-                    document.getElementById('otp-step-2').classList.remove('hidden');
-                })
-                .catch(err => {
-                    alert(err);
-                    btn.innerText = "Send OTP"; btn.disabled = false;
-                });
-        }
-
-        window.verifySignupOtp = function() {
-            const otpInput = document.getElementById('signup-otp').value;
-            if(otpInput.length < 4) { alert("Please enter the valid OTP."); return; }
-            
-            document.getElementById('signup-otp-section').classList.add('hidden');
-            const statusDiv = document.getElementById('signup-status');
-            statusDiv.classList.remove('hidden');
-            const icon = document.getElementById('signup-status-icon');
-            const text = document.getElementById('signup-status-text');
-            
-            icon.className = 'fa-solid fa-circle-notch fa-spin text-4xl text-brand mb-3';
-            text.innerText = `Verifying ${window.currentOtpType} OTP securely...`;
-            
-            MockBackend.verifyOtp(window.currentAuthId, otpInput)
-                .then(res => {
-                    icon.className = 'fa-solid fa-shield-check text-5xl text-emerald-500 mb-3';
-                    text.innerHTML = `<span class="text-emerald-500">Authentication Successful!</span><br><span class="text-xs text-slate-500 mt-2 block">Session generated securely.</span>`;
-                    
-                    localStorage.setItem('auth_session', JSON.stringify({
-                        type: window.currentOtpType,
-                        id: res.user,
-                        token: res.token
-                    }));
-                    
-                    setTimeout(() => {
-                        window.closeSignupModal();
-                        window.checkAuthSession();
-                    }, 1500);
-                })
-                .catch(err => {
-                    icon.className = 'fa-solid fa-circle-xmark text-5xl text-red-500 mb-3';
-                    text.innerHTML = `<span class="text-red-500">Verification Failed!</span><br><span class="text-xs text-slate-500 mt-2 block">${err}</span>`;
-                    
-                    setTimeout(() => {
-                        statusDiv.classList.add('hidden');
-                        document.getElementById('signup-otp-section').classList.remove('hidden');
-                        document.getElementById('signup-otp').value = '';
-                    }, 2000);
-                });
-        }
-
-
         function generatePassword() {
             return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
         }
+        let password = localStorage.getItem('mt_password') || generatePassword();
 
+        const emailInput = document.getElementById('email-address');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const inboxContent = document.getElementById('inbox-content');
+        const totalEmails = document.getElementById('total-emails');
+
+        // --- RIGOROUS MOCK BACKEND FOR SECURE AUTHENTICATION ---
+        const SecureAuthBackend = {
+            db: JSON.parse(localStorage.getItem('secure_user_db') || '{}'),
+            otpVault: {}, 
+            jwtSecret: 'aryan_mails_2026_secure',
+
+            _hash: function(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) hash = Math.imul(31, hash) + str.charCodeAt(i) | 0;
+                return hash.toString();
+            },
+
+            generateJWT: function(user) {
+                const header = btoa(JSON.stringify({alg: "HS256", typ: "JWT"}));
+                const payload = btoa(JSON.stringify({
+                    id: user.id, 
+                    email: user.email,
+                    phone: user.phone,
+                    name: user.name,
+                    age: user.age,
+                    plan: user.plan,
+                    exp: Date.now() + 86400000 
+                }));
+                const signature = this._hash(header + "." + payload + this.jwtSecret);
+                return `${header}.${payload}.${signature}`;
+            },
+
+            verifyJWT: function(token) {
+                try {
+                    const parts = token.split('.');
+                    if(parts.length !== 3) return null;
+                    const signature = this._hash(parts[0] + "." + parts[1] + this.jwtSecret);
+                    if(signature !== parts[2]) return null;
+                    const payload = JSON.parse(atob(parts[1]));
+                    if(Date.now() > payload.exp) return null;
+                    return payload;
+                } catch(e) { return null; }
+            },
+
+            requestOTP: function(method, identifier, isDual = false) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if(!identifier) return reject("Invalid identifier provided.");
+                        if(this.otpVault[identifier] && this.otpVault[identifier].expires > Date.now()) {
+                            return reject("OTP already sent. Wait before requesting again.");
+                        }
+                        
+                        // Reject known temp mail domains
+                        if(method === 'Google' || method === 'Yahoo') {
+                            const dom = identifier.split('@')[1];
+                            if(!dom || ['1secmail.com','mail.gw','tempmail.com'].includes(dom.toLowerCase())) {
+                                return reject("Disposable emails are strictly blocked.");
+                            }
+                        }
+
+                        const otp1 = Math.floor(100000 + Math.random() * 900000).toString();
+                        let otp2 = null;
+                        if(isDual) otp2 = Math.floor(100000 + Math.random() * 900000).toString();
+
+                        this.otpVault[identifier] = {
+                            otp1: otp1,
+                            otp2: otp2,
+                            method: method,
+                            expires: Date.now() + 300000, // 5 mins
+                            attempts: 0
+                        };
+
+                        let msg = `[BACKEND SIMULATION]\nSecure OTP dispatched to ${identifier} via ${method}.\nYour OTP is: ${otp1}`;
+                        if(isDual) msg += `\nYour WhatsApp OTP is: ${otp2}`;
+                        console.log(msg);
+                        alert(msg); 
+
+                        resolve(true);
+                    }, 600);
+                });
+            },
+
+            verifyOTP: function(identifier, otp1, otp2 = null) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const record = this.otpVault[identifier];
+                        if(!record) return reject("No active OTP session found.");
+                        if(Date.now() > record.expires) {
+                            delete this.otpVault[identifier];
+                            return reject("OTP Expired.");
+                        }
+                        
+                        record.attempts++;
+                        if(record.attempts > 3) {
+                            delete this.otpVault[identifier];
+                            return reject("Too many failed attempts. Try again later.");
+                        }
+
+                        if(record.otp1 !== otp1 || (record.otp2 && record.otp2 !== otp2)) {
+                            return reject("Invalid OTP Code.");
+                        }
+
+                        delete this.otpVault[identifier];
+
+                        let user = this.db[identifier];
+                        if(user) {
+                            resolve({ action: 'login', token: this.generateJWT(user), user: user });
+                        } else {
+                            resolve({ action: 'signup_required', identifier: identifier, method: record.method });
+                        }
+                    }, 800);
+                });
+            },
+
+            registerUser: function(identifier, name, age, method) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if(this.db[identifier]) return reject("User already exists.");
+                        const newUser = {
+                            id: identifier,
+                            email: (method === 'Google' || method === 'Yahoo') ? identifier : null,
+                            phone: (method === 'Mobile' || method === 'WhatsApp') ? identifier : null,
+                            name: name,
+                            age: age,
+                            plan: 'Free User',
+                            method: method
+                        };
+                        this.db[identifier] = newUser;
+                        localStorage.setItem('secure_user_db', JSON.stringify(this.db));
+                        resolve({ token: this.generateJWT(newUser), user: newUser });
+                    }, 500);
+                });
+            },
+
+            oauthFlow: function(provider) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const email = prompt(`[OAuth Simulation]\nConnected to ${provider}.\nEnter your verified ${provider} email address:`);
+                        if(!email || !email.includes('@')) return reject("Invalid OAuth Email.");
+                        resolve(email);
+                    }, 1000);
+                });
+            }
+        };
+
+        // --- AUTH UI CONTROLLER ---
+        window.authContext = {
+            mode: 'login',
+            method: null,
+            identifier: null,
+            isDual: false
+        };
+
+        window.checkAuthSession = function() {
+            const token = localStorage.getItem('auth_jwt');
+            const signupBtn = document.getElementById('nav-signup-btn');
+            const profileBtn = document.getElementById('nav-profile-btn');
+            
+            if (token) {
+                const user = SecureAuthBackend.verifyJWT(token);
+                if(user) {
+                    if(signupBtn) signupBtn.classList.add('hidden');
+                    if(profileBtn) {
+                        profileBtn.classList.remove('hidden');
+                        profileBtn.classList.add('flex');
+                    }
+                    return user;
+                } else {
+                    localStorage.removeItem('auth_jwt');
+                }
+            }
+            if(signupBtn) signupBtn.classList.remove('hidden');
+            if(profileBtn) {
+                profileBtn.classList.add('hidden');
+                profileBtn.classList.remove('flex');
+            }
+            return null;
+        };
+
+        window.openAuthPortal = function() {
+            const user = window.checkAuthSession();
+            const modal = document.getElementById('auth-modal');
+            if(!modal) return;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if(user) {
+                window.switchAuthView('view-profile');
+                document.getElementById('profile-name').innerText = user.name || user.id;
+                document.getElementById('profile-initial').innerText = (user.name || user.id).charAt(0).toUpperCase();
+                document.getElementById('profile-plan').innerText = user.plan;
+                document.getElementById('profile-contact').innerText = user.email || user.phone || user.id;
+                document.getElementById('profile-method').innerText = user.method || 'Secure';
+                document.getElementById('profile-age').innerText = user.age ? user.age + " Years" : "N/A";
+            } else {
+                window.switchAuthView('view-auth-init');
+            }
+        };
+
+        window.closeAuthModal = function() {
+            const modal = document.getElementById('auth-modal');
+            if(modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        };
+
+        window.switchAuthView = function(viewId) {
+            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if(id === viewId) {
+                        el.classList.remove('hidden');
+                        el.classList.add('block');
+                    } else {
+                        el.classList.add('hidden');
+                        el.classList.remove('block');
+                    }
+                }
+            });
+        };
+
+        window.setAuthMode = function(mode) {
+            window.authContext.mode = mode;
+            window.switchAuthView('view-method-select');
+        };
+
+        window.selectMethod = function(method) {
+            window.authContext.method = method;
+            window.authContext.isDual = (method === 'WhatsApp');
+            
+            if(method === 'Google') {
+                window.switchAuthView('view-google-options');
+                return;
+            }
+            
+            if(['Yahoo', 'GitHub', 'Facebook'].includes(method)) {
+                SecureAuthBackend.oauthFlow(method).then(email => {
+                    window.authContext.identifier = email;
+                    window.triggerOTPRequest();
+                }).catch(e => alert(e));
+                return;
+            }
+
+            window.setupIdentifierInput();
+        };
+
+        window.startGoogleFlow = function(type) {
+            if(type === 'manual') {
+                window.setupIdentifierInput();
+            } else {
+                SecureAuthBackend.oauthFlow('Google').then(email => {
+                    window.authContext.identifier = email;
+                    window.triggerOTPRequest();
+                }).catch(e => alert(e));
+            }
+        };
+
+        window.setupIdentifierInput = function() {
+            window.switchAuthView('view-input-identifier');
+            const m = window.authContext.method;
+            const phoneGrp = document.getElementById('phone-input-group');
+            const emailGrp = document.getElementById('email-input-group');
+            
+            if(m === 'Mobile' || m === 'WhatsApp') {
+                phoneGrp.classList.remove('hidden');
+                emailGrp.classList.add('hidden');
+            } else {
+                phoneGrp.classList.add('hidden');
+                emailGrp.classList.remove('hidden');
+            }
+            document.getElementById('auth-req-error').classList.add('hidden');
+        };
+
+        window.requestSecureOTP = function() {
+            const btn = document.getElementById('btn-request-otp');
+            const err = document.getElementById('auth-req-error');
+            const m = window.authContext.method;
+            
+            let identifier = '';
+            if(m === 'Mobile' || m === 'WhatsApp') {
+                const code = document.getElementById('auth-country-code').value;
+                const num = document.getElementById('auth-phone-number').value;
+                if(num.length < 8) { err.innerText = "Invalid phone number."; err.classList.remove('hidden'); return; }
+                identifier = code + num;
+            } else {
+                identifier = document.getElementById('auth-email-address').value;
+                if(!identifier.includes('@')) { err.innerText = "Invalid email address."; err.classList.remove('hidden'); return; }
+            }
+
+            window.authContext.identifier = identifier;
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            
+            SecureAuthBackend.requestOTP(m, identifier, window.authContext.isDual)
+                .then(() => {
+                    btn.disabled = false; btn.innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
+                    window.switchAuthView('view-otp');
+                    document.getElementById('otp-sent-to-text').innerText = `Sent to ${identifier}`;
+                    
+                    if(window.authContext.isDual) {
+                        document.getElementById('single-otp-group').classList.add('hidden');
+                        document.getElementById('dual-otp-group').classList.remove('hidden');
+                    } else {
+                        document.getElementById('single-otp-group').classList.remove('hidden');
+                        document.getElementById('dual-otp-group').classList.add('hidden');
+                    }
+                    document.getElementById('auth-verify-error').classList.add('hidden');
+                })
+                .catch(e => {
+                    btn.disabled = false; btn.innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
+                    err.innerText = e; err.classList.remove('hidden');
+                });
+        };
+
+        window.triggerOTPRequest = function() {
+            SecureAuthBackend.requestOTP(window.authContext.method, window.authContext.identifier, window.authContext.isDual)
+                .then(() => {
+                    window.switchAuthView('view-otp');
+                    document.getElementById('otp-sent-to-text').innerText = `Sent to ${window.authContext.identifier}`;
+                    document.getElementById('single-otp-group').classList.remove('hidden');
+                    document.getElementById('dual-otp-group').classList.add('hidden');
+                    document.getElementById('auth-verify-error').classList.add('hidden');
+                })
+                .catch(e => alert(e));
+        };
+
+        window.submitOTPVerification = function() {
+            const btn = document.getElementById('btn-verify-otp');
+            const err = document.getElementById('auth-verify-error');
+            let otp1 = '', otp2 = null;
+
+            if(window.authContext.isDual) {
+                otp1 = document.getElementById('auth-otp-sms').value;
+                otp2 = document.getElementById('auth-otp-wa').value;
+                if(!otp1 || !otp2) { err.innerText = "Both OTPs are required."; err.classList.remove('hidden'); return; }
+            } else {
+                otp1 = document.getElementById('auth-otp-1').value;
+                if(!otp1) { err.innerText = "OTP is required."; err.classList.remove('hidden'); return; }
+            }
+
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying securely...';
+            
+            SecureAuthBackend.verifyOTP(window.authContext.identifier, otp1, otp2)
+                .then(res => {
+                    btn.disabled = false; btn.innerText = 'Verify & Authenticate';
+                    if(res.action === 'login') {
+                        if(window.authContext.mode === 'signup') {
+                            alert("Account already exists. Logging you in instead.");
+                        }
+                        localStorage.setItem('auth_jwt', res.token);
+                        window.checkAuthSession();
+                        window.openAuthPortal(); // Reload profile
+                    } else if(res.action === 'signup_required') {
+                        if(window.authContext.mode === 'login') {
+                            alert("Account not found. Please setup your profile.");
+                        }
+                        window.switchAuthView('view-register-details');
+                    }
+                })
+                .catch(e => {
+                    btn.disabled = false; btn.innerText = 'Verify & Authenticate';
+                    err.innerText = e; err.classList.remove('hidden');
+                });
+        };
+
+        window.finalizeSignup = function() {
+            const name = document.getElementById('reg-fullname').value;
+            const age = document.getElementById('reg-age').value;
+            const err = document.getElementById('reg-error');
+            const btn = document.getElementById('btn-finalize-signup');
+
+            if(name.length < 2 || !age) { err.innerText = "Please provide valid details."; err.classList.remove('hidden'); return; }
+            
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
+
+            SecureAuthBackend.registerUser(window.authContext.identifier, name, age, window.authContext.method)
+                .then(res => {
+                    btn.disabled = false; btn.innerText = 'Create Profile';
+                    localStorage.setItem('auth_jwt', res.token);
+                    window.checkAuthSession();
+                    window.openAuthPortal();
+                })
+                .catch(e => {
+                    btn.disabled = false; btn.innerText = 'Create Profile';
+                    err.innerText = e; err.classList.remove('hidden');
+                });
+        };
+
+        window.triggerLogout = function() {
+            window.logoutAuth();
+            window.closeAuthModal();
+        };
+
+        // --- IP CHECK & T&C LOGIC ---
         window.checkCookies = function() {
             if (!localStorage.getItem('cookie_accepted')) {
                 const banner = document.getElementById('cookie-banner');
@@ -1680,6 +1977,42 @@
                     </ul>
                     <p>All data is stored locally on your device. Clearing your browser data will instantly wipe your temporary inbox access.</p>
                 `;
+            } else if (pageName === 'Report Abuse') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
+                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
+                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
+                    
+                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-[15px] mt-4 whitespace-nowrap cursor-pointer">
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
+                    </a>
+                `;
+            } else if (pageName === 'API Access') {
+                let apiKey = localStorage.getItem('aryan_api_key') || '';
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Public API Access (Live)</p>
+                    <p class="mb-4">Integrate Aryan Mails into your application. Use the API key below to authenticate your requests.</p>
+                    <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4">
+                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
+                            <button onclick="window.generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
+                `;
+            } else if (pageName === 'Premium Plans') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
+                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
+                        <li>Custom domain names</li>
+                        <li>Permanent email inboxes</li>
+                        <li>Ad-free experience</li>
+                        <li>Higher API rate limits</li>
+                    </ul>
+                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
+                `;
             } else if (pageName === 'System Status') {
                 content = `
                     <div class="space-y-4">
@@ -1749,68 +2082,6 @@
                         </div>
                     </div>
                 `;
-            } else if (pageName === 'Report Abuse') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
-                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
-                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
-                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-[15px] mt-4 whitespace-nowrap cursor-pointer">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
-                    </a>
-                `;
-            } else if (pageName === 'API Access') {
-                let apiKey = localStorage.getItem('aryan_api_key') || '';
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Public API Access (Live)</p>
-                    <p class="mb-4">Integrate Aryan Mails into your application. Use the API key below to authenticate your requests.</p>
-                    <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4">
-                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
-                            <button onclick="window.generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
-                `;
-            } else if (pageName === 'Premium Plans') {
-                content = `
-                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
-                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
-                        <li>Custom domain names</li>
-                        <li>Permanent email inboxes</li>
-                        <li>Ad-free experience</li>
-                        <li>Higher API rate limits</li>
-                    </ul>
-                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
-                `;
-            } else if (pageName === 'Blog & News') {
-                content = `
-                    <div class="text-left py-4 space-y-6">
-                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
-                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
-                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
-                            
-                            <form id="subscribe-form" onsubmit="window.submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
-                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
-                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap cursor-pointer">Subscribe</button>
-                            </form>
-                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
-
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
-                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
-                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
-                        </div>
-                        <div id="blog-container"></div>
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    currentBlogFilter = 'All';
-                    window.renderBlogContent();
-                }, 10);
             }
 
             body.innerHTML = content;
@@ -1826,7 +2097,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             window.checkAuthSession();
-            window.checkCookies();
             
             document.querySelectorAll('.faq-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -1846,6 +2116,7 @@
 
             if(!window.checkTNC()) return; 
             window.initializeAppWithIPCheck();
+            window.checkCookies();
         });
     </script>
 </body>
