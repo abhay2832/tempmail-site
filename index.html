@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg flex justify-end">
-                <button onclick="acceptTNC()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-lg font-bold transition active:scale-95 shadow-md">Accept & Enter</button>
+                <button onclick="acceptTNC()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-lg font-bold transition active:scale-95 shadow-md cursor-pointer">Accept & Enter</button>
             </div>
         </div>
     </div>
@@ -106,12 +106,12 @@
             <p class="text-slate-500 dark:text-gray-400 text-sm mb-6">Please solve this simple math problem to prove you are human.</p>
             <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4 text-2xl font-bold tracking-widest text-slate-800 dark:text-white" id="captcha-question"></div>
             <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-4">
-            <button onclick="verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md">Verify & Generate Email</button>
+            <button onclick="verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md cursor-pointer">Verify & Generate Email</button>
         </div>
     </div>
 
     <div class="fixed right-0 top-1/2 -translate-y-1/2 z-[60]">
-        <button onclick="showSupportModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-8 rounded-l-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-3 group border-y border-l border-emerald-400 dark:border-emerald-700" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+        <button onclick="showSupportModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-8 rounded-l-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-3 group border-y border-l border-emerald-400 dark:border-emerald-700 cursor-pointer" style="writing-mode: vertical-rl; transform: rotate(180deg);">
             <i class="fa-solid fa-hand-holding-dollar rotate-90 text-2xl group-hover:scale-110 transition-transform"></i>
             <span class="font-black tracking-widest uppercase text-sm">Financial Support</span>
         </button>
@@ -642,11 +642,6 @@
         }
         let password = localStorage.getItem('mt_password') || generatePassword();
 
-        const emailInput = document.getElementById('email-address');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const inboxContent = document.getElementById('inbox-content');
-        const totalEmails = document.getElementById('total-emails');
-
         function checkCookies() {
             if (!localStorage.getItem('cookie_accepted')) {
                 const banner = document.getElementById('cookie-banner');
@@ -769,6 +764,14 @@
             }
         }
         
+        document.addEventListener('click', (e) => {
+            const domainBtn = e.target.closest('button[onclick="toggleDomainDropdown()"]');
+            const domainDropdown = document.getElementById('domain-dropdown');
+            if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
+                domainDropdown.classList.add('hidden');
+            }
+        });
+
         function generateAPIKey() {
             const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('aryan_api_key', key);
@@ -953,9 +956,42 @@
             }, 1000);
         }
 
+        function showSupportModal() {
+            document.getElementById('support-modal').classList.remove('hidden');
+            document.getElementById('support-modal').classList.add('flex');
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.add('hidden');
+            document.getElementById('support-modal').classList.remove('flex');
+        }
+
+        function copyUPI() {
+            const upiText = document.getElementById('upi-id-text').innerText;
+            navigator.clipboard.writeText(upiText);
+            const msg = document.getElementById('upi-copy-msg');
+            msg.style.opacity = '1';
+            setTimeout(() => { msg.style.opacity = '0'; }, 2000);
+        }
+
+        function updateLiveStats() {
+            statToday += Math.floor(Math.random() * 3);
+            statInboxes += Math.floor(Math.random() * 2);
+            statGenerated += Math.floor(Math.random() * 5);
+            const stElement = document.getElementById('stat-today');
+            const siElement = document.getElementById('stat-inboxes');
+            const sgElement = document.getElementById('stat-generated');
+            if(stElement) stElement.innerText = statToday.toLocaleString();
+            if(siElement) siElement.innerText = statInboxes.toLocaleString();
+            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
+        }
+        setInterval(updateLiveStats, 3500); 
+
         async function initApp() {
             await fetchDomainsList(); 
             if (address && token) {
+                const emailInput = document.getElementById('email-address');
+                const loadingOverlay = document.getElementById('loading-overlay');
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
                 startSync();
@@ -967,13 +1003,11 @@
                 if (!allMessages || allMessages.length === 0) return;
                 const now = new Date();
                 const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
-                
                 allMessages.forEach(msg => {
                     const msgTime = new Date(msg.createdAt);
                     const fromAddr = (msg.from.address || "").toLowerCase();
                     const subj = (msg.subject || "").toLowerCase();
                     const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    
                     if (((now - msgTime) > 5 * 60 * 1000) || isAdult) { 
                         deleteSingleMail(msg.id);
                     }
@@ -994,7 +1028,10 @@
             recent.push(now);
             localStorage.setItem('mt_limit', JSON.stringify(recent));
 
+            const emailInput = document.getElementById('email-address');
+            const loadingOverlay = document.getElementById('loading-overlay');
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
+            
             try {
                 let stableDomain = activeDomain;
                 if (!stableDomain) {
@@ -1064,6 +1101,8 @@
                 localStorage.removeItem('mt_token');
                 address = null;
                 token = null;
+                const emailInput = document.getElementById('email-address');
+                const loadingOverlay = document.getElementById('loading-overlay');
                 if(emailInput) emailInput.value = "Generating...";
                 if(loadingOverlay) loadingOverlay.style.display = 'flex';
                 clearInboxUIQuiet();
@@ -1077,6 +1116,8 @@
                 if (!customPrefix) return;
                 const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
                 if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
+                const emailInput = document.getElementById('email-address');
+                const loadingOverlay = document.getElementById('loading-overlay');
                 if(loadingOverlay) loadingOverlay.style.display = 'flex';
                 if(emailInput) emailInput.value = "Creating custom email...";
                 try {
@@ -1150,6 +1191,7 @@
         async function manualFetch() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
+            const inboxContent = document.getElementById('inbox-content');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
             if (allMessages.length === 0 && inboxContent) {
                 inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
@@ -1195,6 +1237,8 @@
         }
 
         function renderMails() {
+            const totalEmails = document.getElementById('total-emails');
+            const inboxContent = document.getElementById('inbox-content');
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
             if (allMessages.length > 0) {
                 if(inboxContent) {
@@ -1255,7 +1299,7 @@
             if(modalBodyIframe) modalBodyIframe.srcdoc = '';
         }
 
-        async function clearInboxUIQuiet() { 
+        function clearInboxUIQuiet() { 
             allMessages = []; lastMailCount = 0; renderMails(); 
         }
 
@@ -1270,6 +1314,7 @@
         }
 
         function copyEmail() {
+            const emailInput = document.getElementById('email-address');
             if(emailInput) { emailInput.select(); document.execCommand('copy'); }
             const msg = document.getElementById('copy-msg');
             if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
