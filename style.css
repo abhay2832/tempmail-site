@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+:root { --brand-color: #06b6d4; --brand-bg: rgba(6, 182, 212, 0.1); }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; }
+@keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
+.color-shift { animation: hue-shift 8s infinite linear; }
+.pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
+.spin-slow { animation: spin 2s linear infinite; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+.dark ::-webkit-scrollbar-thumb { background: #1e293b; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
