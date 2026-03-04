@@ -8,13 +8,32 @@
 <meta name="description" content="Protect your personal email from spam, bots, and phishing. Use our free, fast, and secure disposable temporary email generator. No registration required.">
 <meta name="keywords" content="temp mail, temporary email, disposable email, fake email generator, 10 minute mail, free temp mail, trash mail">
 <meta name="author" content="Abhay">
-<meta name="google-site-verification" content="w8bZ1rUYA9pefoRFydWksZPuIQFHHyhQAVg2ERpsuKY" />
 <link rel="canonical" href="https://abhay2832.github.io/tempmail-site/">
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', brand: 'var(--brand-color)', brandbg: 'var(--brand-bg)' }, fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
+    tailwind.config = { 
+        darkMode: 'class', 
+        theme: { 
+            extend: { 
+                colors: { 
+                    darkbg: '#0b1121', 
+                    darkpanel: '#131c31', 
+                    darkborder: '#1e293b', 
+                    brand: 'var(--brand-color)', 
+                    brandbg: 'var(--brand-bg)' 
+                }, 
+                fontFamily: { sans: ['Inter', 'sans-serif'] } 
+            } 
+        } 
+    }
 </script>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     :root { --brand-color: #06b6d4; --brand-bg: rgba(6, 182, 212, 0.1); }
@@ -30,8 +49,6 @@
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
     .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
-    .stat-update { animation: highlight-stat 1s ease-out; }
-    @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
@@ -42,19 +59,18 @@
     <div id="tnc-modal" class="fixed inset-0 bg-slate-900/95 hidden justify-center items-center p-4 z-[9999] backdrop-blur-md">
         <div class="bg-white dark:bg-darkpanel w-full max-w-xl rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden">
             <div class="p-6 border-b border-slate-200 dark:border-darkborder bg-red-50 dark:bg-red-900/10">
-                <h3 class="font-black text-2xl text-red-600 flex items-center gap-3"><i class="fa-solid fa-gavel"></i> Mandatory Legal Agreement</h3>
+                <h3 class="font-black text-2xl text-red-600 flex items-center gap-3"><i class="fa-solid fa-gavel"></i> Legal Agreement</h3>
             </div>
             <div class="p-6 text-slate-700 dark:text-gray-300 text-sm leading-relaxed space-y-4 max-h-[60vh] overflow-y-auto">
                 <p class="font-bold text-base">To enter Aryan Mails, you MUST agree to our strict Terms of Service:</p>
                 <ul class="list-disc pl-5 space-y-2 font-medium">
-                    <li><strong class="text-red-500">Zero Tolerance:</strong> You will NOT use our temporary emails for any illegal, fraudulent, or malicious activities.</li>
-                    <li><strong class="text-red-500">Sole Responsibility:</strong> The user assumes complete and sole legal responsibility for any actions taken using emails generated on this platform. Misuse of this service is strictly prohibited.</li>
-                    <li><strong class="text-red-500">No Owner Liability:</strong> The website owner and administrators hold absolutely NO responsibility or liability for user actions, data loss, or third-party breaches.</li>
-                    <li><strong class="text-red-500">Content Filtering:</strong> Adult websites (e.g., PornHub, xvideos) and illicit platforms are strictly filtered and explicitly blocked on our servers.</li>
+                    <li><strong class="text-red-500">Zero Tolerance:</strong> No illegal, fraudulent, or malicious activities.</li>
+                    <li><strong class="text-red-500">Sole Responsibility:</strong> You assume complete legal responsibility for actions taken using generated emails.</li>
+                    <li><strong class="text-red-500">Content Filtering:</strong> Adult content and illicit platforms are strictly filtered and blocked.</li>
                 </ul>
                 <div class="mt-6 flex items-start gap-3 bg-slate-100 dark:bg-darkbg p-4 rounded-lg border border-slate-300 dark:border-darkborder">
                     <input type="checkbox" id="tnc-checkbox" class="mt-1 w-5 h-5 cursor-pointer accent-brand">
-                    <label for="tnc-checkbox" class="font-bold text-slate-800 dark:text-white cursor-pointer select-none">I have read, understood, and fully agree to take sole legal responsibility for my actions.</label>
+                    <label for="tnc-checkbox" class="font-bold text-slate-800 dark:text-white cursor-pointer select-none">I agree to take sole legal responsibility for my actions.</label>
                 </div>
             </div>
             <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg flex justify-end">
@@ -71,10 +87,11 @@
                 </button>
             </div>
             <div class="px-8 pb-10">
+                
                 <div id="view-auth-init" class="block">
                     <div class="mb-8">
                         <div class="w-12 h-12 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-shield"></i></div>
-                        <h4 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2" id="auth-modal-title">Welcome</h4>
+                        <h4 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Welcome</h4>
                         <p class="text-slate-500 dark:text-slate-400 text-sm">Sign in or create an account to continue.</p>
                     </div>
                     <div class="space-y-3">
@@ -85,89 +102,53 @@
 
                 <div id="view-method-select" class="hidden">
                     <button onclick="window.switchAuthView('view-auth-init')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6" id="method-select-title">Continue with</h4>
+                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">Continue with</h4>
                     <div class="space-y-3">
-                        <button onclick="window.selectMethod('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
-                        <button onclick="window.selectMethod('GitHub')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><i class="fa-brands fa-github text-lg"></i> GitHub</button>
+                        <button onclick="window.startGoogleFlow()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
                         <div class="py-2 flex items-center text-sm text-slate-400 before:flex-1 before:border-t before:border-slate-100 dark:before:border-slate-800 after:flex-1 after:border-t after:border-slate-100 dark:after:border-slate-800"><span class="px-4">or</span></div>
-                        <button onclick="window.selectMethod('Mobile')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><i class="fa-solid fa-mobile-screen text-lg"></i> Phone / SMS</button>
-                        <button onclick="window.selectMethod('WhatsApp')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-lg"></i> WhatsApp</button>
-                    </div>
-                </div>
-
-                <div id="view-google-options" class="hidden text-center">
-                    <button onclick="window.switchAuthView('view-method-select')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <div class="w-12 h-12 bg-blue-50 dark:bg-slate-800 text-blue-500 rounded-full flex items-center justify-center text-xl mx-auto mb-4"><i class="fa-brands fa-google"></i></div>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">Google Verification</h4>
-                    <div class="space-y-3">
-                        <button onclick="window.startGoogleFlow('oauth')" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Direct Login</button>
-                        <button onclick="window.startGoogleFlow('manual')" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-medium py-3 rounded-xl transition hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer">Manual Entry</button>
+                        <button onclick="window.selectMethod('Mobile')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><i class="fa-solid fa-mobile-screen text-lg"></i> Phone / SMS OTP</button>
                     </div>
                 </div>
 
                 <div id="view-input-identifier" class="hidden">
                     <button onclick="window.switchAuthView('view-method-select')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2" id="input-ident-title">Enter details</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6" id="input-ident-desc">We'll send a code to verify.</p>
+                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Enter Mobile Number</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">We'll send a real SMS code to verify.</p>
                     
-                    <div id="phone-input-group" class="hidden mb-6">
-                        <div class="flex gap-2">
-                            <select id="auth-country-code" class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 font-medium w-[100px] outline-none transition">
-                                <option value="+91">+91</option>
-                                <option value="+1">+1</option>
-                                <option value="+44">+44</option>
-                            </select>
-                            <input type="number" id="auth-phone-number" placeholder="Mobile Number" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 font-medium outline-none transition">
-                        </div>
+                    <div class="flex gap-2 mb-4">
+                        <select id="auth-country-code" class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 font-medium w-[100px] outline-none transition">
+                            <option value="+91">+91 (IN)</option>
+                            <option value="+1">+1 (US)</option>
+                            <option value="+44">+44 (UK)</option>
+                        </select>
+                        <input type="number" id="auth-phone-number" placeholder="Mobile Number" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 font-medium outline-none transition">
                     </div>
 
-                    <div id="email-input-group" class="hidden mb-6">
-                        <input type="email" id="auth-email-address" placeholder="name@example.com" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 font-medium outline-none transition">
-                    </div>
+                    <div id="recaptcha-container" class="mb-4 flex justify-center"></div>
 
-                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Send Code</button>
+                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Send Real SMS</button>
                     <p id="auth-req-error" class="text-red-500 text-sm font-medium mt-3 hidden text-center"></p>
                 </div>
 
                 <div id="view-otp" class="hidden">
-                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Check your inbox</h4>
+                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Change Number</button>
+                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Check your phone</h4>
                     <p class="text-sm text-slate-500 dark:text-slate-400 mb-6" id="otp-sent-to-text">Sent to ...</p>
 
-                    <div id="single-otp-group" class="mb-6">
-                        <input type="number" id="auth-otp-1" placeholder="• • • • • •" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-4 text-center tracking-[0.5em] text-2xl font-bold text-slate-900 dark:text-white focus:outline-none focus:border-slate-400 dark:focus:border-slate-500 outline-none transition">
+                    <div class="mb-6">
+                        <input type="number" id="auth-otp-1" placeholder="• • • • • •" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-4 text-center tracking-[0.5em] text-2xl font-bold text-slate-900 dark:text-white focus:outline-none focus:border-brand outline-none transition">
                     </div>
 
-                    <div id="dual-otp-group" class="hidden mb-6 space-y-4">
-                        <p class="text-xs text-amber-600 font-medium bg-amber-50 dark:bg-amber-900/20 px-3 py-2 rounded-lg border border-amber-200 dark:border-amber-800/30">Dual Auth: SMS + WhatsApp required</p>
-                        <input type="number" id="auth-otp-sms" placeholder="SMS Code" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-center tracking-widest text-lg font-bold text-slate-900 dark:text-white focus:outline-none focus:border-slate-400 outline-none transition">
-                        <input type="number" id="auth-otp-wa" placeholder="WhatsApp Code" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-center tracking-widest text-lg font-bold text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500 outline-none transition">
-                    </div>
-
-                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Verify</button>
+                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Verify Code</button>
                     <p id="auth-verify-error" class="text-red-500 text-sm font-medium mt-3 hidden text-center"></p>
-                </div>
-
-                <div id="view-register-details" class="hidden">
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Complete Profile</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Almost there. Tell us about yourself.</p>
-                    <div class="space-y-4 mb-6">
-                        <div>
-                            <input type="text" id="reg-fullname" placeholder="Full Name" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 outline-none transition font-medium">
-                        </div>
-                        <div>
-                            <input type="number" id="reg-age" placeholder="Age" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 outline-none transition font-medium">
-                        </div>
-                    </div>
-                    <button onclick="window.finalizeSignup()" id="btn-finalize-signup" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Create Account</button>
-                    <p id="reg-error" class="text-red-500 text-sm font-medium mt-3 hidden text-center"></p>
                 </div>
 
                 <div id="view-profile" class="hidden">
                     <div class="flex flex-col items-center text-center mb-8">
-                        <div class="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-900 dark:text-white text-2xl font-bold mb-4 border border-slate-200 dark:border-slate-700" id="profile-initial">A</div>
+                        <img id="profile-img" src="" class="w-20 h-20 rounded-full mb-4 border border-slate-200 dark:border-slate-700 object-cover hidden">
+                        <div class="w-20 h-20 bg-brand text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4 border border-slate-200 dark:border-slate-700" id="profile-initial">A</div>
                         <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-1" id="profile-name">User Name</h4>
-                        <span class="inline-flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-emerald-200 dark:border-emerald-800/30" id="profile-plan">Premium</span>
+                        <span class="inline-flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-2.5 py-0.5 rounded-full text-xs font-medium border border-emerald-200 dark:border-emerald-800/30" id="profile-plan">Premium User</span>
                     </div>
 
                     <div class="space-y-3 mb-8">
@@ -175,17 +156,9 @@
                             <span class="text-sm text-slate-500 dark:text-slate-400">Contact</span>
                             <span class="text-sm font-medium text-slate-900 dark:text-white truncate max-w-[150px]" id="profile-contact">...</span>
                         </div>
-                        <div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800/50">
-                            <span class="text-sm text-slate-500 dark:text-slate-400">Auth Method</span>
-                            <span class="text-sm font-medium text-slate-900 dark:text-white" id="profile-method">...</span>
-                        </div>
-                        <div class="flex justify-between items-center py-2">
-                            <span class="text-sm text-slate-500 dark:text-slate-400">Age</span>
-                            <span class="text-sm font-medium text-slate-900 dark:text-white" id="profile-age">...</span>
-                        </div>
                     </div>
 
-                    <button onclick="window.triggerLogout()" class="w-full text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 font-medium py-3 rounded-xl transition cursor-pointer border border-transparent hover:border-red-100 dark:hover:border-red-900/30 hover:bg-red-50 dark:hover:bg-red-900/10">Log out</button>
+                    <button onclick="window.triggerLogout()" class="w-full text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 font-medium py-3 rounded-xl transition cursor-pointer border border-transparent hover:border-red-100 dark:hover:border-red-900/30 hover:bg-red-50 dark:hover:bg-red-900/10">Secure Log out</button>
                 </div>
             </div>
         </div>
@@ -651,7 +624,7 @@
         </div>
     </div>
 
-    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9990] backdrop-blur-sm transition-opacity">
         <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
                 <div class="pr-4 flex-1 min-w-0">
@@ -668,37 +641,7 @@
         </div>
     </div>
 
-    <div id="support-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
-        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder">
-            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
-                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-emerald-500"></i> Support Aryan Mails</h3>
-                <button onclick="window.closeSupportModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-            <div class="p-6 text-center text-slate-600 dark:text-gray-300 text-sm leading-relaxed overflow-y-auto max-h-[80vh]">
-                <p class="mb-4 text-base">Your support helps us keep the servers running and the service 100% free! We accept all UPI payments including <b>Google Pay, PhonePe, Paytm, and Navi</b>.</p>
-                <div class="bg-white p-4 rounded-xl inline-block mb-4 border border-slate-200 shadow-md">
-                    <img id="upi-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" alt="UPI QR Code" class="w-48 h-48 mx-auto">
-                </div>
-                <p class="font-semibold text-slate-800 dark:text-white mb-2">Scan QR or Copy UPI ID:</p>
-                <div class="flex items-center justify-between bg-slate-100 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg p-3 max-w-sm mx-auto shadow-inner mb-2">
-                    <span class="font-mono text-brand font-bold text-base" id="upi-id-text">pp90990341@ybl</span>
-                    <button onclick="window.copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
-                </div>
-                <p id="upi-copy-msg" class="text-xs text-emerald-500 font-bold mb-4 opacity-0 transition-opacity">UPI ID Copied to clipboard!</p>
-                <div class="border-t border-slate-200 dark:border-darkborder pt-5 mt-2">
-                    <p class="font-semibold text-slate-800 dark:text-white mb-3 text-base">Pay Directly via App (Mobile Only):</p>
-                    <a href="upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base whitespace-nowrap cursor-pointer">
-                        <i class="fa-solid fa-bolt"></i> Tap to Pay Direct
-                    </a>
-                    <p class="text-xs mt-3 text-slate-500 dark:text-gray-400">Clicking above will open your default UPI app.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9995] backdrop-blur-sm transition-opacity">
         <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
@@ -715,198 +658,39 @@
     </div>
 
     <script>
-        const API = 'https://api.mail.gw';
-        let token = localStorage.getItem('mt_token');
-        let address = localStorage.getItem('mt_email');
-        let syncTimer = null;
-        let refreshSec = 5; 
-        let lastMailCount = 0; 
-        let soundOn = true;
-        let isSyncing = true; 
-        let allMessages = [];
-        let deletedMails = JSON.parse(localStorage.getItem('deleted_mails') || '[]');
-        let availableDomains = [];
-        let activeDomain = "";
-        let currentEmailType = 'human'; 
-        let captchaAnswer = 0;
-        let captchaSuccessCallback = null;
-        let emailTimerInterval;
-        let statToday = 819; 
-        let statInboxes = 382; 
-        let statGenerated = 296500;
-
-        function generatePassword() {
-            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
-        }
-        let password = localStorage.getItem('mt_password') || generatePassword();
-
-        const emailInput = document.getElementById('email-address');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        const inboxContent = document.getElementById('inbox-content');
-        const totalEmails = document.getElementById('total-emails');
-
-        const SecureAuthBackend = {
-            db: JSON.parse(localStorage.getItem('secure_user_db') || '{}'),
-            otpVault: {}, 
-            jwtSecret: 'aryan_mails_2026_secure',
-
-            _hash: function(str) {
-                let hash = 0;
-                for (let i = 0; i < str.length; i++) hash = Math.imul(31, hash) + str.charCodeAt(i) | 0;
-                return hash.toString();
-            },
-
-            generateJWT: function(user) {
-                const header = btoa(JSON.stringify({alg: "HS256", typ: "JWT"}));
-                const payload = btoa(JSON.stringify({
-                    id: user.id, 
-                    email: user.email,
-                    phone: user.phone,
-                    name: user.name,
-                    age: user.age,
-                    plan: user.plan,
-                    exp: Date.now() + 86400000 
-                }));
-                const signature = this._hash(header + "." + payload + this.jwtSecret);
-                return `${header}.${payload}.${signature}`;
-            },
-
-            verifyJWT: function(token) {
-                try {
-                    const parts = token.split('.');
-                    if(parts.length !== 3) return null;
-                    const signature = this._hash(parts[0] + "." + parts[1] + this.jwtSecret);
-                    if(signature !== parts[2]) return null;
-                    const payload = JSON.parse(atob(parts[1]));
-                    if(Date.now() > payload.exp) return null;
-                    return payload;
-                } catch(e) { return null; }
-            },
-
-            requestOTP: function(method, identifier, isDual = false) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        if(!identifier) return reject("Invalid identifier provided.");
-                        if(this.otpVault[identifier] && this.otpVault[identifier].expires > Date.now()) {
-                            return reject("OTP already sent. Wait before requesting again.");
-                        }
-                        
-                        if(method === 'Google' || method === 'Yahoo') {
-                            const dom = identifier.split('@')[1];
-                            if(!dom || ['1secmail.com','mail.gw','tempmail.com'].includes(dom.toLowerCase())) {
-                                return reject("Disposable emails are strictly blocked.");
-                            }
-                        }
-
-                        const otp1 = Math.floor(100000 + Math.random() * 900000).toString();
-                        let otp2 = null;
-                        if(isDual) otp2 = Math.floor(100000 + Math.random() * 900000).toString();
-
-                        this.otpVault[identifier] = {
-                            otp1: otp1,
-                            otp2: otp2,
-                            method: method,
-                            expires: Date.now() + 300000,
-                            attempts: 0
-                        };
-
-                        let msg = `[BACKEND SIMULATION]\nSecure OTP dispatched to ${identifier} via ${method}.\nYour OTP is: ${otp1}`;
-                        if(isDual) msg += `\nYour WhatsApp OTP is: ${otp2}`;
-                        console.log(msg);
-                        alert(msg); 
-
-                        resolve(true);
-                    }, 600);
-                });
-            },
-
-            verifyOTP: function(identifier, otp1, otp2 = null) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const record = this.otpVault[identifier];
-                        if(!record) return reject("No active OTP session found.");
-                        if(Date.now() > record.expires) {
-                            delete this.otpVault[identifier];
-                            return reject("OTP Expired.");
-                        }
-                        
-                        record.attempts++;
-                        if(record.attempts > 3) {
-                            delete this.otpVault[identifier];
-                            return reject("Too many failed attempts. Try again later.");
-                        }
-
-                        if(record.otp1 !== otp1 || (record.otp2 && record.otp2 !== otp2)) {
-                            return reject("Invalid OTP Code.");
-                        }
-
-                        delete this.otpVault[identifier];
-
-                        let user = this.db[identifier];
-                        if(user) {
-                            resolve({ action: 'login', token: this.generateJWT(user), user: user });
-                        } else {
-                            resolve({ action: 'signup_required', identifier: identifier, method: record.method });
-                        }
-                    }, 800);
-                });
-            },
-
-            registerUser: function(identifier, name, age, method) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        if(this.db[identifier]) return reject("User already exists.");
-                        const newUser = {
-                            id: identifier,
-                            email: (method === 'Google' || method === 'Yahoo') ? identifier : null,
-                            phone: (method === 'Mobile' || method === 'WhatsApp') ? identifier : null,
-                            name: name,
-                            age: age,
-                            plan: 'Free User',
-                            method: method
-                        };
-                        this.db[identifier] = newUser;
-                        localStorage.setItem('secure_user_db', JSON.stringify(this.db));
-                        resolve({ token: this.generateJWT(newUser), user: newUser });
-                    }, 500);
-                });
-            },
-
-            oauthFlow: function(provider) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const email = prompt(`[OAuth Simulation]\nConnected to ${provider}.\nEnter your verified ${provider} email address:`);
-                        if(!email || !email.includes('@')) return reject("Invalid OAuth Email.");
-                        resolve(email);
-                    }, 1000);
-                });
-            }
+        // ==========================================
+        // 1. FIREBASE AUTHENTICATION LOGIC
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbdxl0S7iwFn0uXlhXKMj49wB4-csSp7U",
+            authDomain: "aryan-mails.firebaseapp.com",
+            projectId: "aryan-mails",
+            storageBucket: "aryan-mails.firebasestorage.app",
+            messagingSenderId: "190362104203",
+            appId: "1:190362104203:web:3240a185525825e97b3f8e",
+            measurementId: "G-8S38X1F05Y"
         };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        let confirmationResult = null;
+        window.recaptchaVerifier = null;
 
-        window.authContext = {
-            mode: 'login',
-            method: null,
-            identifier: null,
-            isDual: false
-        };
+        window.authContext = { mode: 'login', method: null, identifier: null };
 
         window.checkAuthSession = function() {
             const token = localStorage.getItem('auth_jwt');
+            const userDetailsStr = localStorage.getItem('auth_user_details');
             const signupBtn = document.getElementById('nav-signup-btn');
             const profileBtn = document.getElementById('nav-profile-btn');
             
-            if (token) {
-                const user = SecureAuthBackend.verifyJWT(token);
-                if(user) {
-                    if(signupBtn) signupBtn.classList.add('hidden');
-                    if(profileBtn) {
-                        profileBtn.classList.remove('hidden');
-                        profileBtn.classList.add('flex');
-                    }
-                    return user;
-                } else {
-                    localStorage.removeItem('auth_jwt');
+            if (token && userDetailsStr) {
+                const user = JSON.parse(userDetailsStr);
+                if(signupBtn) signupBtn.classList.add('hidden');
+                if(profileBtn) {
+                    profileBtn.classList.remove('hidden');
+                    profileBtn.classList.add('flex');
                 }
+                return user;
             }
             if(signupBtn) signupBtn.classList.remove('hidden');
             if(profileBtn) {
@@ -926,12 +710,19 @@
 
             if(user) {
                 window.switchAuthView('view-profile');
-                document.getElementById('profile-name').innerText = user.name || user.id;
-                document.getElementById('profile-initial').innerText = (user.name || user.id).charAt(0).toUpperCase();
-                document.getElementById('profile-plan').innerText = user.plan;
-                document.getElementById('profile-contact').innerText = user.email || user.phone || user.id;
-                document.getElementById('profile-method').innerText = user.method || 'Secure';
-                document.getElementById('profile-age').innerText = user.age ? user.age + " Years" : "N/A";
+                document.getElementById('profile-name').innerText = user.name || "Verified User";
+                
+                if(user.photo) {
+                    document.getElementById('profile-img').src = user.photo;
+                    document.getElementById('profile-img').classList.remove('hidden');
+                    document.getElementById('profile-initial').classList.add('hidden');
+                } else {
+                    document.getElementById('profile-img').classList.add('hidden');
+                    document.getElementById('profile-initial').classList.remove('hidden');
+                    document.getElementById('profile-initial').innerText = (user.name || user.contact || "U").charAt(0).toUpperCase();
+                }
+                
+                document.getElementById('profile-contact').innerText = user.contact || user.phone || user.email || user.id;
             } else {
                 window.switchAuthView('view-auth-init');
             }
@@ -939,350 +730,154 @@
 
         window.closeAuthModal = function() {
             const modal = document.getElementById('auth-modal');
-            if(modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
+            if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
         };
 
         window.switchAuthView = function(viewId) {
-            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
+            ['view-auth-init', 'view-method-select', 'view-input-identifier', 'view-otp', 'view-profile'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
-                    if(id === viewId) {
-                        el.classList.remove('hidden');
-                        el.classList.add('block');
-                    } else {
-                        el.classList.add('hidden');
-                        el.classList.remove('block');
-                    }
+                    if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); } 
+                    else { el.classList.add('hidden'); el.classList.remove('block'); }
                 }
             });
         };
 
-        window.setAuthMode = function(mode) {
-            window.authContext.mode = mode;
-            window.switchAuthView('view-method-select');
-        };
+        window.setAuthMode = function(mode) { window.switchAuthView('view-method-select'); };
 
         window.selectMethod = function(method) {
             window.authContext.method = method;
-            window.authContext.isDual = (method === 'WhatsApp');
-            
-            if(method === 'Google') {
-                window.switchAuthView('view-google-options');
-                return;
-            }
-            
-            if(['Yahoo', 'GitHub', 'Facebook'].includes(method)) {
-                SecureAuthBackend.oauthFlow(method).then(email => {
-                    window.authContext.identifier = email;
-                    window.triggerOTPRequest();
-                }).catch(e => alert(e));
-                return;
-            }
-
-            window.setupIdentifierInput();
-        };
-
-        window.startGoogleFlow = function(type) {
-            if(type === 'manual') {
-                window.setupIdentifierInput();
+            if(method === 'Mobile') {
+                window.switchAuthView('view-input-identifier');
             } else {
-                SecureAuthBackend.oauthFlow('Google').then(email => {
-                    window.authContext.identifier = email;
-                    window.triggerOTPRequest();
-                }).catch(e => alert(e));
+                alert("Please select Phone/SMS or Google.");
             }
         };
 
-        window.setupIdentifierInput = function() {
-            window.switchAuthView('view-input-identifier');
-            const m = window.authContext.method;
-            const phoneGrp = document.getElementById('phone-input-group');
-            const emailGrp = document.getElementById('email-input-group');
-            
-            if(m === 'Mobile' || m === 'WhatsApp') {
-                phoneGrp.classList.remove('hidden');
-                emailGrp.classList.add('hidden');
-            } else {
-                phoneGrp.classList.add('hidden');
-                emailGrp.classList.remove('hidden');
-            }
-            document.getElementById('auth-req-error').classList.add('hidden');
+        window.startGoogleFlow = function() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then((result) => {
+                const user = result.user;
+                localStorage.setItem('auth_jwt', user.uid);
+                localStorage.setItem('auth_user_details', JSON.stringify({
+                    id: user.uid, email: user.email, name: user.displayName, photo: user.photoURL, contact: user.email
+                }));
+                window.openAuthPortal();
+            }).catch((error) => {
+                alert("Google Login Failed: " + error.message);
+            });
         };
+
+        function setupRecaptcha() {
+            if(!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'normal',
+                    'callback': (response) => {}
+                });
+            }
+        }
 
         window.requestSecureOTP = function() {
             const btn = document.getElementById('btn-request-otp');
             const err = document.getElementById('auth-req-error');
-            const m = window.authContext.method;
-            
-            let identifier = '';
-            if(m === 'Mobile' || m === 'WhatsApp') {
-                const code = document.getElementById('auth-country-code').value;
-                const num = document.getElementById('auth-phone-number').value;
-                if(num.length < 8) { err.innerText = "Invalid phone number."; err.classList.remove('hidden'); return; }
-                identifier = code + num;
-            } else {
-                identifier = document.getElementById('auth-email-address').value;
-                if(!identifier.includes('@')) { err.innerText = "Invalid email address."; err.classList.remove('hidden'); return; }
-            }
+            err.classList.add('hidden');
 
-            window.authContext.identifier = identifier;
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            const code = document.getElementById('auth-country-code').value;
+            const num = document.getElementById('auth-phone-number').value;
+            if(num.length < 10) { err.innerText = "Valid phone number required."; err.classList.remove('hidden'); return; }
             
-            SecureAuthBackend.requestOTP(m, identifier, window.authContext.isDual)
-                .then(() => {
-                    btn.disabled = false; btn.innerHTML = 'Send Code';
+            const phoneNumber = code + num;
+            window.authContext.identifier = phoneNumber;
+
+            btn.disabled = true; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending SMS...';
+
+            setupRecaptcha();
+            const appVerifier = window.recaptchaVerifier;
+
+            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((result) => {
+                    confirmationResult = result;
+                    btn.disabled = false; 
+                    btn.innerHTML = 'Send Code';
                     window.switchAuthView('view-otp');
-                    document.getElementById('otp-sent-to-text').innerText = `Sent to ${identifier}`;
-                    
-                    if(window.authContext.isDual) {
-                        document.getElementById('single-otp-group').classList.add('hidden');
-                        document.getElementById('dual-otp-group').classList.remove('hidden');
-                    } else {
-                        document.getElementById('single-otp-group').classList.remove('hidden');
-                        document.getElementById('dual-otp-group').classList.add('hidden');
-                    }
-                    document.getElementById('auth-verify-error').classList.add('hidden');
-                })
-                .catch(e => {
-                    btn.disabled = false; btn.innerHTML = 'Send Code';
-                    err.innerText = e; err.classList.remove('hidden');
+                    document.getElementById('otp-sent-to-text').innerText = `SMS sent to ${phoneNumber}`;
+                }).catch((error) => {
+                    btn.disabled = false; 
+                    btn.innerHTML = 'Send Code';
+                    err.innerText = error.message; 
+                    err.classList.remove('hidden');
+                    if(window.recaptchaVerifier) window.recaptchaVerifier.render().then(id => grecaptcha.reset(id));
                 });
-        };
-
-        window.triggerOTPRequest = function() {
-            SecureAuthBackend.requestOTP(window.authContext.method, window.authContext.identifier, window.authContext.isDual)
-                .then(() => {
-                    window.switchAuthView('view-otp');
-                    document.getElementById('otp-sent-to-text').innerText = `Sent to ${window.authContext.identifier}`;
-                    document.getElementById('single-otp-group').classList.remove('hidden');
-                    document.getElementById('dual-otp-group').classList.add('hidden');
-                    document.getElementById('auth-verify-error').classList.add('hidden');
-                })
-                .catch(e => alert(e));
         };
 
         window.submitOTPVerification = function() {
             const btn = document.getElementById('btn-verify-otp');
             const err = document.getElementById('auth-verify-error');
-            let otp1 = '', otp2 = null;
+            const otpCode = document.getElementById('auth-otp-1').value;
 
-            if(window.authContext.isDual) {
-                otp1 = document.getElementById('auth-otp-sms').value;
-                otp2 = document.getElementById('auth-otp-wa').value;
-                if(!otp1 || !otp2) { err.innerText = "Both OTPs are required."; err.classList.remove('hidden'); return; }
-            } else {
-                otp1 = document.getElementById('auth-otp-1').value;
-                if(!otp1) { err.innerText = "OTP is required."; err.classList.remove('hidden'); return; }
-            }
+            if(!otpCode || otpCode.length < 6) { err.innerText = "Enter valid 6-digit code."; err.classList.remove('hidden'); return; }
 
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
-            
-            SecureAuthBackend.verifyOTP(window.authContext.identifier, otp1, otp2)
-                .then(res => {
-                    btn.disabled = false; btn.innerText = 'Verify & Authenticate';
-                    if(res.action === 'login') {
-                        if(window.authContext.mode === 'signup') {
-                            alert("Account already exists. Logging you in instead.");
-                        }
-                        localStorage.setItem('auth_jwt', res.token);
-                        window.checkAuthSession();
-                        window.openAuthPortal(); 
-                    } else if(res.action === 'signup_required') {
-                        if(window.authContext.mode === 'login') {
-                            alert("Account not found. Please setup your profile.");
-                        }
-                        window.switchAuthView('view-register-details');
-                    }
-                })
-                .catch(e => {
-                    btn.disabled = false; btn.innerText = 'Verify & Authenticate';
-                    err.innerText = e; err.classList.remove('hidden');
-                });
-        };
+            btn.disabled = true; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
 
-        window.finalizeSignup = function() {
-            const name = document.getElementById('reg-fullname').value;
-            const age = document.getElementById('reg-age').value;
-            const err = document.getElementById('reg-error');
-            const btn = document.getElementById('btn-finalize-signup');
-
-            if(name.length < 2 || !age) { err.innerText = "Please provide valid details."; err.classList.remove('hidden'); return; }
-            
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
-
-            SecureAuthBackend.registerUser(window.authContext.identifier, name, age, window.authContext.method)
-                .then(res => {
-                    btn.disabled = false; btn.innerText = 'Create Account';
-                    localStorage.setItem('auth_jwt', res.token);
-                    window.checkAuthSession();
-                    window.openAuthPortal();
-                })
-                .catch(e => {
-                    btn.disabled = false; btn.innerText = 'Create Account';
-                    err.innerText = e; err.classList.remove('hidden');
-                });
+            confirmationResult.confirm(otpCode).then((result) => {
+                const user = result.user;
+                btn.disabled = false; 
+                btn.innerText = 'Verify Code';
+                localStorage.setItem('auth_jwt', user.uid);
+                localStorage.setItem('auth_user_details', JSON.stringify({
+                    id: user.uid, phone: user.phoneNumber, name: "Verified User", contact: user.phoneNumber
+                }));
+                window.openAuthPortal(); 
+            }).catch((error) => {
+                btn.disabled = false; 
+                btn.innerText = 'Verify Code';
+                err.innerText = "Invalid OTP Code. Try again."; 
+                err.classList.remove('hidden');
+            });
         };
 
         window.triggerLogout = function() {
-            localStorage.removeItem('auth_jwt');
-            window.checkAuthSession();
-            window.closeAuthModal();
+            auth.signOut().then(() => {
+                localStorage.removeItem('auth_jwt');
+                localStorage.removeItem('auth_user_details');
+                window.checkAuthSession();
+                window.closeAuthModal();
+            });
         };
 
-        window.checkCookies = function() {
-            if (!localStorage.getItem('cookie_accepted')) {
-                const banner = document.getElementById('cookie-banner');
-                if(banner) {
-                    banner.classList.remove('hidden');
-                    setTimeout(() => banner.classList.remove('translate-y-full'), 100);
-                }
-            }
-        }
+        // ==========================================
+        // 2. TEMP MAIL (MAIL.GW) LOGIC
+        // ==========================================
+        const API = 'https://api.mail.gw';
+        let token = localStorage.getItem('mt_token');
+        let address = localStorage.getItem('mt_email');
+        let syncTimer = null;
+        let refreshSec = 5; 
+        let lastMailCount = 0; 
+        let soundOn = true;
+        let isSyncing = true; 
+        let allMessages = [];
+        let availableDomains = [];
+        let activeDomain = "";
+        let currentEmailType = 'human'; 
+        let captchaAnswer = 0;
+        let captchaSuccessCallback = null;
+        let emailTimerInterval;
+        let statToday = 819; 
+        let statInboxes = 382; 
+        let statGenerated = 296500;
 
-        window.acceptCookies = function() {
-            localStorage.setItem('cookie_accepted', 'true');
-            const banner = document.getElementById('cookie-banner');
-            if(banner) {
-                banner.classList.add('translate-y-full');
-                setTimeout(() => banner.classList.add('hidden'), 500);
-            }
-        }
-
-        window.checkTNC = function() {
-            const lastAccepted = localStorage.getItem('tnc_accepted_time');
-            const now = Date.now();
-            if (!lastAccepted || (now - parseInt(lastAccepted)) > 24 * 60 * 60 * 1000) {
-                const modal = document.getElementById('tnc-modal');
-                if(modal) {
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-                }
-                return false;
-            }
-            return true;
-        }
-
-        window.acceptTNC = function() {
-            const cb = document.getElementById('tnc-checkbox');
-            if(!cb || !cb.checked) {
-                alert("You must check the box to agree to the Terms and Conditions.");
-                return;
-            }
-            localStorage.setItem('tnc_accepted_time', Date.now().toString());
-            const modal = document.getElementById('tnc-modal');
-            if(modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-            window.initializeAppWithIPCheck(); 
-        }
-
-        window.initializeAppWithIPCheck = async function() {
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                const userIP = data.ip;
-                const blocked = JSON.parse(localStorage.getItem('blocked_ips') || '[]');
-                
-                if(blocked.includes(userIP) || localStorage.getItem('is_banned') === 'true') {
-                    document.body.innerHTML = `<div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-900 text-white"><i class="fa-solid fa-ban text-6xl text-red-500 mb-4"></i><h1 class="text-3xl font-bold mb-2">Access Denied</h1><p>Your IP (${userIP}) has been permanently blocked from our network due to policy violations or abuse.</p></div>`;
-                    return;
-                }
-                window.initApp(); 
-            } catch(e) {
-                window.initApp(); 
-            }
-        }
-
-        window.showCaptcha = function(callback) {
-            const num1 = Math.floor(Math.random() * 10) + 1;
-            const num2 = Math.floor(Math.random() * 10) + 1;
-            captchaAnswer = num1 + num2;
-            const cq = document.getElementById('captcha-question');
-            if(cq) cq.innerText = `${num1} + ${num2} = ?`;
-            const ci = document.getElementById('captcha-input');
-            if(ci) ci.value = "";
-            const modal = document.getElementById('captcha-modal');
-            if(modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
-            captchaSuccessCallback = callback;
-        }
-
-        window.verifyCaptcha = function() {
-            const ci = document.getElementById('captcha-input');
-            const val = parseInt(ci ? ci.value : 0);
-            if(val === captchaAnswer) {
-                const modal = document.getElementById('captcha-modal');
-                if(modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                }
-                if(captchaSuccessCallback) captchaSuccessCallback();
-            } else {
-                alert("Incorrect CAPTCHA. Are you a bot?");
-                if(ci) ci.value = "";
-            }
-        }
-
-        window.setEmailType = function(type) {
-            currentEmailType = type;
-            const btnHuman = document.getElementById('btn-type-human');
-            const btnRandom = document.getElementById('btn-type-random');
-            if(!btnHuman || !btnRandom) return;
-            
-            if (type === 'human') {
-                btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
-                btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
-            } else {
-                btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
-                btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
-            }
-        }
-
-        window.toggleDomainDropdown = function() {
-            const el = document.getElementById('domain-dropdown');
-            if(!el) return;
-            if (el.classList.contains('hidden')) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
-        }
-        
-        document.addEventListener('click', (e) => {
-            const domainBtn = e.target.closest('button[onclick="window.toggleDomainDropdown()"]');
-            const domainDropdown = document.getElementById('domain-dropdown');
-            if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
-                domainDropdown.classList.add('hidden');
-            }
-        });
-
-        window.generateAPIKey = function() {
-            const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('aryan_api_key', key);
-            const disp = document.getElementById('api-key-display');
-            if(disp) disp.value = key;
-            alert("New API Key Generated Successfully!");
-        }
-
-        const blogArticles = [
-            { id: 'article1', category: 'Social Media', title: 'How to Get Instagram OTP Using Temp Mail in India', readTime: '12 min read', date: '03/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn how to verify Instagram accounts in India without using your real phone number.', content: `<p>Blog content placeholder.</p>` },
-            { id: 'article2', category: 'Messaging', title: 'Temporary Email for Telegram Verification – Does It Really Work?', readTime: '10 min read', date: '04/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover the truth about using fake emails for Telegram signups and maintaining total anonymity.', content: `<p>Blog content placeholder.</p>` },
-            { id: 'article3', category: 'Privacy', title: 'Free Temp Mail Without Phone Number Verification in India', readTime: '9 min read', date: '05/03/2026', author: 'Aryan Mails Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why providing your phone number for an email address is a privacy risk and how to avoid it.', content: `<p>Blog content placeholder.</p>` }
-        ];
+        function generatePassword() { return "P@ss" + Math.random().toString(36).slice(-8) + "1x!"; }
+        let password = localStorage.getItem('mt_password') || generatePassword();
 
         window.fetchDomainsList = async function() {
             try {
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
                 let apiDomains = data['hydra:member'].map(d => d.domain);
-                const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
-                availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
+                availableDomains = [...new Set([...apiDomains])].slice(0, 10);
                 if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
                 window.renderDomainDropdown();
             } catch(e) { }
@@ -1309,51 +904,20 @@
             }
         }
 
-        window.startEmailTimer = function(durationInSeconds) {
-            clearInterval(emailTimerInterval);
-            let time = durationInSeconds;
-            const display = document.getElementById('countdown-timer');
-            if(!display) return;
-            emailTimerInterval = setInterval(() => {
-                let minutes = parseInt(time / 60, 10);
-                let seconds = parseInt(time % 60, 10);
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                display.textContent = minutes + ":" + seconds;
-                if (--time < 0) time = durationInSeconds; 
-            }, 1000);
+        window.toggleDomainDropdown = function() {
+            const el = document.getElementById('domain-dropdown');
+            if(!el) return;
+            if (el.classList.contains('hidden')) { el.classList.remove('hidden'); } 
+            else { el.classList.add('hidden'); }
         }
-
-        window.showSupportModal = function() {
-            document.getElementById('support-modal').classList.remove('hidden');
-            document.getElementById('support-modal').classList.add('flex');
-        }
-
-        window.closeSupportModal = function() {
-            document.getElementById('support-modal').classList.add('hidden');
-            document.getElementById('support-modal').classList.remove('flex');
-        }
-
-        window.copyUPI = function() {
-            const upiText = document.getElementById('upi-id-text').innerText;
-            navigator.clipboard.writeText(upiText);
-            const msg = document.getElementById('upi-copy-msg');
-            msg.style.opacity = '1';
-            setTimeout(() => { msg.style.opacity = '0'; }, 2000);
-        }
-
-        window.updateLiveStats = function() {
-            statToday += Math.floor(Math.random() * 3);
-            statInboxes += Math.floor(Math.random() * 2);
-            statGenerated += Math.floor(Math.random() * 5);
-            const stElement = document.getElementById('stat-today');
-            const siElement = document.getElementById('stat-inboxes');
-            const sgElement = document.getElementById('stat-generated');
-            if(stElement) stElement.innerText = statToday.toLocaleString();
-            if(siElement) siElement.innerText = statInboxes.toLocaleString();
-            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
-        }
-        setInterval(window.updateLiveStats, 3500); 
+        
+        document.addEventListener('click', (e) => {
+            const domainBtn = e.target.closest('button[onclick="window.toggleDomainDropdown()"]');
+            const domainDropdown = document.getElementById('domain-dropdown');
+            if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
+                domainDropdown.classList.add('hidden');
+            }
+        });
 
         window.initApp = async function() {
             await window.fetchDomainsList(); 
@@ -1369,86 +933,54 @@
                 window.createNewAccount();
             }
 
+            // Bug Fixed: Auto Delete Logic for 5 mins
             setInterval(() => {
                 if (!allMessages || allMessages.length === 0) return;
                 const now = Date.now();
-                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
                 let changed = false;
                 
                 allMessages.forEach(msg => {
-                    // FIXED: Properly parsing date format to avoid crashes.
                     const msgTime = new Date(msg.createdAt).getTime();
-                    const fromAddr = (msg.from.address || "").toLowerCase();
-                    const subj = (msg.subject || "").toLowerCase();
-                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    
-                    if (((now - msgTime) > 5 * 60 * 1000) || isAdult) { 
+                    if (((now - msgTime) > 300000)) { // 300000ms = 5 mins
                         window.deleteSingleMail(msg.id);
                         changed = true;
                     }
                 });
-                
-                if (changed) {
-                    window.renderMails();
-                }
-            }, 30000); 
+                if (changed) { window.renderMails(); }
+            }, 10000); 
         }
 
         window.createNewAccount = async function() {
-            const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
-            const now = Date.now();
-            const recent = history.filter(t => now - t < 60 * 60 * 1000); 
-            if(recent.length >= 50) { 
-                localStorage.setItem('is_banned', 'true');
-                alert("Anti-Abuse System: You have exceeded the limit. Your IP is blocked.");
-                location.reload();
-                return;
-            }
-            recent.push(now);
-            localStorage.setItem('mt_limit', JSON.stringify(recent));
-
             const emailInput = document.getElementById('email-address');
             const loadingOverlay = document.getElementById('loading-overlay');
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             
             try {
-                if (!activeDomain || availableDomains.length === 0) {
-                    await window.fetchDomainsList();
-                }
-                let stableDomain = activeDomain;
+                if (!activeDomain || availableDomains.length === 0) { await window.fetchDomainsList(); }
                 
                 let newUsername = "";
                 if (currentEmailType === 'human') {
-                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
-                    const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const num = Math.floor(100 + Math.random() * 900); 
-                    newUsername = pfx + num; 
+                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'rahul', 'rohit', 'neha', 'pooja', 'vikas'];
+                    newUsername = prefixes[Math.floor(Math.random() * prefixes.length)] + Math.floor(100 + Math.random() * 900); 
                 } else {
-                    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                    for(let i = 0; i < 9; i++) {
-                        newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
-                    }
+                    newUsername = Math.random().toString(36).slice(-8);
                 }
                 
-                const newAddress = `${newUsername}@${stableDomain}`;
+                const newAddress = `${newUsername}@${activeDomain}`;
                 const newPassword = generatePassword();
 
                 const createRes = await fetch(`${API}/accounts`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ address: newAddress, password: newPassword })
                 });
 
                 if(createRes.ok) {
                     const loginRes = await fetch(`${API}/token`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ address: newAddress, password: newPassword })
                     });
                     const tokenData = await loginRes.json();
-                    address = newAddress;
-                    password = newPassword;
-                    token = tokenData.token;
+                    address = newAddress; password = newPassword; token = tokenData.token;
                     localStorage.setItem('mt_email', address);
                     localStorage.setItem('mt_password', password);
                     localStorage.setItem('mt_token', token);
@@ -1474,8 +1006,7 @@
             window.showCaptcha(() => {
                 localStorage.removeItem('mt_email');
                 localStorage.removeItem('mt_token');
-                address = null;
-                token = null;
+                address = null; token = null;
                 const emailInput = document.getElementById('email-address');
                 const loadingOverlay = document.getElementById('loading-overlay');
                 if(emailInput) emailInput.value = "Generating...";
@@ -1498,27 +1029,20 @@
                 if(emailInput) emailInput.value = "Creating custom email...";
                 
                 try {
-                    if (!activeDomain || availableDomains.length === 0) {
-                        await window.fetchDomainsList();
-                    }
-                    let stableDomain = activeDomain;
-                    
-                    const newAddress = `${cleanPrefix}@${stableDomain}`;
+                    if (!activeDomain || availableDomains.length === 0) { await window.fetchDomainsList(); }
+                    const newAddress = `${cleanPrefix}@${activeDomain}`;
                     const newPassword = generatePassword();
                     const createRes = await fetch(`${API}/accounts`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ address: newAddress, password: newPassword })
                     });
                     if(createRes.ok) {
                         const loginRes = await fetch(`${API}/token`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ address: newAddress, password: newPassword })
                         });
                         const tokenData = await loginRes.json();
-                        localStorage.removeItem('mt_token');
-                        localStorage.removeItem('mt_email');
+                        localStorage.removeItem('mt_token'); localStorage.removeItem('mt_email');
                         address = newAddress; password = newPassword; token = tokenData.token;
                         localStorage.setItem('mt_email', address);
                         localStorage.setItem('mt_password', password);
@@ -1543,60 +1067,22 @@
             });
         }
 
-        window.fastOtpReset = async function() {
-            const boltIcon = document.getElementById('fast-bolt-icon');
-            if(boltIcon) boltIcon.classList.add('fa-spin');
-            await window.manualFetch();
-            if(boltIcon) boltIcon.classList.remove('fa-spin');
-        }
-
-        window.deleteSingleMail = async function(id, event) {
-            if(event && event.stopPropagation) event.stopPropagation();
-            try {
-                const res = await fetch(`${API}/messages/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if(res.ok) {
-                    allMessages = allMessages.filter(m => m.id !== id);
-                    window.renderMails();
-                }
-            } catch(err) {}
-        }
-
         window.manualFetch = async function() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
             const inboxContent = document.getElementById('inbox-content');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
+            
             if (allMessages.length === 0 && inboxContent) {
                 inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
                 inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
             }
+            
             try {
                 const res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
                 const data = await res.json();
-                let fetchedMails = data['hydra:member'] || [];
+                allMessages = data['hydra:member'] || [];
                 
-                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
-                allMessages = fetchedMails.filter(msg => {
-                    const fromAddr = (msg.from.address || "").toLowerCase();
-                    const subj = (msg.subject || "").toLowerCase();
-                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    if(isAdult) {
-                        fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
-                        return false;
-                    }
-                    return true;
-                });
-                
-                if (allMessages.length > 40) {
-                    const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-                    const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
-                    extraMails.forEach(m => fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }));
-                    allMessages = allMessages.filter(m => !extraMails.some(e => e.id === m.id));
-                }
-
                 if (allMessages.length > 0) {
                     if(allMessages.length > lastMailCount && soundOn) {
                         const audio = document.getElementById('notification-sound');
@@ -1616,6 +1102,7 @@
             const totalEmails = document.getElementById('total-emails');
             const inboxContent = document.getElementById('inbox-content');
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
+            
             if (allMessages.length > 0) {
                 if(inboxContent) {
                     inboxContent.innerHTML = '';
@@ -1675,17 +1162,22 @@
             if(modalBodyIframe) modalBodyIframe.srcdoc = '';
         }
 
-        window.clearInboxUIQuiet = async function() { 
-            allMessages = []; lastMailCount = 0; window.renderMails(); 
+        window.deleteSingleMail = async function(id, event) {
+            if(event && event.stopPropagation) event.stopPropagation();
+            try {
+                const res = await fetch(`${API}/messages/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                if(res.ok) { allMessages = allMessages.filter(m => m.id !== id); window.renderMails(); }
+            } catch(err) {}
         }
 
+        window.clearInboxUIQuiet = async function() { allMessages = []; window.renderMails(); }
         window.clearInboxUI = async function() { 
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
             for (const msg of allMessages) {
                 try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
             }
-            allMessages = []; lastMailCount = 0; window.renderMails();
+            allMessages = []; window.renderMails();
             if(fetchIcon) fetchIcon.classList.remove('fa-spin');
         }
 
@@ -1724,6 +1216,46 @@
             if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
         }
 
+        window.fastOtpReset = async function() {
+            const boltIcon = document.getElementById('fast-bolt-icon');
+            if(boltIcon) boltIcon.classList.add('fa-spin');
+            await window.manualFetch();
+            if(boltIcon) boltIcon.classList.remove('fa-spin');
+        }
+
+        window.setEmailType = function(type) {
+            currentEmailType = type;
+            const btnHuman = document.getElementById('btn-type-human');
+            const btnRandom = document.getElementById('btn-type-random');
+            if(!btnHuman || !btnRandom) return;
+            
+            if (type === 'human') {
+                btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
+                btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
+            } else {
+                btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
+                btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
+            }
+        }
+
+        window.startEmailTimer = function(durationInSeconds) {
+            clearInterval(emailTimerInterval);
+            let time = durationInSeconds;
+            const display = document.getElementById('countdown-timer');
+            if(!display) return;
+            emailTimerInterval = setInterval(() => {
+                let minutes = parseInt(time / 60, 10);
+                let seconds = parseInt(time % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ":" + seconds;
+                if (--time < 0) time = durationInSeconds; 
+            }, 1000);
+        }
+
+        // ==========================================
+        // 3. UI, MODALS & HELPERS
+        // ==========================================
         window.changeColorTheme = function() {
             const hue = Math.floor(Math.random() * 360);
             const brandColor = `hsl(${hue}, 75%, 50%)`;
@@ -1739,12 +1271,75 @@
             if(themeIcon) { themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
         }
 
+        window.showCaptcha = function(callback) {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            captchaAnswer = num1 + num2;
+            const cq = document.getElementById('captcha-question');
+            if(cq) cq.innerText = `${num1} + ${num2} = ?`;
+            const ci = document.getElementById('captcha-input');
+            if(ci) ci.value = "";
+            const modal = document.getElementById('captcha-modal');
+            if(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+            captchaSuccessCallback = callback;
+        }
+
+        window.verifyCaptcha = function() {
+            const ci = document.getElementById('captcha-input');
+            const val = parseInt(ci ? ci.value : 0);
+            if(val === captchaAnswer) {
+                const modal = document.getElementById('captcha-modal');
+                if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+                if(captchaSuccessCallback) captchaSuccessCallback();
+            } else {
+                alert("Incorrect CAPTCHA. Are you a bot?");
+                if(ci) ci.value = "";
+            }
+        }
+
+        window.showSupportModal = function() {
+            document.getElementById('support-modal').classList.remove('hidden');
+            document.getElementById('support-modal').classList.add('flex');
+        }
+
+        window.closeSupportModal = function() {
+            document.getElementById('support-modal').classList.add('hidden');
+            document.getElementById('support-modal').classList.remove('flex');
+        }
+
+        window.copyUPI = function() {
+            const upiText = document.getElementById('upi-id-text').innerText;
+            navigator.clipboard.writeText(upiText);
+            const msg = document.getElementById('upi-copy-msg');
+            if(msg) { msg.style.opacity = '1'; setTimeout(() => { msg.style.opacity = '0'; }, 2000); }
+        }
+
+        window.updateLiveStats = function() {
+            statToday += Math.floor(Math.random() * 3);
+            statInboxes += Math.floor(Math.random() * 2);
+            statGenerated += Math.floor(Math.random() * 5);
+            const stElement = document.getElementById('stat-today');
+            const siElement = document.getElementById('stat-inboxes');
+            const sgElement = document.getElementById('stat-generated');
+            if(stElement) stElement.innerText = statToday.toLocaleString();
+            if(siElement) siElement.innerText = statInboxes.toLocaleString();
+            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
+        }
+        setInterval(window.updateLiveStats, 3500); 
+
+        window.generateAPIKey = function() {
+            const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('aryan_api_key', key);
+            const disp = document.getElementById('api-key-display');
+            if(disp) disp.value = key;
+            alert("New API Key Generated Successfully!");
+        }
+
         window.showPageModal = function(pageName) {
             const title = document.getElementById('page-modal-title');
             const body = document.getElementById('page-modal-body');
             const modal = document.getElementById('page-modal');
             title.innerText = pageName;
-            
             let content = '';
             
             if (pageName === 'Privacy Policy') {
@@ -1757,18 +1352,16 @@
                         <li><strong>Third-Party Sharing:</strong> We maintain a zero-compromise stance. We do not sell, rent, or share any data to advertisers, data brokers, or third-party entities.</li>
                     </ul>
                     <p class="text-red-500 font-bold mb-2">Anti-Abuse Compliance:</p>
-                    <p>While we respect privacy, we actively deploy automated anti-abuse algorithms to detect and block malicious network requests (e.g., DDoS, botnets, spam generation). In cases of severe network abuse, offending IP ranges are blackholed at the firewall level.</p>
+                    <p>While we respect privacy, we actively deploy automated anti-abuse algorithms to detect and block malicious network requests.</p>
                 `;
             } else if (pageName === 'Terms of Service') {
                 content = `
                     <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Terms of Service & Acceptable Use Policy</p>
                     <p class="mb-3">These Terms of Service constitute a legally binding agreement between you and Aryan Mails. Your access to this platform is strictly conditional upon your compliance with the following rules:</p>
                     <p class="font-bold text-red-500 mb-2 mt-4">1. ZERO TOLERANCE FOR ILLEGAL ACTIVITY</p>
-                    <p class="mb-3">You are expressly prohibited from using our temporary email infrastructure for any illegal, fraudulent, or harmful activities, including but not limited to: creating fake accounts for financial fraud, distributing malware, engaging in harassment, or bypassing legal security measures of third-party platforms. Violation will result in immediate, permanent hardware-level IP bans.</p>
+                    <p class="mb-3">You are expressly prohibited from using our temporary email infrastructure for any illegal, fraudulent, or harmful activities. Violation will result in immediate, permanent hardware-level IP bans.</p>
                     <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">2. Automated Access & Rate Limiting</p>
-                    <p class="mb-3">Unauthorized scraping, botting, or API abuse is strictly forbidden. We enforce a rigid rate limit (Max 50 emails/hour). Attempts to bypass these limits using proxies or VPNs to launch volumetric attacks will trigger our automated defense mechanisms.</p>
-                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">3. Disclaimer of Warranties (AS-IS)</p>
-                    <p>Aryan Mails provides this service on an "AS-IS" and "AS-AVAILABLE" basis. We offer absolutely no guarantees regarding email delivery speeds, domain permanence, or uptime. We are not liable for any lost data, missed communications, or damages arising from the use of our disposable domains.</p>
+                    <p class="mb-3">Unauthorized scraping, botting, or API abuse is strictly forbidden.</p>
                 `;
             } else if (pageName === 'Cookie Policy') {
                 content = `
@@ -1777,18 +1370,14 @@
                     <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">What we store on your browser:</p>
                     <ul class="list-disc pl-5 space-y-2 mb-4">
                         <li><strong>Session Tokens:</strong> To keep you logged into your current temporary email.</li>
-                        <li><strong>Email & Password:</strong> To automatically reload your inbox if you accidentally refresh the page.</li>
-                        <li><strong>Rate Limit Data:</strong> To enforce our anti-abuse rules and prevent spam.</li>
-                        <li><strong>UI Preferences:</strong> Such as Dark/Light mode and notification sound settings.</li>
+                        <li><strong>Email & Password:</strong> To automatically reload your inbox.</li>
                     </ul>
-                    <p>All data is stored locally on your device. Clearing your browser data will instantly wipe your temporary inbox access.</p>
                 `;
             } else if (pageName === 'Report Abuse') {
                 content = `
                     <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
                     <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
-                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
-                    
+                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately.</p>
                     <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-[15px] mt-4 whitespace-nowrap cursor-pointer">
                         <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
                     </a>
@@ -1805,7 +1394,6 @@
                             <button onclick="window.generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                     </div>
-                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
                 `;
             } else if (pageName === 'Premium Plans') {
                 content = `
@@ -1815,7 +1403,6 @@
                         <li>Custom domain names</li>
                         <li>Permanent email inboxes</li>
                         <li>Ad-free experience</li>
-                        <li>Higher API rate limits</li>
                     </ul>
                     <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
                 `;
@@ -1832,23 +1419,10 @@
                               <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                             </span>
                         </div>
-                        
                         <div class="grid grid-cols-1 gap-3">
                             <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
                                 <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">API Gateway</span>
                                 <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational (99.99%)</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Mail Receiving Nodes</span>
-                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational (14ms latency)</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Domain DNS Routers</span>
-                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational</span>
-                            </div>
-                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
-                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Anti-Abuse Firewall</span>
-                                <span class="text-xs font-bold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">Active & Monitoring</span>
                             </div>
                         </div>
                     </div>
@@ -1864,29 +1438,30 @@
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented strict backend-validated OTP systems.</li>
-                                    <li>Blocked all temporary domains from sign-up flows.</li>
-                                    <li>Integrated secure OAuth for Google & Yahoo.</li>
-                                    <li>Persistent encrypted sessions applied.</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
-                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.6.0 - Advanced API & Security</h4>
-                                    <span class="text-[10px] font-semibold text-brand">March 2026</span>
-                                </div>
-                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Migrated to advanced mail.gw core API for 100% universal inbox acceptance.</li>
-                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
-                                    <li>Added auto-deletion for emails older than 5 minutes.</li>
-                                    <li>Added mathematical CAPTCHA to block automated bot creation.</li>
+                                    <li>Implemented real Firebase OTP system.</li>
+                                    <li>Integrated secure OAuth for Google.</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                `;
+            } else if (pageName === 'Blog & News') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Privacy Guides (2026)</p>
+                    <ul class="space-y-3">
+                        <li class="border-b border-slate-200 dark:border-darkborder pb-2">
+                            <h4 class="font-semibold text-brand">How to Get Instagram OTP Using Temp Mail</h4>
+                            <p class="text-xs text-slate-500">Learn how to verify accounts in India without your real number.</p>
+                        </li>
+                        <li class="border-b border-slate-200 dark:border-darkborder pb-2">
+                            <h4 class="font-semibold text-brand">Temporary Email for Telegram</h4>
+                            <p class="text-xs text-slate-500">Discover the truth about using fake emails for chat signups.</p>
+                        </li>
+                        <li>
+                            <h4 class="font-semibold text-brand">Disposable Email for Gaming (BGMI)</h4>
+                            <p class="text-xs text-slate-500">How to use fake emails to register for gaming platforms safely.</p>
+                        </li>
+                    </ul>
                 `;
             }
 
@@ -1897,8 +1472,63 @@
 
         window.closePageModal = function() {
             const modal = document.getElementById('page-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+        }
+
+        window.checkCookies = function() {
+            if (!localStorage.getItem('cookie_accepted')) {
+                const banner = document.getElementById('cookie-banner');
+                if(banner) {
+                    banner.classList.remove('hidden');
+                    setTimeout(() => banner.classList.remove('translate-y-full'), 100);
+                }
+            }
+        }
+
+        window.acceptCookies = function() {
+            localStorage.setItem('cookie_accepted', 'true');
+            const banner = document.getElementById('cookie-banner');
+            if(banner) {
+                banner.classList.add('translate-y-full');
+                setTimeout(() => banner.classList.add('hidden'), 500);
+            }
+        }
+
+        window.checkTNC = function() {
+            const lastAccepted = localStorage.getItem('tnc_accepted_time');
+            const now = Date.now();
+            if (!lastAccepted || (now - parseInt(lastAccepted)) > 24 * 60 * 60 * 1000) {
+                const modal = document.getElementById('tnc-modal');
+                if(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+                return false;
+            }
+            return true;
+        }
+
+        window.acceptTNC = function() {
+            const cb = document.getElementById('tnc-checkbox');
+            if(!cb || !cb.checked) { alert("You must check the box to agree to the Terms and Conditions."); return; }
+            localStorage.setItem('tnc_accepted_time', Date.now().toString());
+            const modal = document.getElementById('tnc-modal');
+            if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            window.initializeAppWithIPCheck(); 
+        }
+
+        window.initializeAppWithIPCheck = async function() {
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                const userIP = data.ip;
+                const blocked = JSON.parse(localStorage.getItem('blocked_ips') || '[]');
+                
+                if(blocked.includes(userIP) || localStorage.getItem('is_banned') === 'true') {
+                    document.body.innerHTML = `<div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-900 text-white"><i class="fa-solid fa-ban text-6xl text-red-500 mb-4"></i><h1 class="text-3xl font-bold mb-2">Access Denied</h1><p>Your IP (${userIP}) has been permanently blocked.</p></div>`;
+                    return;
+                }
+                window.initApp(); 
+            } catch(e) {
+                window.initApp(); 
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
