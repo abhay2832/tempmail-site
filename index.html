@@ -89,58 +89,17 @@
             <div class="px-8 pb-10">
                 
                 <div id="view-auth-init" class="block">
-                    <div class="mb-8">
-                        <div class="w-12 h-12 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl flex items-center justify-center text-xl mb-6 shadow-sm"><i class="fa-solid fa-shield"></i></div>
+                    <div class="mb-8 text-center">
+                        <div class="w-12 h-12 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl flex items-center justify-center text-xl mb-6 mx-auto shadow-sm"><i class="fa-solid fa-shield"></i></div>
                         <h4 class="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Welcome</h4>
-                        <p class="text-slate-500 dark:text-slate-400 text-sm">Sign in or create an account to continue.</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Sign in to access premium features securely.</p>
                     </div>
-                    <div class="space-y-3">
-                        <button onclick="window.setAuthMode('login')" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Log in</button>
-                        <button onclick="window.setAuthMode('signup')" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-medium py-3 rounded-xl transition hover:bg-slate-200 dark:hover:bg-slate-700 cursor-pointer">Sign up</button>
+                    <div class="space-y-4">
+                        <button onclick="window.startGoogleFlow()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer shadow-sm">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Continue with Google
+                        </button>
+                        <p id="auth-error-msg" class="text-red-500 text-xs font-semibold text-center hidden"></p>
                     </div>
-                </div>
-
-                <div id="view-method-select" class="hidden">
-                    <button onclick="window.switchAuthView('view-auth-init')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-6">Continue with</h4>
-                    <div class="space-y-3">
-                        <button onclick="window.startGoogleFlow()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
-                        <div class="py-2 flex items-center text-sm text-slate-400 before:flex-1 before:border-t before:border-slate-100 dark:before:border-slate-800 after:flex-1 after:border-t after:border-slate-100 dark:after:border-slate-800"><span class="px-4">or</span></div>
-                        <button onclick="window.selectMethod('Mobile')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-medium py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition cursor-pointer"><i class="fa-solid fa-mobile-screen text-lg"></i> Phone / SMS OTP</button>
-                    </div>
-                </div>
-
-                <div id="view-input-identifier" class="hidden">
-                    <button onclick="window.switchAuthView('view-method-select')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Enter Mobile Number</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">We'll send a real SMS code to verify.</p>
-                    
-                    <div class="flex gap-2 mb-4">
-                        <select id="auth-country-code" class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 font-medium w-[100px] outline-none transition">
-                            <option value="+91">+91 (IN)</option>
-                            <option value="+1">+1 (US)</option>
-                            <option value="+44">+44 (UK)</option>
-                        </select>
-                        <input type="number" id="auth-phone-number" placeholder="Mobile Number" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-slate-400 font-medium outline-none transition">
-                    </div>
-
-                    <div id="recaptcha-container" class="mb-4 flex justify-center"></div>
-
-                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Send Real SMS</button>
-                    <p id="auth-req-error" class="text-red-500 text-sm font-medium mt-3 hidden text-center"></p>
-                </div>
-
-                <div id="view-otp" class="hidden">
-                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white mb-6 flex items-center gap-2 cursor-pointer transition"><i class="fa-solid fa-arrow-left"></i> Change Number</button>
-                    <h4 class="text-xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2">Check your phone</h4>
-                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6" id="otp-sent-to-text">Sent to ...</p>
-
-                    <div class="mb-6">
-                        <input type="number" id="auth-otp-1" placeholder="• • • • • •" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-4 text-center tracking-[0.5em] text-2xl font-bold text-slate-900 dark:text-white focus:outline-none focus:border-brand outline-none transition">
-                    </div>
-
-                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-medium py-3 rounded-xl transition hover:opacity-90 cursor-pointer">Verify Code</button>
-                    <p id="auth-verify-error" class="text-red-500 text-sm font-medium mt-3 hidden text-center"></p>
                 </div>
 
                 <div id="view-profile" class="hidden">
@@ -153,7 +112,7 @@
 
                     <div class="space-y-3 mb-8">
                         <div class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-slate-800/50">
-                            <span class="text-sm text-slate-500 dark:text-slate-400">Contact</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">Email</span>
                             <span class="text-sm font-medium text-slate-900 dark:text-white truncate max-w-[150px]" id="profile-contact">...</span>
                         </div>
                     </div>
@@ -198,7 +157,7 @@
             </div>
             <div class="flex items-center justify-end gap-2 sm:gap-3 z-10 w-1/3">
                 <button id="nav-signup-btn" onclick="window.openAuthPortal()" class="flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-gray-200 text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
-                    <i class="fa-solid fa-user-shield"></i> <span class="hidden sm:inline">Signup / Login</span>
+                    <i class="fa-solid fa-user-shield"></i> <span class="hidden sm:inline">Login</span>
                 </button>
                 
                 <button id="nav-profile-btn" onclick="window.openAuthPortal()" class="hidden items-center gap-2 px-5 py-2 rounded-full bg-brand hover:brightness-110 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
@@ -659,7 +618,7 @@
 
     <script>
         // ==========================================
-        // 1. FIREBASE AUTHENTICATION LOGIC
+        // 1. FIREBASE AUTHENTICATION LOGIC (Free Plan)
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyDbdxl0S7iwFn0uXlhXKMj49wB4-csSp7U",
@@ -672,10 +631,8 @@
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        let confirmationResult = null;
-        window.recaptchaVerifier = null;
 
-        window.authContext = { mode: 'login', method: null, identifier: null };
+        window.authContext = { mode: 'login' };
 
         window.checkAuthSession = function() {
             const token = localStorage.getItem('auth_jwt');
@@ -722,7 +679,7 @@
                     document.getElementById('profile-initial').innerText = (user.name || user.contact || "U").charAt(0).toUpperCase();
                 }
                 
-                document.getElementById('profile-contact').innerText = user.contact || user.phone || user.email || user.id;
+                document.getElementById('profile-contact').innerText = user.contact || user.email || user.id;
             } else {
                 window.switchAuthView('view-auth-init');
             }
@@ -734,7 +691,7 @@
         };
 
         window.switchAuthView = function(viewId) {
-            ['view-auth-init', 'view-method-select', 'view-input-identifier', 'view-otp', 'view-profile'].forEach(id => {
+            ['view-auth-init', 'view-profile'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
                     if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); } 
@@ -743,19 +700,16 @@
             });
         };
 
-        window.setAuthMode = function(mode) { window.switchAuthView('view-method-select'); };
-
-        window.selectMethod = function(method) {
-            window.authContext.method = method;
-            if(method === 'Mobile') {
-                window.switchAuthView('view-input-identifier');
-            } else {
-                alert("Please select Phone/SMS or Google.");
-            }
+        window.setAuthMode = function(mode) { 
+            window.authContext.mode = mode; 
         };
 
+        // REAL GOOGLE LOGIN 
         window.startGoogleFlow = function() {
             const provider = new firebase.auth.GoogleAuthProvider();
+            const errorMsg = document.getElementById('auth-error-msg');
+            if(errorMsg) errorMsg.classList.add('hidden');
+
             auth.signInWithPopup(provider).then((result) => {
                 const user = result.user;
                 localStorage.setItem('auth_jwt', user.uid);
@@ -764,77 +718,12 @@
                 }));
                 window.openAuthPortal();
             }).catch((error) => {
-                alert("Google Login Failed: " + error.message);
-            });
-        };
-
-        function setupRecaptcha() {
-            if(!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'normal',
-                    'callback': (response) => {}
-                });
-            }
-        }
-
-        window.requestSecureOTP = function() {
-            const btn = document.getElementById('btn-request-otp');
-            const err = document.getElementById('auth-req-error');
-            err.classList.add('hidden');
-
-            const code = document.getElementById('auth-country-code').value;
-            const num = document.getElementById('auth-phone-number').value;
-            if(num.length < 10) { err.innerText = "Valid phone number required."; err.classList.remove('hidden'); return; }
-            
-            const phoneNumber = code + num;
-            window.authContext.identifier = phoneNumber;
-
-            btn.disabled = true; 
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending SMS...';
-
-            setupRecaptcha();
-            const appVerifier = window.recaptchaVerifier;
-
-            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
-                .then((result) => {
-                    confirmationResult = result;
-                    btn.disabled = false; 
-                    btn.innerHTML = 'Send Code';
-                    window.switchAuthView('view-otp');
-                    document.getElementById('otp-sent-to-text').innerText = `SMS sent to ${phoneNumber}`;
-                }).catch((error) => {
-                    btn.disabled = false; 
-                    btn.innerHTML = 'Send Code';
-                    err.innerText = error.message; 
-                    err.classList.remove('hidden');
-                    if(window.recaptchaVerifier) window.recaptchaVerifier.render().then(id => grecaptcha.reset(id));
-                });
-        };
-
-        window.submitOTPVerification = function() {
-            const btn = document.getElementById('btn-verify-otp');
-            const err = document.getElementById('auth-verify-error');
-            const otpCode = document.getElementById('auth-otp-1').value;
-
-            if(!otpCode || otpCode.length < 6) { err.innerText = "Enter valid 6-digit code."; err.classList.remove('hidden'); return; }
-
-            btn.disabled = true; 
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
-
-            confirmationResult.confirm(otpCode).then((result) => {
-                const user = result.user;
-                btn.disabled = false; 
-                btn.innerText = 'Verify Code';
-                localStorage.setItem('auth_jwt', user.uid);
-                localStorage.setItem('auth_user_details', JSON.stringify({
-                    id: user.uid, phone: user.phoneNumber, name: "Verified User", contact: user.phoneNumber
-                }));
-                window.openAuthPortal(); 
-            }).catch((error) => {
-                btn.disabled = false; 
-                btn.innerText = 'Verify Code';
-                err.innerText = "Invalid OTP Code. Try again."; 
-                err.classList.remove('hidden');
+                if(errorMsg) {
+                    errorMsg.innerText = "Error: " + error.message;
+                    errorMsg.classList.remove('hidden');
+                } else {
+                    alert("Google Login Failed: " + error.message);
+                }
             });
         };
 
@@ -846,6 +735,7 @@
                 window.closeAuthModal();
             });
         };
+
 
         // ==========================================
         // 2. TEMP MAIL (MAIL.GW) LOGIC
@@ -1438,8 +1328,8 @@
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented real Firebase OTP system.</li>
-                                    <li>Integrated secure OAuth for Google.</li>
+                                    <li>Implemented real Firebase Google Auth system.</li>
+                                    <li>Nullsto clean UI design applied.</li>
                                 </ul>
                             </div>
                         </div>
