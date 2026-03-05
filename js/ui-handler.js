@@ -120,7 +120,6 @@ window.verifyCaptcha = function() {
     }
 }
 
-// SUPPORT MODAL LOGIC
 window.showSupportModal = function() {
     const supportModal = document.getElementById('support-modal');
     if (supportModal) {
@@ -157,7 +156,6 @@ window.updateLiveStats = function() {
 }
 setInterval(window.updateLiveStats, 3500); 
 
-// PAGE MODALS LOGIC (T&C, Blog, Changelog etc)
 window.showPageModal = function(pageName) {
     const title = document.getElementById('page-modal-title');
     const body = document.getElementById('page-modal-body');
