@@ -1,5 +1,6 @@
-console.log("🟢 Naya UI Handler Successfully Load Ho Gaya Hai!");
+console.log("🟢 UI Handler Loading...");
 
+// 🛡️ Har function ko Try-Catch mein dala hai, taaki ek error se puri site dead na ho!
 window.renderDomainDropdown = function() {
     try {
         const btnText = document.getElementById('domain-btn-text');
@@ -21,155 +22,195 @@ window.renderDomainDropdown = function() {
                 dropdown.appendChild(div);
             });
         }
-    } catch(e) { console.log("UI Error in Dropdown:", e); }
+    } catch(e) { console.error("Dropdown Error:", e); }
 };
 
 window.toggleDomainDropdown = function() {
-    const el = document.getElementById('domain-dropdown');
-    if(el) {
-        if(el.classList.contains('hidden')) { el.classList.remove('hidden'); } 
-        else { el.classList.add('hidden'); }
-    }
+    try {
+        const el = document.getElementById('domain-dropdown');
+        if(el) el.classList.toggle('hidden');
+    } catch(e) { console.error("Toggle Dropdown Error:", e); }
 };
 
+// Bahar click karne par dropdown band karne ka logic
 document.addEventListener('click', (e) => {
-    const domainBtn = e.target.closest('button[onclick="window.toggleDomainDropdown()"]');
-    const domainDropdown = document.getElementById('domain-dropdown');
-    if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
-        domainDropdown.classList.add('hidden');
-    }
+    try {
+        const domainBtn = e.target.closest('button[onclick="window.toggleDomainDropdown()"]');
+        const domainDropdown = document.getElementById('domain-dropdown');
+        if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
+            domainDropdown.classList.add('hidden');
+        }
+    } catch(e) {}
 });
 
 window.copyEmail = function() {
-    const emailInput = document.getElementById('email-address');
-    if(emailInput) { 
-        emailInput.select(); 
-        document.execCommand('copy'); 
-        const msg = document.getElementById('copy-msg');
-        if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
-    }
+    try {
+        const emailInput = document.getElementById('email-address');
+        if(emailInput && emailInput.value) { 
+            emailInput.select(); 
+            document.execCommand('copy'); 
+            const msg = document.getElementById('copy-msg');
+            if(msg) { 
+                msg.style.opacity = "1"; 
+                setTimeout(() => { msg.style.opacity = "0"; }, 2000); 
+            }
+        }
+    } catch(e) { console.error("Copy Error:", e); }
 };
 
 window.toggleAudio = function() { 
-    window.soundOn = !window.soundOn; 
-    const notifText = document.getElementById('notif-text');
-    const notifIcon = document.getElementById('notif-icon');
-    if(notifText) notifText.innerText = window.soundOn ? "Sound On" : "Sound Off";
-    if(notifIcon) notifIcon.className = window.soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
+    try {
+        window.soundOn = !window.soundOn; 
+        const notifText = document.getElementById('notif-text');
+        const notifIcon = document.getElementById('notif-icon');
+        if(notifText) notifText.innerText = window.soundOn ? "Sound On" : "Sound Off";
+        if(notifIcon) notifIcon.className = window.soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
+    } catch(e) { console.error("Audio Toggle Error:", e); }
 };
 
 window.setEmailType = function(type) {
-    window.currentEmailType = type;
-    const btnHuman = document.getElementById('btn-type-human');
-    const btnRandom = document.getElementById('btn-type-random');
-    if(!btnHuman || !btnRandom) return;
+    try {
+        window.currentEmailType = type;
+        const btnHuman = document.getElementById('btn-type-human');
+        const btnRandom = document.getElementById('btn-type-random');
+        if(!btnHuman || !btnRandom) return;
 
-    if (type === 'human') {
-        btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
-        btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
-    } else {
-        btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
-        btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
-    }
+        const activeClass = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
+        const inactiveClass = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
+
+        if (type === 'human') {
+            btnHuman.className = activeClass;
+            btnRandom.className = inactiveClass;
+        } else {
+            btnRandom.className = activeClass;
+            btnHuman.className = inactiveClass;
+        }
+    } catch(e) { console.error("Email Type Error:", e); }
 };
 
 window.startEmailTimer = function(durationInSeconds) {
-    if(window.emailTimerInterval) clearInterval(window.emailTimerInterval);
-    let time = durationInSeconds;
-    const display = document.getElementById('countdown-timer');
-    if(!display) return;
-    window.emailTimerInterval = setInterval(() => {
-        let minutes = parseInt(time / 60, 10);
-        let seconds = parseInt(time % 60, 10);
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        display.textContent = minutes + ":" + seconds;
-        if (--time < 0) time = durationInSeconds; 
-    }, 1000);
+    try {
+        if(window.emailTimerInterval) clearInterval(window.emailTimerInterval);
+        let time = durationInSeconds;
+        const display = document.getElementById('countdown-timer');
+        if(!display) return;
+        window.emailTimerInterval = setInterval(() => {
+            let minutes = parseInt(time / 60, 10);
+            let seconds = parseInt(time % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = minutes + ":" + seconds;
+            if (--time < 0) time = durationInSeconds; 
+        }, 1000);
+    } catch(e) { console.error("Timer Error:", e); }
 };
 
 window.changeColorTheme = function() {
-    const hue = Math.floor(Math.random() * 360);
-    document.documentElement.style.setProperty('--brand-color', `hsl(${hue}, 75%, 50%)`);
-    document.documentElement.style.setProperty('--brand-bg', `hsla(${hue}, 75%, 50%, 0.15)`);
+    try {
+        const hue = Math.floor(Math.random() * 360);
+        document.documentElement.style.setProperty('--brand-color', `hsl(${hue}, 75%, 50%)`);
+        document.documentElement.style.setProperty('--brand-bg', `hsla(${hue}, 75%, 50%, 0.15)`);
+    } catch(e) {}
 };
 
 window.toggleTheme = function() {
-    document.documentElement.classList.toggle('dark');
-    const isDark = document.documentElement.classList.contains('dark');
-    const themeIcon = document.getElementById('theme-icon');
-    if(themeIcon) {
-        themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
-    }
+    try {
+        document.documentElement.classList.toggle('dark');
+        const isDark = document.documentElement.classList.contains('dark');
+        const themeIcon = document.getElementById('theme-icon');
+        if(themeIcon) {
+            themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600';
+        }
+    } catch(e) {}
 };
 
 window.showCaptcha = function(callback) {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    window.captchaAnswer = num1 + num2;
-    const cq = document.getElementById('captcha-question');
-    if(cq) cq.innerText = `${num1} + ${num2} = ?`;
-    const ci = document.getElementById('captcha-input');
-    if(ci) ci.value = "";
-    const modal = document.getElementById('captcha-modal');
-    if(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
-    window.captchaSuccessCallback = callback;
+    try {
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10) + 1;
+        window.captchaAnswer = num1 + num2;
+        
+        const cq = document.getElementById('captcha-question');
+        if(cq) cq.innerText = `${num1} + ${num2} = ?`;
+        
+        const ci = document.getElementById('captcha-input');
+        if(ci) ci.value = "";
+        
+        const modal = document.getElementById('captcha-modal');
+        if(modal) { 
+            modal.classList.remove('hidden'); 
+            modal.classList.add('flex'); 
+        }
+        window.captchaSuccessCallback = callback;
+    } catch(e) { console.error("Captcha Show Error:", e); }
 };
 
 window.verifyCaptcha = function() {
-    const ci = document.getElementById('captcha-input');
-    const val = parseInt(ci ? ci.value : 0);
-    if(val === window.captchaAnswer) {
-        const modal = document.getElementById('captcha-modal');
-        if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-        sessionStorage.setItem('captcha_passed', 'true');
-        if(typeof window.captchaSuccessCallback === 'function') window.captchaSuccessCallback();
-    } else {
-        alert("Incorrect CAPTCHA. Are you a bot?");
-        if(ci) ci.value = "";
-    }
+    try {
+        const ci = document.getElementById('captcha-input');
+        const val = parseInt(ci ? ci.value : 0);
+        if(val === window.captchaAnswer) {
+            const modal = document.getElementById('captcha-modal');
+            if(modal) { 
+                modal.classList.add('hidden'); 
+                modal.classList.remove('flex'); 
+            }
+            sessionStorage.setItem('captcha_passed', 'true');
+            if(typeof window.captchaSuccessCallback === 'function') window.captchaSuccessCallback();
+        } else {
+            alert("Incorrect CAPTCHA. Are you a bot?");
+            if(ci) ci.value = "";
+        }
+    } catch(e) { console.error("Captcha Verify Error:", e); }
 };
 
 window.showSupportModal = function() {
-    const supportModal = document.getElementById('support-modal');
-    if (supportModal) { supportModal.classList.remove('hidden'); supportModal.classList.add('flex'); }
+    try {
+        const supportModal = document.getElementById('support-modal');
+        if (supportModal) { supportModal.classList.remove('hidden'); supportModal.classList.add('flex'); }
+    } catch(e) {}
 };
 
 window.closeSupportModal = function() {
-    const supportModal = document.getElementById('support-modal');
-    if (supportModal) { supportModal.classList.add('hidden'); supportModal.classList.remove('flex'); }
+    try {
+        const supportModal = document.getElementById('support-modal');
+        if (supportModal) { supportModal.classList.add('hidden'); supportModal.classList.remove('flex'); }
+    } catch(e) {}
 };
 
 window.copyUPI = function() {
-    const upiText = document.getElementById('upi-id-text');
-    if(upiText) {
-        navigator.clipboard.writeText(upiText.innerText);
-        const msg = document.getElementById('upi-copy-msg');
-        if(msg) { msg.style.opacity = '1'; setTimeout(() => { msg.style.opacity = '0'; }, 2000); }
-    }
+    try {
+        const upiText = document.getElementById('upi-id-text');
+        if(upiText) {
+            navigator.clipboard.writeText(upiText.innerText);
+            const msg = document.getElementById('upi-copy-msg');
+            if(msg) { msg.style.opacity = '1'; setTimeout(() => { msg.style.opacity = '0'; }, 2000); }
+        }
+    } catch(e) {}
 };
 
-// 🟢 LIVE STATS UI
 window.updateLiveStats = function() {
-    window.statToday = window.statToday || 819;
-    window.statInboxes = window.statInboxes || 382;
-    window.statGenerated = window.statGenerated || 296500;
+    try {
+        window.statToday = window.statToday || 819;
+        window.statInboxes = window.statInboxes || 382;
+        window.statGenerated = window.statGenerated || 296500;
 
-    window.statToday += Math.floor(Math.random() * 3) + 1;
-    window.statInboxes += Math.floor(Math.random() * 2);
-    window.statGenerated += 0.1;
-    
-    const stElement = document.getElementById('stat-today');
-    const siElement = document.getElementById('stat-inboxes');
-    const sgElement = document.getElementById('stat-generated');
-    
-    if(stElement) stElement.innerText = window.statToday.toLocaleString();
-    if(siElement) siElement.innerText = window.statInboxes.toLocaleString();
-    if(sgElement) sgElement.innerText = window.statGenerated.toFixed(1) + 'K';
+        window.statToday += Math.floor(Math.random() * 3) + 1;
+        window.statInboxes += Math.floor(Math.random() * 2);
+        window.statGenerated += 0.1;
+        
+        const stElement = document.getElementById('stat-today');
+        const siElement = document.getElementById('stat-inboxes');
+        const sgElement = document.getElementById('stat-generated');
+        
+        if(stElement) stElement.innerText = window.statToday.toLocaleString();
+        if(siElement) siElement.innerText = window.statInboxes.toLocaleString();
+        if(sgElement) sgElement.innerText = window.statGenerated.toFixed(1) + 'K';
+    } catch(e) {}
 };
 setInterval(window.updateLiveStats, 3500); 
 
-// 🟢 DYNAMIC HTML GENERATORS (Modals)
+// MODALS DATA
 window.getSystemStatusHTML = function() {
     const apiPing = Math.floor(Math.random() * 15) + 10;
     const dbPing = Math.floor(Math.random() * 20) + 15;
@@ -222,108 +263,123 @@ window.getChangelogHTML = function() {
 };
 
 window.showPageModal = function(pageName) {
-    const title = document.getElementById('page-modal-title');
-    const body = document.getElementById('page-modal-body');
-    const modal = document.getElementById('page-modal');
-    if(!title || !body || !modal) return;
+    try {
+        const title = document.getElementById('page-modal-title');
+        const body = document.getElementById('page-modal-body');
+        const modal = document.getElementById('page-modal');
+        if(!title || !body || !modal) return;
 
-    title.innerText = pageName;
-    if(window.statusIntervalDisplay) clearInterval(window.statusIntervalDisplay);
-    
-    if (pageName === 'System Status') {
-        body.innerHTML = window.getSystemStatusHTML();
-        window.statusIntervalDisplay = setInterval(() => { 
-            if(document.getElementById('page-modal-title').innerText === 'System Status') {
-                body.innerHTML = window.getSystemStatusHTML(); 
-            }
-        }, 1500);
-    } else if (pageName === 'Changelog') { 
-        body.innerHTML = window.getChangelogHTML(); 
-    } else if (pageName === 'Blog & News') { 
-        body.innerHTML = window.getBlogsHTML(); 
-    } else if (pageName === 'API Access') {
-        let apiKey = localStorage.getItem('aryan_api_key') || '';
-        body.innerHTML = `<div class="space-y-4">
-                    <div class="flex items-center gap-3 mb-4"><i class="fa-solid fa-code text-3xl text-brand"></i><div><p class="font-bold text-xl text-slate-800 dark:text-white">Public API Access</p><p class="text-xs text-emerald-500 font-bold tracking-widest uppercase">Live Environment</p></div></div>
-                    <div class="bg-slate-100 dark:bg-darkbg p-5 rounded-xl border border-slate-200 dark:border-darkborder mt-4">
-                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Your API Key:</p>
-                        <div class="flex flex-col sm:flex-row items-center gap-2">
-                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-sm font-mono text-brand focus:outline-none">
-                            <button onclick="window.generateAPIKey()" class="w-full sm:w-auto bg-brand text-white px-6 py-3 rounded-lg font-bold hover:brightness-110 transition shadow cursor-pointer whitespace-nowrap"><i class="fa-solid fa-arrows-rotate mr-2"></i>Generate</button>
-                        </div>
-                    </div></div>`;
-    } else { 
-        body.innerHTML = `<div class="p-4 text-center"><p class="text-slate-600 dark:text-slate-300 font-medium">Coming soon.</p></div>`; 
-    }
+        title.innerText = pageName;
+        if(window.statusIntervalDisplay) clearInterval(window.statusIntervalDisplay);
+        
+        if (pageName === 'System Status') {
+            body.innerHTML = window.getSystemStatusHTML();
+            window.statusIntervalDisplay = setInterval(() => { 
+                if(document.getElementById('page-modal-title').innerText === 'System Status') {
+                    body.innerHTML = window.getSystemStatusHTML(); 
+                }
+            }, 1500);
+        } else if (pageName === 'Changelog') { 
+            body.innerHTML = window.getChangelogHTML(); 
+        } else if (pageName === 'Blog & News') { 
+            body.innerHTML = window.getBlogsHTML(); 
+        } else if (pageName === 'API Access') {
+            let apiKey = localStorage.getItem('aryan_api_key') || '';
+            body.innerHTML = `<div class="space-y-4">
+                        <div class="flex items-center gap-3 mb-4"><i class="fa-solid fa-code text-3xl text-brand"></i><div><p class="font-bold text-xl text-slate-800 dark:text-white">Public API Access</p><p class="text-xs text-emerald-500 font-bold tracking-widest uppercase">Live Environment</p></div></div>
+                        <div class="bg-slate-100 dark:bg-darkbg p-5 rounded-xl border border-slate-200 dark:border-darkborder mt-4">
+                            <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Your API Key:</p>
+                            <div class="flex flex-col sm:flex-row items-center gap-2">
+                                <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-sm font-mono text-brand focus:outline-none">
+                                <button onclick="window.generateAPIKey()" class="w-full sm:w-auto bg-brand text-white px-6 py-3 rounded-lg font-bold hover:brightness-110 transition shadow cursor-pointer whitespace-nowrap"><i class="fa-solid fa-arrows-rotate mr-2"></i>Generate</button>
+                            </div>
+                        </div></div>`;
+        } else { 
+            body.innerHTML = `<div class="p-4 text-center"><p class="text-slate-600 dark:text-slate-300 font-medium">Coming soon.</p></div>`; 
+        }
 
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    } catch(e) { console.error("Modal Show Error:", e); }
 };
 
 window.closePageModal = function() {
-    if(window.statusIntervalDisplay) clearInterval(window.statusIntervalDisplay);
-    const modal = document.getElementById('page-modal');
-    if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    try {
+        if(window.statusIntervalDisplay) clearInterval(window.statusIntervalDisplay);
+        const modal = document.getElementById('page-modal');
+        if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    } catch(e) {}
 };
 
+// 🟢 INITIALIZATION (Cookies & T&C)
 window.checkCookies = function() {
-    if (!localStorage.getItem('cookie_accepted')) {
-        const cb = document.getElementById('cookie-banner');
-        if(cb) {
-            cb.classList.remove('hidden');
-            setTimeout(() => cb.classList.remove('translate-y-full'), 100);
+    try {
+        if (!localStorage.getItem('cookie_accepted')) {
+            const cb = document.getElementById('cookie-banner');
+            if(cb) {
+                cb.classList.remove('hidden');
+                setTimeout(() => cb.classList.remove('translate-y-full'), 100);
+            }
         }
-    }
+    } catch(e) {}
 };
 
 window.acceptCookies = function() {
-    localStorage.setItem('cookie_accepted', 'true');
-    const cb = document.getElementById('cookie-banner');
-    if(cb) {
-        cb.classList.add('translate-y-full');
-        setTimeout(() => cb.classList.add('hidden'), 500);
-    }
+    try {
+        localStorage.setItem('cookie_accepted', 'true');
+        const cb = document.getElementById('cookie-banner');
+        if(cb) {
+            cb.classList.add('translate-y-full');
+            setTimeout(() => cb.classList.add('hidden'), 500);
+        }
+    } catch(e) {}
 };
 
 window.checkTNC = function() {
-    if (!localStorage.getItem('tnc_accepted_time')) {
-        const tm = document.getElementById('tnc-modal');
-        if(tm) { tm.classList.remove('hidden'); tm.classList.add('flex'); }
-        return false;
-    }
-    return true;
+    try {
+        if (!localStorage.getItem('tnc_accepted_time')) {
+            const tm = document.getElementById('tnc-modal');
+            if(tm) { tm.classList.remove('hidden'); tm.classList.add('flex'); }
+            return false;
+        }
+        return true;
+    } catch(e) { return true; }
 };
 
 window.acceptTNC = function() {
-    const checkbox = document.getElementById('tnc-checkbox');
-    if(checkbox && !checkbox.checked) { alert("Please check the agreement box."); return; }
-    localStorage.setItem('tnc_accepted_time', Date.now().toString());
-    const tm = document.getElementById('tnc-modal');
-    if(tm) { tm.classList.add('hidden'); tm.classList.remove('flex'); }
-    if(typeof window.initApp === 'function') window.initApp(); 
+    try {
+        const checkbox = document.getElementById('tnc-checkbox');
+        if(checkbox && !checkbox.checked) { alert("Please check the agreement box."); return; }
+        localStorage.setItem('tnc_accepted_time', Date.now().toString());
+        const tm = document.getElementById('tnc-modal');
+        if(tm) { tm.classList.add('hidden'); tm.classList.remove('flex'); }
+        if(typeof window.initApp === 'function') window.initApp(); 
+    } catch(e) {}
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(typeof window.checkAuthSession === 'function') window.checkAuthSession();
-    
-    document.querySelectorAll('.faq-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const answer = btn.nextElementSibling;
-            const icon = btn.querySelector('.fa-chevron-down');
-            const isOpen = answer.style.maxHeight;
+    try {
+        if(typeof window.checkAuthSession === 'function') window.checkAuthSession();
+        
+        document.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const answer = btn.nextElementSibling;
+                const icon = btn.querySelector('.fa-chevron-down');
+                const isOpen = answer.style.maxHeight;
 
-            document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
-            document.querySelectorAll('.faq-btn .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
+                document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+                document.querySelectorAll('.faq-btn .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
 
-            if (!isOpen) {
-                answer.style.maxHeight = answer.scrollHeight + "px";
-                if(icon) icon.style.transform = 'rotate(180deg)';
-            }
+                if (!isOpen) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                    if(icon) icon.style.transform = 'rotate(180deg)';
+                }
+            });
         });
-    });
 
-    if(window.checkTNC() && typeof window.initApp === 'function') {
-        window.initApp();
-    }
-    window.checkCookies();
+        if(window.checkTNC() && typeof window.initApp === 'function') {
+            window.initApp();
+        }
+        window.checkCookies();
+    } catch(e) { console.error("Initialization Error:", e); }
 });
