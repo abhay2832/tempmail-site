@@ -1,129 +1,193 @@
+const API_BASE = 'https://api.mail.gw';
+
+// Password Generator
+window.generateRandomPassword = function() { 
+    return "P@ss" + Math.random().toString(36).slice(-8) + "1x!"; 
+};
+
+// 🟢 1. APP INITIALIZATION
 window.initApp = async function() {
+    // Pehle domains fetch karo
     await window.fetchDomainsList(); 
-    if (address && token) {
+    
+    // Check karo pehle se email bana hai ya nahi
+    const currentEmail = localStorage.getItem('mt_email');
+    const currentToken = localStorage.getItem('mt_token');
+
+    if (currentEmail && currentToken) {
+        // Purana email load karo
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
-        if(emailInput) emailInput.value = address;
+        
+        if(emailInput) emailInput.value = currentEmail;
         if(loadingOverlay) loadingOverlay.style.display = 'none';
-        window.startSync();
-        window.manualFetch();
-        window.startEmailTimer(300); // 5 MINUTE TIMER
+        
+        // Inbox aur Timer shuru karo
+        if(typeof window.startSync === 'function') window.startSync();
+        if(typeof window.manualFetch === 'function') window.manualFetch();
+        if(typeof window.startEmailTimer === 'function') window.startEmailTimer(300); // 5 MINUTE TIMER
     } else {
-        window.forceNewAccount();
+        // Naya banvao
+        window.forceNewAccount(true); 
     }
 
+    // 🟢 Auto-Delete Old Mails Locally (5 mins expiry logic)
     setInterval(() => {
-        if (!allMessages || allMessages.length === 0) return;
+        if (!window.allMessages || window.allMessages.length === 0) return;
         const now = Date.now();
         let changed = false;
-        allMessages.forEach(msg => {
+        
+        window.allMessages.forEach(msg => {
             const msgTime = new Date(msg.createdAt).getTime();
+            // Agar mail 5 minute (300000 ms) se purana hai, delete it
             if (((now - msgTime) > 300000)) { 
-                window.deleteSingleMail(msg.id);
-                changed = true;
+                if(typeof window.deleteSingleMail === 'function') {
+                    window.deleteSingleMail(msg.id);
+                    changed = true;
+                }
             }
         });
-        if (changed) { window.renderMails(); }
-    }, 10000); 
+        
+        if (changed && typeof window.renderMails === 'function') { 
+            window.renderMails(); 
+        }
+    }, 10000); // Check every 10 seconds
 }
 
-// 🟢 NEW STRONG ACCOUNT GENERATION (WITH AUTO-RETRY ON BAD DOMAINS)
+// 🟢 2. CREATE NEW EMAIL ACCOUNT (Auto-Retry Logic)
 window.createNewAccount = async function(retryCount = 0) {
     const emailInput = document.getElementById('email-address');
     const loadingOverlay = document.getElementById('loading-overlay');
     if(loadingOverlay) loadingOverlay.style.display = 'flex';
     
     try {
-        if (!activeDomain || availableDomains.length === 0) { await window.fetchDomainsList(); }
+        // Ensure domains are available
+        if (!window.activeDomain || !window.availableDomains || window.availableDomains.length === 0) { 
+            await window.fetchDomainsList(); 
+        }
         
+        // Name Generation
         let newUsername = "";
-        if (currentEmailType === 'human') {
-            const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'rahul', 'rohit', 'neha', 'pooja', 'vikas'];
+        if (window.currentEmailType === 'human') {
+            const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'rahul', 'rohit'];
             newUsername = prefixes[Math.floor(Math.random() * prefixes.length)] + Math.floor(1000 + Math.random() * 9000); 
         } else {
             newUsername = Math.random().toString(36).slice(-8);
         }
         
-        const newAddress = `${newUsername}@${activeDomain}`;
-        const newPassword = generatePassword();
+        const newAddress = `${newUsername}@${window.activeDomain}`;
+        const newPassword = window.generateRandomPassword();
 
-        const createRes = await fetch(`${API}/accounts`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
+        // Step A: Create Account
+        const createRes = await fetch(`${API_BASE}/accounts`, {
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ address: newAddress, password: newPassword })
         });
 
         if(createRes.ok) {
-            const loginRes = await fetch(`${API}/token`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
+            // Step B: Get Token
+            const loginRes = await fetch(`${API_BASE}/token`, {
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address: newAddress, password: newPassword })
             });
-            const tokenData = await loginRes.json();
-            address = newAddress; password = newPassword; token = tokenData.token;
-            localStorage.setItem('mt_email', address);
-            localStorage.setItem('mt_password', password);
-            localStorage.setItem('mt_token', token);
             
-            if(emailInput) emailInput.value = address;
+            const tokenData = await loginRes.json();
+            
+            // Save to LocalStorage
+            localStorage.setItem('mt_email', newAddress);
+            localStorage.setItem('mt_password', newPassword);
+            localStorage.setItem('mt_token', tokenData.token);
+            
+            // Update UI
+            if(emailInput) emailInput.value = newAddress;
             if(loadingOverlay) loadingOverlay.style.display = 'none';
             
-            window.clearInboxUIQuiet();
-            window.startSync();
-            window.startEmailTimer(300); // 5 MINUTE
+            // Reset Inbox and Start Timers
+            if(typeof window.clearInboxUIQuiet === 'function') window.clearInboxUIQuiet();
+            if(typeof window.startSync === 'function') window.startSync();
+            if(typeof window.manualFetch === 'function') window.manualFetch();
+            if(typeof window.startEmailTimer === 'function') window.startEmailTimer(300); // 300 sec = 5 mins
+            
         } else {
-            // Agar API reject kare, toh agla domain try karo (Max 3 baar)
-            if (retryCount < 3 && availableDomains.length > 1) {
+            // Error handling & Domain Switching
+            if (retryCount < 3 && window.availableDomains.length > 1) {
                 if(emailInput) emailInput.value = "Switching domain...";
-                activeDomain = availableDomains[retryCount + 1] || availableDomains[0];
+                window.activeDomain = window.availableDomains[retryCount + 1] || window.availableDomains[0];
                 setTimeout(() => window.createNewAccount(retryCount + 1), 1500); 
             } else {
-                if(emailInput) emailInput.value = "Error generating email";
+                if(emailInput) emailInput.value = "Server Error, Try Again!";
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
             }
         }
     } catch (err) {
+        console.error("Account Creation Error:", err);
         if(retryCount < 3) {
             if(emailInput) emailInput.value = "Network glitch, Retrying...";
             setTimeout(() => window.createNewAccount(retryCount + 1), 2000);
         } else {
             if(loadingOverlay) loadingOverlay.style.display = 'none';
-            if(emailInput) emailInput.value = "Please refresh the page.";
+            if(emailInput) emailInput.value = "Check Internet Connection";
         }
     }
 }
 
-window.forceNewAccount = function() {
+// 🟢 3. FORCE NEW ACCOUNT (With One-Time Captcha)
+window.forceNewAccount = function(isInitialLoad = false) {
+    // Agar captcha is session mein pass ho chuka hai, seedha account banao
     if(sessionStorage.getItem('captcha_passed') === 'true') {
         processNewAccount();
     } else {
-        window.showCaptcha(() => { processNewAccount(); });
+        // Agar initial load nahi hai, tabhi popup dikhao (taaki first load pe direct aa jaye agar chaho, ya mandatory rakho)
+        if(typeof window.showCaptcha === 'function') {
+            window.showCaptcha(() => { 
+                processNewAccount(); 
+            });
+        } else {
+            // Failsafe agar captcha UI load nahi hua
+            processNewAccount();
+        }
     }
 }
 
 function processNewAccount() {
     localStorage.removeItem('mt_email');
     localStorage.removeItem('mt_token');
-    address = null; token = null;
+    
     const emailInput = document.getElementById('email-address');
     const loadingOverlay = document.getElementById('loading-overlay');
+    
     if(emailInput) emailInput.value = "Generating...";
     if(loadingOverlay) loadingOverlay.style.display = 'flex';
-    window.clearInboxUIQuiet();
+    
+    if(typeof window.clearInboxUIQuiet === 'function') window.clearInboxUIQuiet();
+    
     window.createNewAccount();
 }
 
+// 🟢 4. CUSTOM ACCOUNT CREATION
 window.createCustomAccount = function() {
     if(sessionStorage.getItem('captcha_passed') === 'true') {
         processCustomAccount();
     } else {
-        window.showCaptcha(() => { processCustomAccount(); });
+        if(typeof window.showCaptcha === 'function') {
+            window.showCaptcha(() => { processCustomAccount(); });
+        } else {
+            processCustomAccount();
+        }
     }
 }
 
 async function processCustomAccount() {
     const customPrefix = prompt("Enter desired username (e.g., rahul, priya123):");
     if (!customPrefix) return;
+    
     const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
-    if (!cleanPrefix) { alert("Invalid username."); return; }
+    if (!cleanPrefix) { 
+        alert("Invalid username. Use only letters and numbers without spaces."); 
+        return; 
+    }
     
     const emailInput = document.getElementById('email-address');
     const loadingOverlay = document.getElementById('loading-overlay');
@@ -131,46 +195,52 @@ async function processCustomAccount() {
     if(emailInput) emailInput.value = "Creating custom email...";
     
     try {
-        if (!activeDomain || availableDomains.length === 0) { await window.fetchDomainsList(); }
-        const newAddress = `${cleanPrefix}@${activeDomain}`;
-        const newPassword = generatePassword();
+        if (!window.activeDomain) { await window.fetchDomainsList(); }
+        const newAddress = `${cleanPrefix}@${window.activeDomain}`;
+        const newPassword = window.generateRandomPassword();
         
-        const createRes = await fetch(`${API}/accounts`, { 
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, 
+        const createRes = await fetch(`${API_BASE}/accounts`, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
             body: JSON.stringify({ address: newAddress, password: newPassword }) 
         });
         
         if(createRes.ok) {
-            const loginRes = await fetch(`${API}/token`, { 
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, 
+            const loginRes = await fetch(`${API_BASE}/token`, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify({ address: newAddress, password: newPassword }) 
             });
             const tokenData = await loginRes.json();
-            localStorage.removeItem('mt_token'); localStorage.removeItem('mt_email');
-            address = newAddress; password = newPassword; token = tokenData.token;
-            localStorage.setItem('mt_email', address); localStorage.setItem('mt_password', password); localStorage.setItem('mt_token', token);
-            if(emailInput) emailInput.value = address;
+            
+            localStorage.setItem('mt_email', newAddress); 
+            localStorage.setItem('mt_password', newPassword); 
+            localStorage.setItem('mt_token', tokenData.token);
+            
+            if(emailInput) emailInput.value = newAddress;
             if(loadingOverlay) loadingOverlay.style.display = 'none';
-            window.clearInboxUIQuiet();
-            if(syncTimer) clearInterval(syncTimer);
-            window.startSync();
-            window.manualFetch();
-            window.startEmailTimer(300);
+            
+            if(typeof window.clearInboxUIQuiet === 'function') window.clearInboxUIQuiet();
+            if(typeof window.startSync === 'function') window.startSync();
+            if(typeof window.manualFetch === 'function') window.manualFetch();
+            if(typeof window.startEmailTimer === 'function') window.startEmailTimer(300); // 5 MINUTE
         } else {
-            alert("Username is already taken on this domain! Try another.");
-            if(emailInput) emailInput.value = address || "Failed"; 
+            alert("This Username is already taken on this domain! Please try another name.");
+            if(emailInput) emailInput.value = localStorage.getItem('mt_email') || "Failed"; 
             if(loadingOverlay) loadingOverlay.style.display = 'none';
         }
     } catch (err) { 
-        alert("Network Error!"); 
+        console.error(err);
+        alert("Network Error! Failed to create custom email."); 
         if(loadingOverlay) loadingOverlay.style.display = 'none'; 
     }
 }
 
+// 🟢 5. API KEY GENERATOR
 window.generateAPIKey = function() {
     const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
     localStorage.setItem('aryan_api_key', key);
     const disp = document.getElementById('api-key-display');
     if(disp) disp.value = key;
-    alert("New API Key Generated Successfully!");
+    alert("New Developer API Key Generated Successfully!");
 }
