@@ -1,3 +1,5 @@
+const API_URL = 'https://api.mail.gw';
+
 window.checkAuthSession = function() {
     const token = localStorage.getItem('auth_jwt');
     const userDetailsStr = localStorage.getItem('auth_user_details');
@@ -53,34 +55,15 @@ window.switchAuthView = function(viewId) {
     });
 };
 
-window.startGoogleFlow = function() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then((result) => {
-        const user = result.user;
-        localStorage.setItem('auth_jwt', user.uid);
-        localStorage.setItem('auth_user_details', JSON.stringify({ id: user.uid, email: user.email, name: user.displayName, photo: user.photoURL, contact: user.email }));
-        window.openAuthPortal();
-    }).catch((error) => { alert("Google Login Failed: " + error.message); });
-};
-
-window.triggerLogout = function() {
-    auth.signOut().then(() => {
-        localStorage.removeItem('auth_jwt');
-        localStorage.removeItem('auth_user_details');
-        window.checkAuthSession();
-        window.closeAuthModal();
-    });
-};
-
-// 🟢 NEW DOMAIN FETCH LOGIC (Filters out bad domains)
 window.fetchDomainsList = async function() {
     try {
-        const res = await fetch(`${API}/domains`);
+        const res = await fetch(`${API_URL}/domains`);
         const data = await res.json();
-        // Sirf active domains hi uthayega
-        let apiDomains = data['hydra:member'].filter(d => d.isActive).map(d => d.domain);
-        availableDomains = [...new Set([...apiDomains])].slice(0, 10);
-        if(availableDomains.length > 0 && !activeDomain) activeDomain = availableDomains[0]; 
-        window.renderDomainDropdown();
-    } catch(e) { console.error("Domain fetch failed", e); }
+        let apiDomains = data['hydra:member'].map(d => d.domain);
+        window.availableDomains = [...new Set([...apiDomains])].slice(0, 10);
+        if(window.availableDomains.length > 0 && !window.activeDomain) {
+            window.activeDomain = window.availableDomains[0]; 
+        }
+        if(window.renderDomainDropdown) window.renderDomainDropdown();
+    } catch(e) { console.error("Domain fetch error:", e); }
 };
