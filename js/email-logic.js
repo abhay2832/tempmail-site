@@ -1,4 +1,4 @@
-const API_BASE = 'https://api.mail.gw';
+window.API_URL = window.API_URL || 'https://api.mail.gw';
 
 window.generateRandomPassword = function() { 
     return "P@ss" + Math.random().toString(36).slice(-8) + "1x!"; 
@@ -8,11 +8,15 @@ window.initApp = async function() {
     const emailInput = document.getElementById('email-address');
     const loadingOverlay = document.getElementById('loading-overlay');
     
-    if(emailInput) emailInput.value = "Loading domain...";
+    if(emailInput) emailInput.value = "Connecting to Server...";
     if(loadingOverlay) loadingOverlay.style.display = 'flex';
     
-    if(typeof window.fetchDomainsList === 'function') {
-        await window.fetchDomainsList(); 
+    try {
+        if(typeof window.fetchDomainsList === 'function') {
+            await window.fetchDomainsList(); 
+        }
+    } catch(e) {
+        console.log("Domain fetch error ignored in init.");
     }
 
     const currentEmail = localStorage.getItem('mt_email');
@@ -51,17 +55,22 @@ window.createNewAccount = async function(retryCount = 0) {
     const emailInput = document.getElementById('email-address');
     const loadingOverlay = document.getElementById('loading-overlay');
     if(loadingOverlay) loadingOverlay.style.display = 'flex';
+    if(emailInput) emailInput.value = "Generating Email...";
     
     try {
-        if (!window.activeDomain || !window.availableDomains || window.availableDomains.length === 0) { 
-            if(typeof window.fetchDomainsList === 'function') await window.fetchDomainsList(); 
+        // Safe domain selection
+        let finalDomain = "txcct.com"; // Default safe domain
+        if (window.activeDomain) {
+            finalDomain = window.activeDomain;
+        } else if (window.availableDomains && window.availableDomains.length > 0) {
+            finalDomain = window.availableDomains[0];
         }
-        
-        // Failsafe: Agar API list na de paye, toh ye working domain use karega
-        let finalDomain = window.activeDomain || "txcct.com"; 
 
+        // Username generation
         let newUsername = "";
-        if (window.currentEmailType === 'human') {
+        let type = window.currentEmailType || 'human';
+        
+        if (type === 'human') {
             const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'rahul', 'rohit'];
             newUsername = prefixes[Math.floor(Math.random() * prefixes.length)] + Math.floor(1000 + Math.random() * 9000); 
         } else {
@@ -71,20 +80,26 @@ window.createNewAccount = async function(retryCount = 0) {
         const newAddress = `${newUsername}@${finalDomain}`;
         const newPassword = window.generateRandomPassword();
 
-        const createRes = await fetch(`${API_BASE}/accounts`, {
+        // Check 1: Creating Account
+        const createRes = await fetch(`${window.API_URL}/accounts`, {
             method: 'POST', 
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({ address: newAddress, password: newPassword })
         });
 
         if(createRes.ok) {
-            const loginRes = await fetch(`${API_BASE}/token`, {
+            // Check 2: Getting Auth Token
+            const loginRes = await fetch(`${window.API_URL}/token`, {
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({ address: newAddress, password: newPassword })
             });
+            
+            if(!loginRes.ok) throw new Error("Token Blocked by Server");
+            
             const tokenData = await loginRes.json();
             
+            // Save and Start
             localStorage.setItem('mt_email', newAddress);
             localStorage.setItem('mt_password', newPassword);
             localStorage.setItem('mt_token', tokenData.token);
@@ -98,24 +113,30 @@ window.createNewAccount = async function(retryCount = 0) {
             if(typeof window.startEmailTimer === 'function') window.startEmailTimer(300); 
             
         } else {
+            // Error Handling if API rejects domain
             if (retryCount < 3) {
-                if(emailInput) emailInput.value = "Switching domain...";
+                if(emailInput) emailInput.value = `Domain ${finalDomain} failed. Trying another...`;
                 if(window.availableDomains && window.availableDomains.length > 1) {
                     window.activeDomain = window.availableDomains[retryCount + 1] || window.availableDomains[0];
+                } else {
+                    window.activeDomain = "1secmail.net"; // Last resort domain
                 }
                 setTimeout(() => window.createNewAccount(retryCount + 1), 1500); 
             } else {
-                if(emailInput) emailInput.value = "API Error, Try again later.";
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                throw new Error(`API Rejected. Status: ${createRes.status}`);
             }
         }
     } catch (err) {
-        if(retryCount < 3) {
-            if(emailInput) emailInput.value = "Network glitch, Retrying...";
-            setTimeout(() => window.createNewAccount(retryCount + 1), 2000);
-        } else {
-            if(loadingOverlay) loadingOverlay.style.display = 'none';
-            if(emailInput) emailInput.value = "Check Internet Connection";
+        // THIS CATCHES THE "CHECK INTERNET" ERROR
+        console.error("Detailed Generation Error:", err);
+        
+        if(loadingOverlay) loadingOverlay.style.display = 'none';
+        if(emailInput) {
+            if(err.message.includes("Failed to fetch")) {
+                emailInput.value = "Blocked by Adblocker/VPN. Please turn it off.";
+            } else {
+                emailInput.value = `Error: ${err.message}`;
+            }
         }
     }
 }
@@ -137,7 +158,7 @@ window.processNewAccount = function() {
     localStorage.removeItem('mt_token');
     const emailInput = document.getElementById('email-address');
     const loadingOverlay = document.getElementById('loading-overlay');
-    if(emailInput) emailInput.value = "Generating...";
+    if(emailInput) emailInput.value = "Initializing...";
     if(loadingOverlay) loadingOverlay.style.display = 'flex';
     if(typeof window.clearInboxUIQuiet === 'function') window.clearInboxUIQuiet();
     window.createNewAccount();
@@ -167,20 +188,17 @@ window.processCustomAccount = async function() {
     if(emailInput) emailInput.value = "Creating custom email...";
     
     try {
-        if (!window.activeDomain) { 
-            if(typeof window.fetchDomainsList === 'function') await window.fetchDomainsList(); 
-        }
         let finalDomain = window.activeDomain || "txcct.com";
         const newAddress = `${cleanPrefix}@${finalDomain}`;
         const newPassword = window.generateRandomPassword();
         
-        const createRes = await fetch(`${API_BASE}/accounts`, { 
+        const createRes = await fetch(`${window.API_URL}/accounts`, { 
             method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, 
             body: JSON.stringify({ address: newAddress, password: newPassword }) 
         });
         
         if(createRes.ok) {
-            const loginRes = await fetch(`${API_BASE}/token`, { 
+            const loginRes = await fetch(`${window.API_URL}/token`, { 
                 method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, 
                 body: JSON.stringify({ address: newAddress, password: newPassword }) 
             });
@@ -197,21 +215,12 @@ window.processCustomAccount = async function() {
             if(typeof window.manualFetch === 'function') window.manualFetch();
             if(typeof window.startEmailTimer === 'function') window.startEmailTimer(300);
         } else {
-            alert("This Username is already taken on this domain! Please try another name.");
+            alert("Username taken or Domain blocked by API. Try 'New Email' first.");
             if(emailInput) emailInput.value = localStorage.getItem('mt_email') || "Failed"; 
             if(loadingOverlay) loadingOverlay.style.display = 'none';
         }
     } catch (err) { 
-        alert("Network Error!"); 
+        if(emailInput) emailInput.value = "Blocked by Browser or Network.";
         if(loadingOverlay) loadingOverlay.style.display = 'none'; 
-        if(emailInput) emailInput.value = localStorage.getItem('mt_email') || "Failed";
     }
-}
-
-window.generateAPIKey = function() {
-    const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('aryan_api_key', key);
-    const disp = document.getElementById('api-key-display');
-    if(disp) disp.value = key;
-    alert("New Developer API Key Generated Successfully!");
 }
