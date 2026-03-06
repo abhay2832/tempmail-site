@@ -1,24 +1,27 @@
-// 🟢 1. DOMAIN DROPDOWN UI
+console.log("🟢 Naya UI Handler Successfully Load Ho Gaya Hai!");
+
 window.renderDomainDropdown = function() {
-    const btnText = document.getElementById('domain-btn-text');
-    if(btnText && window.activeDomain) btnText.innerText = "@" + window.activeDomain;
-    
-    const dropdown = document.getElementById('domain-list');
-    if(dropdown && window.availableDomains && window.availableDomains.length > 0) {
-        dropdown.innerHTML = '';
-        window.availableDomains.forEach(d => {
-            const div = document.createElement('div');
-            div.className = "px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium text-slate-700 dark:text-gray-300 transition-colors border-b border-slate-100 dark:border-darkborder last:border-0";
-            div.innerText = "@" + d;
-            div.onclick = () => {
-                window.activeDomain = d;
-                if(btnText) btnText.innerText = "@" + window.activeDomain;
-                document.getElementById('domain-dropdown').classList.add('hidden');
-                if(typeof window.forceNewAccount === 'function') window.forceNewAccount(false); 
-            };
-            dropdown.appendChild(div);
-        });
-    }
+    try {
+        const btnText = document.getElementById('domain-btn-text');
+        if(btnText && window.activeDomain) btnText.innerText = "@" + window.activeDomain;
+        
+        const dropdown = document.getElementById('domain-list');
+        if(dropdown && window.availableDomains && window.availableDomains.length > 0) {
+            dropdown.innerHTML = '';
+            window.availableDomains.forEach(d => {
+                const div = document.createElement('div');
+                div.className = "px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium text-slate-700 dark:text-gray-300 transition-colors border-b border-slate-100 dark:border-darkborder last:border-0";
+                div.innerText = "@" + d;
+                div.onclick = () => {
+                    window.activeDomain = d;
+                    if(btnText) btnText.innerText = "@" + window.activeDomain;
+                    document.getElementById('domain-dropdown').classList.add('hidden');
+                    if(typeof window.forceNewAccount === 'function') window.forceNewAccount(false); 
+                };
+                dropdown.appendChild(div);
+            });
+        }
+    } catch(e) { console.log("UI Error in Dropdown:", e); }
 };
 
 window.toggleDomainDropdown = function() {
@@ -37,17 +40,13 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// 🟢 2. UTILITY BUTTONS (Copy, Sound, Theme)
 window.copyEmail = function() {
     const emailInput = document.getElementById('email-address');
     if(emailInput) { 
         emailInput.select(); 
         document.execCommand('copy'); 
-    }
-    const msg = document.getElementById('copy-msg');
-    if(msg) { 
-        msg.style.opacity = "1"; 
-        setTimeout(() => { msg.style.opacity = "0"; }, 2000); 
+        const msg = document.getElementById('copy-msg');
+        if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
     }
 };
 
@@ -104,23 +103,16 @@ window.toggleTheme = function() {
     }
 };
 
-// 🟢 3. CAPTCHA UI
 window.showCaptcha = function(callback) {
     const num1 = Math.floor(Math.random() * 10) + 1;
     const num2 = Math.floor(Math.random() * 10) + 1;
     window.captchaAnswer = num1 + num2;
-    
     const cq = document.getElementById('captcha-question');
     if(cq) cq.innerText = `${num1} + ${num2} = ?`;
-    
     const ci = document.getElementById('captcha-input');
     if(ci) ci.value = "";
-    
     const modal = document.getElementById('captcha-modal');
-    if(modal) { 
-        modal.classList.remove('hidden'); 
-        modal.classList.add('flex'); 
-    }
+    if(modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
     window.captchaSuccessCallback = callback;
 };
 
@@ -129,10 +121,7 @@ window.verifyCaptcha = function() {
     const val = parseInt(ci ? ci.value : 0);
     if(val === window.captchaAnswer) {
         const modal = document.getElementById('captcha-modal');
-        if(modal) { 
-            modal.classList.add('hidden'); 
-            modal.classList.remove('flex'); 
-        }
+        if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
         sessionStorage.setItem('captcha_passed', 'true');
         if(typeof window.captchaSuccessCallback === 'function') window.captchaSuccessCallback();
     } else {
@@ -141,7 +130,6 @@ window.verifyCaptcha = function() {
     }
 };
 
-// 🟢 4. SUPPORT & UPI MODAL
 window.showSupportModal = function() {
     const supportModal = document.getElementById('support-modal');
     if (supportModal) { supportModal.classList.remove('hidden'); supportModal.classList.add('flex'); }
@@ -161,9 +149,8 @@ window.copyUPI = function() {
     }
 };
 
-// 🟢 5. LIVE STATS UI
+// 🟢 LIVE STATS UI
 window.updateLiveStats = function() {
-    // Check if variables exist, fallback if not
     window.statToday = window.statToday || 819;
     window.statInboxes = window.statInboxes || 382;
     window.statGenerated = window.statGenerated || 296500;
@@ -182,7 +169,7 @@ window.updateLiveStats = function() {
 };
 setInterval(window.updateLiveStats, 3500); 
 
-// 🟢 6. DYNAMIC HTML GENERATORS (Modals)
+// 🟢 DYNAMIC HTML GENERATORS (Modals)
 window.getSystemStatusHTML = function() {
     const apiPing = Math.floor(Math.random() * 15) + 10;
     const dbPing = Math.floor(Math.random() * 20) + 15;
@@ -254,10 +241,19 @@ window.showPageModal = function(pageName) {
         body.innerHTML = window.getChangelogHTML(); 
     } else if (pageName === 'Blog & News') { 
         body.innerHTML = window.getBlogsHTML(); 
-    } else if (pageName === 'Privacy Policy' || pageName === 'Terms of Service' || pageName === 'Cookie Policy' || pageName === 'Report Abuse') {
-        body.innerHTML = `<div class="p-4 text-center"><p class="text-slate-600 dark:text-slate-300 font-medium">This section is currently being updated for V3.0.</p></div>`;
+    } else if (pageName === 'API Access') {
+        let apiKey = localStorage.getItem('aryan_api_key') || '';
+        body.innerHTML = `<div class="space-y-4">
+                    <div class="flex items-center gap-3 mb-4"><i class="fa-solid fa-code text-3xl text-brand"></i><div><p class="font-bold text-xl text-slate-800 dark:text-white">Public API Access</p><p class="text-xs text-emerald-500 font-bold tracking-widest uppercase">Live Environment</p></div></div>
+                    <div class="bg-slate-100 dark:bg-darkbg p-5 rounded-xl border border-slate-200 dark:border-darkborder mt-4">
+                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Your API Key:</p>
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-sm font-mono text-brand focus:outline-none">
+                            <button onclick="window.generateAPIKey()" class="w-full sm:w-auto bg-brand text-white px-6 py-3 rounded-lg font-bold hover:brightness-110 transition shadow cursor-pointer whitespace-nowrap"><i class="fa-solid fa-arrows-rotate mr-2"></i>Generate</button>
+                        </div>
+                    </div></div>`;
     } else { 
-        body.innerHTML = `<p class="text-slate-600 dark:text-slate-400">Content loaded.</p>`; 
+        body.innerHTML = `<div class="p-4 text-center"><p class="text-slate-600 dark:text-slate-300 font-medium">Coming soon.</p></div>`; 
     }
 
     modal.classList.remove('hidden');
@@ -270,7 +266,6 @@ window.closePageModal = function() {
     if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
 };
 
-// 🟢 7. INITIALIZATION (Cookies & T&C)
 window.checkCookies = function() {
     if (!localStorage.getItem('cookie_accepted')) {
         const cb = document.getElementById('cookie-banner');
@@ -308,11 +303,9 @@ window.acceptTNC = function() {
     if(typeof window.initApp === 'function') window.initApp(); 
 };
 
-// EVENT LISTENER
 document.addEventListener('DOMContentLoaded', () => {
     if(typeof window.checkAuthSession === 'function') window.checkAuthSession();
     
-    // FAQ Accordion Setup
     document.querySelectorAll('.faq-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const answer = btn.nextElementSibling;
