@@ -7,9 +7,9 @@ window.initApp = async function() {
         if(loadingOverlay) loadingOverlay.style.display = 'none';
         window.startSync();
         window.manualFetch();
-        window.startEmailTimer(600); 
+        window.startEmailTimer(300); // 5 MINUTE TIMER
     } else {
-        window.createNewAccount();
+        window.forceNewAccount();
     }
 
     setInterval(() => {
@@ -19,7 +19,7 @@ window.initApp = async function() {
         
         allMessages.forEach(msg => {
             const msgTime = new Date(msg.createdAt).getTime();
-            if (((now - msgTime) > 300000)) { // 300000ms = 5 mins
+            if (((now - msgTime) > 300000)) { 
                 window.deleteSingleMail(msg.id);
                 changed = true;
             }
@@ -66,7 +66,7 @@ window.createNewAccount = async function() {
             if(loadingOverlay) loadingOverlay.style.display = 'none';
             window.clearInboxUIQuiet();
             window.startSync();
-            window.startEmailTimer(600); 
+            window.startEmailTimer(300); // 5 MINUTE TIMER
         } else {
             const domainRes = await fetch(`${API}/domains`);
             const domainData = await domainRes.json();
@@ -80,69 +80,90 @@ window.createNewAccount = async function() {
     }
 }
 
+// ONE-TIME CAPTCHA LOGIC
 window.forceNewAccount = function() {
-    window.showCaptcha(() => {
-        localStorage.removeItem('mt_email');
-        localStorage.removeItem('mt_token');
-        address = null; token = null;
-        const emailInput = document.getElementById('email-address');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        if(emailInput) emailInput.value = "Generating...";
-        if(loadingOverlay) loadingOverlay.style.display = 'flex';
-        window.clearInboxUIQuiet();
-        window.createNewAccount();
-    });
+    const isCaptchaSolved = sessionStorage.getItem('captcha_passed');
+    
+    if(isCaptchaSolved === 'true') {
+        processNewAccount();
+    } else {
+        window.showCaptcha(() => {
+            processNewAccount();
+        });
+    }
+}
+
+function processNewAccount() {
+    localStorage.removeItem('mt_email');
+    localStorage.removeItem('mt_token');
+    address = null; token = null;
+    const emailInput = document.getElementById('email-address');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if(emailInput) emailInput.value = "Generating...";
+    if(loadingOverlay) loadingOverlay.style.display = 'flex';
+    window.clearInboxUIQuiet();
+    window.createNewAccount();
 }
 
 window.createCustomAccount = function() {
-    window.showCaptcha(async () => {
-        const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
-        if (!customPrefix) return;
-        const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
-        if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
-        
-        const emailInput = document.getElementById('email-address');
-        const loadingOverlay = document.getElementById('loading-overlay');
-        if(loadingOverlay) loadingOverlay.style.display = 'flex';
-        if(emailInput) emailInput.value = "Creating custom email...";
-        
-        try {
-            if (!activeDomain || availableDomains.length === 0) { await window.fetchDomainsList(); }
-            const newAddress = `${cleanPrefix}@${activeDomain}`;
-            const newPassword = generatePassword();
-            const createRes = await fetch(`${API}/accounts`, {
+    const isCaptchaSolved = sessionStorage.getItem('captcha_passed');
+    
+    if(isCaptchaSolved === 'true') {
+        processCustomAccount();
+    } else {
+        window.showCaptcha(() => {
+            processCustomAccount();
+        });
+    }
+}
+
+async function processCustomAccount() {
+    const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
+    if (!customPrefix) return;
+    const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
+    if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
+    
+    const emailInput = document.getElementById('email-address');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if(loadingOverlay) loadingOverlay.style.display = 'flex';
+    if(emailInput) emailInput.value = "Creating custom email...";
+    
+    try {
+        if (!activeDomain || availableDomains.length === 0) { await window.fetchDomainsList(); }
+        const newAddress = `${cleanPrefix}@${activeDomain}`;
+        const newPassword = generatePassword();
+        const createRes = await fetch(`${API}/accounts`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ address: newAddress, password: newPassword })
+        });
+        if(createRes.ok) {
+            const loginRes = await fetch(`${API}/token`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ address: newAddress, password: newPassword })
             });
-            if(createRes.ok) {
-                const loginRes = await fetch(`${API}/token`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ address: newAddress, password: newPassword })
-                });
-                const tokenData = await loginRes.json();
-                localStorage.removeItem('mt_token'); localStorage.removeItem('mt_email');
-                address = newAddress; password = newPassword; token = tokenData.token;
-                localStorage.setItem('mt_email', address);
-                localStorage.setItem('mt_password', password);
-                localStorage.setItem('mt_token', token);
-                if(emailInput) emailInput.value = address;
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
-                window.clearInboxUIQuiet();
-                if(syncTimer) clearInterval(syncTimer);
-                window.startSync();
-                window.manualFetch();
-                window.startEmailTimer(600); 
-            } else {
-                alert("Username is already taken on this domain! Try another.");
-                if(emailInput) emailInput.value = address; 
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
-            }
-        } catch (err) {
-            alert("Network Error! Please try again.");
+            const tokenData = await loginRes.json();
+            localStorage.removeItem('mt_token'); localStorage.removeItem('mt_email');
+            address = newAddress; password = newPassword; token = tokenData.token;
+            localStorage.setItem('mt_email', address);
+            localStorage.setItem('mt_password', password);
+            localStorage.setItem('mt_token', token);
             if(emailInput) emailInput.value = address;
             if(loadingOverlay) loadingOverlay.style.display = 'none';
+            window.clearInboxUIQuiet();
+            if(syncTimer) clearInterval(syncTimer);
+            window.startSync();
+            window.manualFetch();
+            window.startEmailTimer(300); // 5 MINUTE
+        } else {
+            alert("Username is already taken on this domain! Try another.");
+            if(emailInput) emailInput.value = address; 
+            if(loadingOverlay) loadingOverlay.style.display = 'none';
         }
-    });
+    } catch (err) {
+        alert("Network Error! Please try again.");
+        if(emailInput) emailInput.value = address;
+        if(loadingOverlay) loadingOverlay.style.display = 'none';
+    }
 }
 
 window.generateAPIKey = function() {
