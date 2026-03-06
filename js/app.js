@@ -1,31 +1,50 @@
-// 1. CORE VARIABLES
-const API = 'https://api.mail.gw';
-let token = localStorage.getItem('mt_token');
-let address = localStorage.getItem('mt_email');
-let syncTimer = null;
-let allMessages = [];
-let availableDomains = [];
-let activeDomain = "";
-let captchaAnswer = 0;
-let captchaSuccessCallback = null;
-let emailTimerInterval;
+// 🟢 FAILSAFE: Purane cached files ke liye taaki "not defined" ka error na aaye
+var refreshSec = 5; 
+window.refreshSec = 5;
 
-// Live Stats Variables
-let statToday = 819; 
-let statInboxes = 382; 
-let statGenerated = 296.5;
+// CORE VARIABLES
+window.API_URL = 'https://api.mail.gw';
+window.token = localStorage.getItem('mt_token');
+window.address = localStorage.getItem('mt_email');
+window.syncTimer = null;
+window.lastMailCount = 0; 
+window.soundOn = true;
+window.isSyncing = true; 
+window.allMessages = [];
+window.availableDomains = [];
+window.activeDomain = "";
+window.currentEmailType = 'human'; 
+window.captchaAnswer = 0;
+window.captchaSuccessCallback = null;
+window.emailTimerInterval = null;
 
-function generatePassword() { return "P@ss" + Math.random().toString(36).slice(-8) + "1x!"; }
-let password = localStorage.getItem('mt_password') || generatePassword();
+// Live Stats Initial Values
+window.statToday = 819; 
+window.statInboxes = 382; 
+window.statGenerated = 296500;
 
-// 2. CHANGELOG ARRAY (Aap yahan naya version likh sakte hain, site pe update ho jayega)
+// Firebase Setup
+const firebaseConfig = {
+    apiKey: "AIzaSyDbdxl0S7iwFn0uXlhXKMj49wB4-csSp7U",
+    authDomain: "aryan-mails.firebaseapp.com",
+    projectId: "aryan-mails",
+    storageBucket: "aryan-mails.firebasestorage.app",
+    messagingSenderId: "190362104203",
+    appId: "1:190362104203:web:3240a185525825e97b3f8e",
+    measurementId: "G-8S38X1F05Y"
+};
+if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(firebaseConfig);
+    window.authContext = { mode: 'login' };
+}
+
+// Changelog & Blogs Data
 window.changelogData = [
-    { version: "v3.0.0", date: "March 2026", updates: ["One-Time Captcha Added", "5-Min Timer Fixed", "Live Stats Real-time working", "20+ Auto Blogs System", "System Status Real Time API Ping"] },
-    { version: "v2.8.0", date: "Feb 2026", updates: ["Modals & UI Polish", "Fixed India Flag rendering"] },
-    { version: "v2.7.0", date: "Feb 2026", updates: ["Modular Code Structure", "Performance Optimization"] }
+    { version: "v3.0.0", date: "March 2026", updates: ["One-Time Captcha Added", "5-Min Timer Fixed", "Live Stats Real-time working", "20+ Auto Blogs System", "Smart Domain Switcher"] },
+    { version: "v2.8.0", date: "Feb 2026", updates: ["Modals & UI Polish", "Fixed India Flag rendering", "Added advanced Payment Modal"] },
+    { version: "v2.7.0", date: "Jan 2026", updates: ["Modular Code Structure", "Performance Optimization"] }
 ];
 
-// 3. BASE BLOGS DATA (Auto-Generating Logic will be handled in ui-handler.js)
 window.baseBlogs = [
     { title: "How to Get Instagram OTP Using Temp Mail", tag: "Social" },
     { title: "Temporary Email for Telegram Signup", tag: "Chat" },
