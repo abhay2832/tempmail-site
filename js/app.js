@@ -1,69 +1,40 @@
-// 🟢 FAILSAFE: Purane cached files ke liye taaki "not defined" ka error na aaye
-var refreshSec = 5; 
-window.refreshSec = 5;
-
-// CORE VARIABLES
-window.API_URL = 'https://api.mail.gw';
+// AAKHIRI AUR SABSE SAHI CODE - VARIABLES
+window.API = 'https://api.mail.gw';
 window.token = localStorage.getItem('mt_token');
 window.address = localStorage.getItem('mt_email');
+
+window.generatePassword = function() {
+    return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
+};
+
+window.password = localStorage.getItem('mt_password') || window.generatePassword();
 window.syncTimer = null;
+window.refreshSec = 5; 
 window.lastMailCount = 0; 
 window.soundOn = true;
 window.isSyncing = true; 
 window.allMessages = [];
 window.availableDomains = [];
 window.activeDomain = "";
-window.currentEmailType = 'human'; 
+window.currentEmailType = 'human';
 window.captchaAnswer = 0;
 window.captchaSuccessCallback = null;
 window.emailTimerInterval = null;
-
-// Live Stats Initial Values
 window.statToday = 819; 
-window.statInboxes = 382; 
+window.statInboxes = 382;
 window.statGenerated = 296500;
+window.currentBlogFilter = 'All';
 
-// Firebase Setup
-const firebaseConfig = {
-    apiKey: "AIzaSyDbdxl0S7iwFn0uXlhXKMj49wB4-csSp7U",
-    authDomain: "aryan-mails.firebaseapp.com",
-    projectId: "aryan-mails",
-    storageBucket: "aryan-mails.firebasestorage.app",
-    messagingSenderId: "190362104203",
-    appId: "1:190362104203:web:3240a185525825e97b3f8e",
-    measurementId: "G-8S38X1F05Y"
-};
-if (typeof firebase !== 'undefined') {
-    firebase.initializeApp(firebaseConfig);
-    window.authContext = { mode: 'login' };
-}
+// DOM Elements
+window.emailInput = document.getElementById('email-address');
+window.loadingOverlay = document.getElementById('loading-overlay');
+window.inboxContent = document.getElementById('inbox-content');
+window.totalEmails = document.getElementById('total-emails');
 
-// Changelog & Blogs Data
-window.changelogData = [
-    { version: "v3.0.0", date: "March 2026", updates: ["One-Time Captcha Added", "5-Min Timer Fixed", "Live Stats Real-time working", "20+ Auto Blogs System", "Smart Domain Switcher"] },
-    { version: "v2.8.0", date: "Feb 2026", updates: ["Modals & UI Polish", "Fixed India Flag rendering", "Added advanced Payment Modal"] },
-    { version: "v2.7.0", date: "Jan 2026", updates: ["Modular Code Structure", "Performance Optimization"] }
-];
-
-window.baseBlogs = [
-    { title: "How to Get Instagram OTP Using Temp Mail", tag: "Social" },
-    { title: "Temporary Email for Telegram Signup", tag: "Chat" },
-    { title: "Disposable Email for Gaming (BGMI)", tag: "Gaming" },
-    { title: "Protect Your Primary Inbox from Spam", tag: "Privacy" },
-    { title: "Bypass Netflix Registration Lock", tag: "Streaming" },
-    { title: "Secure Your Identity on Reddit", tag: "Social" },
-    { title: "How to use Temp Mails for Discord", tag: "Social" },
-    { title: "Why you shouldn't use real email on Public Wi-Fi", tag: "Security" },
-    { title: "Free Temporary Email for Software Trials", tag: "Tech" },
-    { title: "Best Anonymous Email Generators in 2026", tag: "Privacy" },
-    { title: "Using Temp Mail for TikTok Verification", tag: "Social" },
-    { title: "How to hide your IP while checking emails", tag: "Security" },
-    { title: "Temp Mail vs Traditional Mails", tag: "Guide" },
-    { title: "Creating Unlimited Facebook Accounts Safely", tag: "Social" },
-    { title: "How APIs use Disposable Emails", tag: "Dev" },
-    { title: "Bypassing Paywalls with Fake Emails", tag: "Hacks" },
-    { title: "The Truth About Email Tracking Pixels", tag: "Privacy" },
-    { title: "Temporary Mail for Tinder Access", tag: "Social" },
-    { title: "How to Spot a Phishing Email Fast", tag: "Security" },
-    { title: "Avoiding Promotional Spam from Amazon", tag: "Shopping" }
+// Blog Data
+window.blogArticles = [
+    { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2025', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2025, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
+    { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
+    { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with 10 proven strategies for 2025.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
+    { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' }
 ];
