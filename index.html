@@ -983,7 +983,7 @@
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
                 startSync();
                 manualFetch();
-                startEmailTimer(600); 
+                startEmailTimer(300);; 
             }
 
             setInterval(() => {
@@ -1067,7 +1067,7 @@
                     if(loadingOverlay) loadingOverlay.style.display = 'none';
                     clearInboxUIQuiet();
                     startSync();
-                    startEmailTimer(600); 
+                    startEmailTimer(300);; 
                 } else {
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
@@ -1135,7 +1135,7 @@
                         if(syncTimer) clearInterval(syncTimer);
                         startSync();
                         manualFetch();
-                        startEmailTimer(600); 
+                        startEmailTimer(300);; 
                     } else {
                         alert("Username is already taken on this domain! Try another.");
                         if(emailInput) emailInput.value = address; 
