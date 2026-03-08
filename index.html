@@ -702,12 +702,13 @@
                 initApp(); 
             }
         }
-function showCaptcha(callback) {
-            // Check if 5 hours (5 * 60 * 60 * 1000 milliseconds) have passed
+         function showCaptcha(callback) {
             const lastCaptchaTime = localStorage.getItem('last_captcha_time');
             const now = Date.now();
+            
+            // Agar 5 ghante (5 * 60 * 60 * 1000 ms) nahi huye hain, toh bina captcha aage badho
             if (lastCaptchaTime && (now - parseInt(lastCaptchaTime)) < 5 * 60 * 60 * 1000) {
-                if(callback) callback(); // Direct aage badho bina captcha dikhaye
+                if(callback) callback(); 
                 return;
             }
 
@@ -722,27 +723,7 @@ function showCaptcha(callback) {
             captchaSuccessCallback = callback;
         }
 
-            const num1 = Math.floor(Math.random() * 10) + 1;
-            const num2 = Math.floor(Math.random() * 10) + 1;
-            captchaAnswer = num1 + num2;
-            document.getElementById('captcha-question').innerText = `${num1} + ${num2} = ?`;
-            document.getElementById('captcha-input').value = "";
-            const modal = document.getElementById('captcha-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            captchaSuccessCallback = callback;
-        }
-            const num1 = Math.floor(Math.random() * 10) + 1;
-            const num2 = Math.floor(Math.random() * 10) + 1;
-            captchaAnswer = num1 + num2;
-            document.getElementById('captcha-question').innerText = `${num1} + ${num2} = ?`;
-            document.getElementById('captcha-input').value = "";
-            const modal = document.getElementById('captcha-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            captchaSuccessCallback = callback;
-        }
-function verifyCaptcha() {
+        function verifyCaptcha() {
             const val = parseInt(document.getElementById('captcha-input').value);
             if(val === captchaAnswer) {
                 document.getElementById('captcha-modal').classList.add('hidden');
@@ -756,7 +737,7 @@ function verifyCaptcha() {
                 alert("Incorrect CAPTCHA. Are you a bot?");
                 document.getElementById('captcha-input').value = "";
             }
-          }
+        }       
 
         function setEmailType(type) {
             currentEmailType = type;
