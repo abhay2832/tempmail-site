@@ -702,7 +702,6 @@
                 initApp(); 
             }
         }
-
 function showCaptcha(callback) {
             // Check if 5 hours (5 * 60 * 60 * 1000 milliseconds) have passed
             const lastCaptchaTime = localStorage.getItem('last_captcha_time');
@@ -722,6 +721,7 @@ function showCaptcha(callback) {
             modal.classList.add('flex');
             captchaSuccessCallback = callback;
         }
+
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
             captchaAnswer = num1 + num2;
@@ -732,18 +732,31 @@ function showCaptcha(callback) {
             modal.classList.add('flex');
             captchaSuccessCallback = callback;
         }
-
-        function verifyCaptcha() {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            captchaAnswer = num1 + num2;
+            document.getElementById('captcha-question').innerText = `${num1} + ${num2} = ?`;
+            document.getElementById('captcha-input').value = "";
+            const modal = document.getElementById('captcha-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            captchaSuccessCallback = callback;
+        }
+function verifyCaptcha() {
             const val = parseInt(document.getElementById('captcha-input').value);
             if(val === captchaAnswer) {
                 document.getElementById('captcha-modal').classList.add('hidden');
                 document.getElementById('captcha-modal').classList.remove('flex');
+                
+                // Captcha pass hone par time save kar lo
+                localStorage.setItem('last_captcha_time', Date.now().toString());
+                
                 if(captchaSuccessCallback) captchaSuccessCallback();
             } else {
                 alert("Incorrect CAPTCHA. Are you a bot?");
                 document.getElementById('captcha-input').value = "";
             }
-        }
+          }
 
         function setEmailType(type) {
             currentEmailType = type;
