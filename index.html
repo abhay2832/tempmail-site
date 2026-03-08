@@ -703,7 +703,25 @@
             }
         }
 
-        function showCaptcha(callback) {
+function showCaptcha(callback) {
+            // Check if 5 hours (5 * 60 * 60 * 1000 milliseconds) have passed
+            const lastCaptchaTime = localStorage.getItem('last_captcha_time');
+            const now = Date.now();
+            if (lastCaptchaTime && (now - parseInt(lastCaptchaTime)) < 5 * 60 * 60 * 1000) {
+                if(callback) callback(); // Direct aage badho bina captcha dikhaye
+                return;
+            }
+
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            captchaAnswer = num1 + num2;
+            document.getElementById('captcha-question').innerText = `${num1} + ${num2} = ?`;
+            document.getElementById('captcha-input').value = "";
+            const modal = document.getElementById('captcha-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            captchaSuccessCallback = callback;
+        }
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
             captchaAnswer = num1 + num2;
