@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Temp Mail - Free Disposable Temporary Email Generator</title>
+<meta name="title" content="Temp Mail - Free Disposable Temporary Email Generator">
+<meta name="description" content="Protect your personal email from spam, bots, and phishing. Use our free, fast, and secure disposable temporary email generator. No registration required.">
+<meta name="keywords" content="temp mail, temporary email, disposable email, fake email generator, 10 minute mail, free temp mail, trash mail">
+<meta name="author" content="Abhay">
+
+<meta name="google-site-verification" content="w8bZ1rUYA9pefoRFydWksZPuIQFHHyhQAVg2ERpsuKY" />
+
+<link rel="canonical" href="https://abhay2832.github.io/tempmail-site/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://abhay2832.github.io/tempmail-site/">
+<meta property="og:title" content="Temp Mail - Free Disposable Temporary Email">
+<meta property="og:description" content="Keep your real inbox clean. Generate a free temporary email address instantly to avoid spam and unwanted newsletters.">
+
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://abhay2832.github.io/tempmail-site/">
+<meta property="twitter:title" content="Temp Mail - Secure & Free Fake Email">
+<meta property="twitter:description" content="Protect your privacy with our instant disposable email service. Fast, free, and secure.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            darkMode: 'class', 
+            theme: { 
+                extend: {
+                    colors: {
+                        darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
+                        brand: 'var(--brand-color)', 
+                        brandbg: 'var(--brand-bg)',
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], }
+                } 
+            } 
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --brand-color: #06b6d4; 
+            --brand-bg: rgba(6, 182, 212, 0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out; }
+        
+        @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } 100% { filter: hue-rotate(360deg); } }
+        .color-shift { animation: hue-shift 8s infinite linear; }
+        
+        .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.2); } }
+        .spin-slow { animation: spin 2s linear infinite; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        .stat-update { animation: highlight-stat 1s ease-out; }
+        @keyframes highlight-stat { 0% { color: #10b981; transform: scale(1.1); } 100% { color: inherit; transform: scale(1); } }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen pb-16 transition-all duration-500 ease-in-out">
+
+    <div id="tnc-modal" class="fixed inset-0 bg-slate-900/95 hidden justify-center items-center p-4 z-[9999] backdrop-blur-md">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-xl rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden">
+            <div class="p-6 border-b border-slate-200 dark:border-darkborder bg-red-50 dark:bg-red-900/10">
+                <h3 class="font-black text-2xl text-red-600 flex items-center gap-3"><i class="fa-solid fa-gavel"></i> Mandatory Legal Agreement</h3>
+            </div>
+            <div class="p-6 text-slate-700 dark:text-gray-300 text-sm leading-relaxed space-y-4 max-h-[60vh] overflow-y-auto">
+                <p class="font-bold text-base">To enter Aryan Mails, you MUST agree to our strict Terms of Service:</p>
+                <ul class="list-disc pl-5 space-y-2 font-medium">
+                    <li><strong class="text-red-500">Zero Tolerance:</strong> You will NOT use our temporary emails for any illegal, fraudulent, or malicious activities.</li>
+                    <li><strong class="text-red-500">Sole Responsibility:</strong> If any user misuses these emails, the sole responsibility will lie strictly with the user. Misuse of this service is completely prohibited.</li>
+                    <li><strong class="text-red-500">No Owner Liability:</strong> The website owner and administrators hold absolutely NO responsibility for user actions or third-party breaches.</li>
+                    <li><strong class="text-red-500">Content Filtering:</strong> Adult websites (e.g., PornHub, xvideos) and illicit platforms are strictly filtered and blocked on our servers.</li>
+                </ul>
+                <div class="mt-6 flex items-start gap-3 bg-slate-100 dark:bg-darkbg p-4 rounded-lg border border-slate-300 dark:border-darkborder">
+                    <input type="checkbox" id="tnc-checkbox" class="mt-1 w-5 h-5 cursor-pointer accent-brand">
+                    <label for="tnc-checkbox" class="font-bold text-slate-800 dark:text-white cursor-pointer select-none">I have read, understood, and fully agree to take sole legal responsibility for my actions.</label>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg flex justify-end">
+                <button onclick="acceptTNC()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-lg font-bold transition active:scale-95 shadow-md">Accept & Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="captcha-modal" class="fixed inset-0 bg-slate-900/90 hidden justify-center items-center p-4 z-[9998] backdrop-blur-sm">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-sm rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden text-center p-8">
+            <i class="fa-solid fa-robot text-5xl text-brand mb-4"></i>
+            <h3 class="font-black text-xl text-slate-900 dark:text-white mb-2">Anti-Bot Check</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm mb-6">Please solve this simple math problem to prove you are human.</p>
+            <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4 text-2xl font-bold tracking-widest text-slate-800 dark:text-white" id="captcha-question">
+                5 + 3 = ?
+            </div>
+            <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-4">
+            <button onclick="verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md">Verify & Generate Email</button>
+        </div>
+    </div>
+
+    <div class="fixed right-0 top-1/2 -translate-y-1/2 z-[60]">
+        <button onclick="showSupportModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-8 rounded-l-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-3 group border-y border-l border-emerald-400 dark:border-emerald-700" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+            <i class="fa-solid fa-hand-holding-dollar rotate-90 text-2xl group-hover:scale-110 transition-transform"></i>
+            <span class="font-black tracking-widest uppercase text-sm">Financial Support</span>
+        </button>
+    </div>
+
+    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-500">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between relative">
+            <div class="flex items-center gap-3 cursor-pointer z-10 w-1/3">
+                <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Aryan<span class="text-brand color-shift"> Mails</span></span>
+            </div>
+            <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
+                <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
+                    <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
+                    <span class="text-xl drop-shadow-md">🇮🇳</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-end gap-3 z-10 w-1/3">
+                <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-brandbg text-brand text-xs font-semibold border border-brand/30 color-shift">
+                    <i class="fa-solid fa-shield-halved"></i> Trusted by 1M+ users
+                </div>
+                <button onclick="showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
+                    <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
+                </button>
+                <button onclick="showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </button>
+                <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </button>
+                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
+                    <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-4 mt-8 mb-12">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 md:p-8 text-center shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors duration-500">
+            <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
+            <p class="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest mb-4">Your Secure Email Address</p>
+            
+            <div class="relative max-w-2xl mx-auto mb-4">
+                <input type="text" id="email-address" readonly class="w-full text-center text-xl md:text-3xl py-4 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-slate-800 dark:text-white font-bold transition-all focus:outline-none focus:border-brand" value="Generating...">
+                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg rounded-xl flex items-center justify-center border-2 border-transparent">
+                    <i class="fa-solid fa-circle-notch spin-slow text-3xl text-brand color-shift"></i>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center gap-5 relative z-10">
+                <div class="flex flex-wrap justify-center items-center gap-3">
+                    <div class="flex items-center bg-slate-100 dark:bg-[#1e293b] rounded-lg p-1 text-sm font-medium border border-slate-200 dark:border-darkborder shadow-sm">
+                        <button id="btn-type-human" onclick="setEmailType('human')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer">
+                            <i class="fa-regular fa-user text-xs"></i> Human
+                        </button>
+                        <button id="btn-type-random" onclick="setEmailType('robot')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer">
+                            Random
+                        </button>
+                    </div>
+
+                    <div class="relative">
+                        <button onclick="toggleDomainDropdown()" class="bg-white dark:bg-[#1e293b] text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-4 py-2 rounded-lg transition font-medium flex items-center gap-2 shadow-sm cursor-pointer text-sm hover:bg-slate-50 dark:hover:bg-darkborder whitespace-nowrap">
+                            <i class="fa-regular fa-envelope text-blue-500"></i> <span id="domain-btn-text">Domain</span> <i class="fa-solid fa-chevron-down text-xs ml-2 text-slate-400"></i>
+                        </button>
+                        <div id="domain-dropdown" class="hidden absolute top-full mt-2 w-48 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl shadow-xl z-50 overflow-hidden text-left sm:right-auto right-0 sm:left-1/2 sm:-translate-x-1/2">
+                            <div id="domain-list" class="max-h-56 overflow-y-auto py-1 custom-scrollbar">
+                                <div class="px-4 py-3 text-sm text-slate-400 text-center"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-slate-600 dark:text-gray-300 font-semibold text-sm bg-slate-50 dark:bg-[#1e293b] px-3 py-2 rounded-lg border border-slate-200 dark:border-darkborder whitespace-nowrap">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> <span id="countdown-timer">10:00</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap justify-center items-center gap-3">
+                    <button onclick="copyEmail()" class="bg-[#8ba4f9] hover:bg-[#7390f5] text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-md cursor-pointer whitespace-nowrap">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                    <button onclick="forceNewAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-sm cursor-pointer whitespace-nowrap" title="Generate New Email based on selection">
+                        <i class="fa-solid fa-arrows-rotate text-slate-500 dark:text-gray-400"></i> New Email
+                    </button>
+                    <button onclick="createCustomAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 shadow-sm cursor-pointer text-[15px] active:scale-95 whitespace-nowrap">
+                        <i class="fa-solid fa-pen text-slate-500 dark:text-gray-400"></i> Custom
+                    </button>
+                </div>
+            </div>
+            <p id="copy-msg" class="text-emerald-600 dark:text-green-400 text-sm font-bold mt-4 opacity-0 transition-opacity duration-300">Copied to clipboard!</p>
+        </div>
+    </div>
+
+    <div class="text-center max-w-3xl mx-auto px-4 mb-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors duration-500">Real-time <span class="text-brand color-shift">Inbox</span></h2>
+        <p class="text-slate-500 dark:text-gray-400 text-sm md:text-base transition-colors duration-500">Receive and manage your temporary emails instantly.</p>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 mb-10">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl transition-colors duration-500">
+            <div class="bg-slate-50 dark:bg-darkbg/50 px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center transition-colors duration-500">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-envelope text-brand color-shift text-lg"></i>
+                    <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="showPageModal('Report Abuse')" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-sm font-bold whitespace-nowrap">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Report
+                    </button>
+                    <button onclick="clearInboxUI()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-sm font-bold whitespace-nowrap">
+                        <i class="fa-solid fa-trash-can"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors duration-500 relative z-10">
+                <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer">
+                    <i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: ON</span>
+                </button>
+                <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
+                </div>
+                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
+                    <i id="notif-icon" class="fa-solid fa-bell text-brand"></i> <span id="notif-text">Sound On</span>
+                </button>
+                <button onclick="fastOtpReset()" class="flex items-center gap-1.5 hover:text-amber-500 transition ml-2 active:scale-95 cursor-pointer p-1 text-slate-600 dark:text-gray-400 font-semibold" title="Fast OTP">
+                    <i id="fast-bolt-icon" class="fa-solid fa-bolt text-amber-500"></i> <span class="hidden sm:inline">Fast OTP</span>
+                </button>
+                <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer whitespace-nowrap">
+                    <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
+                </button>
+            </div>
+
+            <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors duration-500">
+                <div class="flex gap-4 items-center">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-filter"></i> All Emails</span>
+                    <select id="sort-mails" onchange="renderMails()" class="bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded px-2 py-1 text-slate-700 dark:text-gray-300 focus:outline-none focus:border-brand cursor-pointer">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                    </select>
+                </div>
+                <div id="total-emails" class="font-bold text-slate-800 dark:text-white">0 emails</div>
+            </div>
+            
+            <div id="inbox-content" class="min-h-[350px] max-h-[600px] overflow-y-auto bg-white dark:bg-[#0f1525] transition-colors duration-500 relative p-2 flex flex-col items-center justify-center text-slate-400">
+                <i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i>
+                <p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p>
+                <p>Waiting for emails...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 mb-8">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col md:flex-row transition-colors duration-500">
+            <div class="flex-1 p-6 md:p-8 border-b md:border-b-0 md:border-r border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-[#0f1525] transition-colors duration-500">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
+                    <h3 class="text-slate-800 dark:text-white text-xs font-bold tracking-widest uppercase">Live Stats <span class="text-emerald-500 lowercase font-medium ml-1">(updating real-time)</span></h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
+                        <div class="w-10 h-10 rounded-lg bg-brandbg text-brand flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <div id="stat-today" class="text-slate-900 dark:text-white font-bold text-xl leading-tight inline-block transition-transform duration-300">819</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Emails Today (IST)</div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                        <div>
+                            <div id="stat-inboxes" class="text-slate-900 dark:text-white font-bold text-xl leading-tight inline-block transition-transform duration-300">382</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Inboxes Created</div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
+                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center text-lg"><i class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <div id="stat-generated" class="text-slate-900 dark:text-white font-bold text-xl leading-tight inline-block transition-transform duration-300">296.5K</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Total Generated</div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-4 flex items-center gap-4 shadow-sm transition-all duration-500">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-globe"></i></div>
+                        <div>
+                            <div class="text-slate-900 dark:text-white font-bold text-xl leading-tight">10+</div>
+                            <div class="text-slate-500 dark:text-gray-400 text-xs font-medium">Domains Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-[350px] p-6 md:p-8 bg-white dark:bg-darkpanel transition-colors duration-500">
+                <div class="flex items-center gap-2.5 mb-6">
+                    <i class="fa-regular fa-lightbulb text-brand color-shift text-lg"></i>
+                    <h3 class="text-slate-800 dark:text-white text-sm font-bold">Quick Tips</h3>
+                </div>
+                <ul class="space-y-5 text-xs text-slate-600 dark:text-gray-300 font-medium">
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-brandbg text-brand flex items-center justify-center flex-shrink-0 border border-brand/30 text-[10px] mt-0.5 color-shift">1</span>
+                        <span class="leading-relaxed">Use temp emails for online signups to avoid spam.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-brandbg text-brand flex items-center justify-center flex-shrink-0 border border-brand/30 text-[10px] mt-0.5 color-shift">2</span>
+                        <span class="leading-relaxed">Links inside emails now open safely in a new tab.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-5 h-5 rounded-full bg-brandbg text-brand flex items-center justify-center flex-shrink-0 border border-brand/30 text-[10px] mt-0.5 color-shift">3</span>
+                        <span class="leading-relaxed">Turn on Sound Notifications to get instant alerts.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
+        <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">Features</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
+        <p class="text-slate-500 dark:text-gray-400 text-lg">Our comprehensive suite of features keeps your real email address safe.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto px-4 mb-24">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+            <div class="w-14 h-14 bg-brandbg text-brand border border-brand/20 rounded-xl flex items-center justify-center text-2xl mb-6 color-shift group-hover:scale-110 transition-transform"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Instant Temp Email</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Generate a disposable email address instantly. No registration or passwords required.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+            <div class="w-14 h-14 bg-brandbg text-brand border border-brand/20 rounded-xl flex items-center justify-center text-2xl mb-6 color-shift group-hover:scale-110 transition-transform"><i class="fa-solid fa-user-shield"></i></div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Complete Privacy</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Your identity stays protected. Avoid spam, advertising mailings, and hacking robots.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+            <div class="w-14 h-14 bg-brandbg text-brand border border-brand/20 rounded-xl flex items-center justify-center text-2xl mb-6 color-shift group-hover:scale-110 transition-transform"><i class="fa-solid fa-stopwatch"></i></div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Auto-Expiring</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Emails and domains are securely deleted after your session ends to keep you safe.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+            <div class="w-14 h-14 bg-brandbg text-brand border border-brand/20 rounded-xl flex items-center justify-center text-2xl mb-6 color-shift group-hover:scale-110 transition-transform"><i class="fa-solid fa-shield-virus"></i></div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Spam Protection</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Advanced filters block malicious domains and keep adult content strictly out of the system.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+            <div class="w-14 h-14 bg-brandbg text-brand border border-brand/20 rounded-xl flex items-center justify-center text-2xl mb-6 color-shift group-hover:scale-110 transition-transform"><i class="fa-solid fa-layer-group"></i></div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Multi-Domain Support</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Access up to 10+ premium rotating domains to easily bypass strict website blocks.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group">
+            <div class="w-14 h-14 bg-brandbg text-brand border border-brand/20 rounded-xl flex items-center justify-center text-2xl mb-6 color-shift group-hover:scale-110 transition-transform"><i class="fa-solid fa-code"></i></div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Developer API</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Automate your workflow. Get a public API key instantly for testing and development integration.</p>
+        </div>
+    </div>
+
+    <div id="how-it-works" class="text-center mb-12 px-4 pt-10">
+        <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Get Started in Seconds</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto px-4 mb-24 mt-8">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">01</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Generate</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Solve a quick captcha to generate a human or random temp email instantly.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">02</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-regular fa-copy"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Use Anywhere</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Copy and paste it for signups, testing, or verifying untrusted sites.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">03</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-inbox"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Receive</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Mails instantly appear in your secure live inbox with sound alerts.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">04</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-bars-progress"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Manage</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Read securely, delete manually, or let it auto-delete in 5 minutes.</p>
+        </div>
+    </div>
+
+    <div id="faq" class="text-center mb-12 px-4 pt-10">
+        <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">FAQ</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Frequently <span class="text-brand color-shift">Asked Questions</span></h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 mb-24">
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                What is a temporary email?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites or apps.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                How long do the emails last?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Emails stay in your inbox as long as you keep the browser tab open. However, our strict anti-abuse policy automatically deletes received emails that are older than 5 minutes.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Can I send emails from here?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To strictly prevent spam, phishing, and abuse from originating from our domains, Aryan Mails is a receive-only service. You cannot send or forward emails.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Is my inbox fully private?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes. Your inbox is securely tied to your active session. Once you generate a new email or close the browser, all data is permanently and irreversibly wiped from the server.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Are attachments supported?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To protect users from downloading malware or ransomware, attachment viewing is disabled by default. You can only read the text/HTML body of the email.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Is it really free?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes! Aryan Mails provides premium temporary email services completely free of charge. No hidden fees or credit cards required. You can support us using the Financial Support button!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 mb-16">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-3xl p-10 md:p-14 text-center shadow-xl relative overflow-hidden transition-colors duration-500">
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-brand color-shift"></div>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Ready to Protect Your <span class="text-brand color-shift">Privacy?</span></h2>
+            <p class="text-slate-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">Join millions of users who trust our service to keep their real inbox spam-free.</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full sm:w-auto color-shift bg-brand hover:brightness-110 text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center justify-center gap-2 active:scale-95 shadow-md cursor-pointer whitespace-nowrap">
+                    Generate Free Email <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </div>
+            <p class="mt-5 text-xs text-slate-400 dark:text-gray-500">No credit card required. Instant access.</p>
+        </div>
+<div class="max-w-4xl mx-auto px-4 py-8 mt-10 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-200 dark:border-[#1e293b]">
+    <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-2">What is Temp Mail?</h2>
+    <p class="mb-4">Temp Mail provides a free, secure, and anonymous disposable temporary email address. Protect your personal inbox from spam, promotional emails, phishing, and bots. No registration is required to use our fast and reliable fake email generator.</p>
+
+    <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Why use a Disposable Email?</h2>
+    <p>Many websites and apps force you to register to view content, download files, or participate in forums. By using our 10 minute mail alternative, you can keep your real identity hidden and ensure your primary email stays 100% clean and safe from unwanted newsletters.</p>
+</div>
+    <footer class="border-t border-slate-200 dark:border-darkborder bg-white dark:bg-[#0b1121] transition-colors duration-500 pt-12 mt-10">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50 dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-6 rounded-2xl mb-12 shadow-sm transition-colors duration-500">
+                <div class="flex items-center gap-4 mb-4 md:mb-0">
+                    <div class="w-12 h-12 bg-[#229ED9] text-white rounded-xl flex items-center justify-center text-2xl shadow-md"><i class="fa-brands fa-telegram"></i></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Join our Telegram</h3>
+                        <p class="text-slate-500 dark:text-gray-400 text-sm">Get updates, API news & announcements</p>
+                    </div>
+                </div>
+                <a href="https://t.me/aryanmails" target="_blank" class="w-full md:w-auto bg-[#229ED9] hover:bg-[#1f8bc2] text-white px-6 py-3 rounded-xl transition font-semibold flex items-center justify-center gap-2 active:scale-95 shadow-md cursor-pointer whitespace-nowrap">
+                    <i class="fa-brands fa-telegram"></i> Join Channel
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+                <div class="col-span-2 md:col-span-2 pr-4">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="color-shift w-7 h-7 rounded bg-brand flex items-center justify-center text-white font-bold text-sm shadow-md">A</div>
+                        <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Aryan<span class="text-brand color-shift"> Mails</span></span>
+                    </div>
+                    <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed mb-4">Generate instant, anonymous email addresses. Perfect for sign-ups, testing, and keeping your real inbox completely spam-free.</p>
+                    <div class="flex gap-4">
+                        <a href="https://t.me/aryanmails" target="_blank" title="Telegram" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition cursor-pointer"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-darkborder flex items-center justify-center text-slate-600 dark:text-gray-300 hover:text-brand transition cursor-pointer"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Product</h4>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
+                        <li><a href="#features" class="hover:text-brand transition cursor-pointer">Features</a></li>
+                        <li><button onclick="showPageModal('System Status')" class="hover:text-brand transition cursor-pointer focus:outline-none">System Status <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-1"></span></button></li>
+                        <li><button onclick="showPageModal('Changelog')" class="hover:text-brand transition cursor-pointer focus:outline-none">Changelog</button></li>
+                        <li><button onclick="showPageModal('API Access')" class="hover:text-brand transition cursor-pointer focus:outline-none">API Access</button></li>
+                        <li><button onclick="showPageModal('Premium Plans')" class="hover:text-brand transition cursor-pointer focus:outline-none">Premium</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Resources</h4>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
+                        <li><a href="#how-it-works" class="hover:text-brand transition cursor-pointer">How It Works</a></li>
+                        <li><a href="#faq" class="hover:text-brand transition cursor-pointer">FAQ</a></li>
+                        <li><button onclick="showPageModal('Blog & News')" class="hover:text-brand transition cursor-pointer focus:outline-none">Blog</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Legal</h4>
+                    <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
+                        <li><button onclick="showPageModal('Privacy Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Privacy Policy</button></li>
+                        <li><button onclick="showPageModal('Terms of Service')" class="hover:text-brand transition cursor-pointer focus:outline-none">Terms of Service</button></li>
+                        <li><button onclick="showPageModal('Cookie Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Cookie Policy</button></li>
+                        <li><button onclick="showPageModal('Report Abuse')" class="hover:text-brand transition cursor-pointer focus:outline-none">Report Abuse</button></li>
+                        <li><a href="https://t.me/aryanmails" target="_blank" class="hover:text-brand transition cursor-pointer">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-200 dark:border-darkborder py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 dark:text-gray-500">
+                <p>&copy; 2026 Aryan Mails. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Systems Operational</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-darkpanel border-t border-slate-200 dark:border-darkborder p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] transform transition-transform translate-y-full duration-500 flex flex-col sm:flex-row justify-between items-center gap-4 hidden">
+        <div class="text-sm text-slate-600 dark:text-gray-300 flex-1">
+            We use strictly necessary cookies to ensure security, rate limiting, and core functionality. <button onclick="showPageModal('Cookie Policy')" class="text-brand font-semibold hover:underline">Learn more</button>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="acceptCookies()" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 whitespace-nowrap shadow-md cursor-pointer">Accept & Close</button>
+        </div>
+    </div>
+
+    <div id="email-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-4xl rounded-2xl shadow-2xl flex flex-col h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-start bg-slate-50 dark:bg-darkbg">
+                <div class="pr-4 flex-1 min-w-0">
+                    <h3 id="modal-subject" class="font-bold text-xl text-slate-900 dark:text-white mb-1 truncate">Subject</h3>
+                    <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-brand font-semibold color-shift"></span></p>
+                </div>
+                <div class="flex gap-2 flex-shrink-0">
+                    <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        </div>
+    </div>
+
+    <div id="support-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-emerald-500"></i> Support Aryan Mails</h3>
+                <button onclick="closeSupportModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 text-center text-slate-600 dark:text-gray-300 text-sm leading-relaxed overflow-y-auto max-h-[80vh]">
+                <p class="mb-4 text-base">Your support helps us keep the servers running and the service 100% free! We accept all UPI payments including <b>Google Pay, PhonePe, Paytm, and Navi</b>.</p>
+                
+                <div class="bg-white p-4 rounded-xl inline-block mb-4 border border-slate-200 shadow-md">
+                    <img id="upi-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" alt="UPI QR Code" class="w-48 h-48 mx-auto">
+                </div>
+                
+                <p class="font-semibold text-slate-800 dark:text-white mb-2">Scan QR or Copy UPI ID:</p>
+                <div class="flex items-center justify-between bg-slate-100 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg p-3 max-w-sm mx-auto shadow-inner mb-2">
+                    <span class="font-mono text-brand font-bold text-base" id="upi-id-text">pp90990341@ybl</span>
+                    <button onclick="copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
+                </div>
+                <p id="upi-copy-msg" class="text-xs text-emerald-500 font-bold mb-4 opacity-0 transition-opacity">UPI ID Copied to clipboard!</p>
+
+                <div class="border-t border-slate-200 dark:border-darkborder pt-5 mt-2">
+                    <p class="font-semibold text-slate-800 dark:text-white mb-3 text-base">Pay Directly via App (Mobile Only):</p>
+                    <a href="upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base whitespace-nowrap">
+                        <i class="fa-solid fa-bolt"></i> Tap to Pay Direct
+                    </a>
+                    <p class="text-xs mt-3 text-slate-500 dark:text-gray-400">Clicking above will open your default UPI app.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
+                <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="page-modal-body" class="p-6 overflow-y-auto text-slate-600 dark:text-gray-300 text-sm leading-relaxed space-y-4">
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg text-right">
+                <button onclick="closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md cursor-pointer whitespace-nowrap">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'https://api.mail.gw';
+        let token = localStorage.getItem('mt_token');
+        let address = localStorage.getItem('mt_email');
+        
+        function generatePassword() {
+            return "P@ss" + Math.random().toString(36).slice(-8) + "1x!";
+        }
+        
+        let password = localStorage.getItem('mt_password') || generatePassword();
+        let syncTimer = null;
+        let refreshSec = 5; 
+        let lastMailCount = 0; 
+        let soundOn = true;
+        let isSyncing = true; 
+        let allMessages = [];
+        let availableDomains = [];
+        let activeDomain = "";
+        let currentEmailType = 'human'; 
+        let captchaAnswer = 0;
+        let captchaSuccessCallback = null;
+        let emailTimerInterval;
+        let statToday = 819; 
+        let statInboxes = 382; 
+        let statGenerated = 296500;
+
+        const emailInput = document.getElementById('email-address');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const inboxContent = document.getElementById('inbox-content');
+        const totalEmails = document.getElementById('total-emails');
+
+        function checkCookies() {
+            if (!localStorage.getItem('cookie_accepted')) {
+                const banner = document.getElementById('cookie-banner');
+                banner.classList.remove('hidden');
+                setTimeout(() => banner.classList.remove('translate-y-full'), 100);
+            }
+        }
+
+        function acceptCookies() {
+            localStorage.setItem('cookie_accepted', 'true');
+            const banner = document.getElementById('cookie-banner');
+            banner.classList.add('translate-y-full');
+            setTimeout(() => banner.classList.add('hidden'), 500);
+        }
+
+        function checkTNC() {
+            const lastAccepted = localStorage.getItem('tnc_accepted_time');
+            const now = Date.now();
+            if (!lastAccepted || (now - parseInt(lastAccepted)) > 24 * 60 * 60 * 1000) {
+                const modal = document.getElementById('tnc-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                return false;
+            }
+            return true;
+        }
+
+        function acceptTNC() {
+            const cb = document.getElementById('tnc-checkbox');
+            if(!cb.checked) {
+                alert("You must check the box to agree to the Terms and Conditions.");
+                return;
+            }
+            localStorage.setItem('tnc_accepted_time', Date.now().toString());
+            document.getElementById('tnc-modal').classList.add('hidden');
+            document.getElementById('tnc-modal').classList.remove('flex');
+            initializeAppWithIPCheck(); 
+        }
+
+        async function initializeAppWithIPCheck() {
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                const userIP = data.ip;
+                const blocked = JSON.parse(localStorage.getItem('blocked_ips') || '[]');
+                
+                if(blocked.includes(userIP) || localStorage.getItem('is_banned') === 'true') {
+                    document.body.innerHTML = `<div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-900 text-white"><i class="fa-solid fa-ban text-6xl text-red-500 mb-4"></i><h1 class="text-3xl font-bold mb-2">Access Denied</h1><p>Your IP (${userIP}) has been permanently blocked from our network due to policy violations or abuse.</p></div>`;
+                    return;
+                }
+                initApp(); 
+            } catch(e) {
+                initApp(); 
+            }
+        }
+
+        function showCaptcha(callback) {
+            const num1 = Math.floor(Math.random() * 10) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            captchaAnswer = num1 + num2;
+            document.getElementById('captcha-question').innerText = `${num1} + ${num2} = ?`;
+            document.getElementById('captcha-input').value = "";
+            const modal = document.getElementById('captcha-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            captchaSuccessCallback = callback;
+        }
+
+        function verifyCaptcha() {
+            const val = parseInt(document.getElementById('captcha-input').value);
+            if(val === captchaAnswer) {
+                document.getElementById('captcha-modal').classList.add('hidden');
+                document.getElementById('captcha-modal').classList.remove('flex');
+                if(captchaSuccessCallback) captchaSuccessCallback();
+            } else {
+                alert("Incorrect CAPTCHA. Are you a bot?");
+                document.getElementById('captcha-input').value = "";
+            }
+        }
+
+        function setEmailType(type) {
+            currentEmailType = type;
+            const btnHuman = document.getElementById('btn-type-human');
+            const btnRandom = document.getElementById('btn-type-random');
+            
+            if (type === 'human') {
+                btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
+                btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
+            } else {
+                btnRandom.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer";
+                btnHuman.className = "flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer";
+            }
+        }
+
+        function toggleDomainDropdown() {
+            const el = document.getElementById('domain-dropdown');
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+        
+        document.addEventListener('click', (e) => {
+            const domainBtn = e.target.closest('button[onclick="toggleDomainDropdown()"]');
+            const domainDropdown = document.getElementById('domain-dropdown');
+            if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
+                domainDropdown.classList.add('hidden');
+            }
+        });
+
+        function generateAPIKey() {
+            const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('aryan_api_key', key);
+            const disp = document.getElementById('api-key-display');
+            if(disp) disp.value = key;
+            alert("New API Key Generated Successfully!");
+        }
+
+        const blogArticles = [
+            { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2025', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2025, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
+            { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
+            { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with 10 proven strategies for 2025.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
+            { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' }
+        ];
+
+        function renderBlogContent() {
+            const container = document.getElementById('blog-container');
+            if(!container) return;
+
+            let filteredArticles = blogArticles;
+            if (currentBlogFilter !== 'All') {
+                filteredArticles = blogArticles.filter(a => a.category === currentBlogFilter);
+            }
+
+            let filtersHtml = '<div class="flex flex-wrap gap-2 mb-4">';
+            ['All', 'Privacy', 'Email Security', 'Email Tips', 'Industry Trends'].forEach(cat => {
+                if (cat === currentBlogFilter) {
+                    filtersHtml += `<button onclick="setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition cursor-pointer">${cat}</button>`;
+                } else {
+                    filtersHtml += `<button onclick="setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition cursor-pointer">${cat}</button>`;
+                }
+            });
+            filtersHtml += '</div>';
+
+            let activeFilterHtml = `
+                <div class="flex flex-wrap items-center gap-3 bg-slate-100 dark:bg-darkbg p-3 rounded-lg text-sm border border-slate-200 dark:border-darkborder mb-8">
+                    <span class="font-bold text-slate-700 dark:text-gray-200">Active filter:</span>
+                    <span class="flex items-center gap-2 bg-white dark:bg-darkpanel px-3 py-1 rounded-md border border-slate-200 dark:border-darkborder text-slate-600 dark:text-gray-300">
+                        Category: ${currentBlogFilter}
+                        ${currentBlogFilter !== 'All' ? `<button onclick="setBlogFilter('All')" class="hover:text-red-500 transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>` : ''}
+                    </span>
+                    ${currentBlogFilter !== 'All' ? `<button onclick="setBlogFilter('All')" class="text-red-500 hover:text-red-600 font-semibold ml-auto transition cursor-pointer">Clear all</button>` : ''}
+                </div>
+            `;
+
+            let gridHtml = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">';
+            if (filteredArticles.length === 0) {
+                gridHtml += `<div class="col-span-1 md:col-span-2 text-center py-10 text-slate-500">No articles found.</div>`;
+            } else {
+                filteredArticles.forEach(post => {
+                    gridHtml += `
+                    <div onclick="openBlogPost('${post.id}')" class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full cursor-pointer">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-bold text-brand uppercase tracking-wider">${post.category}</span>
+                            <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-900 dark:text-white mb-2 group-hover:text-brand transition-colors">${post.title}</h4>
+                        <p class="text-slate-600 dark:text-gray-300 text-sm mb-4 flex-grow">${post.excerpt}</p>
+                        <div class="flex items-center gap-3 pt-4 border-t border-slate-100 dark:border-darkborder mt-auto">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400"><i class="fa-solid fa-user"></i></div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-800 dark:text-white">${post.author}</p>
+                                <p class="text-xs text-slate-500 dark:text-gray-400">${post.date}</p>
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            }
+            gridHtml += '</div>';
+
+            container.innerHTML = filtersHtml + activeFilterHtml + gridHtml;
+        }
+
+        function setBlogFilter(category) {
+            currentBlogFilter = category;
+            renderBlogContent();
+        }
+
+        function openBlogPost(id) {
+            const post = blogArticles.find(a => a.id === id);
+            if(!post) return;
+            const container = document.getElementById('blog-container');
+            if(!container) return;
+
+            container.innerHTML = `
+                <button onclick="renderBlogContent()" class="mb-6 flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand transition cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Blog
+                </button>
+                <div class="mb-6 pb-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 rounded-full bg-brandbg text-brand text-xs font-bold uppercase tracking-wider">${post.category}</span>
+                        <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white mb-6 leading-tight">${post.title}</h1>
+                    <div class="flex items-center gap-3 mb-8 border-b border-slate-200 dark:border-darkborder pb-6">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-darkborder flex items-center justify-center text-slate-500 dark:text-gray-400"><i class="fa-solid fa-user"></i></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800 dark:text-white">${post.author}</p>
+                            <p class="text-xs text-slate-500 dark:text-gray-400">Published on ${post.date}</p>
+                        </div>
+                    </div>
+                    <img src="${post.image}" alt="${post.title}" class="w-full h-64 md:h-96 object-cover rounded-2xl mb-8 shadow-lg border border-slate-200 dark:border-darkborder">
+                    <div class="text-slate-700 dark:text-gray-300">${post.content}</div>
+                </div>
+            `;
+        }
+        
+        async function submitSubscribeForm(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('subscriber-email').value;
+            const btn = document.getElementById('subscribe-btn');
+            const msg = document.getElementById('subscribe-msg');
+            
+            btn.innerText = 'Subscribing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/aryanmishra20042008@gmail.com', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ _subject: "New Blog Subscriber on Aryan Mails!", email: emailInput, message: "A new user has subscribed." })
+                });
+                if (response.ok) {
+                    msg.innerText = 'Subscribed successfully!';
+                    msg.className = 'text-sm mt-2 text-emerald-500 font-semibold block';
+                    document.getElementById('subscribe-form').reset();
+                } else {
+                    msg.innerText = 'Error submitting. Please try again.';
+                    msg.className = 'text-sm mt-2 text-red-500 font-semibold block';
+                }
+            } catch (error) {
+                msg.innerText = 'Network error. Please try again.';
+                msg.className = 'text-sm mt-2 text-red-500 font-semibold block';
+            }
+            btn.innerText = 'Subscribe';
+            btn.disabled = false;
+            setTimeout(() => { msg.classList.add('hidden'); }, 5000);
+        }
+
+        async function fetchDomainsList() {
+            try {
+                const res = await fetch(`${API}/domains`);
+                const data = await res.json();
+                let apiDomains = data['hydra:member'].map(d => d.domain);
+                const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
+                availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
+                if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
+                renderDomainDropdown();
+            } catch(e) { }
+        }
+
+        function renderDomainDropdown() {
+            const btnText = document.getElementById('domain-btn-text');
+            if(btnText && activeDomain) btnText.innerText = "@" + activeDomain;
+            const dropdown = document.getElementById('domain-list');
+            if(dropdown && availableDomains.length > 0) {
+                dropdown.innerHTML = '';
+                availableDomains.forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = "px-4 py-2.5 hover:bg-slate-100 dark:hover:bg-darkborder cursor-pointer text-sm font-medium text-slate-700 dark:text-gray-300 transition-colors border-b border-slate-100 dark:border-darkborder last:border-0";
+                    div.innerText = "@" + d;
+                    div.onclick = () => {
+                        activeDomain = d;
+                        if(btnText) btnText.innerText = "@" + activeDomain;
+                        document.getElementById('domain-dropdown').classList.add('hidden');
+                        forceNewAccount(); 
+                    };
+                    dropdown.appendChild(div);
+                });
+            }
+        }
+
+        function startEmailTimer(durationInSeconds) {
+            clearInterval(emailTimerInterval);
+            let time = durationInSeconds;
+            const display = document.getElementById('countdown-timer');
+            if(!display) return;
+            emailTimerInterval = setInterval(() => {
+                let minutes = parseInt(time / 60, 10);
+                let seconds = parseInt(time % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                display.textContent = minutes + ":" + seconds;
+                if (--time < 0) time = durationInSeconds; 
+            }, 1000);
+        }
+
+        function showSupportModal() {
+            document.getElementById('support-modal').classList.remove('hidden');
+            document.getElementById('support-modal').classList.add('flex');
+        }
+
+        function closeSupportModal() {
+            document.getElementById('support-modal').classList.add('hidden');
+            document.getElementById('support-modal').classList.remove('flex');
+        }
+
+        function copyUPI() {
+            const upiText = document.getElementById('upi-id-text').innerText;
+            navigator.clipboard.writeText(upiText);
+            const msg = document.getElementById('upi-copy-msg');
+            msg.style.opacity = '1';
+            setTimeout(() => { msg.style.opacity = '0'; }, 2000);
+        }
+
+        function updateLiveStats() {
+            statToday += Math.floor(Math.random() * 3);
+            statInboxes += Math.floor(Math.random() * 2);
+            statGenerated += Math.floor(Math.random() * 5);
+            const stElement = document.getElementById('stat-today');
+            const siElement = document.getElementById('stat-inboxes');
+            const sgElement = document.getElementById('stat-generated');
+            if(stElement) stElement.innerText = statToday.toLocaleString();
+            if(siElement) siElement.innerText = statInboxes.toLocaleString();
+            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
+        }
+        setInterval(updateLiveStats, 3500); 
+
+        async function initApp() {
+            await fetchDomainsList(); 
+            if (address && token) {
+                if(emailInput) emailInput.value = address;
+                if(loadingOverlay) loadingOverlay.style.display = 'none';
+                startSync();
+                manualFetch();
+                startEmailTimer(600); 
+            }
+
+            setInterval(() => {
+                if (!allMessages || allMessages.length === 0) return;
+                const now = new Date();
+                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
+                
+                allMessages.forEach(msg => {
+                    const msgTime = new Date(msg.createdAt);
+                    const fromAddr = (msg.from.address || "").toLowerCase();
+                    const subj = (msg.subject || "").toLowerCase();
+                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
+                    
+                    if (((now - msgTime) > 5 * 60 * 1000) || isAdult) { 
+                        deleteSingleMail(msg.id);
+                    }
+                });
+            }, 30000); 
+        }
+
+        async function createNewAccount() {
+            const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
+            const now = Date.now();
+            const recent = history.filter(t => now - t < 60 * 60 * 1000); 
+            if(recent.length >= 50) { 
+                localStorage.setItem('is_banned', 'true');
+                alert("Anti-Abuse System: You have exceeded the limit. Your IP is blocked.");
+                location.reload();
+                return;
+            }
+            recent.push(now);
+            localStorage.setItem('mt_limit', JSON.stringify(recent));
+
+            if(loadingOverlay) loadingOverlay.style.display = 'flex';
+            try {
+                let stableDomain = activeDomain;
+                if (!stableDomain) {
+                    const domainRes = await fetch(`${API}/domains`);
+                    const domainData = await domainRes.json();
+                    stableDomain = domainData['hydra:member'][0].domain; 
+                    activeDomain = stableDomain;
+                    renderDomainDropdown();
+                }
+
+                let newUsername = "";
+                if (currentEmailType === 'human') {
+                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
+                    const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
+                    const num = Math.floor(100 + Math.random() * 900); 
+                    newUsername = pfx + num; 
+                } else {
+                    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                    for(let i = 0; i < 9; i++) {
+                        newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                }
+                
+                const newAddress = `${newUsername}@${stableDomain}`;
+                const newPassword = generatePassword();
+
+                const createRes = await fetch(`${API}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                if(createRes.ok) {
+                    const loginRes = await fetch(`${API}/token`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: newAddress, password: newPassword })
+                    });
+                    const tokenData = await loginRes.json();
+                    address = newAddress;
+                    password = newPassword;
+                    token = tokenData.token;
+                    localStorage.setItem('mt_email', address);
+                    localStorage.setItem('mt_password', password);
+                    localStorage.setItem('mt_token', token);
+                    if(emailInput) emailInput.value = address;
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
+                    clearInboxUIQuiet();
+                    startSync();
+                    startEmailTimer(600); 
+                } else {
+                    const domainRes = await fetch(`${API}/domains`);
+                    const domainData = await domainRes.json();
+                    activeDomain = domainData['hydra:member'][0].domain;
+                    if(emailInput) emailInput.value = "Switching domain...";
+                    setTimeout(() => createNewAccount(), 1000); 
+                }
+            } catch (err) {
+                if(emailInput) emailInput.value = "Network Error! Retrying...";
+                setTimeout(() => createNewAccount(), 2000);
+            }
+        }
+
+        function forceNewAccount() {
+            showCaptcha(() => {
+                localStorage.removeItem('mt_email');
+                localStorage.removeItem('mt_token');
+                address = null;
+                token = null;
+                if(emailInput) emailInput.value = "Generating...";
+                if(loadingOverlay) loadingOverlay.style.display = 'flex';
+                clearInboxUIQuiet();
+                createNewAccount();
+            });
+        }
+
+        function createCustomAccount() {
+            showCaptcha(async () => {
+                const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
+                if (!customPrefix) return;
+                const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
+                if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
+                if(loadingOverlay) loadingOverlay.style.display = 'flex';
+                if(emailInput) emailInput.value = "Creating custom email...";
+                try {
+                    let stableDomain = activeDomain;
+                    if (!stableDomain) {
+                        const domainRes = await fetch(`${API}/domains`);
+                        const domainData = await domainRes.json();
+                        stableDomain = domainData['hydra:member'][0].domain; 
+                        activeDomain = stableDomain;
+                    }
+                    const newAddress = `${cleanPrefix}@${stableDomain}`;
+                    const newPassword = generatePassword();
+                    const createRes = await fetch(`${API}/accounts`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: newAddress, password: newPassword })
+                    });
+                    if(createRes.ok) {
+                        const loginRes = await fetch(`${API}/token`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ address: newAddress, password: newPassword })
+                        });
+                        const tokenData = await loginRes.json();
+                        localStorage.removeItem('mt_token');
+                        localStorage.removeItem('mt_email');
+                        address = newAddress; password = newPassword; token = tokenData.token;
+                        localStorage.setItem('mt_email', address);
+                        localStorage.setItem('mt_password', password);
+                        localStorage.setItem('mt_token', token);
+                        if(emailInput) emailInput.value = address;
+                        clearInboxUIQuiet();
+                        if(syncTimer) clearInterval(syncTimer);
+                        startSync();
+                        manualFetch();
+                        startEmailTimer(600); 
+                    } else {
+                        alert("Username is already taken on this domain! Try another.");
+                        if(emailInput) emailInput.value = address; 
+                        if(loadingOverlay) loadingOverlay.style.display = 'none';
+                    }
+                } catch (err) {
+                    alert("Network Error! Please try again.");
+                    if(emailInput) emailInput.value = address;
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        async function fastOtpReset() {
+            const boltIcon = document.getElementById('fast-bolt-icon');
+            if(boltIcon) boltIcon.classList.add('fa-spin');
+            await manualFetch();
+            if(boltIcon) boltIcon.classList.remove('fa-spin');
+        }
+
+        async function deleteSingleMail(id, event) {
+            if(event && event.stopPropagation) event.stopPropagation();
+            try {
+                const res = await fetch(`${API}/messages/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if(res.ok) {
+                    allMessages = allMessages.filter(m => m.id !== id);
+                    renderMails();
+                }
+            } catch(err) {}
+        }
+
+        async function manualFetch() {
+            if(!token) return;
+            const fetchIcon = document.getElementById('fetch-icon');
+            if(fetchIcon) fetchIcon.classList.add('fa-spin');
+            if (allMessages.length === 0 && inboxContent) {
+                inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
+                inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
+            }
+            try {
+                const res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                let fetchedMails = data['hydra:member'] || [];
+                
+                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
+                allMessages = fetchedMails.filter(msg => {
+                    const fromAddr = (msg.from.address || "").toLowerCase();
+                    const subj = (msg.subject || "").toLowerCase();
+                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
+                    if(isAdult) {
+                        fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                        return false;
+                    }
+                    return true;
+                });
+                
+                if (allMessages.length > 40) {
+                    const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+                    const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
+                    extraMails.forEach(m => fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }));
+                    allMessages = allMessages.filter(m => !extraMails.some(e => e.id === m.id));
+                }
+
+                if (allMessages.length > 0) {
+                    if(allMessages.length > lastMailCount && soundOn) {
+                        const audio = document.getElementById('notification-sound');
+                        if(audio) audio.play().catch(e => {});
+                    }
+                    lastMailCount = allMessages.length;
+                    renderMails(); 
+                } else {
+                    renderMails(); 
+                }
+            } catch (err) {} finally {
+                if(fetchIcon) fetchIcon.classList.remove('fa-spin');
+            }
+        }
+
+        function renderMails() {
+            if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
+            if (allMessages.length > 0) {
+                if(inboxContent) {
+                    inboxContent.innerHTML = '';
+                    inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
+                }
+                const sortOrder = document.getElementById('sort-mails').value;
+                let sortedMails = [...allMessages]; 
+                if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+                else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+                
+                sortedMails.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition-all duration-300 w-full text-left";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
+                                <button onclick="deleteSingleMail('${msg.id}', event)" class="text-red-500 hover:text-red-700 hover:scale-110 transition-transform p-1" title="Delete Mail"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>
+                    `;
+                    div.onclick = () => openEmail(msg.id);
+                    if(inboxContent) inboxContent.appendChild(div);
+                });
+            } else {
+                if(inboxContent) {
+                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p><p>Waiting for emails...</p>`;
+                    inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
+                }
+            }
+        }
+
+        async function openEmail(id) {
+            try {
+                const res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await res.json();
+                const modalSubject = document.getElementById('modal-subject');
+                const modalFrom = document.getElementById('modal-from');
+                const modalBodyIframe = document.getElementById('modal-body-iframe');
+                const emailModal = document.getElementById('email-modal');
+                if(modalSubject) modalSubject.innerText = data.subject || 'No Subject';
+                if(modalFrom) modalFrom.innerText = data.from.address;
+                if(modalBodyIframe) modalBodyIframe.srcdoc = data.html ? data.html[0] : (data.text || 'No content');
+                if(emailModal) {
+                    emailModal.classList.remove('hidden');
+                    emailModal.classList.add('flex');
+                }
+            } catch(err) {}
+        }
+
+        function closeModal() {
+            const emailModal = document.getElementById('email-modal');
+            const modalBodyIframe = document.getElementById('modal-body-iframe');
+            if(emailModal) { emailModal.classList.add('hidden'); emailModal.classList.remove('flex'); }
+            if(modalBodyIframe) modalBodyIframe.srcdoc = '';
+        }
+
+        async function clearInboxUIQuiet() { 
+            allMessages = []; lastMailCount = 0; renderMails(); 
+        }
+
+        async function clearInboxUI() { 
+            const fetchIcon = document.getElementById('fetch-icon');
+            if(fetchIcon) fetchIcon.classList.add('fa-spin');
+            for (const msg of allMessages) {
+                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
+            }
+            allMessages = []; lastMailCount = 0; renderMails();
+            if(fetchIcon) fetchIcon.classList.remove('fa-spin');
+        }
+
+        function copyEmail() {
+            if(emailInput) { emailInput.select(); document.execCommand('copy'); }
+            const msg = document.getElementById('copy-msg');
+            if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
+        }
+
+        function startSync() {
+            if(syncTimer) clearInterval(syncTimer);
+            syncTimer = setInterval(manualFetch, refreshSec * 1000);
+        }
+
+        function toggleAutoSync() {
+            isSyncing = !isSyncing;
+            const icon = document.getElementById('sync-icon');
+            const text = document.getElementById('sync-text');
+            if(isSyncing) {
+                if(icon) icon.className = "fa-solid fa-bolt text-amber-500";
+                if(text) text.innerText = "Auto-Sync: ON";
+                startSync();
+            } else {
+                if(icon) icon.className = "fa-solid fa-bolt text-gray-500";
+                if(text) text.innerText = "Auto-Sync: OFF";
+                clearInterval(syncTimer);
+            }
+        }
+
+        function toggleAudio() { 
+            soundOn = !soundOn; 
+            const text = document.getElementById('notif-text');
+            if(text) text.innerText = soundOn ? "Sound On" : "Sound Off";
+            const icon = document.getElementById('notif-icon');
+            if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
+        }
+
+        function changeColorTheme() {
+            const hue = Math.floor(Math.random() * 360);
+            const brandColor = `hsl(${hue}, 75%, 50%)`;
+            const brandBg = `hsla(${hue}, 75%, 50%, 0.15)`;
+            document.documentElement.style.setProperty('--brand-color', brandColor);
+            document.documentElement.style.setProperty('--brand-bg', brandBg);
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            const themeIcon = document.getElementById('theme-icon');
+            if(themeIcon) { themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
+        }
+
+        function showPageModal(pageName) {
+            const title = document.getElementById('page-modal-title');
+            const body = document.getElementById('page-modal-body');
+            const modal = document.getElementById('page-modal');
+            title.innerText = pageName;
+            
+            let content = '';
+            
+            if (pageName === 'Privacy Policy') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Privacy Policy & Data Handling (Strict)</p>
+                    <p class="mb-3">Aryan Mails operates on a strict principle of data minimization and ephemeral storage. By accessing our infrastructure, you acknowledge and agree to the following data handling protocols:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li><strong>No Logs Policy:</strong> We do not log, store, or monitor your personal IP address, browser fingerprint, or real-world identity for tracking purposes.</li>
+                        <li><strong>Ephemeral Data:</strong> All generated email addresses, received messages, and associated session tokens are temporarily held in volatile memory. Once your session is terminated or the auto-delete timer expires, this data is <strong>permanently mathematically destroyed</strong> from our servers. Recovery is impossible.</li>
+                        <li><strong>Third-Party Sharing:</strong> We maintain a zero-compromise stance. We do not sell, rent, or share any data to advertisers, data brokers, or third-party entities.</li>
+                    </ul>
+                    <p class="text-red-500 font-bold mb-2">Anti-Abuse Compliance:</p>
+                    <p>While we respect privacy, we actively deploy automated anti-abuse algorithms to detect and block malicious network requests (e.g., DDoS, botnets, spam generation). In cases of severe network abuse, offending IP ranges are blackholed at the firewall level.</p>
+                `;
+            } else if (pageName === 'Terms of Service') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Terms of Service & Acceptable Use Policy</p>
+                    <p class="mb-3">These Terms of Service constitute a legally binding agreement between you and Aryan Mails. Your access to this platform is strictly conditional upon your compliance with the following rules:</p>
+                    <p class="font-bold text-red-500 mb-2 mt-4">1. ZERO TOLERANCE FOR ILLEGAL ACTIVITY</p>
+                    <p class="mb-3">You are expressly prohibited from using our temporary email infrastructure for any illegal, fraudulent, or harmful activities, including but not limited to: creating fake accounts for financial fraud, distributing malware, engaging in harassment, or bypassing legal security measures of third-party platforms. Violation will result in immediate, permanent hardware-level IP bans.</p>
+                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">2. Automated Access & Rate Limiting</p>
+                    <p class="mb-3">Unauthorized scraping, botting, or API abuse is strictly forbidden. We enforce a rigid rate limit (Max 50 emails/hour). Attempts to bypass these limits using proxies or VPNs to launch volumetric attacks will trigger our automated defense mechanisms.</p>
+                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">3. Disclaimer of Warranties (AS-IS)</p>
+                    <p>Aryan Mails provides this service on an "AS-IS" and "AS-AVAILABLE" basis. We offer absolutely no guarantees regarding email delivery speeds, domain permanence, or uptime. We are not liable for any lost data, missed communications, or damages arising from the use of our disposable domains.</p>
+                `;
+            } else if (pageName === 'Cookie Policy') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Cookie Policy</p>
+                    <p class="mb-4">Aryan Mails uses strictly necessary cookies and local storage to function. We do NOT use tracking, advertising, or third-party analytic cookies.</p>
+                    <p class="font-bold text-slate-800 dark:text-white mb-2 mt-4">What we store on your browser:</p>
+                    <ul class="list-disc pl-5 space-y-2 mb-4">
+                        <li><strong>Session Tokens:</strong> To keep you logged into your current temporary email.</li>
+                        <li><strong>Email & Password:</strong> To automatically reload your inbox if you accidentally refresh the page.</li>
+                        <li><strong>Rate Limit Data:</strong> To enforce our anti-abuse rules and prevent spam.</li>
+                        <li><strong>UI Preferences:</strong> Such as Dark/Light mode and notification sound settings.</li>
+                    </ul>
+                    <p>All data is stored locally on your device. Clearing your browser data will instantly wipe your temporary inbox access.</p>
+                `;
+            } else if (pageName === 'System Status') {
+                content = `
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-xl border border-emerald-200 dark:border-emerald-800/30">
+                            <div>
+                                <h4 class="font-bold text-emerald-700 dark:text-emerald-400">All Systems Operational</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Last checked: Just now</p>
+                            </div>
+                            <span class="flex h-3 w-3 relative">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
+                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">API Gateway</span>
+                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational (99.99%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
+                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Mail Receiving Nodes</span>
+                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational (14ms latency)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
+                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Domain DNS Routers</span>
+                                <span class="text-xs font-bold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded">Operational</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-darkbg rounded-lg border border-slate-200 dark:border-darkborder">
+                                <span class="text-sm font-semibold text-slate-700 dark:text-gray-300">Anti-Abuse Firewall</span>
+                                <span class="text-xs font-bold text-blue-500 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">Active & Monitoring</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (pageName === 'Changelog') {
+                content = `
+                    <div class="space-y-6 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 dark:before:via-slate-700 before:to-transparent">
+                        
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-brand text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.5.0 - Security Update</h4>
+                                    <span class="text-[10px] font-semibold text-brand">March 2026</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
+                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
+                                    <li>Added auto-deletion for emails older than 5 minutes.</li>
+                                    <li>Integrated human/robot random name generation modes.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.4.1 - Domain Expansion</h4>
+                                    <span class="text-[10px] font-semibold text-slate-500">February 2026</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
+                                    <li>Added 10 new premium domains to bypass blacklists.</li>
+                                    <li>Fixed UI glitch in modal popups and dropdowns.</li>
+                                    <li>Improved email fetching latency by 35%.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                            <div class="flex items-center justify-center w-6 h-6 rounded-full border border-white dark:border-darkpanel bg-slate-300 dark:bg-slate-600 text-slate-50 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"></div>
+                            <div class="w-[calc(100%-2rem)] md:w-[calc(50%-1.5rem)] bg-white dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder shadow-sm">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h4 class="font-bold text-slate-800 dark:text-white text-sm">v2.0.0 - Platform Overhaul</h4>
+                                    <span class="text-[10px] font-semibold text-slate-500">January 2026</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
+                                    <li>Complete UI/UX redesign with Dark Mode support.</li>
+                                    <li>Introduced live inbox reading without page refresh.</li>
+                                    <li>Added the new Blog & Privacy news section.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (pageName === 'Report Abuse') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-red-500 dark:text-red-400"><i class="fa-solid fa-triangle-exclamation"></i> Report Malicious Activity</p>
+                    <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
+                    <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
+                    
+                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4 whitespace-nowrap">
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
+                    </a>
+                `;
+            } else if (pageName === 'API Access') {
+                let apiKey = localStorage.getItem('aryan_api_key') || '';
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Public API Access (Live)</p>
+                    <p class="mb-4">Integrate Aryan Mails into your application. Use the API key below to authenticate your requests.</p>
+                    <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4">
+                        <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
+                            <button onclick="generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap"><i class="fa-solid fa-arrows-rotate"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
+                `;
+            } else if (pageName === 'Premium Plans') {
+                content = `
+                    <p class="font-bold text-lg mb-2 text-slate-800 dark:text-white">Upgrade Your Experience</p>
+                    <p>We are working hard to bring you Aryan Mails Premium! Upcoming features include:</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-gray-300">
+                        <li>Custom domain names</li>
+                        <li>Permanent email inboxes</li>
+                        <li>Ad-free experience</li>
+                        <li>Higher API rate limits</li>
+                    </ul>
+                    <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
+                `;
+            } else if (pageName === 'Blog & News') {
+                content = `
+                    <div class="text-left py-4 space-y-6">
+                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
+                            
+                            <form id="subscribe-form" onsubmit="submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
+                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
+                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap">Subscribe</button>
+                            </form>
+                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
+
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
+                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
+                        </div>
+                        <div id="blog-container"></div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    currentBlogFilter = 'All';
+                    renderBlogContent();
+                }, 10);
+            }
+
+            body.innerHTML = content;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePageModal() {
+            const modal = document.getElementById('page-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if(!checkTNC()) return; 
+            initializeAppWithIPCheck();
+            
+            document.querySelectorAll('.faq-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const answer = btn.nextElementSibling;
+                    const icon = btn.querySelector('.fa-chevron-down');
+                    const isOpen = answer.style.maxHeight;
+
+                    document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+                    document.querySelectorAll('.faq-btn .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                    if (!isOpen) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                        if(icon) icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
