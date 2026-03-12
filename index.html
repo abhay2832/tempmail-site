@@ -698,32 +698,133 @@
             document.getElementById('tnc-modal').classList.remove('flex');
             initializeAppWithIPCheck(); 
         }
+function showBanScreen(expiryTime) {
+            document.body.innerHTML = `
+            <div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-white">
+                <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-8 rounded-[2rem] shadow-2xl max-w-md w-full relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-red-500"></div>
+                    <div class="w-24 h-24 bg-red-100 dark:bg-red-900/30 text-red-500 rounded-full flex items-center justify-center text-5xl mx-auto mb-6 shadow-inner">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h1 class="text-3xl font-black mb-3">Rate Limit Exceeded</h1>
+                    <p class="text-slate-500 dark:text-gray-400 font-medium mb-6">To maintain server quality and prevent abuse, your IP has been temporarily paused. Please wait for the cooldown to finish.</p>
+                    <div class="bg-slate-100 dark:bg-[#0f1525] border border-slate-200 dark:border-darkborder p-6 rounded-2xl mb-6 shadow-inner">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Cooldown Timer</p>
+                        <div id="ban-timer" class="text-4xl font-mono font-black text-brand tracking-widest">00:00:00</div>
+                    </div>
+                    <p class="text-xs text-slate-500 font-bold"><i class="fa-solid fa-rotate fa-spin text-emerald-500 mr-1"></i> Page will auto-refresh when timer ends.</p>
+                </div>
+            </div>`;
+            
+            const timerEl = document.getElementById('ban-timer');
+            const interval = setInterval(() => {
+                const now = Date.now();
+                const diff = expiryTime - now;
+                if(diff <= 0) {
+                    clearInterval(interval);
+                    localStorage.removeItem('mt_ban_expiry');
+                    localStorage.setItem('mt_limit', '[]'); // Limit reset on unban
+                    location.reload();
+                } else {
+                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const s = Math.floor((diff % (1000 * 60)) / 1000);
+                    timerEl.innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
+                }
+            }, 1000);
+        }
 
         async function initializeAppWithIPCheck() {
-            try {
-                const res = await fetch('https://api.ipify.org?format=json');
-                const data = await res.json();
-                const userIP = data.ip;
-                const blocked = JSON.parse(localStorage.getItem('blocked_ips') || '[]');
-                
-                if(blocked.includes(userIP) || localStorage.getItem('is_banned') === 'true') {
-                    document.body.innerHTML = `<div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-900 text-white"><i class="fa-solid fa-ban text-6xl text-red-500 mb-4"></i><h1 class="text-3xl font-bold mb-2">Access Denied</h1><p>Your IP (${userIP}) has been permanently blocked from our network due to policy violations or abuse.</p></div>`;
-                    return;
-                }
-                initApp(); 
-            } catch(e) {
-                initApp(); 
+            const banExpiry = localStorage.getItem('mt_ban_expiry');
+            // Check agar abhi bhi ban time bacha hai
+            if (banExpiry && parseInt(banExpiry) > Date.now()) {
+                showBanScreen(parseInt(banExpiry));
+                return;
+            } else if (banExpiry) {
+                // Agar time nikal gaya hai toh ban hita do
+                localStorage.removeItem('mt_ban_expiry');
+                localStorage.setItem('mt_limit', '[]');
             }
+            initApp(); 
         }
-         function showCaptcha(callback) {
-            const lastCaptchaTime = localStorage.getItem('last_captcha_time');
+
+        async function createNewAccount() {
+            const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
-            
-            // Agar 5 ghante (5 * 60 * 60 * 1000 ms) nahi huye hain, toh bina captcha aage badho
-            if (lastCaptchaTime && (now - parseInt(lastCaptchaTime)) < 5 * 60 * 60 * 1000) {
-                if(callback) callback(); 
+            const recent = history.filter(t => now - t < 60 * 60 * 1000); 
+            if(recent.length >= 50) { 
+                const expiry = now + (2 * 60 * 60 * 1000); // 2 Ghante (2 hours) ka ban
+                localStorage.setItem('mt_ban_expiry', expiry.toString());
+                showBanScreen(expiry);
                 return;
             }
+            recent.push(now);
+            localStorage.setItem('mt_limit', JSON.stringify(recent));
+
+            if(loadingOverlay) loadingOverlay.style.display = 'flex';
+            
+            try {
+                let stableDomain = activeDomain;
+                if (!stableDomain) {
+                    const domainRes = await fetch(`${API}/domains`);
+                    const domainData = await domainRes.json();
+                    stableDomain = domainData['hydra:member'][0].domain; 
+                    activeDomain = stableDomain;
+                    renderDomainDropdown();
+                }
+
+                let newUsername = "";
+                if (currentEmailType === 'human') {
+                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
+                    const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
+                    const num = Math.floor(100 + Math.random() * 900); 
+                    newUsername = pfx + num;
+                } else {
+                    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                    for(let i = 0; i < 9; i++) {
+                        newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                }
+                
+                const newAddress = `${newUsername}@${stableDomain}`;
+                const newPassword = generatePassword();
+
+                const createRes = await fetch(`${API}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: newPassword })
+                });
+
+                if(createRes.ok) {
+                    const loginRes = await fetch(`${API}/token`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: newAddress, password: newPassword })
+                    });
+                    const tokenData = await loginRes.json();
+                    address = newAddress;
+                    password = newPassword;
+                    token = tokenData.token;
+                    localStorage.setItem('mt_email', address);
+                    localStorage.setItem('mt_password', password);
+                    localStorage.setItem('mt_token', token);
+                    if(emailInput) emailInput.value = address;
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
+                    clearInboxUIQuiet();
+                    startSync();
+                    startEmailTimer(600);
+                } else {
+                    const domainRes = await fetch(`${API}/domains`);
+                    const domainData = await domainRes.json();
+                    activeDomain = domainData['hydra:member'][0].domain;
+                    if(emailInput) emailInput.value = "Switching domain...";
+                    setTimeout(() => createNewAccount(), 1000);
+                }
+            } catch (err) {
+                if(emailInput) emailInput.value = "Network Error! Retrying...";
+                setTimeout(() => createNewAccount(), 2000);
+            }
+        }
 
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
