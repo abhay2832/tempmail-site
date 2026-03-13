@@ -99,6 +99,61 @@
         </div>
     </div>
 
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/80 hidden justify-center items-center p-4 z-[9990] backdrop-blur-md transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder relative">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 class="font-bold text-xl flex items-center gap-2"><i class="fa-brands fa-google text-blue-500"></i> Secure Access</h3>
+                <button onclick="closeAuthModal()" class="p-2 text-slate-500 hover:text-red-500 rounded-lg cursor-pointer transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <div class="p-6 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
+                
+                <div id="auth-view-init" class="block text-center">
+                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 class="text-2xl font-black mb-2 text-slate-900 dark:text-white">Welcome</h4>
+                    <p class="text-slate-500 dark:text-gray-400 mb-6 font-medium">To maintain security, only verified Google accounts are permitted.</p>
+                    <button onclick="startGoogleAuth()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-md cursor-pointer text-base text-slate-900 dark:text-white">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Continue with Google
+                    </button>
+                </div>
+
+                <div id="auth-view-processing" class="hidden flex-col items-center justify-center py-6 text-center">
+                    <i id="auth-spinner" class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500 mb-4"></i>
+                    <p id="auth-status-text" class="font-bold text-lg text-slate-800 dark:text-white leading-relaxed">Connecting to Google...</p>
+                </div>
+
+                <div id="auth-view-profile" class="hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-brand rounded-3xl p-8 text-white text-center relative shadow-xl mb-6 overflow-hidden">
+                        <div class="absolute -right-4 -top-4 opacity-20 text-8xl"><i class="fa-brands fa-google"></i></div>
+                        <div class="w-20 h-20 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-3xl font-black shadow-lg mb-4 relative z-10" id="prof-initial">A</div>
+                        <h4 class="text-2xl font-black mb-2 relative z-10 tracking-tight" id="prof-name">User Name</h4>
+                        <div class="inline-flex items-center gap-2 bg-slate-900/30 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm relative z-10 border border-white/20">
+                            <span class="w-2.5 h-2.5 rounded-full animate-pulse" id="prof-dot"></span> 
+                            <span id="prof-plan" class="uppercase tracking-widest">Free Plan</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mb-8 bg-slate-50 dark:bg-[#0f1525] p-5 rounded-2xl border border-slate-200 dark:border-darkborder text-sm shadow-inner">
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-darkborder pb-3">
+                            <span class="text-slate-500 font-bold uppercase tracking-wider text-xs">Verified Gmail</span>
+                            <span class="font-bold text-slate-900 dark:text-white" id="prof-email">...</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-darkborder pb-3 pt-1">
+                            <span class="text-slate-500 font-bold uppercase tracking-wider text-xs">Auth Protocol</span>
+                            <span class="font-semibold text-blue-500">Google OAuth 2.0</span>
+                        </div>
+                        <div class="flex justify-between pt-1">
+                            <span class="text-slate-500 font-bold uppercase tracking-wider text-xs">Account Status</span>
+                            <span class="font-bold text-emerald-500"><i class="fa-solid fa-shield-check"></i> Secured</span>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
+                        <i class="fa-solid fa-power-off text-lg"></i> Secure Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="captcha-modal" class="fixed inset-0 bg-slate-900/90 hidden justify-center items-center p-4 z-[9998] backdrop-blur-sm">
         <div class="bg-white dark:bg-darkpanel w-full max-w-sm rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden text-center p-8">
             <i class="fa-solid fa-robot text-5xl text-brand mb-4"></i>
@@ -127,19 +182,25 @@
             </div>
             <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
                 <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
-    <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
-    <img src="https://flagcdn.com/in.svg" alt="India Flag" class="w-6 h-4 drop-shadow-md rounded-[2px]">
-</div>
+                    <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
+                    <img src="https://flagcdn.com/in.svg" alt="India Flag" class="w-6 h-4 drop-shadow-md rounded-[2px]">
+                </div>
             </div>
             <div class="flex items-center justify-end gap-3 z-10 w-1/3">
-                <button onclick="showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
+                
+                <button id="nav-signup-btn" onclick="openAuthPortal()" class="flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                    <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Google Login</span>
+                </button>
+                
+                <button id="nav-profile-btn" onclick="openAuthPortal()" class="hidden items-center gap-2 px-5 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                    <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
+                </button>
+
+                <button onclick="showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
                 <button onclick="showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
-                </button>
-                <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
                 <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
@@ -227,7 +288,7 @@
 
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors duration-500 relative z-10">
                 <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer">
-                    <i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: OF</span>
+                    <i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: OFF</span>
                 </button>
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
@@ -323,7 +384,7 @@
         </div>
     </div>
 
-   <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
+    <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">Features</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
         <p class="text-slate-500 dark:text-gray-400 text-lg">Our comprehensive suite of features keeps your real email address safe.</p>
@@ -375,35 +436,67 @@
             <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Real-Time Alerts</h3>
             <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Get immediate sound and visual notifications the second a new email hits your secure inbox.</p>
         </div>
-    </div>       
-    <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
+    </div>
+
+    <div id="how-it-works" class="text-center mb-12 px-4 pt-10">
+        <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Get Started in Seconds</h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto px-4 mb-24 mt-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 mb-24 mt-8">
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">01</div>
             <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Generate</h3>
-            <p class="text-slate-500 dark:text-gray-400 text-sm">Solve a quick captcha to generate a human or random temp email instantly.</p>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Visit Site</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Open our platform. No downloads or signups required.</p>
         </div>
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">02</div>
-            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-regular fa-copy"></i></div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Use Anywhere</h3>
-            <p class="text-slate-500 dark:text-gray-400 text-sm">Copy and paste it for signups, testing, or verifying untrusted sites.</p>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-robot"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Verify Human</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Solve a quick captcha to block automated malicious bots.</p>
         </div>
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">03</div>
-            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-inbox"></i></div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Receive</h3>
-            <p class="text-slate-500 dark:text-gray-400 text-sm">Mails instantly appear in your secure live inbox with sound alerts.</p>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-globe"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Choose Domain</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Select from our list of premium rotating domains.</p>
         </div>
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">04</div>
-            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-bars-progress"></i></div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Manage</h3>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-envelope"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Auto-Generate</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Our backend instantly creates your secure email address.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">05</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-regular fa-copy"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Copy Securely</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Copy and paste it for signups or verifying untrusted sites.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">06</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-inbox"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Await Inbox</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Mails instantly appear in your secure live inbox with sound alerts.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">07</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-book-open-reader"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Read Securely</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Click the email to read its contents in an isolated sandbox.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">08</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-trash-can"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Auto-Wipe</h3>
             <p class="text-slate-500 dark:text-gray-400 text-sm">Read securely, delete manually, or let it auto-delete in 5 minutes.</p>
+        </div>
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
+            <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">09</div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-shield-halved"></i></div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Stay Anonymous</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm">Close the tab knowing your real email is safe from tracking.</p>
         </div>
     </div>
 
@@ -415,56 +508,92 @@
     <div class="max-w-3xl mx-auto px-4 mb-24">
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                What is a temporary email?
+                What exactly is a temporary email address?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites or apps.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address designed to self-destruct after a specific duration. It helps you securely avoid giving out your real, Aadhar-linked primary email address to untrusted internet entities.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                How long do the emails last?
+                Is it legally compliant to use disposable emails in India?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Emails stay in your inbox as long as you keep the browser tab open. However, our strict anti-abuse policy automatically deletes received emails that are older than 5 minutes.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes, using a temporary email address to proactively protect your personal privacy is completely legal in India and globally. However, utilizing our infrastructure to conduct financial fraud is strictly illegal.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Can I send emails from here?
+                Can this effectively bypass Instagram and Telegram OTPs?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To strictly prevent spam, phishing, and abuse from originating from our domains, Aryan Mails is a receive-only service. You cannot send or forward emails.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Extremely effective. Our platform features a 'Human Name Generator' that allows you to seamlessly receive 6-digit OTP verification codes without triggering anti-spam filters.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is my inbox fully private?
+                How long does my secure inbox remain active?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes. Your inbox is securely tied to your active session. Once you generate a new email or close the browser, all data is permanently and irreversibly wiped from the server.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Your inbox actively receives mail as long as you keep your current browser tab open. However, any email received is automatically deleted from our backend servers after exactly 5 minutes.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Are attachments supported?
+                Is it technically possible to recover a deleted inbox?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To protect users from downloading malware or ransomware, attachment viewing is disabled by default. You can only read the text/HTML body of the email.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Absolutely not. The core philosophy of Aryan Mails is uncompromised ephemeral security. We do not maintain historical archives or hidden logs of received communications.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is it really free?
+                Why are email attachments (PDFs, Images) disabled?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes! Aryan Mails provides premium temporary email services completely free of charge. No hidden fees or credit cards required. You can support us using the Financial Support button!</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Extreme security is our highest priority. To absolutely protect our users from accidentally initiating drive-by downloads or ransomware, we systematically strip out file attachments at the server level.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Does Aryan Mails secretly log my IP address?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">We operate under a rigorous no-tracking ethos. IP addresses are temporarily checked purely for immediate rate-limiting purposes to prevent DDoS attacks, and are never saved permanently.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Am I permitted to send outgoing emails from these addresses?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No, Aryan Mails functions exclusively as a 'Receive-Only' infrastructure. Enabling outbound SMTP traffic would immediately attract spammers and ruin our domain reputation.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                How do I effectively utilize the Custom Username feature?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">By clicking the 'Custom' button, you are prompted to input your desired alphanumeric prefix. The system will instantly pair your chosen prefix with the active domain to create a unique address.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Is the entire platform optimized for mobile networks?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes, absolutely. Aryan Mails has been meticulously engineered as a Single Page Application (SPA). It consumes minimal bandwidth and operates remarkably fast even on slow mobile networks.</p>
             </div>
         </div>
     </div>
@@ -481,13 +610,21 @@
             </div>
             <p class="mt-5 text-xs text-slate-400 dark:text-gray-500">No credit card required. Instant access.</p>
         </div>
-<div class="max-w-4xl mx-auto px-4 py-8 mt-10 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-200 dark:border-[#1e293b]">
-    <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-2">What is Temp Mail?</h2>
-    <p class="mb-4">Temp Mail provides a free, secure, and anonymous disposable temporary email address. Protect your personal inbox from spam, promotional emails, phishing, and bots. No registration is required to use our fast and reliable fake email generator.</p>
+        
+        <div class="mt-16 text-center">
+            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-4">Privacy <span class="text-brand">Blog</span></h2>
+            <div id="blog-container" class="text-left"></div>
+        </div>
 
-    <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Why use a Disposable Email?</h2>
-    <p>Many websites and apps force you to register to view content, download files, or participate in forums. By using our 10 minute mail alternative, you can keep your real identity hidden and ensure your primary email stays 100% clean and safe from unwanted newsletters.</p>
-</div>
+        <div class="max-w-4xl mx-auto py-8 mt-10 text-slate-600 dark:text-slate-400 text-sm border-t border-slate-200 dark:border-[#1e293b] text-left">
+            <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-2">What is Temp Mail?</h2>
+            <p class="mb-4">Temp Mail provides a free, secure, and anonymous disposable temporary email address. Protect your personal inbox from spam, promotional emails, phishing, and bots. No registration is required to use our fast and reliable fake email generator.</p>
+
+            <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-2">Why use a Disposable Email?</h2>
+            <p>Many websites and apps force you to register to view content, download files, or participate in forums. By using our 10 minute mail alternative, you can keep your real identity hidden and ensure your primary email stays 100% clean and safe from unwanted newsletters.</p>
+        </div>
+    </div>
+
     <footer class="border-t border-slate-200 dark:border-darkborder bg-white dark:bg-[#0b1121] transition-colors duration-500 pt-12 mt-10">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center bg-slate-50 dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-6 rounded-2xl mb-12 shadow-sm transition-colors duration-500">
@@ -613,8 +750,8 @@
         </div>
     </div>
 
-    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
-        <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9995] backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-3xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
                 <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
@@ -654,12 +791,177 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
+        let currentBlogFilter = 'All';
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
+        // --- STRICT AUTHENTICATION LOGIC ---
+        const SecureAuthBackend = {
+            db: JSON.parse(localStorage.getItem('secure_user_db') || '{}'),
+            vault: {},
+            jwtSecret: 'aryan_2026_strict_hash_x92',
+            
+            _hash: function(str) { let h=0; for(let i=0;i<str.length;i++) h=Math.imul(31,h)+str.charCodeAt(i)|0; return h.toString(); },
+            genJWT: function(u) { const h=btoa(JSON.stringify({alg:"HS256"})), p=btoa(JSON.stringify({id:u.id, email:u.email, phone:u.phone, name:u.name, age:u.age, plan:u.plan, method:u.method, exp:Date.now()+86400000})); return `${h}.${p}.${this._hash(h+"."+p+this.jwtSecret)}`; },
+            verJWT: function(t) { try{ const pts=t.split('.'); if(pts.length!==3 || this._hash(pts[0]+"."+pts[1]+this.jwtSecret)!==pts[2]) return null; const p=JSON.parse(atob(pts[1])); return Date.now()>p.exp ? null : p; }catch(e){return null;} },
+            
+            requestOTP: function(method, identifier, isDual = false) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if(!identifier) return reject("Invalid identifier.");
+                        if(method === 'Google' || method === 'Yahoo') {
+                            const dom = identifier.split('@')[1];
+                            if(!dom || ['1secmail.com','mail.gw','tempmail.com'].includes(dom.toLowerCase())) return reject("Disposable emails blocked.");
+                        }
+                        const otp1 = Math.floor(100000 + Math.random() * 900000).toString();
+                        const otp2 = isDual ? Math.floor(100000 + Math.random() * 900000).toString() : null;
+                        this.vault[identifier] = { otp1: otp1, otp2: otp2, method: method, exp: Date.now() + 300000, attempts: 0 };
+                        alert(`[BACKEND OTP SENT]\n\nTo: ${identifier}\nMethod: ${method}\n\nYour OTP: ${otp1}` + (isDual ? `\nWhatsApp OTP: ${otp2}` : ''));
+                        resolve(true);
+                    }, 600);
+                });
+            },
+            verifyOTP: function(identifier, otp1, otp2 = null) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const rec = this.vault[identifier];
+                        if(!rec) return reject("No active OTP session.");
+                        if(Date.now() > rec.exp) { delete this.vault[identifier]; return reject("OTP Expired."); }
+                        if(rec.otp1 !== otp1 || (rec.otp2 && rec.otp2 !== otp2)) return reject("Invalid OTP.");
+                        delete this.vault[identifier];
+                        let user = this.db[identifier];
+                        if(user) resolve({ action: 'login', token: this.generateJWT(user), user: user });
+                        else resolve({ action: 'signup_required', identifier: identifier, method: rec.method });
+                    }, 800);
+                });
+            }
+        };
+
+        const auth = {
+            tk: localStorage.getItem('auth_jwt'),
+            state: { mode: 'login', method: '', id: '', isDual: false },
+
+            open: function() {
+                const u = window.checkAuthSession();
+                const m = document.getElementById('auth-modal'); m.classList.remove('hidden'); m.classList.add('flex');
+                if(u) {
+                    this.showView('auth-view-profile');
+                    document.getElementById('prof-name').innerText = u.name;
+                    document.getElementById('prof-initial').innerText = u.name.charAt(0).toUpperCase();
+                    document.getElementById('prof-plan').innerText = u.plan;
+                    document.getElementById('prof-id').innerText = u.email || u.phone;
+                    document.getElementById('prof-method').innerText = u.method || 'OAuth';
+                } else this.showView('auth-view-init');
+            },
+            close: function() { document.getElementById('auth-modal').classList.add('hidden'); document.getElementById('auth-modal').classList.remove('flex'); },
+            showView: function(id) { 
+                ['auth-view-init','auth-view-method','auth-view-google','auth-view-input','auth-view-otp','auth-view-setup','auth-view-profile'].forEach(v => {
+                    const e = document.getElementById(v); if(e) { if(v===id) {e.classList.remove('hidden'); e.classList.add('block');} else {e.classList.add('hidden'); e.classList.remove('block');} }
+                }); 
+            },
+            setMode: function(m) { this.state.mode = m; this.showView('auth-view-method'); },
+            selectMethod: function(m) {
+                this.state.method = m; this.state.isDual = (m==='WhatsApp');
+                if(m==='Google') return this.showView('auth-view-google');
+                if(['Yahoo','GitHub','Facebook'].includes(m)) return this.runOAuth(m);
+                this.prepInput(m);
+            },
+            prepInput: function(t) {
+                this.showView('auth-view-input');
+                document.getElementById('auth-lbl-title').innerText = t==='Email' ? 'Google Manual Entry' : 'Enter Phone Number';
+                const pg = document.getElementById('auth-grp-phone'), eg = document.getElementById('auth-grp-email');
+                if(t==='Email') { pg.classList.add('hidden'); pg.classList.remove('flex'); eg.classList.remove('hidden'); } 
+                else { pg.classList.remove('hidden'); pg.classList.add('flex'); eg.classList.add('hidden'); }
+            },
+            runOAuth: function(prov) {
+                this.showView('auth-view-init'); 
+                setTimeout(() => {
+                    const e = prompt(`[OAuth Simulated Gateway - ${prov}]\nEnter verified email address:`);
+                    if(!e || !e.includes('@')) { alert("Auth Cancelled."); return this.close(); }
+                    this.state.id = e; this.reqOTP_Backend(e, false);
+                }, 800);
+            },
+            requestOTP: function() {
+                const btn = document.getElementById('btn-req-otp');
+                let id = '';
+                if(this.state.method === 'Mobile' || this.state.method === 'WhatsApp') {
+                    const n = document.getElementById('auth-inp-phone').value; if(n.length<8) return alert("Invalid Number");
+                    id = document.getElementById('auth-inp-cc').value + n;
+                } else {
+                    id = document.getElementById('auth-inp-email').value; if(!id.includes('@')) return alert("Invalid Email");
+                }
+                this.state.id = id; btn.innerHTML = 'Processing...'; btn.disabled=true;
+                setTimeout(()=>{ btn.innerHTML='Send Secure OTP'; btn.disabled=false; this.reqOTP_Backend(id, this.state.isDual); }, 800);
+            },
+            reqOTP_Backend: function(id, isDual) {
+                const o1 = Math.floor(100000 + Math.random() * 900000).toString();
+                const o2 = isDual ? Math.floor(100000 + Math.random() * 900000).toString() : null;
+                SecureAuthBackend.vault[id] = { o1: o1, o2: o2, exp: Date.now() + 300000, method: this.state.method };
+                alert(`[SECURE OTP]\n\nTo: ${id}\nYour OTP: ${o1}` + (isDual ? `\nWhatsApp OTP: ${o2}` : ''));
+                this.showView('auth-view-otp');
+                document.getElementById('auth-lbl-sent').innerText = `Sent securely to ${id}`;
+                if(isDual) { document.getElementById('auth-grp-single').classList.add('hidden'); document.getElementById('auth-grp-dual').classList.remove('hidden'); }
+                else { document.getElementById('auth-grp-single').classList.remove('hidden'); document.getElementById('auth-grp-dual').classList.add('hidden'); }
+            },
+            verifyOTP: function() {
+                const btn = document.getElementById('btn-verify-otp');
+                let i1='', i2=null;
+                if(this.state.isDual) { i1=document.getElementById('auth-inp-sms').value; i2=document.getElementById('auth-inp-wa').value; if(!i1||!i2) return alert("Both OTPs required."); }
+                else { i1=document.getElementById('auth-inp-otp1').value; if(!i1) return alert("OTP required."); }
+                
+                btn.innerHTML='Verifying...'; btn.disabled=true;
+                setTimeout(()=>{
+                    btn.innerText="Verify & Authenticate"; btn.disabled=false;
+                    const rec = SecureAuthBackend.vault[this.state.id];
+                    if(!rec || rec.o1!==i1 || (rec.o2 && rec.o2!==i2)) return alert("Strict Validation Failed. Invalid OTP.");
+                    delete SecureAuthBackend.vault[this.state.id];
+                    
+                    let u = SecureAuthBackend.db[this.state.id];
+                    if(u) {
+                        this.tk = SecureAuthBackend.genJWT(u); localStorage.setItem('auth_jwt', this.tk);
+                        window.checkAuthSession(); this.open(); 
+                    } else {
+                        this.showView('auth-view-setup');
+                    }
+                }, 800);
+            },
+            finalizeSignup: function() {
+                const n = document.getElementById('auth-inp-name').value; const a = document.getElementById('auth-inp-age').value;
+                if(!n || !a) return alert("Fields are mandatory.");
+                const btn = document.getElementById('btn-finalize-signup'); btn.innerHTML='Creating...'; btn.disabled=true;
+                setTimeout(()=>{
+                    btn.innerText="Create Secure Account"; btn.disabled=false;
+                    const nu = { id: this.state.id, email: this.state.id.includes('@')?this.state.id:null, phone: !this.state.id.includes('@')?this.state.id:null, name: n, age: a, method: this.state.method, plan: 'Free Plan' };
+                    SecureAuthBackend.db[this.state.id] = nu; localStorage.setItem('secure_user_db', JSON.stringify(SecureAuthBackend.db));
+                    this.tk = SecureAuthBackend.genJWT(nu); localStorage.setItem('auth_jwt', this.tk);
+                    window.checkAuthSession(); this.open();
+                }, 600);
+            }
+        };
+
+        window.openAuthPortal = function() { auth.open(); };
+        window.closeAuthModal = function() { auth.close(); };
+        window.logoutAuth = function() { localStorage.removeItem('auth_jwt'); auth.tk=null; window.checkAuthSession(); auth.close(); };
+        window.checkAuthSession = function() {
+            const u = SecureAuthBackend.verJWT(localStorage.getItem('auth_jwt'));
+            const sBtn = document.getElementById('nav-signup-btn'); const pBtn = document.getElementById('nav-profile-btn');
+            if(u) { if(sBtn) sBtn.classList.add('hidden'); if(pBtn){ pBtn.classList.remove('hidden'); pBtn.classList.add('flex'); } } 
+            else { if(sBtn) sBtn.classList.remove('hidden'); if(pBtn){ pBtn.classList.add('hidden'); pBtn.classList.remove('flex'); } }
+            return u;
+        };
+        window.setAuthMode = function(m) { auth.setMode(m); };
+        window.switchAuthView = function(v) { auth.showView(v); };
+        window.selectMethod = function(m) { auth.selectMethod(m); };
+        window.setupIdentifierInput = function(t) { auth.prepInput(t); };
+        window.startOAuthFlow = function(type) { auth.runOAuth(type); };
+        window.requestSecureOTP = function() { auth.requestOTP(); };
+        window.submitOTPVerification = function() { auth.verifyOTP(); };
+        window.finalizeSignup = function() { auth.finalizeSignup(); };
+
+        // --- APP LOGIC ---
         function checkCookies() {
             if (!localStorage.getItem('cookie_accepted')) {
                 const banner = document.getElementById('cookie-banner');
@@ -698,7 +1000,8 @@
             document.getElementById('tnc-modal').classList.remove('flex');
             initializeAppWithIPCheck(); 
         }
-function showBanScreen(expiryTime) {
+
+        function showBanScreen(expiryTime) {
             document.body.innerHTML = `
             <div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-white">
                 <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-8 rounded-[2rem] shadow-2xl max-w-md w-full relative overflow-hidden">
@@ -723,7 +1026,7 @@ function showBanScreen(expiryTime) {
                 if(diff <= 0) {
                     clearInterval(interval);
                     localStorage.removeItem('mt_ban_expiry');
-                    localStorage.setItem('mt_limit', '[]'); // Limit reset on unban
+                    localStorage.setItem('mt_limit', '[]'); 
                     location.reload();
                 } else {
                     const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -736,12 +1039,10 @@ function showBanScreen(expiryTime) {
 
         async function initializeAppWithIPCheck() {
             const banExpiry = localStorage.getItem('mt_ban_expiry');
-            // Check agar abhi bhi ban time bacha hai
             if (banExpiry && parseInt(banExpiry) > Date.now()) {
                 showBanScreen(parseInt(banExpiry));
                 return;
             } else if (banExpiry) {
-                // Agar time nikal gaya hai toh ban hita do
                 localStorage.removeItem('mt_ban_expiry');
                 localStorage.setItem('mt_limit', '[]');
             }
@@ -753,7 +1054,7 @@ function showBanScreen(expiryTime) {
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
             if(recent.length >= 50) { 
-                const expiry = now + (2 * 60 * 60 * 1000); // 2 Ghante (2 hours) ka ban
+                const expiry = now + (2 * 60 * 60 * 1000); 
                 localStorage.setItem('mt_ban_expiry', expiry.toString());
                 showBanScreen(expiry);
                 return;
@@ -826,6 +1127,7 @@ function showBanScreen(expiryTime) {
             }
         }
 
+        function showCaptcha(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
             captchaAnswer = num1 + num2;
@@ -843,7 +1145,6 @@ function showBanScreen(expiryTime) {
                 document.getElementById('captcha-modal').classList.add('hidden');
                 document.getElementById('captcha-modal').classList.remove('flex');
                 
-                // Captcha pass hone par time save kar lo
                 localStorage.setItem('last_captcha_time', Date.now().toString());
                 
                 if(captchaSuccessCallback) captchaSuccessCallback();
@@ -1056,417 +1357,6 @@ function showBanScreen(expiryTime) {
             }
         }
 
-        function startEmailTimer(durationInSeconds) {
-            clearInterval(emailTimerInterval);
-            let time = durationInSeconds;
-            const display = document.getElementById('countdown-timer');
-            if(!display) return;
-            emailTimerInterval = setInterval(() => {
-                let minutes = parseInt(time / 60, 10);
-                let seconds = parseInt(time % 60, 10);
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                display.textContent = minutes + ":" + seconds;
-                if (--time < 0) time = durationInSeconds; 
-            }, 1000);
-        }
-
-        function showSupportModal() {
-            document.getElementById('support-modal').classList.remove('hidden');
-            document.getElementById('support-modal').classList.add('flex');
-        }
-
-        function closeSupportModal() {
-            document.getElementById('support-modal').classList.add('hidden');
-            document.getElementById('support-modal').classList.remove('flex');
-        }
-
-        function copyUPI() {
-            const upiText = document.getElementById('upi-id-text').innerText;
-            navigator.clipboard.writeText(upiText);
-            const msg = document.getElementById('upi-copy-msg');
-            msg.style.opacity = '1';
-            setTimeout(() => { msg.style.opacity = '0'; }, 2000);
-        }
-
-        function updateLiveStats() {
-            statToday += Math.floor(Math.random() * 3);
-            statInboxes += Math.floor(Math.random() * 2);
-            statGenerated += Math.floor(Math.random() * 5);
-            const stElement = document.getElementById('stat-today');
-            const siElement = document.getElementById('stat-inboxes');
-            const sgElement = document.getElementById('stat-generated');
-            if(stElement) stElement.innerText = statToday.toLocaleString();
-            if(siElement) siElement.innerText = statInboxes.toLocaleString();
-            if(sgElement) sgElement.innerText = (statGenerated / 1000).toFixed(1) + 'K';
-        }
-        setInterval(updateLiveStats, 3500); 
-
-        async function initApp() {
-            await fetchDomainsList(); 
-            if (address && token) {
-                if(emailInput) emailInput.value = address;
-                if(loadingOverlay) loadingOverlay.style.display = 'none';
-                startSync();
-                manualFetch();
-                startEmailTimer(300);; 
-            }
-
-            setInterval(() => {
-                if (!allMessages || allMessages.length === 0) return;
-                const now = new Date();
-                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
-                
-                allMessages.forEach(msg => {
-                    const msgTime = new Date(msg.createdAt);
-                    const fromAddr = (msg.from.address || "").toLowerCase();
-                    const subj = (msg.subject || "").toLowerCase();
-                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    
-                    if (((now - msgTime) > 5 * 60 * 1000) || isAdult) { 
-                        deleteSingleMail(msg.id);
-                    }
-                });
-            }, 30000); 
-        }
-
-        async function createNewAccount() {
-            const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
-            const now = Date.now();
-            const recent = history.filter(t => now - t < 60 * 60 * 1000); 
-            if(recent.length >= 50) { 
-                localStorage.setItem('is_banned', 'true');
-                alert("Anti-Abuse System: You have exceeded the limit. Your IP is blocked.");
-                location.reload();
-                return;
-            }
-            recent.push(now);
-            localStorage.setItem('mt_limit', JSON.stringify(recent));
-
-            if(loadingOverlay) loadingOverlay.style.display = 'flex';
-            try {
-                let stableDomain = activeDomain;
-                if (!stableDomain) {
-                    const domainRes = await fetch(`${API}/domains`);
-                    const domainData = await domainRes.json();
-                    stableDomain = domainData['hydra:member'][0].domain; 
-                    activeDomain = stableDomain;
-                    renderDomainDropdown();
-                }
-
-                let newUsername = "";
-                if (currentEmailType === 'human') {
-                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
-                    const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const num = Math.floor(100 + Math.random() * 900); 
-                    newUsername = pfx + num; 
-                } else {
-                    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                    for(let i = 0; i < 9; i++) {
-                        newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
-                    }
-                }
-                
-                const newAddress = `${newUsername}@${stableDomain}`;
-                const newPassword = generatePassword();
-
-                const createRes = await fetch(`${API}/accounts`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ address: newAddress, password: newPassword })
-                });
-
-                if(createRes.ok) {
-                    const loginRes = await fetch(`${API}/token`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ address: newAddress, password: newPassword })
-                    });
-                    const tokenData = await loginRes.json();
-                    address = newAddress;
-                    password = newPassword;
-                    token = tokenData.token;
-                    localStorage.setItem('mt_email', address);
-                    localStorage.setItem('mt_password', password);
-                    localStorage.setItem('mt_token', token);
-                    if(emailInput) emailInput.value = address;
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    clearInboxUIQuiet();
-                    startSync();
-                    startEmailTimer(300);; 
-                } else {
-                    const domainRes = await fetch(`${API}/domains`);
-                    const domainData = await domainRes.json();
-                    activeDomain = domainData['hydra:member'][0].domain;
-                    if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => createNewAccount(), 1000); 
-                }
-            } catch (err) {
-                if(emailInput) emailInput.value = "Network Error! Retrying...";
-                setTimeout(() => createNewAccount(), 2000);
-            }
-        }
-
-        function forceNewAccount() {
-            showCaptcha(() => {
-                localStorage.removeItem('mt_email');
-                localStorage.removeItem('mt_token');
-                address = null;
-                token = null;
-                if(emailInput) emailInput.value = "Generating...";
-                if(loadingOverlay) loadingOverlay.style.display = 'flex';
-                clearInboxUIQuiet();
-                createNewAccount();
-            });
-        }
-
-        function createCustomAccount() {
-            showCaptcha(async () => {
-                const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
-                if (!customPrefix) return;
-                const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
-                if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
-                if(loadingOverlay) loadingOverlay.style.display = 'flex';
-                if(emailInput) emailInput.value = "Creating custom email...";
-                try {
-                    let stableDomain = activeDomain;
-                    if (!stableDomain) {
-                        const domainRes = await fetch(`${API}/domains`);
-                        const domainData = await domainRes.json();
-                        stableDomain = domainData['hydra:member'][0].domain; 
-                        activeDomain = stableDomain;
-                    }
-                    const newAddress = `${cleanPrefix}@${stableDomain}`;
-                    const newPassword = generatePassword();
-                    const createRes = await fetch(`${API}/accounts`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ address: newAddress, password: newPassword })
-                    });
-                    if(createRes.ok) {
-                        const loginRes = await fetch(`${API}/token`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ address: newAddress, password: newPassword })
-                        });
-                        const tokenData = await loginRes.json();
-                        localStorage.removeItem('mt_token');
-                        localStorage.removeItem('mt_email');
-                        address = newAddress; password = newPassword; token = tokenData.token;
-                        localStorage.setItem('mt_email', address);
-                        localStorage.setItem('mt_password', password);
-                        localStorage.setItem('mt_token', token);
-                        if(emailInput) emailInput.value = address;
-                        clearInboxUIQuiet();
-                        if(syncTimer) clearInterval(syncTimer);
-                        startSync();
-                        manualFetch();
-                        startEmailTimer(300);; 
-                    } else {
-                        alert("Username is already taken on this domain! Try another.");
-                        if(emailInput) emailInput.value = address; 
-                        if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    }
-                } catch (err) {
-                    alert("Network Error! Please try again.");
-                    if(emailInput) emailInput.value = address;
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
-                }
-            });
-        }
-
-        async function fastOtpReset() {
-            const boltIcon = document.getElementById('fast-bolt-icon');
-            if(boltIcon) boltIcon.classList.add('fa-spin');
-            await manualFetch();
-            if(boltIcon) boltIcon.classList.remove('fa-spin');
-        }
-
-        async function deleteSingleMail(id, event) {
-            if(event && event.stopPropagation) event.stopPropagation();
-            try {
-                const res = await fetch(`${API}/messages/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                if(res.ok) {
-                    allMessages = allMessages.filter(m => m.id !== id);
-                    renderMails();
-                }
-            } catch(err) {}
-        }
-
-        async function manualFetch() {
-            if(!token) return;
-            const fetchIcon = document.getElementById('fetch-icon');
-            if(fetchIcon) fetchIcon.classList.add('fa-spin');
-            if (allMessages.length === 0 && inboxContent) {
-                inboxContent.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-brand text-4xl mb-3"></i><p class="font-semibold">Loading emails...</p>`;
-                inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
-            }
-            try {
-                const res = await fetch(`${API}/messages`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                let fetchedMails = data['hydra:member'] || [];
-                
-                const adultKws = ['pornhub', 'xvideos', 'brazzers', 'onlyfans', 'xhamster', 'adult', 'sex', 'nude'];
-                allMessages = fetchedMails.filter(msg => {
-                    const fromAddr = (msg.from.address || "").toLowerCase();
-                    const subj = (msg.subject || "").toLowerCase();
-                    const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
-                    if(isAdult) {
-                        fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
-                        return false;
-                    }
-                    return true;
-                });
-                
-                if (allMessages.length > 40) {
-                    const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-                    const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
-                    extraMails.forEach(m => fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }));
-                    allMessages = allMessages.filter(m => !extraMails.some(e => e.id === m.id));
-                }
-
-                if (allMessages.length > 0) {
-                    if(allMessages.length > lastMailCount && soundOn) {
-                        const audio = document.getElementById('notification-sound');
-                        if(audio) audio.play().catch(e => {});
-                    }
-                    lastMailCount = allMessages.length;
-                    renderMails(); 
-                } else {
-                    renderMails(); 
-                }
-            } catch (err) {} finally {
-                if(fetchIcon) fetchIcon.classList.remove('fa-spin');
-            }
-        }
-
-        function renderMails() {
-            if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
-            if (allMessages.length > 0) {
-                if(inboxContent) {
-                    inboxContent.innerHTML = '';
-                    inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
-                }
-                const sortOrder = document.getElementById('sort-mails').value;
-                let sortedMails = [...allMessages]; 
-                if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-                else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
-                
-                sortedMails.forEach(msg => {
-                    const div = document.createElement('div');
-                    div.className = "bg-white dark:bg-darkpanel p-4 mb-2 rounded-xl shadow-sm border border-slate-100 dark:border-darkborder cursor-pointer hover:border-brand transition-all duration-300 w-full text-left";
-                    div.innerHTML = `
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
-                            <div class="flex items-center gap-3">
-                                <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
-                                <button onclick="deleteSingleMail('${msg.id}', event)" class="text-red-500 hover:text-red-700 hover:scale-110 transition-transform p-1" title="Delete Mail"><i class="fa-solid fa-trash-can"></i></button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>
-                    `;
-                    div.onclick = () => openEmail(msg.id);
-                    if(inboxContent) inboxContent.appendChild(div);
-                });
-            } else {
-                if(inboxContent) {
-                    inboxContent.innerHTML = `<i class="fa-solid fa-inbox text-4xl mb-3 opacity-50"></i><p class="font-bold text-lg text-slate-600 dark:text-gray-300">No mail yet</p><p>Waiting for emails...</p>`;
-                    inboxContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center');
-                }
-            }
-        }
-
-        async function openEmail(id) {
-            try {
-                const res = await fetch(`${API}/messages/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await res.json();
-                const modalSubject = document.getElementById('modal-subject');
-                const modalFrom = document.getElementById('modal-from');
-                const modalBodyIframe = document.getElementById('modal-body-iframe');
-                const emailModal = document.getElementById('email-modal');
-                if(modalSubject) modalSubject.innerText = data.subject || 'No Subject';
-                if(modalFrom) modalFrom.innerText = data.from.address;
-                if(modalBodyIframe) modalBodyIframe.srcdoc = data.html ? data.html[0] : (data.text || 'No content');
-                if(emailModal) {
-                    emailModal.classList.remove('hidden');
-                    emailModal.classList.add('flex');
-                }
-            } catch(err) {}
-        }
-
-        function closeModal() {
-            const emailModal = document.getElementById('email-modal');
-            const modalBodyIframe = document.getElementById('modal-body-iframe');
-            if(emailModal) { emailModal.classList.add('hidden'); emailModal.classList.remove('flex'); }
-            if(modalBodyIframe) modalBodyIframe.srcdoc = '';
-        }
-
-        async function clearInboxUIQuiet() { 
-            allMessages = []; lastMailCount = 0; renderMails(); 
-        }
-
-        async function clearInboxUI() { 
-            const fetchIcon = document.getElementById('fetch-icon');
-            if(fetchIcon) fetchIcon.classList.add('fa-spin');
-            for (const msg of allMessages) {
-                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
-            }
-            allMessages = []; lastMailCount = 0; renderMails();
-            if(fetchIcon) fetchIcon.classList.remove('fa-spin');
-        }
-
-        function copyEmail() {
-            if(emailInput) { emailInput.select(); document.execCommand('copy'); }
-            const msg = document.getElementById('copy-msg');
-            if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
-        }
-
-        function startSync() {
-            if(syncTimer) clearInterval(syncTimer);
-            syncTimer = setInterval(manualFetch, refreshSec * 1000);
-        }
-
-        function toggleAutoSync() {
-            isSyncing = !isSyncing;
-            const icon = document.getElementById('sync-icon');
-            const text = document.getElementById('sync-text');
-            if(isSyncing) {
-                if(icon) icon.className = "fa-solid fa-bolt text-amber-500";
-                if(text) text.innerText = "Auto-Sync: ON";
-                startSync();
-            } else {
-                if(icon) icon.className = "fa-solid fa-bolt text-gray-500";
-                if(text) text.innerText = "Auto-Sync: OFF";
-                clearInterval(syncTimer);
-            }
-        }
-
-        function toggleAudio() { 
-            soundOn = !soundOn; 
-            const text = document.getElementById('notif-text');
-            if(text) text.innerText = soundOn ? "Sound On" : "Sound Off";
-            const icon = document.getElementById('notif-icon');
-            if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
-        }
-
-        function changeColorTheme() {
-            const hue = Math.floor(Math.random() * 360);
-            const brandColor = `hsl(${hue}, 75%, 50%)`;
-            const brandBg = `hsla(${hue}, 75%, 50%, 0.15)`;
-            document.documentElement.style.setProperty('--brand-color', brandColor);
-            document.documentElement.style.setProperty('--brand-bg', brandBg);
-        }
-
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const isDark = document.documentElement.classList.contains('dark');
-            const themeIcon = document.getElementById('theme-icon');
-            if(themeIcon) { themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
-        }
-
         function showPageModal(pageName) {
             const title = document.getElementById('page-modal-title');
             const body = document.getElementById('page-modal-body');
@@ -1557,7 +1447,7 @@ function showBanScreen(expiryTime) {
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
+                                    <li>Implemented strict IP-based rate limiting with 2 hour cooldown.</li>
                                     <li>Added auto-deletion for emails older than 5 minutes.</li>
                                     <li>Integrated human/robot random name generation modes.</li>
                                 </ul>
@@ -1601,8 +1491,8 @@ function showBanScreen(expiryTime) {
                     <p class="mb-4">Aryan Mails has a zero-tolerance policy for abuse, spam, illegal activities, and phishing attempts originating from or sent to our domains.</p>
                     <p class="mb-4">If you notice our service being used maliciously, please report it immediately so our moderation team can block the offending IP address and delete the related inboxes.</p>
                     
-                    <a href="mailto:abuse@aryanmails.com?subject=Reporting Abuse from Aryan Mails" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4 whitespace-nowrap">
-                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team (abuse@aryanmails.com)
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=aryanmishra20042008@gmail.com&su=Reporting%20Abuse%20on%20Aryan%20Mails&body=Please%20describe%20the%20abuse%20here:" target="_blank" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base mt-4 whitespace-nowrap cursor-pointer">
+                        <i class="fa-regular fa-paper-plane"></i> Email Abuse Team
                     </a>
                 `;
             } else if (pageName === 'API Access') {
@@ -1614,7 +1504,7 @@ function showBanScreen(expiryTime) {
                         <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
                         <div class="flex items-center gap-2">
                             <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
-                            <button onclick="generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap"><i class="fa-solid fa-arrows-rotate"></i></button>
+                            <button onclick="generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                     </div>
                     <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
@@ -1640,7 +1530,7 @@ function showBanScreen(expiryTime) {
                             
                             <form id="subscribe-form" onsubmit="submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
                                 <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
-                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap">Subscribe</button>
+                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap cursor-pointer">Subscribe</button>
                             </form>
                             <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
 
@@ -1674,6 +1564,7 @@ function showBanScreen(expiryTime) {
         document.addEventListener('DOMContentLoaded', () => {
             if(!checkTNC()) return; 
             initializeAppWithIPCheck();
+            window.checkAuthSession();
             
             document.querySelectorAll('.faq-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
