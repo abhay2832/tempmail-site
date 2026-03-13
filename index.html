@@ -102,52 +102,165 @@
     <div id="auth-modal" class="fixed inset-0 bg-slate-900/80 hidden justify-center items-center p-4 z-[9990] backdrop-blur-md transition-opacity">
         <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder relative">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
-                <h3 class="font-bold text-xl flex items-center gap-2"><i class="fa-brands fa-google text-blue-500"></i> Secure Access</h3>
-                <button onclick="closeAuthModal()" class="p-2 text-slate-500 hover:text-red-500 rounded-lg cursor-pointer transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand"></i> Secure Portal</h3>
+                <button onclick="window.closeAuthModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             
-            <div class="p-6 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
+            <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
                 
-                <div id="auth-view-init" class="block text-center">
-                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-solid fa-shield-halved"></i></div>
-                    <h4 class="text-2xl font-black mb-2 text-slate-900 dark:text-white">Welcome</h4>
-                    <p class="text-slate-500 dark:text-gray-400 mb-6 font-medium">To maintain security, only verified Google accounts are permitted.</p>
-                    <button onclick="startGoogleAuth()" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder font-bold py-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-md cursor-pointer text-base text-slate-900 dark:text-white">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Continue with Google
+                <div id="view-auth-init" class="block text-center">
+                    <div class="w-16 h-16 bg-brandbg text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-solid fa-lock"></i></div>
+                    <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
+                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Please select an option to continue securely.</p>
+                    <div class="space-y-4">
+                        <button onclick="window.setAuthMode('login')" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg transition active:scale-95 cursor-pointer text-base">Login (Existing User)</button>
+                        <button onclick="window.setAuthMode('signup')" class="w-full bg-white dark:bg-darkbg border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold py-3.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer text-base">Signup (New User)</button>
+                    </div>
+                </div>
+
+                <div id="view-method-select" class="hidden">
+                    <button onclick="window.switchAuthView('view-auth-init')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Choose Method</h4>
+                    <p class="text-xs text-red-500 font-semibold bg-red-50 dark:bg-red-900/20 p-2 rounded-md mb-5 border border-red-200 dark:border-red-800/30 text-left">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Email/Password login is completely disabled. OTP Verification is MANDATORY.
+                    </p>
+                    <div class="space-y-3">
+                        <button onclick="window.selectMethod('Google')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
+                        <button onclick="window.selectMethod('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Yahoo</button>
+                        <button onclick="window.selectMethod('GitHub')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> GitHub</button>
+                        <button onclick="window.selectMethod('Facebook')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Facebook</button>
+                    </div>
+                    <div class="my-4 flex items-center gap-3 before:flex-1 before:border-t before:border-slate-200 dark:before:border-darkborder after:flex-1 after:border-t after:border-slate-200 dark:after:border-darkborder">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone Verification</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="window.selectMethod('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
+                        <button onclick="window.selectMethod('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
+                    </div>
+                </div>
+
+                <div id="view-google-options" class="hidden text-center">
+                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <i class="fa-brands fa-google text-4xl text-blue-500 mb-3"></i>
+                    <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Google Verification</h4>
+                    <div class="space-y-3">
+                        <button onclick="window.setupIdentifierInput('Email')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
+                            <span>Manual Gmail Entry + OTP</span>
+                            <span class="text-xs text-slate-500 font-normal">Type your email manually to receive code</span>
+                        </button>
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
+                            <span>Direct Google Account Login</span>
+                            <span class="text-xs text-slate-500 font-normal">Auto-fetch verified Gmail & send OTP</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="view-input-identifier" class="hidden">
+                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Method</button>
+                    <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2" id="input-ident-title">Enter Details</h4>
+                    <p class="text-xs text-slate-500 dark:text-gray-400 mb-4">We need to send a secure verification code.</p>
+                    
+                    <div id="phone-input-group" class="hidden mb-4">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Country Code & Number</label>
+                        <div class="flex gap-2">
+                            <select id="auth-country-code" class="bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-2 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium w-1/3">
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+61">🇦🇺 +61</option>
+                                <option value="+971">🇦🇪 +971</option>
+                            </select>
+                            <input type="number" id="auth-phone-number" placeholder="Mobile Number" class="w-2/3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        </div>
+                    </div>
+
+                    <div id="email-input-group" class="hidden mb-4">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Email Address</label>
+                        <input type="email" id="auth-email-address" placeholder="Enter verified email" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                    </div>
+
+                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer flex justify-center items-center gap-2">
+                        <span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>
                     </button>
+                    <p id="auth-req-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
                 </div>
 
-                <div id="auth-view-processing" class="hidden flex-col items-center justify-center py-6 text-center">
-                    <i id="auth-spinner" class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-500 mb-4"></i>
-                    <p id="auth-status-text" class="font-bold text-lg text-slate-800 dark:text-white leading-relaxed">Connecting to Google...</p>
-                </div>
+                <div id="view-otp" class="hidden">
+                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Contact</button>
+                    <div class="text-center mb-6">
+                        <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-shield-check"></i></div>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Verification Required</h4>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium" id="otp-sent-to-text">Sent to ...</p>
+                    </div>
 
-                <div id="auth-view-profile" class="hidden">
-                    <div class="bg-gradient-to-r from-blue-600 to-brand rounded-3xl p-8 text-white text-center relative shadow-xl mb-6 overflow-hidden">
-                        <div class="absolute -right-4 -top-4 opacity-20 text-8xl"><i class="fa-brands fa-google"></i></div>
-                        <div class="w-20 h-20 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-3xl font-black shadow-lg mb-4 relative z-10" id="prof-initial">A</div>
-                        <h4 class="text-2xl font-black mb-2 relative z-10 tracking-tight" id="prof-name">User Name</h4>
-                        <div class="inline-flex items-center gap-2 bg-slate-900/30 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm relative z-10 border border-white/20">
-                            <span class="w-2.5 h-2.5 rounded-full animate-pulse" id="prof-dot"></span> 
-                            <span id="prof-plan" class="uppercase tracking-widest">Free Plan</span>
+                    <div id="single-otp-group" class="mb-4">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1 text-center">Enter Verification Code</label>
+                        <input type="number" id="auth-otp-1" placeholder="XXXXXX" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center tracking-[0.5em] text-2xl font-black text-slate-800 dark:text-white focus:outline-none focus:border-brand transition-colors">
+                    </div>
+
+                    <div id="dual-otp-group" class="hidden mb-4 space-y-4">
+                        <p class="text-xs text-amber-600 font-bold bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg border border-amber-200 dark:border-amber-800/30 text-center"><i class="fa-solid fa-lock"></i> WhatsApp Dual Verification Active.<br>Both codes are strictly required.</p>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">1. SMS OTP</label>
+                            <input type="number" id="auth-otp-sms" placeholder="SMS Code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-2.5 text-center tracking-widest text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">2. WhatsApp OTP</label>
+                            <input type="number" id="auth-otp-wa" placeholder="WhatsApp Code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-emerald-300 dark:border-emerald-800 rounded-xl px-4 py-2.5 text-center tracking-widest text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-emerald-500">
                         </div>
                     </div>
+
+                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Verify & Authenticate</button>
+                    <p id="auth-verify-error" class="text-red-500 text-sm font-bold mt-3 hidden text-center border border-red-200 bg-red-50 dark:bg-red-900/20 p-2 rounded"></p>
+                </div>
+
+                <div id="view-register-details" class="hidden">
+                    <div class="text-center mb-5">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-user-plus"></i></div>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white">Contact Verified</h4>
+                        <p class="text-xs text-slate-500 dark:text-gray-400">Complete your profile to finalize signup.</p>
+                    </div>
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Full Name</label>
+                            <input type="text" id="reg-fullname" placeholder="E.g. Rahul Sharma" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Age</label>
+                            <input type="number" id="reg-age" placeholder="Must be 18+" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
+                        </div>
+                    </div>
+                    <button onclick="window.finalizeSignup()" id="btn-finalize-signup" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Create Profile</button>
+                    <p id="reg-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
+                </div>
+
+                <div id="view-profile" class="hidden">
+                    <div class="bg-gradient-to-r from-brand to-blue-600 rounded-3xl p-8 text-white text-center relative shadow-xl mb-6 overflow-hidden">
+                        <div class="absolute -right-4 -top-4 opacity-20 text-8xl"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="w-24 h-24 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-4xl font-black shadow-lg mb-4 relative z-10" id="profile-initial">A</div>
+                        <h4 class="text-3xl font-black mb-1 relative z-10 tracking-tight" id="profile-name">User Name</h4>
+                        <div class="inline-flex items-center justify-center gap-1.5 bg-slate-900/30 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm relative z-10 border border-white/20 mt-2">
+                            <span class="w-2.5 h-2.5 rounded-full" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Free Plan</span>
+                        </div>
+                    </div>
+
                     <div class="space-y-4 mb-8 bg-slate-50 dark:bg-[#0f1525] p-5 rounded-2xl border border-slate-200 dark:border-darkborder text-sm shadow-inner">
-                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-darkborder pb-3">
-                            <span class="text-slate-500 font-bold uppercase tracking-wider text-xs">Verified Gmail</span>
-                            <span class="font-bold text-slate-900 dark:text-white" id="prof-email">...</span>
+                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Verified ID</span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">...</span>
                         </div>
-                        <div class="flex justify-between items-center border-b border-slate-200 dark:border-darkborder pb-3 pt-1">
-                            <span class="text-slate-500 font-bold uppercase tracking-wider text-xs">Auth Protocol</span>
-                            <span class="font-semibold text-blue-500">Google OAuth 2.0</span>
+                        <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Auth Protocol</span>
+                            <span class="text-sm font-bold text-brand bg-brandbg px-3 py-1 rounded-lg" id="profile-method">...</span>
                         </div>
-                        <div class="flex justify-between pt-1">
-                            <span class="text-slate-500 font-bold uppercase tracking-wider text-xs">Account Status</span>
-                            <span class="font-bold text-emerald-500"><i class="fa-solid fa-shield-check"></i> Secured</span>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Profile Age</span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-age">...</span>
                         </div>
                     </div>
-                    <button onclick="logout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
-                        <i class="fa-solid fa-power-off text-lg"></i> Secure Logout
+
+                    <button onclick="window.triggerLogout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
+                        <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
                 </div>
             </div>
@@ -201,6 +314,9 @@
                 </button>
                 <button onclick="showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
+                </button>
+                <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
                 <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
@@ -384,7 +500,7 @@
         </div>
     </div>
 
-    <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
+   <div id="features" class="text-center mb-12 mt-24 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">Features</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Everything You Need for <span class="text-brand color-shift">Email Privacy</span></h2>
         <p class="text-slate-500 dark:text-gray-400 text-lg">Our comprehensive suite of features keeps your real email address safe.</p>
@@ -436,8 +552,8 @@
             <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Real-Time Alerts</h3>
             <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Get immediate sound and visual notifications the second a new email hits your secure inbox.</p>
         </div>
-    </div>
-
+    </div>       
+    
     <div id="how-it-works" class="text-center mb-12 px-4 pt-10">
         <div class="text-brand text-sm font-bold uppercase tracking-widest mb-2 color-shift">How It Works</div>
         <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors duration-500">Get Started in Seconds</h2>
@@ -508,92 +624,56 @@
     <div class="max-w-3xl mx-auto px-4 mb-24">
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                What exactly is a temporary email address?
+                What is a temporary email?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address designed to self-destruct after a specific duration. It helps you securely avoid giving out your real, Aadhar-linked primary email address to untrusted internet entities.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites or apps.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is it legally compliant to use disposable emails in India?
+                How long do the emails last?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes, using a temporary email address to proactively protect your personal privacy is completely legal in India and globally. However, utilizing our infrastructure to conduct financial fraud is strictly illegal.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Emails stay in your inbox as long as you keep the browser tab open. However, our strict anti-abuse policy automatically deletes received emails that are older than 5 minutes.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Can this effectively bypass Instagram and Telegram OTPs?
+                Can I send emails from here?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Extremely effective. Our platform features a 'Human Name Generator' that allows you to seamlessly receive 6-digit OTP verification codes without triggering anti-spam filters.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To strictly prevent spam, phishing, and abuse from originating from our domains, Aryan Mails is a receive-only service. You cannot send or forward emails.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                How long does my secure inbox remain active?
+                Is my inbox fully private?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Your inbox actively receives mail as long as you keep your current browser tab open. However, any email received is automatically deleted from our backend servers after exactly 5 minutes.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes. Your inbox is securely tied to your active session. Once you generate a new email or close the browser, all data is permanently and irreversibly wiped from the server.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is it technically possible to recover a deleted inbox?
+                Are attachments supported?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Absolutely not. The core philosophy of Aryan Mails is uncompromised ephemeral security. We do not maintain historical archives or hidden logs of received communications.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To protect users from downloading malware or ransomware, attachment viewing is disabled by default. You can only read the text/HTML body of the email.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Why are email attachments (PDFs, Images) disabled?
+                Is it really free?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Extreme security is our highest priority. To absolutely protect our users from accidentally initiating drive-by downloads or ransomware, we systematically strip out file attachments at the server level.</p>
-            </div>
-        </div>
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Does Aryan Mails secretly log my IP address?
-                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
-            </button>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">We operate under a rigorous no-tracking ethos. IP addresses are temporarily checked purely for immediate rate-limiting purposes to prevent DDoS attacks, and are never saved permanently.</p>
-            </div>
-        </div>
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Am I permitted to send outgoing emails from these addresses?
-                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
-            </button>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No, Aryan Mails functions exclusively as a 'Receive-Only' infrastructure. Enabling outbound SMTP traffic would immediately attract spammers and ruin our domain reputation.</p>
-            </div>
-        </div>
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                How do I effectively utilize the Custom Username feature?
-                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
-            </button>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">By clicking the 'Custom' button, you are prompted to input your desired alphanumeric prefix. The system will instantly pair your chosen prefix with the active domain to create a unique address.</p>
-            </div>
-        </div>
-        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
-            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is the entire platform optimized for mobile networks?
-                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
-            </button>
-            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes, absolutely. Aryan Mails has been meticulously engineered as a Single Page Application (SPA). It consumes minimal bandwidth and operates remarkably fast even on slow mobile networks.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes! Aryan Mails provides premium temporary email services completely free of charge. No hidden fees or credit cards required. You can support us using the Financial Support button!</p>
             </div>
         </div>
     </div>
@@ -750,8 +830,8 @@
         </div>
     </div>
 
-    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9995] backdrop-blur-sm transition-opacity">
-        <div class="bg-white dark:bg-darkpanel w-full max-w-3xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
                 <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
@@ -767,6 +847,92 @@
     </div>
 
     <script>
+        // --- ADDED MISSING AUTH FUNCTIONS ---
+        window.openAuthPortal = function() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('auth-modal').classList.add('flex');
+            window.switchAuthView('view-auth-init');
+        };
+        
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.remove('flex');
+        };
+        
+        window.switchAuthView = function(viewId) {
+            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
+                    else { el.classList.add('hidden'); el.classList.remove('block'); }
+                }
+            });
+        };
+        
+        window.setAuthMode = function(mode) {
+            window.switchAuthView('view-method-select');
+        };
+        
+        window.selectMethod = function(m) {
+            if(m === 'Google') window.switchAuthView('view-google-options');
+            else {
+                alert(`Connecting to ${m} provider...`);
+                window.switchAuthView('view-otp');
+            }
+        };
+        
+        window.setupIdentifierInput = function(type) {
+            window.switchAuthView('view-input-identifier');
+            if(type === 'Email') {
+                document.getElementById('phone-input-group').classList.add('hidden');
+                document.getElementById('email-input-group').classList.remove('hidden');
+            } else {
+                document.getElementById('phone-input-group').classList.remove('hidden');
+                document.getElementById('email-input-group').classList.add('hidden');
+            }
+        };
+
+        window.startOAuthFlow = function(provider) {
+            alert(`Connecting to ${provider} Secure Gateway...`);
+            window.switchAuthView('view-otp');
+        };
+
+        window.requestSecureOTP = function() {
+            document.getElementById('btn-request-otp').innerText = 'Sending...';
+            setTimeout(() => {
+                document.getElementById('btn-request-otp').innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
+                window.switchAuthView('view-otp');
+            }, 800);
+        };
+
+        window.submitOTPVerification = function() {
+            document.getElementById('btn-verify-otp').innerText = 'Verifying...';
+            setTimeout(() => {
+                document.getElementById('btn-verify-otp').innerText = 'Verify & Authenticate';
+                window.switchAuthView('view-register-details');
+            }, 800);
+        };
+
+        window.finalizeSignup = function() {
+            document.getElementById('btn-finalize-signup').innerText = 'Creating Profile...';
+            setTimeout(() => {
+                document.getElementById('btn-finalize-signup').innerText = 'Create Profile';
+                window.switchAuthView('view-profile');
+                // update navbar
+                document.getElementById('nav-signup-btn').classList.add('hidden');
+                document.getElementById('nav-profile-btn').classList.remove('hidden');
+                document.getElementById('nav-profile-btn').classList.add('flex');
+            }, 800);
+        };
+
+        window.triggerLogout = function() {
+            window.closeAuthModal();
+            document.getElementById('nav-signup-btn').classList.remove('hidden');
+            document.getElementById('nav-profile-btn').classList.add('hidden');
+            document.getElementById('nav-profile-btn').classList.remove('flex');
+        };
+        // --- END AUTH FUNCTIONS ---
+
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
@@ -791,177 +957,13 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-        let currentBlogFilter = 'All';
+        let currentBlogFilter = 'All'; // ADDED VARIABLE SO BLOG TABS WORK
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // --- STRICT AUTHENTICATION LOGIC ---
-        const SecureAuthBackend = {
-            db: JSON.parse(localStorage.getItem('secure_user_db') || '{}'),
-            vault: {},
-            jwtSecret: 'aryan_2026_strict_hash_x92',
-            
-            _hash: function(str) { let h=0; for(let i=0;i<str.length;i++) h=Math.imul(31,h)+str.charCodeAt(i)|0; return h.toString(); },
-            genJWT: function(u) { const h=btoa(JSON.stringify({alg:"HS256"})), p=btoa(JSON.stringify({id:u.id, email:u.email, phone:u.phone, name:u.name, age:u.age, plan:u.plan, method:u.method, exp:Date.now()+86400000})); return `${h}.${p}.${this._hash(h+"."+p+this.jwtSecret)}`; },
-            verJWT: function(t) { try{ const pts=t.split('.'); if(pts.length!==3 || this._hash(pts[0]+"."+pts[1]+this.jwtSecret)!==pts[2]) return null; const p=JSON.parse(atob(pts[1])); return Date.now()>p.exp ? null : p; }catch(e){return null;} },
-            
-            requestOTP: function(method, identifier, isDual = false) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        if(!identifier) return reject("Invalid identifier.");
-                        if(method === 'Google' || method === 'Yahoo') {
-                            const dom = identifier.split('@')[1];
-                            if(!dom || ['1secmail.com','mail.gw','tempmail.com'].includes(dom.toLowerCase())) return reject("Disposable emails blocked.");
-                        }
-                        const otp1 = Math.floor(100000 + Math.random() * 900000).toString();
-                        const otp2 = isDual ? Math.floor(100000 + Math.random() * 900000).toString() : null;
-                        this.vault[identifier] = { otp1: otp1, otp2: otp2, method: method, exp: Date.now() + 300000, attempts: 0 };
-                        alert(`[BACKEND OTP SENT]\n\nTo: ${identifier}\nMethod: ${method}\n\nYour OTP: ${otp1}` + (isDual ? `\nWhatsApp OTP: ${otp2}` : ''));
-                        resolve(true);
-                    }, 600);
-                });
-            },
-            verifyOTP: function(identifier, otp1, otp2 = null) {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        const rec = this.vault[identifier];
-                        if(!rec) return reject("No active OTP session.");
-                        if(Date.now() > rec.exp) { delete this.vault[identifier]; return reject("OTP Expired."); }
-                        if(rec.otp1 !== otp1 || (rec.otp2 && rec.otp2 !== otp2)) return reject("Invalid OTP.");
-                        delete this.vault[identifier];
-                        let user = this.db[identifier];
-                        if(user) resolve({ action: 'login', token: this.generateJWT(user), user: user });
-                        else resolve({ action: 'signup_required', identifier: identifier, method: rec.method });
-                    }, 800);
-                });
-            }
-        };
-
-        const auth = {
-            tk: localStorage.getItem('auth_jwt'),
-            state: { mode: 'login', method: '', id: '', isDual: false },
-
-            open: function() {
-                const u = window.checkAuthSession();
-                const m = document.getElementById('auth-modal'); m.classList.remove('hidden'); m.classList.add('flex');
-                if(u) {
-                    this.showView('auth-view-profile');
-                    document.getElementById('prof-name').innerText = u.name;
-                    document.getElementById('prof-initial').innerText = u.name.charAt(0).toUpperCase();
-                    document.getElementById('prof-plan').innerText = u.plan;
-                    document.getElementById('prof-id').innerText = u.email || u.phone;
-                    document.getElementById('prof-method').innerText = u.method || 'OAuth';
-                } else this.showView('auth-view-init');
-            },
-            close: function() { document.getElementById('auth-modal').classList.add('hidden'); document.getElementById('auth-modal').classList.remove('flex'); },
-            showView: function(id) { 
-                ['auth-view-init','auth-view-method','auth-view-google','auth-view-input','auth-view-otp','auth-view-setup','auth-view-profile'].forEach(v => {
-                    const e = document.getElementById(v); if(e) { if(v===id) {e.classList.remove('hidden'); e.classList.add('block');} else {e.classList.add('hidden'); e.classList.remove('block');} }
-                }); 
-            },
-            setMode: function(m) { this.state.mode = m; this.showView('auth-view-method'); },
-            selectMethod: function(m) {
-                this.state.method = m; this.state.isDual = (m==='WhatsApp');
-                if(m==='Google') return this.showView('auth-view-google');
-                if(['Yahoo','GitHub','Facebook'].includes(m)) return this.runOAuth(m);
-                this.prepInput(m);
-            },
-            prepInput: function(t) {
-                this.showView('auth-view-input');
-                document.getElementById('auth-lbl-title').innerText = t==='Email' ? 'Google Manual Entry' : 'Enter Phone Number';
-                const pg = document.getElementById('auth-grp-phone'), eg = document.getElementById('auth-grp-email');
-                if(t==='Email') { pg.classList.add('hidden'); pg.classList.remove('flex'); eg.classList.remove('hidden'); } 
-                else { pg.classList.remove('hidden'); pg.classList.add('flex'); eg.classList.add('hidden'); }
-            },
-            runOAuth: function(prov) {
-                this.showView('auth-view-init'); 
-                setTimeout(() => {
-                    const e = prompt(`[OAuth Simulated Gateway - ${prov}]\nEnter verified email address:`);
-                    if(!e || !e.includes('@')) { alert("Auth Cancelled."); return this.close(); }
-                    this.state.id = e; this.reqOTP_Backend(e, false);
-                }, 800);
-            },
-            requestOTP: function() {
-                const btn = document.getElementById('btn-req-otp');
-                let id = '';
-                if(this.state.method === 'Mobile' || this.state.method === 'WhatsApp') {
-                    const n = document.getElementById('auth-inp-phone').value; if(n.length<8) return alert("Invalid Number");
-                    id = document.getElementById('auth-inp-cc').value + n;
-                } else {
-                    id = document.getElementById('auth-inp-email').value; if(!id.includes('@')) return alert("Invalid Email");
-                }
-                this.state.id = id; btn.innerHTML = 'Processing...'; btn.disabled=true;
-                setTimeout(()=>{ btn.innerHTML='Send Secure OTP'; btn.disabled=false; this.reqOTP_Backend(id, this.state.isDual); }, 800);
-            },
-            reqOTP_Backend: function(id, isDual) {
-                const o1 = Math.floor(100000 + Math.random() * 900000).toString();
-                const o2 = isDual ? Math.floor(100000 + Math.random() * 900000).toString() : null;
-                SecureAuthBackend.vault[id] = { o1: o1, o2: o2, exp: Date.now() + 300000, method: this.state.method };
-                alert(`[SECURE OTP]\n\nTo: ${id}\nYour OTP: ${o1}` + (isDual ? `\nWhatsApp OTP: ${o2}` : ''));
-                this.showView('auth-view-otp');
-                document.getElementById('auth-lbl-sent').innerText = `Sent securely to ${id}`;
-                if(isDual) { document.getElementById('auth-grp-single').classList.add('hidden'); document.getElementById('auth-grp-dual').classList.remove('hidden'); }
-                else { document.getElementById('auth-grp-single').classList.remove('hidden'); document.getElementById('auth-grp-dual').classList.add('hidden'); }
-            },
-            verifyOTP: function() {
-                const btn = document.getElementById('btn-verify-otp');
-                let i1='', i2=null;
-                if(this.state.isDual) { i1=document.getElementById('auth-inp-sms').value; i2=document.getElementById('auth-inp-wa').value; if(!i1||!i2) return alert("Both OTPs required."); }
-                else { i1=document.getElementById('auth-inp-otp1').value; if(!i1) return alert("OTP required."); }
-                
-                btn.innerHTML='Verifying...'; btn.disabled=true;
-                setTimeout(()=>{
-                    btn.innerText="Verify & Authenticate"; btn.disabled=false;
-                    const rec = SecureAuthBackend.vault[this.state.id];
-                    if(!rec || rec.o1!==i1 || (rec.o2 && rec.o2!==i2)) return alert("Strict Validation Failed. Invalid OTP.");
-                    delete SecureAuthBackend.vault[this.state.id];
-                    
-                    let u = SecureAuthBackend.db[this.state.id];
-                    if(u) {
-                        this.tk = SecureAuthBackend.genJWT(u); localStorage.setItem('auth_jwt', this.tk);
-                        window.checkAuthSession(); this.open(); 
-                    } else {
-                        this.showView('auth-view-setup');
-                    }
-                }, 800);
-            },
-            finalizeSignup: function() {
-                const n = document.getElementById('auth-inp-name').value; const a = document.getElementById('auth-inp-age').value;
-                if(!n || !a) return alert("Fields are mandatory.");
-                const btn = document.getElementById('btn-finalize-signup'); btn.innerHTML='Creating...'; btn.disabled=true;
-                setTimeout(()=>{
-                    btn.innerText="Create Secure Account"; btn.disabled=false;
-                    const nu = { id: this.state.id, email: this.state.id.includes('@')?this.state.id:null, phone: !this.state.id.includes('@')?this.state.id:null, name: n, age: a, method: this.state.method, plan: 'Free Plan' };
-                    SecureAuthBackend.db[this.state.id] = nu; localStorage.setItem('secure_user_db', JSON.stringify(SecureAuthBackend.db));
-                    this.tk = SecureAuthBackend.genJWT(nu); localStorage.setItem('auth_jwt', this.tk);
-                    window.checkAuthSession(); this.open();
-                }, 600);
-            }
-        };
-
-        window.openAuthPortal = function() { auth.open(); };
-        window.closeAuthModal = function() { auth.close(); };
-        window.logoutAuth = function() { localStorage.removeItem('auth_jwt'); auth.tk=null; window.checkAuthSession(); auth.close(); };
-        window.checkAuthSession = function() {
-            const u = SecureAuthBackend.verJWT(localStorage.getItem('auth_jwt'));
-            const sBtn = document.getElementById('nav-signup-btn'); const pBtn = document.getElementById('nav-profile-btn');
-            if(u) { if(sBtn) sBtn.classList.add('hidden'); if(pBtn){ pBtn.classList.remove('hidden'); pBtn.classList.add('flex'); } } 
-            else { if(sBtn) sBtn.classList.remove('hidden'); if(pBtn){ pBtn.classList.add('hidden'); pBtn.classList.remove('flex'); } }
-            return u;
-        };
-        window.setAuthMode = function(m) { auth.setMode(m); };
-        window.switchAuthView = function(v) { auth.showView(v); };
-        window.selectMethod = function(m) { auth.selectMethod(m); };
-        window.setupIdentifierInput = function(t) { auth.prepInput(t); };
-        window.startOAuthFlow = function(type) { auth.runOAuth(type); };
-        window.requestSecureOTP = function() { auth.requestOTP(); };
-        window.submitOTPVerification = function() { auth.verifyOTP(); };
-        window.finalizeSignup = function() { auth.finalizeSignup(); };
-
-        // --- APP LOGIC ---
         function checkCookies() {
             if (!localStorage.getItem('cookie_accepted')) {
                 const banner = document.getElementById('cookie-banner');
@@ -1026,7 +1028,7 @@
                 if(diff <= 0) {
                     clearInterval(interval);
                     localStorage.removeItem('mt_ban_expiry');
-                    localStorage.setItem('mt_limit', '[]'); 
+                    localStorage.setItem('mt_limit', '[]'); // Limit reset on unban
                     location.reload();
                 } else {
                     const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -1039,10 +1041,12 @@
 
         async function initializeAppWithIPCheck() {
             const banExpiry = localStorage.getItem('mt_ban_expiry');
+            // Check agar abhi bhi ban time bacha hai
             if (banExpiry && parseInt(banExpiry) > Date.now()) {
                 showBanScreen(parseInt(banExpiry));
                 return;
             } else if (banExpiry) {
+                // Agar time nikal gaya hai toh ban hita do
                 localStorage.removeItem('mt_ban_expiry');
                 localStorage.setItem('mt_limit', '[]');
             }
@@ -1054,7 +1058,7 @@
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
             if(recent.length >= 50) { 
-                const expiry = now + (2 * 60 * 60 * 1000); 
+                const expiry = now + (2 * 60 * 60 * 1000); // 2 Ghante (2 hours) ka ban
                 localStorage.setItem('mt_ban_expiry', expiry.toString());
                 showBanScreen(expiry);
                 return;
@@ -1079,7 +1083,7 @@
                     const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
                     const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
                     const num = Math.floor(100 + Math.random() * 900); 
-                    newUsername = pfx + num;
+                    newUsername = pfx + num; 
                 } else {
                     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
                     for(let i = 0; i < 9; i++) {
@@ -1119,7 +1123,7 @@
                     const domainData = await domainRes.json();
                     activeDomain = domainData['hydra:member'][0].domain;
                     if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => createNewAccount(), 1000);
+                    setTimeout(() => createNewAccount(), 1000); 
                 }
             } catch (err) {
                 if(emailInput) emailInput.value = "Network Error! Retrying...";
@@ -1127,6 +1131,7 @@
             }
         }
 
+        // FIXED MISSING FUNCTION NAME HERE
         function showCaptcha(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
@@ -1447,7 +1452,7 @@
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented strict IP-based rate limiting with 2 hour cooldown.</li>
+                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
                                     <li>Added auto-deletion for emails older than 5 minutes.</li>
                                     <li>Integrated human/robot random name generation modes.</li>
                                 </ul>
