@@ -263,20 +263,24 @@
                         <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
                 </div>
+
+                <div id="view-status" class="hidden flex-col items-center justify-center py-10">
+                    <i id="status-icon" class="fa-solid fa-circle-notch fa-spin text-5xl text-brand mb-4"></i>
+                    <p id="status-text" class="font-bold text-lg text-slate-800 dark:text-white text-center leading-relaxed">Processing...</p>
+                </div>
+
             </div>
         </div>
     </div>
 
     <div id="captcha-modal" class="fixed inset-0 bg-slate-900/90 hidden justify-center items-center p-4 z-[9998] backdrop-blur-sm">
-        <div class="bg-white dark:bg-darkpanel w-full max-w-sm rounded-2xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden text-center p-8">
-            <i class="fa-solid fa-robot text-5xl text-brand mb-4"></i>
-            <h3 class="font-black text-xl text-slate-900 dark:text-white mb-2">Anti-Bot Check</h3>
-            <p class="text-slate-500 dark:text-gray-400 text-sm mb-6">Please solve this simple math problem to prove you are human.</p>
-            <div class="bg-slate-100 dark:bg-darkbg p-4 rounded-xl border border-slate-200 dark:border-darkborder mb-4 text-2xl font-bold tracking-widest text-slate-800 dark:text-white" id="captcha-question">
-                5 + 3 = ?
-            </div>
-            <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-4">
-            <button onclick="verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-3.5 rounded-xl font-bold transition active:scale-95 shadow-md">Verify & Generate Email</button>
+        <div class="bg-white dark:bg-darkpanel w-full max-w-sm rounded-3xl shadow-2xl flex flex-col border border-slate-200 dark:border-darkborder overflow-hidden text-center p-8">
+            <i class="fa-solid fa-robot text-6xl text-brand mb-4"></i>
+            <h3 class="font-black text-2xl text-slate-900 dark:text-white mb-2">Anti-Bot Check</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-sm mb-6 font-medium">Verify you are human to proceed.</p>
+            <div class="bg-slate-100 dark:bg-darkbg p-5 rounded-2xl mb-5 text-3xl font-black tracking-widest text-slate-800 dark:text-white border-2 border-slate-200 dark:border-darkborder shadow-inner" id="captcha-question"></div>
+            <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-4 text-center text-xl font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-5 transition-colors">
+            <button onclick="window.verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-4 rounded-xl font-black transition active:scale-95 shadow-lg cursor-pointer text-lg">Verify & Continue</button>
         </div>
     </div>
 
@@ -301,11 +305,11 @@
             </div>
             <div class="flex items-center justify-end gap-3 z-10 w-1/3">
                 
-                <button id="nav-signup-btn" onclick="openAuthPortal()" class="flex items-center gap-2 px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                <button id="nav-login-btn" onclick="openAuthPortal()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Google Login</span>
                 </button>
                 
-                <button id="nav-profile-btn" onclick="openAuthPortal()" class="hidden items-center gap-2 px-5 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                <button id="nav-profile-btn" onclick="openAuthPortal()" class="hidden items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
                 </button>
 
@@ -624,56 +628,92 @@
     <div class="max-w-3xl mx-auto px-4 mb-24">
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                What is a temporary email?
+                What exactly is a temporary email address?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address that self-destructs after a certain period. It helps you avoid spam and protect your privacy when signing up for unreliable websites or apps.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">A temporary email is a disposable email address designed to self-destruct after a specific duration. It helps you securely avoid giving out your real, Aadhar-linked primary email address to untrusted internet entities.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                How long do the emails last?
+                Is it legally compliant to use disposable emails in India?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Emails stay in your inbox as long as you keep the browser tab open. However, our strict anti-abuse policy automatically deletes received emails that are older than 5 minutes.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes, using a temporary email address to proactively protect your personal privacy is completely legal in India and globally. However, utilizing our infrastructure to conduct financial fraud is strictly illegal.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Can I send emails from here?
+                Can this effectively bypass Instagram and Telegram OTPs?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To strictly prevent spam, phishing, and abuse from originating from our domains, Aryan Mails is a receive-only service. You cannot send or forward emails.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Extremely effective. Our platform features a 'Human Name Generator' that allows you to seamlessly receive 6-digit OTP verification codes without triggering anti-spam filters.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is my inbox fully private?
+                How long does my secure inbox remain active?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes. Your inbox is securely tied to your active session. Once you generate a new email or close the browser, all data is permanently and irreversibly wiped from the server.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Your inbox actively receives mail as long as you keep your current browser tab open. However, any email received is automatically deleted from our backend servers after exactly 5 minutes.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Are attachments supported?
+                Is it technically possible to recover a deleted inbox?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No. To protect users from downloading malware or ransomware, attachment viewing is disabled by default. You can only read the text/HTML body of the email.</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Absolutely not. The core philosophy of Aryan Mails is uncompromised ephemeral security. We do not maintain historical archives or hidden logs of received communications.</p>
             </div>
         </div>
         <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
             <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
-                Is it really free?
+                Why are email attachments (PDFs, Images) disabled?
                 <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
             </button>
             <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
-                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes! Aryan Mails provides premium temporary email services completely free of charge. No hidden fees or credit cards required. You can support us using the Financial Support button!</p>
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Extreme security is our highest priority. To absolutely protect our users from accidentally initiating drive-by downloads or ransomware, we systematically strip out file attachments at the server level.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Does Aryan Mails secretly log my IP address?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">We operate under a rigorous no-tracking ethos. IP addresses are temporarily checked purely for immediate rate-limiting purposes to prevent DDoS attacks, and are never saved permanently.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Am I permitted to send outgoing emails from these addresses?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">No, Aryan Mails functions exclusively as a 'Receive-Only' infrastructure. Enabling outbound SMTP traffic would immediately attract spammers and ruin our domain reputation.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                How do I effectively utilize the Custom Username feature?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">By clicking the 'Custom' button, you are prompted to input your desired alphanumeric prefix. The system will instantly pair your chosen prefix with the active domain to create a unique address.</p>
+            </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl mb-4 overflow-hidden shadow-sm transition-colors duration-500">
+            <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center font-semibold text-slate-800 dark:text-white focus:outline-none hover:bg-slate-50 dark:hover:bg-darkborder/30 transition-colors duration-500">
+                Is the entire platform optimized for mobile networks?
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 text-sm"></i>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300 px-6">
+                <p class="pb-5 text-slate-500 dark:text-gray-400 text-sm leading-relaxed">Yes, absolutely. Aryan Mails has been meticulously engineered as a Single Page Application (SPA). It consumes minimal bandwidth and operates remarkably fast even on slow mobile networks.</p>
             </div>
         </div>
     </div>
@@ -830,7 +870,7 @@
         </div>
     </div>
 
-    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9995] backdrop-blur-sm transition-opacity">
         <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
@@ -847,92 +887,6 @@
     </div>
 
     <script>
-        // --- ADDED MISSING AUTH FUNCTIONS ---
-        window.openAuthPortal = function() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-            document.getElementById('auth-modal').classList.add('flex');
-            window.switchAuthView('view-auth-init');
-        };
-        
-        window.closeAuthModal = function() {
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('auth-modal').classList.remove('flex');
-        };
-        
-        window.switchAuthView = function(viewId) {
-            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) {
-                    if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
-                    else { el.classList.add('hidden'); el.classList.remove('block'); }
-                }
-            });
-        };
-        
-        window.setAuthMode = function(mode) {
-            window.switchAuthView('view-method-select');
-        };
-        
-        window.selectMethod = function(m) {
-            if(m === 'Google') window.switchAuthView('view-google-options');
-            else {
-                alert(`Connecting to ${m} provider...`);
-                window.switchAuthView('view-otp');
-            }
-        };
-        
-        window.setupIdentifierInput = function(type) {
-            window.switchAuthView('view-input-identifier');
-            if(type === 'Email') {
-                document.getElementById('phone-input-group').classList.add('hidden');
-                document.getElementById('email-input-group').classList.remove('hidden');
-            } else {
-                document.getElementById('phone-input-group').classList.remove('hidden');
-                document.getElementById('email-input-group').classList.add('hidden');
-            }
-        };
-
-        window.startOAuthFlow = function(provider) {
-            alert(`Connecting to ${provider} Secure Gateway...`);
-            window.switchAuthView('view-otp');
-        };
-
-        window.requestSecureOTP = function() {
-            document.getElementById('btn-request-otp').innerText = 'Sending...';
-            setTimeout(() => {
-                document.getElementById('btn-request-otp').innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
-                window.switchAuthView('view-otp');
-            }, 800);
-        };
-
-        window.submitOTPVerification = function() {
-            document.getElementById('btn-verify-otp').innerText = 'Verifying...';
-            setTimeout(() => {
-                document.getElementById('btn-verify-otp').innerText = 'Verify & Authenticate';
-                window.switchAuthView('view-register-details');
-            }, 800);
-        };
-
-        window.finalizeSignup = function() {
-            document.getElementById('btn-finalize-signup').innerText = 'Creating Profile...';
-            setTimeout(() => {
-                document.getElementById('btn-finalize-signup').innerText = 'Create Profile';
-                window.switchAuthView('view-profile');
-                // update navbar
-                document.getElementById('nav-signup-btn').classList.add('hidden');
-                document.getElementById('nav-profile-btn').classList.remove('hidden');
-                document.getElementById('nav-profile-btn').classList.add('flex');
-            }, 800);
-        };
-
-        window.triggerLogout = function() {
-            window.closeAuthModal();
-            document.getElementById('nav-signup-btn').classList.remove('hidden');
-            document.getElementById('nav-profile-btn').classList.add('hidden');
-            document.getElementById('nav-profile-btn').classList.remove('flex');
-        };
-        // --- END AUTH FUNCTIONS ---
-
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
@@ -957,7 +911,6 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-        let currentBlogFilter = 'All'; // ADDED VARIABLE SO BLOG TABS WORK
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -1028,7 +981,7 @@
                 if(diff <= 0) {
                     clearInterval(interval);
                     localStorage.removeItem('mt_ban_expiry');
-                    localStorage.setItem('mt_limit', '[]'); // Limit reset on unban
+                    localStorage.setItem('mt_limit', '[]'); 
                     location.reload();
                 } else {
                     const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -1041,12 +994,10 @@
 
         async function initializeAppWithIPCheck() {
             const banExpiry = localStorage.getItem('mt_ban_expiry');
-            // Check agar abhi bhi ban time bacha hai
             if (banExpiry && parseInt(banExpiry) > Date.now()) {
                 showBanScreen(parseInt(banExpiry));
                 return;
             } else if (banExpiry) {
-                // Agar time nikal gaya hai toh ban hita do
                 localStorage.removeItem('mt_ban_expiry');
                 localStorage.setItem('mt_limit', '[]');
             }
@@ -1058,7 +1009,7 @@
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
             if(recent.length >= 50) { 
-                const expiry = now + (2 * 60 * 60 * 1000); // 2 Ghante (2 hours) ka ban
+                const expiry = now + (2 * 60 * 60 * 1000); 
                 localStorage.setItem('mt_ban_expiry', expiry.toString());
                 showBanScreen(expiry);
                 return;
@@ -1131,7 +1082,7 @@
             }
         }
 
-        // FIXED MISSING FUNCTION NAME HERE
+        // ---------- YAHI MAIN ERROR THA JISKI WAJAH SE BUTTONS KHARAB HUE ----------
         function showCaptcha(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
@@ -1143,6 +1094,7 @@
             modal.classList.add('flex');
             captchaSuccessCallback = callback;
         }
+        // -------------------------------------------------------------------------
 
         function verifyCaptcha() {
             const val = parseInt(document.getElementById('captcha-input').value);
@@ -1204,6 +1156,8 @@
             { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with 10 proven strategies for 2025.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
             { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' }
         ];
+
+        let currentBlogFilter = 'All'; // This was missing and caused blog breaking
 
         function renderBlogContent() {
             const container = document.getElementById('blog-container');
