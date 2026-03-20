@@ -776,10 +776,10 @@
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Product</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
                         <li><a href="#features" class="hover:text-brand transition cursor-pointer">Features</a></li>
-                        <li><button onclick="showPageModal('System Status')" class="hover:text-brand transition cursor-pointer focus:outline-none">System Status <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-1"></span></button></li>
-                        <li><button onclick="showPageModal('Changelog')" class="hover:text-brand transition cursor-pointer focus:outline-none">Changelog</button></li>
-                        <li><button onclick="showPageModal('API Access')" class="hover:text-brand transition cursor-pointer focus:outline-none">API Access</button></li>
-                        <li><button onclick="showPageModal('Premium Plans')" class="hover:text-brand transition cursor-pointer focus:outline-none">Premium</button></li>
+                        <li><button onclick="window.showPageModal('System Status')" class="hover:text-brand transition cursor-pointer focus:outline-none">System Status <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-1"></span></button></li>
+                        <li><button onclick="window.showPageModal('Changelog')" class="hover:text-brand transition cursor-pointer focus:outline-none">Changelog</button></li>
+                        <li><button onclick="window.showPageModal('API Access')" class="hover:text-brand transition cursor-pointer focus:outline-none">API Access</button></li>
+                        <li><button onclick="window.showPageModal('Premium Plans')" class="hover:text-brand transition cursor-pointer focus:outline-none">Premium</button></li>
                     </ul>
                 </div>
                 <div>
@@ -787,16 +787,16 @@
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
                         <li><a href="#how-it-works" class="hover:text-brand transition cursor-pointer">How It Works</a></li>
                         <li><a href="#faq" class="hover:text-brand transition cursor-pointer">FAQ</a></li>
-                        <li><button onclick="showPageModal('Blog & News')" class="hover:text-brand transition cursor-pointer focus:outline-none">Blog</button></li>
+                        <li><button onclick="window.showPageModal('Blog & News')" class="hover:text-brand transition cursor-pointer focus:outline-none">Blog</button></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-4">Legal</h4>
                     <ul class="space-y-3 text-sm text-slate-500 dark:text-gray-400">
-                        <li><button onclick="showPageModal('Privacy Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Privacy Policy</button></li>
-                        <li><button onclick="showPageModal('Terms of Service')" class="hover:text-brand transition cursor-pointer focus:outline-none">Terms of Service</button></li>
-                        <li><button onclick="showPageModal('Cookie Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Cookie Policy</button></li>
-                        <li><button onclick="showPageModal('Report Abuse')" class="hover:text-brand transition cursor-pointer focus:outline-none">Report Abuse</button></li>
+                        <li><button onclick="window.showPageModal('Privacy Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Privacy Policy</button></li>
+                        <li><button onclick="window.showPageModal('Terms of Service')" class="hover:text-brand transition cursor-pointer focus:outline-none">Terms of Service</button></li>
+                        <li><button onclick="window.showPageModal('Cookie Policy')" class="hover:text-brand transition cursor-pointer focus:outline-none">Cookie Policy</button></li>
+                        <li><button onclick="window.showPageModal('Report Abuse')" class="hover:text-brand transition cursor-pointer focus:outline-none">Report Abuse</button></li>
                         <li><a href="https://t.me/aryanmails" target="_blank" class="hover:text-brand transition cursor-pointer">Contact Us</a></li>
                     </ul>
                 </div>
@@ -813,10 +813,10 @@
 
     <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-darkpanel border-t border-slate-200 dark:border-darkborder p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] transform transition-transform translate-y-full duration-500 flex flex-col sm:flex-row justify-between items-center gap-4 hidden">
         <div class="text-sm text-slate-600 dark:text-gray-300 flex-1">
-            We use strictly necessary cookies to ensure security, rate limiting, and core functionality. <button onclick="showPageModal('Cookie Policy')" class="text-brand font-semibold hover:underline">Learn more</button>
+            We use strictly necessary cookies to ensure security, rate limiting, and core functionality. <button onclick="window.showPageModal('Cookie Policy')" class="text-brand font-semibold hover:underline">Learn more</button>
         </div>
         <div class="flex gap-3">
-            <button onclick="acceptCookies()" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 whitespace-nowrap shadow-md cursor-pointer">Accept & Close</button>
+            <button onclick="window.acceptCookies()" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 whitespace-nowrap shadow-md cursor-pointer">Accept & Close</button>
         </div>
     </div>
 
@@ -828,7 +828,7 @@
                     <p class="text-sm text-slate-500 dark:text-gray-400 truncate">From: <span id="modal-from" class="text-brand font-semibold color-shift"></span></p>
                 </div>
                 <div class="flex gap-2 flex-shrink-0">
-                    <button onclick="closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition">
+                    <button onclick="window.closeModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
                         <i class="fa-solid fa-xmark text-xl"></i>
                     </button>
                 </div>
@@ -841,7 +841,7 @@
         <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-emerald-500"></i> Support Aryan Mails</h3>
-                <button onclick="closeSupportModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                <button onclick="window.closeSupportModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
@@ -855,13 +855,13 @@
                 <p class="font-semibold text-slate-800 dark:text-white mb-2">Scan QR or Copy UPI ID:</p>
                 <div class="flex items-center justify-between bg-slate-100 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg p-3 max-w-sm mx-auto shadow-inner mb-2">
                     <span class="font-mono text-brand font-bold text-base" id="upi-id-text">pp90990341@ybl</span>
-                    <button onclick="copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
+                    <button onclick="window.copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
                 </div>
                 <p id="upi-copy-msg" class="text-xs text-emerald-500 font-bold mb-4 opacity-0 transition-opacity">UPI ID Copied to clipboard!</p>
 
                 <div class="border-t border-slate-200 dark:border-darkborder pt-5 mt-2">
                     <p class="font-semibold text-slate-800 dark:text-white mb-3 text-base">Pay Directly via App (Mobile Only):</p>
-                    <a href="upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base whitespace-nowrap">
+                    <a href="upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base whitespace-nowrap cursor-pointer">
                         <i class="fa-solid fa-bolt"></i> Tap to Pay Direct
                     </a>
                     <p class="text-xs mt-3 text-slate-500 dark:text-gray-400">Clicking above will open your default UPI app.</p>
@@ -874,90 +874,19 @@
         <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
-                <button onclick="closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                <button onclick="window.closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
                     <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
             <div id="page-modal-body" class="p-6 overflow-y-auto text-slate-600 dark:text-gray-300 text-sm leading-relaxed space-y-4">
             </div>
             <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg text-right">
-                <button onclick="closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md cursor-pointer whitespace-nowrap">Got it</button>
+                <button onclick="window.closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md cursor-pointer whitespace-nowrap">Got it</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- ADDED MISSING AUTH FUNCTIONS SO ALL BUTTONS WORK ---
-        function checkAuthSession() { return null; }
-        function openAuthPortal() {
-            document.getElementById('auth-modal').classList.remove('hidden');
-            document.getElementById('auth-modal').classList.add('flex');
-            switchAuthView('view-auth-init');
-        }
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-            document.getElementById('auth-modal').classList.remove('flex');
-        }
-        function switchAuthView(viewId) {
-            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) {
-                    if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
-                    else { el.classList.add('hidden'); el.classList.remove('block'); }
-                }
-            });
-        }
-        function setAuthMode(mode) { switchAuthView('view-method-select'); }
-        function selectMethod(method) { 
-            if(method === 'Google') switchAuthView('view-google-options');
-            else switchAuthView('view-input-identifier');
-        }
-        function setupIdentifierInput(type) {
-            switchAuthView('view-input-identifier');
-            if(type === 'Email') {
-                document.getElementById('phone-input-group').classList.add('hidden');
-                document.getElementById('email-input-group').classList.remove('hidden');
-            } else {
-                document.getElementById('phone-input-group').classList.remove('hidden');
-                document.getElementById('email-input-group').classList.add('hidden');
-            }
-        }
-        function startOAuthFlow(provider) {
-            alert("Connecting to " + provider + " Secure Gateway...");
-            switchAuthView('view-otp');
-        }
-        function requestSecureOTP() {
-            document.getElementById('btn-request-otp').innerText = "Processing...";
-            setTimeout(() => {
-                document.getElementById('btn-request-otp').innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
-                switchAuthView('view-otp');
-            }, 1000);
-        }
-        function submitOTPVerification() {
-            document.getElementById('btn-verify-otp').innerText = "Verifying...";
-            setTimeout(() => {
-                document.getElementById('btn-verify-otp').innerText = "Verify & Authenticate";
-                switchAuthView('view-register-details');
-            }, 1000);
-        }
-        function finalizeSignup() {
-            document.getElementById('btn-finalize-signup').innerText = "Creating...";
-            setTimeout(() => {
-                document.getElementById('btn-finalize-signup').innerText = "Create Profile";
-                switchAuthView('view-profile');
-                document.getElementById('nav-login-btn').classList.add('hidden');
-                document.getElementById('nav-profile-btn').classList.remove('hidden');
-                document.getElementById('nav-profile-btn').classList.add('flex');
-            }, 1000);
-        }
-        function triggerLogout() {
-            closeAuthModal();
-            document.getElementById('nav-login-btn').classList.remove('hidden');
-            document.getElementById('nav-profile-btn').classList.add('hidden');
-            document.getElementById('nav-profile-btn').classList.remove('flex');
-        }
-        // --- END AUTH FUNCTIONS ---
-
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
@@ -982,14 +911,14 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-        let currentBlogFilter = 'All';
+        let currentBlogFilter = 'All'; // FIX 3: ADDED THIS VARIABLE
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        function checkCookies() {
+        window.checkCookies = function() {
             if (!localStorage.getItem('cookie_accepted')) {
                 const banner = document.getElementById('cookie-banner');
                 banner.classList.remove('hidden');
@@ -997,14 +926,14 @@
             }
         }
 
-        function acceptCookies() {
+        window.acceptCookies = function() {
             localStorage.setItem('cookie_accepted', 'true');
             const banner = document.getElementById('cookie-banner');
             banner.classList.add('translate-y-full');
             setTimeout(() => banner.classList.add('hidden'), 500);
         }
 
-        function checkTNC() {
+        window.checkTNC = function() {
             const lastAccepted = localStorage.getItem('tnc_accepted_time');
             const now = Date.now();
             if (!lastAccepted || (now - parseInt(lastAccepted)) > 24 * 60 * 60 * 1000) {
@@ -1016,7 +945,7 @@
             return true;
         }
 
-        function acceptTNC() {
+        window.acceptTNC = function() {
             const cb = document.getElementById('tnc-checkbox');
             if(!cb.checked) {
                 alert("You must check the box to agree to the Terms and Conditions.");
@@ -1025,10 +954,10 @@
             localStorage.setItem('tnc_accepted_time', Date.now().toString());
             document.getElementById('tnc-modal').classList.add('hidden');
             document.getElementById('tnc-modal').classList.remove('flex');
-            initializeAppWithIPCheck(); 
+            window.initializeAppWithIPCheck(); 
         }
 
-        function showBanScreen(expiryTime) {
+        window.showBanScreen = function(expiryTime) {
             document.body.innerHTML = `
             <div class="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-white">
                 <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder p-8 rounded-[2rem] shadow-2xl max-w-md w-full relative overflow-hidden">
@@ -1064,26 +993,26 @@
             }, 1000);
         }
 
-        async function initializeAppWithIPCheck() {
+        window.initializeAppWithIPCheck = async function() {
             const banExpiry = localStorage.getItem('mt_ban_expiry');
             if (banExpiry && parseInt(banExpiry) > Date.now()) {
-                showBanScreen(parseInt(banExpiry));
+                window.showBanScreen(parseInt(banExpiry));
                 return;
             } else if (banExpiry) {
                 localStorage.removeItem('mt_ban_expiry');
                 localStorage.setItem('mt_limit', '[]');
             }
-            initApp(); 
+            window.initApp(); 
         }
 
-        async function createNewAccount() {
+        window.createNewAccount = async function() {
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
             if(recent.length >= 50) { 
                 const expiry = now + (2 * 60 * 60 * 1000); 
                 localStorage.setItem('mt_ban_expiry', expiry.toString());
-                showBanScreen(expiry);
+                window.showBanScreen(expiry);
                 return;
             }
             recent.push(now);
@@ -1098,7 +1027,7 @@
                     const domainData = await domainRes.json();
                     stableDomain = domainData['hydra:member'][0].domain; 
                     activeDomain = stableDomain;
-                    renderDomainDropdown();
+                    window.renderDomainDropdown();
                 }
 
                 let newUsername = "";
@@ -1138,24 +1067,24 @@
                     localStorage.setItem('mt_token', token);
                     if(emailInput) emailInput.value = address;
                     if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    clearInboxUIQuiet();
-                    startSync();
-                    startEmailTimer(600);
+                    window.clearInboxUIQuiet();
+                    window.startSync();
+                    window.startEmailTimer(600);
                 } else {
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
                     activeDomain = domainData['hydra:member'][0].domain;
                     if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => createNewAccount(), 1000); 
+                    setTimeout(() => window.createNewAccount(), 1000); 
                 }
             } catch (err) {
                 if(emailInput) emailInput.value = "Network Error! Retrying...";
-                setTimeout(() => createNewAccount(), 2000);
+                setTimeout(() => window.createNewAccount(), 2000);
             }
         }
 
-        // --- MISSING FUNCTION ADDED HERE ---
-        function showCaptcha(callback) {
+        // FIX 1: MISSING SHOWCAPTCHA FUNCTION ADDED HERE
+        window.showCaptcha = function(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
             captchaAnswer = num1 + num2;
@@ -1167,7 +1096,7 @@
             captchaSuccessCallback = callback;
         }
 
-        function verifyCaptcha() {
+        window.verifyCaptcha = function() {
             const val = parseInt(document.getElementById('captcha-input').value);
             if(val === captchaAnswer) {
                 document.getElementById('captcha-modal').classList.add('hidden');
@@ -1182,7 +1111,7 @@
             }
         }       
 
-        function setEmailType(type) {
+        window.setEmailType = function(type) {
             currentEmailType = type;
             const btnHuman = document.getElementById('btn-type-human');
             const btnRandom = document.getElementById('btn-type-random');
@@ -1196,7 +1125,7 @@
             }
         }
 
-        function toggleDomainDropdown() {
+        window.toggleDomainDropdown = function() {
             const el = document.getElementById('domain-dropdown');
             if (el.classList.contains('hidden')) {
                 el.classList.remove('hidden');
@@ -1206,14 +1135,14 @@
         }
         
         document.addEventListener('click', (e) => {
-            const domainBtn = e.target.closest('button[onclick="toggleDomainDropdown()"]');
+            const domainBtn = e.target.closest('button[onclick="window.toggleDomainDropdown()"]');
             const domainDropdown = document.getElementById('domain-dropdown');
             if (!domainBtn && domainDropdown && !domainDropdown.classList.contains('hidden')) {
                 domainDropdown.classList.add('hidden');
             }
         });
 
-        function generateAPIKey() {
+        window.generateAPIKey = function() {
             const key = 'am_' + Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('aryan_api_key', key);
             const disp = document.getElementById('api-key-display');
@@ -1228,7 +1157,7 @@
             { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' }
         ];
 
-        function renderBlogContent() {
+        window.renderBlogContent = function() {
             const container = document.getElementById('blog-container');
             if(!container) return;
 
@@ -1240,9 +1169,9 @@
             let filtersHtml = '<div class="flex flex-wrap gap-2 mb-4">';
             ['All', 'Privacy', 'Email Security', 'Email Tips', 'Industry Trends'].forEach(cat => {
                 if (cat === currentBlogFilter) {
-                    filtersHtml += `<button onclick="setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition cursor-pointer">${cat}</button>`;
+                    filtersHtml += `<button onclick="window.setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border-brand bg-brand text-white transition cursor-pointer">${cat}</button>`;
                 } else {
-                    filtersHtml += `<button onclick="setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition cursor-pointer">${cat}</button>`;
+                    filtersHtml += `<button onclick="window.setBlogFilter('${cat}')" class="px-4 py-1.5 rounded-full text-sm font-semibold border border-slate-300 dark:border-darkborder bg-white dark:bg-darkbg text-slate-600 dark:text-gray-300 hover:text-brand hover:border-brand transition cursor-pointer">${cat}</button>`;
                 }
             });
             filtersHtml += '</div>';
@@ -1252,9 +1181,9 @@
                     <span class="font-bold text-slate-700 dark:text-gray-200">Active filter:</span>
                     <span class="flex items-center gap-2 bg-white dark:bg-darkpanel px-3 py-1 rounded-md border border-slate-200 dark:border-darkborder text-slate-600 dark:text-gray-300">
                         Category: ${currentBlogFilter}
-                        ${currentBlogFilter !== 'All' ? `<button onclick="setBlogFilter('All')" class="hover:text-red-500 transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>` : ''}
+                        ${currentBlogFilter !== 'All' ? `<button onclick="window.setBlogFilter('All')" class="hover:text-red-500 transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>` : ''}
                     </span>
-                    ${currentBlogFilter !== 'All' ? `<button onclick="setBlogFilter('All')" class="text-red-500 hover:text-red-600 font-semibold ml-auto transition cursor-pointer">Clear all</button>` : ''}
+                    ${currentBlogFilter !== 'All' ? `<button onclick="window.setBlogFilter('All')" class="text-red-500 hover:text-red-600 font-semibold ml-auto transition cursor-pointer">Clear all</button>` : ''}
                 </div>
             `;
 
@@ -1264,7 +1193,7 @@
             } else {
                 filteredArticles.forEach(post => {
                     gridHtml += `
-                    <div onclick="openBlogPost('${post.id}')" class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full cursor-pointer">
+                    <div onclick="window.openBlogPost('${post.id}')" class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group flex flex-col h-full cursor-pointer">
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-xs font-bold text-brand uppercase tracking-wider">${post.category}</span>
                             <span class="text-xs text-slate-500 dark:text-gray-400"><i class="fa-regular fa-clock mr-1"></i> ${post.readTime}</span>
@@ -1286,19 +1215,19 @@
             container.innerHTML = filtersHtml + activeFilterHtml + gridHtml;
         }
 
-        function setBlogFilter(category) {
+        window.setBlogFilter = function(category) {
             currentBlogFilter = category;
-            renderBlogContent();
+            window.renderBlogContent();
         }
 
-        function openBlogPost(id) {
+        window.openBlogPost = function(id) {
             const post = blogArticles.find(a => a.id === id);
             if(!post) return;
             const container = document.getElementById('blog-container');
             if(!container) return;
 
             container.innerHTML = `
-                <button onclick="renderBlogContent()" class="mb-6 flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand transition cursor-pointer">
+                <button onclick="window.renderBlogContent()" class="mb-6 flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-brand transition cursor-pointer">
                     <i class="fa-solid fa-arrow-left"></i> Back to Blog
                 </button>
                 <div class="mb-6 pb-2">
@@ -1320,7 +1249,7 @@
             `;
         }
         
-        async function submitSubscribeForm(event) {
+        window.submitSubscribeForm = async function(event) {
             event.preventDefault();
             const emailInput = document.getElementById('subscriber-email').value;
             const btn = document.getElementById('subscribe-btn');
@@ -1352,7 +1281,7 @@
             setTimeout(() => { msg.classList.add('hidden'); }, 5000);
         }
 
-        async function fetchDomainsList() {
+        window.fetchDomainsList = async function() {
             try {
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
@@ -1360,11 +1289,11 @@
                 const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
                 availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
                 if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
-                renderDomainDropdown();
+                window.renderDomainDropdown();
             } catch(e) { }
         }
 
-        function renderDomainDropdown() {
+        window.renderDomainDropdown = function() {
             const btnText = document.getElementById('domain-btn-text');
             if(btnText && activeDomain) btnText.innerText = "@" + activeDomain;
             const dropdown = document.getElementById('domain-list');
@@ -1378,14 +1307,14 @@
                         activeDomain = d;
                         if(btnText) btnText.innerText = "@" + activeDomain;
                         document.getElementById('domain-dropdown').classList.add('hidden');
-                        forceNewAccount(); 
+                        window.forceNewAccount(); 
                     };
                     dropdown.appendChild(div);
                 });
             }
         }
 
-        function showPageModal(pageName) {
+        window.showPageModal = function(pageName) {
             const title = document.getElementById('page-modal-title');
             const body = document.getElementById('page-modal-body');
             const modal = document.getElementById('page-modal');
@@ -1532,7 +1461,7 @@
                         <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Your API Key:</p>
                         <div class="flex items-center gap-2">
                             <input type="text" id="api-key-display" readonly value="${apiKey || 'Not Generated'}" class="w-full bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded-md px-3 py-2 text-sm font-mono text-brand focus:outline-none">
-                            <button onclick="generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
+                            <button onclick="window.generateAPIKey()" class="bg-brand text-white px-4 py-2 rounded-md font-bold text-sm hover:brightness-110 transition shadow whitespace-nowrap cursor-pointer"><i class="fa-solid fa-arrows-rotate"></i></button>
                         </div>
                     </div>
                     <p class="text-xs text-slate-500">Rate limits apply. Do not share your API key.</p>
@@ -1556,7 +1485,7 @@
                             <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
                             <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
                             
-                            <form id="subscribe-form" onsubmit="submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
+                            <form id="subscribe-form" onsubmit="window.submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
                                 <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
                                 <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap cursor-pointer">Subscribe</button>
                             </form>
@@ -1574,7 +1503,7 @@
 
                 setTimeout(() => {
                     currentBlogFilter = 'All';
-                    renderBlogContent();
+                    window.renderBlogContent();
                 }, 10);
             }
 
@@ -1583,13 +1512,13 @@
             modal.classList.add('flex');
         }
 
-        function closePageModal() {
+        window.closePageModal = function() {
             const modal = document.getElementById('page-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
 
-        function copyUPI() {
+        window.copyUPI = function() {
             const upiText = document.getElementById('upi-id-text').innerText;
             navigator.clipboard.writeText(upiText);
             const msg = document.getElementById('upi-copy-msg');
@@ -1597,17 +1526,159 @@
             setTimeout(() => { msg.style.opacity = '0'; }, 2000);
         }
 
-        function showSupportModal() {
+        window.showSupportModal = function() {
             document.getElementById('support-modal').classList.remove('hidden');
             document.getElementById('support-modal').classList.add('flex');
         }
 
-        function closeSupportModal() {
+        window.closeSupportModal = function() {
             document.getElementById('support-modal').classList.add('hidden');
             document.getElementById('support-modal').classList.remove('flex');
         }
 
-        async function manualFetch() {
+        // FIX: ADD MISSING BUTTON FUNCTIONS
+        window.copyEmail = function() {
+            if(emailInput) { emailInput.select(); document.execCommand('copy'); }
+            const msg = document.getElementById('copy-msg');
+            if(msg) { msg.style.opacity = "1"; setTimeout(() => { msg.style.opacity = "0"; }, 2000); }
+        }
+
+        window.forceNewAccount = function() {
+            window.showCaptcha(() => {
+                localStorage.removeItem('mt_email');
+                localStorage.removeItem('mt_token');
+                address = null; token = null;
+                if(emailInput) emailInput.value = "Generating...";
+                if(loadingOverlay) loadingOverlay.style.display = 'flex';
+                window.clearInboxUIQuiet();
+                window.createNewAccount();
+            });
+        }
+
+        window.createCustomAccount = function() {
+            window.showCaptcha(async () => {
+                const customPrefix = prompt("Enter your desired username (e.g., rahul, priya123):");
+                if (!customPrefix) return;
+                const cleanPrefix = customPrefix.replace(/[^a-z0-9]/gi, '').toLowerCase();
+                if (!cleanPrefix) { alert("Invalid username. Use only letters and numbers."); return; }
+                if(loadingOverlay) loadingOverlay.style.display = 'flex';
+                if(emailInput) emailInput.value = "Creating custom email...";
+                try {
+                    let stableDomain = activeDomain;
+                    if (!stableDomain) {
+                        const domainRes = await fetch(`${API}/domains`);
+                        const domainData = await domainRes.json();
+                        stableDomain = domainData['hydra:member'][0].domain; 
+                        activeDomain = stableDomain;
+                    }
+                    const newAddress = `${cleanPrefix}@${stableDomain}`;
+                    const newPassword = generatePassword();
+                    const createRes = await fetch(`${API}/accounts`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: newAddress, password: newPassword })
+                    });
+                    if(createRes.ok) {
+                        const loginRes = await fetch(`${API}/token`, {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ address: newAddress, password: newPassword })
+                        });
+                        const tokenData = await loginRes.json();
+                        localStorage.removeItem('mt_token'); localStorage.removeItem('mt_email');
+                        address = newAddress; password = newPassword; token = tokenData.token;
+                        localStorage.setItem('mt_email', address); localStorage.setItem('mt_password', password); localStorage.setItem('mt_token', token);
+                        if(emailInput) emailInput.value = address;
+                        window.clearInboxUIQuiet();
+                        if(syncTimer) clearInterval(syncTimer);
+                        window.startSync(); window.manualFetch(); window.startEmailTimer(300); 
+                    } else {
+                        alert("Username is already taken on this domain! Try another.");
+                        if(emailInput) emailInput.value = address; 
+                        if(loadingOverlay) loadingOverlay.style.display = 'none';
+                    }
+                } catch (err) {
+                    alert("Network Error! Please try again.");
+                    if(emailInput) emailInput.value = address;
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        window.toggleTheme = function() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            const themeIcon = document.getElementById('theme-icon');
+            if(themeIcon) { themeIcon.className = isDark ? 'fa-solid fa-sun text-yellow-400' : 'fa-solid fa-moon text-slate-600'; }
+        }
+
+        window.changeColorTheme = function() {
+            const hue = Math.floor(Math.random() * 360);
+            const brandColor = `hsl(${hue}, 75%, 50%)`;
+            const brandBg = `hsla(${hue}, 75%, 50%, 0.15)`;
+            document.documentElement.style.setProperty('--brand-color', brandColor);
+            document.documentElement.style.setProperty('--brand-bg', brandBg);
+        }
+
+        window.toggleAutoSync = function() {
+            isSyncing = !isSyncing;
+            const icon = document.getElementById('sync-icon');
+            const text = document.getElementById('sync-text');
+            if(isSyncing) {
+                if(icon) icon.className = "fa-solid fa-bolt text-amber-500";
+                if(text) text.innerText = "Auto-Sync: ON";
+                window.startSync();
+            } else {
+                if(icon) icon.className = "fa-solid fa-bolt text-gray-500";
+                if(text) text.innerText = "Auto-Sync: OFF";
+                clearInterval(syncTimer);
+            }
+        }
+
+        window.toggleAudio = function() { 
+            soundOn = !soundOn; 
+            const text = document.getElementById('notif-text');
+            if(text) text.innerText = soundOn ? "Sound On" : "Sound Off";
+            const icon = document.getElementById('notif-icon');
+            if(icon) icon.className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
+        }
+
+        window.fastOtpReset = async function() {
+            const boltIcon = document.getElementById('fast-bolt-icon');
+            if(boltIcon) boltIcon.classList.add('fa-spin');
+            await window.manualFetch();
+            if(boltIcon) boltIcon.classList.remove('fa-spin');
+        }
+
+        window.startSync = function() {
+            if(syncTimer) clearInterval(syncTimer);
+            syncTimer = setInterval(window.manualFetch, refreshSec * 1000);
+        }
+
+        window.clearInboxUIQuiet = function() {
+            allMessages = []; lastMailCount = 0; window.renderMails();
+        }
+
+        window.clearInboxUI = async function() {
+            const fetchIcon = document.getElementById('fetch-icon');
+            if(fetchIcon) fetchIcon.classList.add('fa-spin');
+            for (const msg of allMessages) {
+                try { await fetch(`${API}/messages/${msg.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }); } catch(e) {}
+            }
+            allMessages = []; lastMailCount = 0; window.renderMails();
+            if(fetchIcon) fetchIcon.classList.remove('fa-spin');
+        }
+
+        window.deleteSingleMail = async function(id, event) {
+            if(event && event.stopPropagation) event.stopPropagation();
+            try {
+                const res = await fetch(`${API}/messages/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+                if(res.ok) {
+                    allMessages = allMessages.filter(m => m.id !== id);
+                    window.renderMails();
+                }
+            } catch(err) {}
+        }
+
+        window.manualFetch = async function() {
             if(!token) return;
             const fetchIcon = document.getElementById('fetch-icon');
             if(fetchIcon) fetchIcon.classList.add('fa-spin');
@@ -1641,27 +1712,33 @@
 
                 if (allMessages.length > 0) {
                     if(allMessages.length > lastMailCount && soundOn) {
-                        const audio = document.getElementById('notification-sound');
-                        if(audio) audio.play().catch(e => {});
+                        let audio = document.getElementById('notification-sound');
+                        if(!audio) {
+                            audio = document.createElement('audio');
+                            audio.id = 'notification-sound';
+                            audio.src = 'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3';
+                            document.body.appendChild(audio);
+                        }
+                        audio.play().catch(e => {});
                     }
                     lastMailCount = allMessages.length;
-                    renderMails(); 
+                    window.renderMails(); 
                 } else {
-                    renderMails(); 
+                    window.renderMails(); 
                 }
             } catch (err) {} finally {
                 if(fetchIcon) fetchIcon.classList.remove('fa-spin');
             }
         }
 
-        function renderMails() {
+        window.renderMails = function() {
             if(totalEmails) totalEmails.innerText = `${allMessages.length} emails`;
             if (allMessages.length > 0) {
                 if(inboxContent) {
                     inboxContent.innerHTML = '';
                     inboxContent.classList.remove('flex', 'flex-col', 'items-center', 'justify-center');
                 }
-                const sortOrder = document.getElementById('sort-mails').value;
+                const sortOrder = document.getElementById('sort-mails') ? document.getElementById('sort-mails').value : 'newest';
                 let sortedMails = [...allMessages]; 
                 if (sortOrder === 'newest') sortedMails.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
                 else sortedMails.sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -1674,12 +1751,12 @@
                             <span class="font-bold text-slate-800 dark:text-white text-sm truncate">${msg.from.address}</span>
                             <div class="flex items-center gap-3">
                                 <span class="text-xs text-slate-400">${new Date(msg.createdAt).toLocaleTimeString()}</span>
-                                <button onclick="deleteSingleMail('${msg.id}', event)" class="text-red-500 hover:text-red-700 hover:scale-110 transition-transform p-1" title="Delete Mail"><i class="fa-solid fa-trash-can"></i></button>
+                                <button onclick="window.deleteSingleMail('${msg.id}', event)" class="text-red-500 hover:text-red-700 hover:scale-110 transition-transform p-1" title="Delete Mail"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
                         </div>
                         <div class="text-sm text-slate-600 dark:text-gray-300 truncate">${msg.subject || 'No Subject'}</div>
                     `;
-                    div.onclick = () => openEmail(msg.id);
+                    div.onclick = () => window.openEmail(msg.id);
                     if(inboxContent) inboxContent.appendChild(div);
                 });
             } else {
@@ -1690,14 +1767,16 @@
             }
         }
 
-        async function initApp() {
-            await fetchDomainsList(); 
+        window.initApp = async function() {
+            await window.fetchDomainsList(); 
             if (address && token) {
                 if(emailInput) emailInput.value = address;
                 if(loadingOverlay) loadingOverlay.style.display = 'none';
-                startSync();
-                manualFetch();
-                startEmailTimer(300); 
+                window.startSync();
+                window.manualFetch();
+                window.startEmailTimer(300); 
+            } else {
+                window.createNewAccount();
             }
 
             setInterval(() => {
@@ -1712,16 +1791,16 @@
                     const isAdult = adultKws.some(kw => fromAddr.includes(kw) || subj.includes(kw));
                     
                     if (((now - msgTime) > 5 * 60 * 1000) || isAdult) { 
-                        deleteSingleMail(msg.id);
+                        window.deleteSingleMail(msg.id);
                     }
                 });
             }, 30000); 
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            if(!checkTNC()) return; 
-            initializeAppWithIPCheck();
-            checkAuthSession();
+            if(!window.checkTNC()) return; 
+            window.initializeAppWithIPCheck();
+            window.checkAuthSession(); 
             
             document.querySelectorAll('.faq-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
