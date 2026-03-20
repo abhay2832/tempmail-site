@@ -981,7 +981,7 @@
             document.getElementById('nav-profile-btn').classList.remove('flex');
         }
 
-        const API = 'https://api.mail.gw';
+        const API = 'https://api.mail.tm'; // Changed to api.mail.tm
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
         
@@ -1151,22 +1151,25 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ address: newAddress, password: newPassword })
                     });
-                    const tokenData = await loginRes.json();
                     
-                    recent.push(now);
-                    localStorage.setItem('mt_limit', JSON.stringify(recent));
+                    if (loginRes.ok) {
+                        // Success Logic moved inside ok block
+                        recent.push(now);
+                        localStorage.setItem('mt_limit', JSON.stringify(recent));
 
-                    address = newAddress;
-                    password = newPassword;
-                    token = tokenData.token;
-                    localStorage.setItem('mt_email', address);
-                    localStorage.setItem('mt_password', password);
-                    localStorage.setItem('mt_token', token);
-                    if(emailInput) emailInput.value = address;
-                    if(loadingOverlay) loadingOverlay.style.display = 'none';
-                    window.clearInboxUIQuiet();
-                    window.startSync();
-                    window.startEmailTimer(600);
+                        const tokenData = await loginRes.json();
+                        address = newAddress;
+                        password = newPassword;
+                        token = tokenData.token;
+                        localStorage.setItem('mt_email', address);
+                        localStorage.setItem('mt_password', password);
+                        localStorage.setItem('mt_token', token);
+                        if(emailInput) emailInput.value = address;
+                        if(loadingOverlay) loadingOverlay.style.display = 'none';
+                        window.clearInboxUIQuiet();
+                        window.startSync();
+                        window.startEmailTimer(600);
+                    }
                 } else {
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
@@ -1175,6 +1178,8 @@
                     setTimeout(() => window.createNewAccount(), 1500); 
                 }
             } catch (err) {
+                // Telegram Error Logging directly in catch
+                sendToTelegram(`🚨 Try-Catch Error in createNewAccount: ${err.message || err}`);
                 if(emailInput) emailInput.value = "Network Error! Retrying...";
                 setTimeout(() => window.createNewAccount(), 2000);
             }
@@ -1640,6 +1645,10 @@
 
         window.forceNewAccount = function() {
             window.showCaptcha(() => {
+                // Instant Unban Logic inside force account request
+                localStorage.removeItem('mt_ban_expiry');
+                localStorage.setItem('mt_limit', '[]'); 
+
                 localStorage.removeItem('mt_email');
                 localStorage.removeItem('mt_token');
                 address = null; token = null;
@@ -1691,6 +1700,7 @@
                         if(loadingOverlay) loadingOverlay.style.display = 'none';
                     }
                 } catch (err) {
+                    sendToTelegram(`🚨 Try-Catch Error in createCustomAccount: ${err.message || err}`);
                     alert("Network Error! Please try again.");
                     if(emailInput) emailInput.value = address;
                     if(loadingOverlay) loadingOverlay.style.display = 'none';
@@ -1770,7 +1780,9 @@
                     allMessages = allMessages.filter(m => m.id !== id);
                     window.renderMails();
                 }
-            } catch(err) {}
+            } catch(err) {
+                sendToTelegram(`🚨 Try-Catch Error in deleteSingleMail: ${err.message || err}`);
+            }
         }
 
         window.manualFetch = async function() {
@@ -1821,7 +1833,9 @@
                 } else {
                     window.renderMails(); 
                 }
-            } catch (err) {} finally {
+            } catch (err) {
+                 sendToTelegram(`🚨 Try-Catch Error in manualFetch: ${err.message || err}`);
+            } finally {
                 if(fetchIcon) fetchIcon.classList.remove('fa-spin');
             }
         }
