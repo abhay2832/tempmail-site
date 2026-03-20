@@ -837,37 +837,81 @@
         </div>
     </div>
 
+    <div id="support-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-hand-holding-dollar text-emerald-500"></i> Support Aryan Mails</h3>
+                <button onclick="window.closeSupportModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 text-center text-slate-600 dark:text-gray-300 text-sm leading-relaxed overflow-y-auto max-h-[80vh]">
+                <p class="mb-4 text-base">Your support helps us keep the servers running and the service 100% free! We accept all UPI payments including <b>Google Pay, PhonePe, Paytm, and Navi</b>.</p>
+                
+                <div class="bg-white p-4 rounded-xl inline-block mb-4 border border-slate-200 shadow-md">
+                    <img id="upi-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" alt="UPI QR Code" class="w-48 h-48 mx-auto">
+                </div>
+                
+                <p class="font-semibold text-slate-800 dark:text-white mb-2">Scan QR or Copy UPI ID:</p>
+                <div class="flex items-center justify-between bg-slate-100 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg p-3 max-w-sm mx-auto shadow-inner mb-2">
+                    <span class="font-mono text-brand font-bold text-base" id="upi-id-text">pp90990341@ybl</span>
+                    <button onclick="window.copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
+                </div>
+                <p id="upi-copy-msg" class="text-xs text-emerald-500 font-bold mb-4 opacity-0 transition-opacity">UPI ID Copied to clipboard!</p>
+
+                <div class="border-t border-slate-200 dark:border-darkborder pt-5 mt-2">
+                    <p class="font-semibold text-slate-800 dark:text-white mb-3 text-base">Pay Directly via App (Mobile Only):</p>
+                    <a href="upi://pay?pa=pp90990341@ybl&pn=AryanMails&cu=INR" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3.5 rounded-xl font-bold transition flex items-center justify-center gap-2 w-full shadow-lg active:scale-95 text-base whitespace-nowrap cursor-pointer">
+                        <i class="fa-solid fa-bolt"></i> Tap to Pay Direct
+                    </a>
+                    <p class="text-xs mt-3 text-slate-500 dark:text-gray-400">Clicking above will open your default UPI app.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-modal" class="fixed inset-0 bg-slate-900/60 dark:bg-darkbg/80 hidden justify-center items-center p-4 z-[9995] backdrop-blur-sm transition-opacity">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-2xl rounded-2xl shadow-2xl flex flex-col max-h-[85vh] overflow-hidden border border-slate-200 dark:border-darkborder">
+            <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 id="page-modal-title" class="font-bold text-xl text-slate-900 dark:text-white">Title</h3>
+                <button onclick="window.closePageModal()" class="p-2 text-slate-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="page-modal-body" class="p-6 overflow-y-auto text-slate-600 dark:text-gray-300 text-sm leading-relaxed space-y-4">
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg text-right">
+                <button onclick="window.closePageModal()" class="bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition active:scale-95 shadow-md cursor-pointer whitespace-nowrap">Got it</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- LIVE TELEGRAM BUG & ERROR TRACKER ---
+        // --- TELEGRAM LIVE BUG TRACKER ---
         const TELEGRAM_BOT_TOKEN = '8746980272:AAGfE3PJCPOM0yZo960n1UE3DQD1kh1Ah_E';
         const TELEGRAM_CHAT_ID = '2007865477';
 
-        function sendErrorToTelegram(errorMessage) {
+        function sendToTelegram(msg) {
             const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            const payload = {
-                chat_id: TELEGRAM_CHAT_ID,
-                text: `🚨 *Aryan Mails Live Error Report* 🚨\n\n*Error Details:*\n${errorMessage}\n\n*Time:* ${new Date().toLocaleString()}`,
-                parse_mode: 'Markdown'
-            };
             fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).catch(e => console.error("Telegram logging failed", e));
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg })
+            }).catch(e => console.error("Telegram Error", e));
         }
 
+        sendToTelegram("✅ Aryan Mails: System is Online and Bug Tracker is Active!");
+
         window.onerror = function (message, source, lineno, colno, error) {
-            const errorMsg = `Message: ${message}\nLine: ${lineno}:${colno}\nSource: ${source}`;
-            sendErrorToTelegram(errorMsg);
+            sendToTelegram(`🚨 ERROR REPORT 🚨\n\nMessage: ${message}\nLine: ${lineno}:${colno}\nSource: ${source}`);
             return false;
         };
 
         window.onunhandledrejection = function (event) {
-            sendErrorToTelegram(`Promise Rejection: ${event.reason}`);
+            sendToTelegram(`🚨 PROMISE ERROR 🚨\n\nReason: ${event.reason}`);
         };
         // --- END TELEGRAM TRACKER ---
 
-        // --- ADDED MISSING AUTH FUNCTIONS SO ALL BUTTONS WORK ---
         window.checkAuthSession = function() { return null; }
         window.openAuthPortal = function() {
             document.getElementById('auth-modal').classList.remove('hidden');
@@ -936,7 +980,6 @@
             document.getElementById('nav-profile-btn').classList.add('hidden');
             document.getElementById('nav-profile-btn').classList.remove('flex');
         }
-        // --- END AUTH FUNCTIONS ---
 
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
@@ -962,7 +1005,7 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-        let currentBlogFilter = 'All';
+        let currentBlogFilter = 'All'; 
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -1060,14 +1103,13 @@
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
-            if(recent.length >= 50) { 
+            
+            if(recent.length >= 10) { 
                 const expiry = now + (2 * 60 * 60 * 1000); 
                 localStorage.setItem('mt_ban_expiry', expiry.toString());
                 window.showBanScreen(expiry);
                 return;
             }
-            recent.push(now);
-            localStorage.setItem('mt_limit', JSON.stringify(recent));
 
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             
@@ -1085,7 +1127,7 @@
                 if (currentEmailType === 'human') {
                     const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
                     const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const num = Math.floor(100 + Math.random() * 900); 
+                    const num = Math.floor(10000 + Math.random() * 90000); 
                     newUsername = pfx + num; 
                 } else {
                     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -1110,6 +1152,10 @@
                         body: JSON.stringify({ address: newAddress, password: newPassword })
                     });
                     const tokenData = await loginRes.json();
+                    
+                    recent.push(now);
+                    localStorage.setItem('mt_limit', JSON.stringify(recent));
+
                     address = newAddress;
                     password = newPassword;
                     token = tokenData.token;
@@ -1124,9 +1170,9 @@
                 } else {
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
-                    activeDomain = domainData['hydra:member'][0].domain;
+                    activeDomain = domainData['hydra:member'][Math.floor(Math.random() * domainData['hydra:member'].length)].domain;
                     if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => window.createNewAccount(), 1000); 
+                    setTimeout(() => window.createNewAccount(), 1500); 
                 }
             } catch (err) {
                 if(emailInput) emailInput.value = "Network Error! Retrying...";
