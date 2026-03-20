@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="p-4 border-t border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-darkbg flex justify-end">
-                <button onclick="acceptTNC()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-lg font-bold transition active:scale-95 shadow-md">Accept & Enter</button>
+                <button onclick="window.acceptTNC()" class="bg-brand hover:brightness-110 text-white px-8 py-3 rounded-lg font-bold transition active:scale-95 shadow-md">Accept & Enter</button>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
         <div class="bg-white dark:bg-darkpanel w-full max-w-md rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200 dark:border-darkborder relative">
             <div class="p-5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
                 <h3 class="font-bold text-xl text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-brand"></i> Secure Portal</h3>
-                <button onclick="closeAuthModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <button onclick="window.closeAuthModal()" class="p-2 text-slate-500 hover:text-red-500 bg-slate-200 dark:bg-darkborder/50 hover:bg-slate-300 dark:hover:bg-darkborder rounded-lg transition cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             
             <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
@@ -113,42 +113,42 @@
                     <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
                     <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Please select an option to continue securely.</p>
                     <div class="space-y-4">
-                        <button onclick="setAuthMode('login')" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg transition active:scale-95 cursor-pointer text-base">Login (Existing User)</button>
-                        <button onclick="setAuthMode('signup')" class="w-full bg-white dark:bg-darkbg border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold py-3.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer text-base">Signup (New User)</button>
+                        <button onclick="window.setAuthMode('login')" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg transition active:scale-95 cursor-pointer text-base">Login (Existing User)</button>
+                        <button onclick="window.setAuthMode('signup')" class="w-full bg-white dark:bg-darkbg border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold py-3.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer text-base">Signup (New User)</button>
                     </div>
                 </div>
 
                 <div id="view-method-select" class="hidden">
-                    <button onclick="switchAuthView('view-auth-init')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button onclick="window.switchAuthView('view-auth-init')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
                     <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Choose Method</h4>
                     <p class="text-xs text-red-500 font-semibold bg-red-50 dark:bg-red-900/20 p-2 rounded-md mb-5 border border-red-200 dark:border-red-800/30 text-left">
                         <i class="fa-solid fa-triangle-exclamation"></i> Email/Password login is completely disabled. OTP Verification is MANDATORY.
                     </p>
                     <div class="space-y-3">
-                        <button onclick="selectMethod('Google')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
-                        <button onclick="selectMethod('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Yahoo</button>
-                        <button onclick="selectMethod('GitHub')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> GitHub</button>
-                        <button onclick="selectMethod('Facebook')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Facebook</button>
+                        <button onclick="window.selectMethod('Google')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
+                        <button onclick="window.selectMethod('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Yahoo</button>
+                        <button onclick="window.selectMethod('GitHub')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> GitHub</button>
+                        <button onclick="window.selectMethod('Facebook')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Facebook</button>
                     </div>
                     <div class="my-4 flex items-center gap-3 before:flex-1 before:border-t before:border-slate-200 dark:before:border-darkborder after:flex-1 after:border-t after:border-slate-200 dark:after:border-darkborder">
                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone Verification</span>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="selectMethod('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
-                        <button onclick="selectMethod('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
+                        <button onclick="window.selectMethod('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
+                        <button onclick="window.selectMethod('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
                     </div>
                 </div>
 
                 <div id="view-google-options" class="hidden text-center">
-                    <button onclick="switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
                     <i class="fa-brands fa-google text-4xl text-blue-500 mb-3"></i>
                     <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Google Verification</h4>
                     <div class="space-y-3">
-                        <button onclick="setupIdentifierInput('Email')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
+                        <button onclick="window.setupIdentifierInput('Email')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
                             <span>Manual Gmail Entry + OTP</span>
                             <span class="text-xs text-slate-500 font-normal">Type your email manually to receive code</span>
                         </button>
-                        <button onclick="startOAuthFlow('Google')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
                             <span>Direct Google Account Login</span>
                             <span class="text-xs text-slate-500 font-normal">Auto-fetch verified Gmail & send OTP</span>
                         </button>
@@ -156,7 +156,7 @@
                 </div>
 
                 <div id="view-input-identifier" class="hidden">
-                    <button onclick="switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Method</button>
+                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Method</button>
                     <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2" id="input-ident-title">Enter Details</h4>
                     <p class="text-xs text-slate-500 dark:text-gray-400 mb-4">We need to send a secure verification code.</p>
                     
@@ -179,14 +179,14 @@
                         <input type="email" id="auth-email-address" placeholder="Enter verified email" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
                     </div>
 
-                    <button onclick="requestSecureOTP()" id="btn-request-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer flex justify-center items-center gap-2">
+                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer flex justify-center items-center gap-2">
                         <span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>
                     </button>
                     <p id="auth-req-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
                 </div>
 
                 <div id="view-otp" class="hidden">
-                    <button onclick="switchAuthView('view-input-identifier')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Contact</button>
+                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Contact</button>
                     <div class="text-center mb-6">
                         <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-shield-check"></i></div>
                         <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Verification Required</h4>
@@ -210,7 +210,7 @@
                         </div>
                     </div>
 
-                    <button onclick="submitOTPVerification()" id="btn-verify-otp" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Verify & Authenticate</button>
+                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Verify & Authenticate</button>
                     <p id="auth-verify-error" class="text-red-500 text-sm font-bold mt-3 hidden text-center border border-red-200 bg-red-50 dark:bg-red-900/20 p-2 rounded"></p>
                 </div>
 
@@ -230,7 +230,7 @@
                             <input type="number" id="reg-age" placeholder="Must be 18+" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
                         </div>
                     </div>
-                    <button onclick="finalizeSignup()" id="btn-finalize-signup" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Create Profile</button>
+                    <button onclick="window.finalizeSignup()" id="btn-finalize-signup" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Create Profile</button>
                     <p id="reg-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
                 </div>
 
@@ -259,7 +259,7 @@
                         </div>
                     </div>
 
-                    <button onclick="triggerLogout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
+                    <button onclick="window.triggerLogout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
                         <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
                 </div>
@@ -280,12 +280,12 @@
             <p class="text-slate-500 dark:text-gray-400 text-sm mb-6 font-medium">Verify you are human to proceed.</p>
             <div class="bg-slate-100 dark:bg-darkbg p-5 rounded-2xl mb-5 text-3xl font-black tracking-widest text-slate-800 dark:text-white border-2 border-slate-200 dark:border-darkborder shadow-inner" id="captcha-question"></div>
             <input type="number" id="captcha-input" placeholder="Your Answer" class="w-full bg-white dark:bg-darkpanel border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-4 text-center text-xl font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand mb-5 transition-colors">
-            <button onclick="verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-4 rounded-xl font-black transition active:scale-95 shadow-lg cursor-pointer text-lg">Verify & Continue</button>
+            <button onclick="window.verifyCaptcha()" class="bg-brand hover:brightness-110 w-full text-white px-6 py-4 rounded-xl font-black transition active:scale-95 shadow-lg cursor-pointer text-lg">Verify & Continue</button>
         </div>
     </div>
 
     <div class="fixed right-0 top-1/2 -translate-y-1/2 z-[60]">
-        <button onclick="showSupportModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-8 rounded-l-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-3 group border-y border-l border-emerald-400 dark:border-emerald-700" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+        <button onclick="window.showSupportModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-8 rounded-l-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-3 group border-y border-l border-emerald-400 dark:border-emerald-700" style="writing-mode: vertical-rl; transform: rotate(180deg);">
             <i class="fa-solid fa-hand-holding-dollar rotate-90 text-2xl group-hover:scale-110 transition-transform"></i>
             <span class="font-black tracking-widest uppercase text-sm">Financial Support</span>
         </button>
@@ -305,24 +305,24 @@
             </div>
             <div class="flex items-center justify-end gap-3 z-10 w-1/3">
                 
-                <button id="nav-login-btn" onclick="openAuthPortal()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                <button id="nav-login-btn" onclick="window.openAuthPortal()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Google Login</span>
                 </button>
                 
-                <button id="nav-profile-btn" onclick="openAuthPortal()" class="hidden items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+                <button id="nav-profile-btn" onclick="window.openAuthPortal()" class="hidden items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
                 </button>
 
-                <button onclick="showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
-                <button onclick="showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
-                <button onclick="changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
+                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
+                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -344,16 +344,16 @@
             <div class="flex flex-col items-center gap-5 relative z-10">
                 <div class="flex flex-wrap justify-center items-center gap-3">
                     <div class="flex items-center bg-slate-100 dark:bg-[#1e293b] rounded-lg p-1 text-sm font-medium border border-slate-200 dark:border-darkborder shadow-sm">
-                        <button id="btn-type-human" onclick="setEmailType('human')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer">
+                        <button id="btn-type-human" onclick="window.setEmailType('human')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-600 text-white shadow-sm transition-all whitespace-nowrap cursor-pointer">
                             <i class="fa-regular fa-user text-xs"></i> Human
                         </button>
-                        <button id="btn-type-random" onclick="setEmailType('robot')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer">
+                        <button id="btn-type-random" onclick="window.setEmailType('robot')" class="flex items-center gap-1.5 px-4 py-1.5 rounded-md text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white transition-all whitespace-nowrap cursor-pointer">
                             Random
                         </button>
                     </div>
 
                     <div class="relative">
-                        <button onclick="toggleDomainDropdown()" class="bg-white dark:bg-[#1e293b] text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-4 py-2 rounded-lg transition font-medium flex items-center gap-2 shadow-sm cursor-pointer text-sm hover:bg-slate-50 dark:hover:bg-darkborder whitespace-nowrap">
+                        <button onclick="window.toggleDomainDropdown()" class="bg-white dark:bg-[#1e293b] text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-4 py-2 rounded-lg transition font-medium flex items-center gap-2 shadow-sm cursor-pointer text-sm hover:bg-slate-50 dark:hover:bg-darkborder whitespace-nowrap">
                             <i class="fa-regular fa-envelope text-blue-500"></i> <span id="domain-btn-text">Domain</span> <i class="fa-solid fa-chevron-down text-xs ml-2 text-slate-400"></i>
                         </button>
                         <div id="domain-dropdown" class="hidden absolute top-full mt-2 w-48 bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-xl shadow-xl z-50 overflow-hidden text-left sm:right-auto right-0 sm:left-1/2 sm:-translate-x-1/2">
@@ -369,13 +369,13 @@
                 </div>
 
                 <div class="flex flex-wrap justify-center items-center gap-3">
-                    <button onclick="copyEmail()" class="bg-[#8ba4f9] hover:bg-[#7390f5] text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-md cursor-pointer whitespace-nowrap">
+                    <button onclick="window.copyEmail()" class="bg-[#8ba4f9] hover:bg-[#7390f5] text-white px-8 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-md cursor-pointer whitespace-nowrap">
                         <i class="fa-regular fa-copy"></i> Copy
                     </button>
-                    <button onclick="forceNewAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-sm cursor-pointer whitespace-nowrap" title="Generate New Email based on selection">
+                    <button onclick="window.forceNewAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 text-[15px] shadow-sm cursor-pointer whitespace-nowrap" title="Generate New Email based on selection">
                         <i class="fa-solid fa-arrows-rotate text-slate-500 dark:text-gray-400"></i> New Email
                     </button>
-                    <button onclick="createCustomAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 shadow-sm cursor-pointer text-[15px] active:scale-95 whitespace-nowrap">
+                    <button onclick="window.createCustomAccount()" class="bg-white dark:bg-darkpanel hover:bg-slate-50 dark:hover:bg-darkborder text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-darkborder px-6 py-3.5 rounded-xl transition font-semibold flex items-center gap-2 shadow-sm cursor-pointer text-[15px] active:scale-95 whitespace-nowrap">
                         <i class="fa-solid fa-pen text-slate-500 dark:text-gray-400"></i> Custom
                     </button>
                 </div>
@@ -397,29 +397,29 @@
                     <span class="text-slate-800 dark:text-white font-bold text-lg tracking-wide">Inbox</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="showPageModal('Report Abuse')" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-sm font-bold whitespace-nowrap">
+                    <button onclick="window.showPageModal('Report Abuse')" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-sm font-bold whitespace-nowrap">
                         <i class="fa-solid fa-triangle-exclamation"></i> Report
                     </button>
-                    <button onclick="clearInboxUI()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-sm font-bold whitespace-nowrap">
+                    <button onclick="window.clearInboxUI()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center gap-1.5 transition shadow-sm active:scale-95 cursor-pointer text-sm font-bold whitespace-nowrap">
                         <i class="fa-solid fa-trash-can"></i> Clear
                     </button>
                 </div>
             </div>
 
             <div class="px-5 py-3 border-b border-slate-200 dark:border-darkborder flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 dark:text-gray-400 bg-white dark:bg-darkpanel transition-colors duration-500 relative z-10">
-                <button id="auto-sync-btn" onclick="toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer">
+                <button id="auto-sync-btn" onclick="window.toggleAutoSync()" class="flex items-center gap-1.5 hover:bg-slate-100 dark:hover:bg-darkborder p-1.5 rounded transition cursor-pointer">
                     <i id="sync-icon" class="fa-solid fa-bolt text-amber-500"></i> <span id="sync-text">Auto-Sync: OFF</span>
                 </button>
                 <div class="flex items-center gap-1.5 text-slate-800 dark:text-white">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span> Live
                 </div>
-                <button onclick="toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
+                <button onclick="window.toggleAudio()" class="flex items-center gap-1.5 hover:text-brand transition ml-2 active:scale-95 cursor-pointer p-1">
                     <i id="notif-icon" class="fa-solid fa-bell text-brand"></i> <span id="notif-text">Sound On</span>
                 </button>
-                <button onclick="fastOtpReset()" class="flex items-center gap-1.5 hover:text-amber-500 transition ml-2 active:scale-95 cursor-pointer p-1 text-slate-600 dark:text-gray-400 font-semibold" title="Fast OTP">
+                <button onclick="window.fastOtpReset()" class="flex items-center gap-1.5 hover:text-amber-500 transition ml-2 active:scale-95 cursor-pointer p-1 text-slate-600 dark:text-gray-400 font-semibold" title="Fast OTP">
                     <i id="fast-bolt-icon" class="fa-solid fa-bolt text-amber-500"></i> <span class="hidden sm:inline">Fast OTP</span>
                 </button>
-                <button onclick="manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer whitespace-nowrap">
+                <button onclick="window.manualFetch()" id="fetch-btn" class="bg-slate-800 dark:bg-darkborder hover:bg-slate-700 dark:hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center gap-2 ml-auto transition shadow-sm active:scale-95 cursor-pointer whitespace-nowrap">
                     <i id="fetch-icon" class="fa-solid fa-envelope-open-text"></i> Fetch Emails
                 </button>
             </div>
@@ -427,7 +427,7 @@
             <div class="px-5 py-2.5 border-b border-slate-200 dark:border-darkborder flex justify-between items-center text-xs font-medium text-slate-500 dark:text-gray-400 bg-slate-50 dark:bg-darkbg transition-colors duration-500">
                 <div class="flex gap-4 items-center">
                     <span class="flex items-center gap-2"><i class="fa-solid fa-filter"></i> All Emails</span>
-                    <select id="sort-mails" onchange="renderMails()" class="bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded px-2 py-1 text-slate-700 dark:text-gray-300 focus:outline-none focus:border-brand cursor-pointer">
+                    <select id="sort-mails" onchange="window.renderMails()" class="bg-white dark:bg-darkpanel border border-slate-300 dark:border-darkborder rounded px-2 py-1 text-slate-700 dark:text-gray-300 focus:outline-none focus:border-brand cursor-pointer">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
                     </select>
@@ -887,6 +887,77 @@
     </div>
 
     <script>
+        // --- MISSING AUTH FUNCTIONS ADDED HERE ---
+        window.checkAuthSession = function() { return null; }
+        window.openAuthPortal = function() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('auth-modal').classList.add('flex');
+            window.switchAuthView('view-auth-init');
+        }
+        window.closeAuthModal = function() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.remove('flex');
+        }
+        window.switchAuthView = function(viewId) {
+            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
+                    else { el.classList.add('hidden'); el.classList.remove('block'); }
+                }
+            });
+        }
+        window.setAuthMode = function(mode) { window.switchAuthView('view-method-select'); }
+        window.selectMethod = function(method) { 
+            if(method === 'Google') window.switchAuthView('view-google-options');
+            else window.switchAuthView('view-input-identifier');
+        }
+        window.setupIdentifierInput = function(type) {
+            window.switchAuthView('view-input-identifier');
+            if(type === 'Email') {
+                document.getElementById('phone-input-group').classList.add('hidden');
+                document.getElementById('email-input-group').classList.remove('hidden');
+            } else {
+                document.getElementById('phone-input-group').classList.remove('hidden');
+                document.getElementById('email-input-group').classList.add('hidden');
+            }
+        }
+        window.startOAuthFlow = function(provider) {
+            alert("Connecting to " + provider + " Secure Gateway...");
+            window.switchAuthView('view-otp');
+        }
+        window.requestSecureOTP = function() {
+            document.getElementById('btn-request-otp').innerText = "Processing...";
+            setTimeout(() => {
+                document.getElementById('btn-request-otp').innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
+                window.switchAuthView('view-otp');
+            }, 1000);
+        }
+        window.submitOTPVerification = function() {
+            document.getElementById('btn-verify-otp').innerText = "Verifying...";
+            setTimeout(() => {
+                document.getElementById('btn-verify-otp').innerText = "Verify & Authenticate";
+                window.switchAuthView('view-register-details');
+            }, 1000);
+        }
+        window.finalizeSignup = function() {
+            document.getElementById('btn-finalize-signup').innerText = "Creating...";
+            setTimeout(() => {
+                document.getElementById('btn-finalize-signup').innerText = "Create Profile";
+                window.switchAuthView('view-profile');
+                document.getElementById('nav-login-btn').classList.add('hidden');
+                document.getElementById('nav-profile-btn').classList.remove('hidden');
+                document.getElementById('nav-profile-btn').classList.add('flex');
+            }, 1000);
+        }
+        window.triggerLogout = function() {
+            window.closeAuthModal();
+            document.getElementById('nav-login-btn').classList.remove('hidden');
+            document.getElementById('nav-profile-btn').classList.add('hidden');
+            document.getElementById('nav-profile-btn').classList.remove('flex');
+        }
+        // --- END AUTH FUNCTIONS ---
+
         const API = 'https://api.mail.gw';
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
@@ -911,7 +982,9 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-        let currentBlogFilter = 'All'; // FIX 3: ADDED THIS VARIABLE
+        
+        // --- MISSING BLOG VARIABLE ADDED ---
+        let currentBlogFilter = 'All'; 
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -1083,7 +1156,7 @@
             }
         }
 
-        // FIX 1: MISSING SHOWCAPTCHA FUNCTION ADDED HERE
+        // --- MISSING SHOWCAPTCHA FUNCTION ADDED HERE ---
         window.showCaptcha = function(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
@@ -1536,7 +1609,7 @@
             document.getElementById('support-modal').classList.remove('flex');
         }
 
-        // FIX: ADD MISSING BUTTON FUNCTIONS
+        // --- FIXED: ADD MISSING BUTTON FUNCTIONS ---
         window.copyEmail = function() {
             if(emailInput) { emailInput.select(); document.execCommand('copy'); }
             const msg = document.getElementById('copy-msg');
@@ -1677,6 +1750,7 @@
                 }
             } catch(err) {}
         }
+        // --- END OF MISSING FUNCTIONS ---
 
         window.manualFetch = async function() {
             if(!token) return;
@@ -1776,7 +1850,7 @@
                 window.manualFetch();
                 window.startEmailTimer(300); 
             } else {
-                window.createNewAccount();
+                window.createNewAccount(); // Ensures a new account is created if none exists
             }
 
             setInterval(() => {
@@ -1800,7 +1874,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             if(!window.checkTNC()) return; 
             window.initializeAppWithIPCheck();
-            window.checkAuthSession(); 
+            window.checkAuthSession();
             
             document.querySelectorAll('.faq-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
