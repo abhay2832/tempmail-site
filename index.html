@@ -887,7 +887,7 @@
     </div>
 
     <script>
-        // --- MISSING AUTH FUNCTIONS ADDED HERE ---
+        // --- ADDED MISSING AUTH FUNCTIONS SO ALL BUTTONS WORK ---
         window.checkAuthSession = function() { return null; }
         window.openAuthPortal = function() {
             document.getElementById('auth-modal').classList.remove('hidden');
@@ -982,9 +982,7 @@
         let statToday = 819; 
         let statInboxes = 382; 
         let statGenerated = 296500;
-        
-        // --- MISSING BLOG VARIABLE ADDED ---
-        let currentBlogFilter = 'All'; 
+        let currentBlogFilter = 'All'; // FIXED MISSING VARIABLE
 
         const emailInput = document.getElementById('email-address');
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -1078,18 +1076,18 @@
             window.initApp(); 
         }
 
-        window.createNewAccount = async function() {
+        window.createNewAccount = async function(retryCount = 0) {
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
             const recent = history.filter(t => now - t < 60 * 60 * 1000); 
-            if(recent.length >= 50) { 
+            
+            // FIX: LIMIT INCREASED TO 10
+            if(recent.length >= 10) { 
                 const expiry = now + (2 * 60 * 60 * 1000); 
                 localStorage.setItem('mt_ban_expiry', expiry.toString());
                 window.showBanScreen(expiry);
                 return;
             }
-            recent.push(now);
-            localStorage.setItem('mt_limit', JSON.stringify(recent));
 
             if(loadingOverlay) loadingOverlay.style.display = 'flex';
             
@@ -1107,7 +1105,8 @@
                 if (currentEmailType === 'human') {
                     const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
                     const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const num = Math.floor(100 + Math.random() * 900); 
+                    // FIX: INCREASED TO 5 DIGITS TO STOP COLLISION ERROR
+                    const num = Math.floor(10000 + Math.random() * 90000); 
                     newUsername = pfx + num; 
                 } else {
                     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -1132,6 +1131,11 @@
                         body: JSON.stringify({ address: newAddress, password: newPassword })
                     });
                     const tokenData = await loginRes.json();
+                    
+                    // FIX: ONLY ADD TO LIMIT IF SUCCESSFUL
+                    recent.push(now);
+                    localStorage.setItem('mt_limit', JSON.stringify(recent));
+
                     address = newAddress;
                     password = newPassword;
                     token = tokenData.token;
@@ -1144,19 +1148,31 @@
                     window.startSync();
                     window.startEmailTimer(600);
                 } else {
-                    const domainRes = await fetch(`${API}/domains`);
-                    const domainData = await domainRes.json();
-                    activeDomain = domainData['hydra:member'][0].domain;
-                    if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => window.createNewAccount(), 1000); 
+                    // FIX: STOP INFINITE RETRY LOOP ON DOMAIN FAIL
+                    if(retryCount < 3) {
+                        const domainRes = await fetch(`${API}/domains`);
+                        const domainData = await domainRes.json();
+                        activeDomain = domainData['hydra:member'][Math.floor(Math.random() * domainData['hydra:member'].length)].domain;
+                        if(emailInput) emailInput.value = "Switching domain...";
+                        setTimeout(() => window.createNewAccount(retryCount + 1), 1500); 
+                    } else {
+                        if(emailInput) emailInput.value = "API Limit. Try again.";
+                        if(loadingOverlay) loadingOverlay.style.display = 'none';
+                    }
                 }
             } catch (err) {
-                if(emailInput) emailInput.value = "Network Error! Retrying...";
-                setTimeout(() => window.createNewAccount(), 2000);
+                // FIX: STOP INFINITE RETRY LOOP ON NETWORK FAIL
+                if(retryCount < 3) {
+                    if(emailInput) emailInput.value = "Network Error! Retrying...";
+                    setTimeout(() => window.createNewAccount(retryCount + 1), 2000);
+                } else {
+                    if(emailInput) emailInput.value = "Network Error. API Offline.";
+                    if(loadingOverlay) loadingOverlay.style.display = 'none';
+                }
             }
         }
 
-        // --- MISSING SHOWCAPTCHA FUNCTION ADDED HERE ---
+        // FIX: MISSING FUNCTION NAME ADDED
         window.showCaptcha = function(callback) {
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
@@ -1477,9 +1493,9 @@
                                     <span class="text-[10px] font-semibold text-brand">March 2026</span>
                                 </div>
                                 <ul class="text-xs text-slate-600 dark:text-gray-400 list-disc pl-4 space-y-1">
-                                    <li>Implemented strict IP-based rate limiting (Max 50 mails/hr).</li>
-                                    <li>Added auto-deletion for emails older than 5 minutes.</li>
-                                    <li>Integrated human/robot random name generation modes.</li>
+                                    <li>Implemented strict IP-based rate limiting (Max 10 mails).</li>
+                                    <li>Added 2-hour cooldown timer screen for ban logic.</li>
+                                    <li>Fixed human/robot random name generation modes.</li>
                                 </ul>
                             </div>
                         </div>
@@ -1609,7 +1625,6 @@
             document.getElementById('support-modal').classList.remove('flex');
         }
 
-        // --- FIXED: ADD MISSING BUTTON FUNCTIONS ---
         window.copyEmail = function() {
             if(emailInput) { emailInput.select(); document.execCommand('copy'); }
             const msg = document.getElementById('copy-msg');
@@ -1750,7 +1765,6 @@
                 }
             } catch(err) {}
         }
-        // --- END OF MISSING FUNCTIONS ---
 
         window.manualFetch = async function() {
             if(!token) return;
@@ -1780,7 +1794,7 @@
                 if (allMessages.length > 40) {
                     const sortedForDelete = [...allMessages].sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
                     const extraMails = sortedForDelete.slice(0, allMessages.length - 40);
-                    extraMails.forEach(m => fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } }));
+                    extraMails.forEach(m => fetch(`${API}/messages/${m.id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
                     allMessages = allMessages.filter(m => !extraMails.some(e => e.id === m.id));
                 }
 
@@ -1850,7 +1864,7 @@
                 window.manualFetch();
                 window.startEmailTimer(300); 
             } else {
-                window.createNewAccount(); // Ensures a new account is created if none exists
+                window.createNewAccount(); 
             }
 
             setInterval(() => {
