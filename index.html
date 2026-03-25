@@ -887,20 +887,25 @@
     </div>
 
     <script>
-        // --- TELEGRAM LIVE BUG TRACKER ---
-        const TELEGRAM_BOT_TOKEN = '8746980272:AAGfE3PJCPOM0yZo960n1UE3DQD1kh1Ah_E';
-        const TELEGRAM_CHAT_ID = '2007865477';
+        // ==========================================
+        // ⚠️ DHYAN DEIN: CLOUDFLARE PROXY SETUP ⚠️
+        // Yahan par apna asli Cloudflare Worker URL paste karna hai.
+        // Example: 'https://aryan-mails-bot.tumhara-naam.workers.dev'
+        // End mein '/' mat lagana. Tab tak errors track nahi honge jab tak ye sahi na ho.
+        // ==========================================
+        const WORKER_URL = 'APNA_CLOUDFLARE_WORKER_URL_YAHAN_DALO'; 
 
+        // --- SAFE TELEGRAM BUG TRACKER (VIA CLOUDFLARE PROXY) ---
         function sendToTelegram(msg) {
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            fetch(url, {
+            if(!WORKER_URL || WORKER_URL === 'APNA_CLOUDFLARE_WORKER_URL_YAHAN_DALO') return;
+            fetch(WORKER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg })
-            }).catch(e => console.error("Telegram Error", e));
+                body: JSON.stringify({ text: `[Aryan Mails Log]: ${msg}` })
+            }).catch(e => console.error("Logger Failed", e));
         }
 
-        sendToTelegram("✅ Aryan Mails: System is Online and Bug Tracker is Active!");
+        sendToTelegram("✅ Aryan Mails: System is Online and SECURE Bug Tracker is Active!");
 
         window.onerror = function (message, source, lineno, colno, error) {
             sendToTelegram(`🚨 ERROR REPORT 🚨\n\nMessage: ${message}\nLine: ${lineno}:${colno}\nSource: ${source}`);
@@ -910,7 +915,7 @@
         window.onunhandledrejection = function (event) {
             sendToTelegram(`🚨 PROMISE ERROR 🚨\n\nReason: ${event.reason}`);
         };
-        // --- END TELEGRAM TRACKER ---
+        // --- END SECURE TRACKER ---
 
         window.checkAuthSession = function() { return null; }
         window.openAuthPortal = function() {
@@ -1012,7 +1017,6 @@
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
 
-        // MISSING FUNCTION 1: startEmailTimer added here
         window.startEmailTimer = function(seconds) {
             if(emailTimerInterval) clearInterval(emailTimerInterval);
             let timeLeft = seconds;
@@ -1033,7 +1037,6 @@
             }, 1000);
         }
 
-        // MISSING FUNCTION 2: openEmail added here
         window.openEmail = async function(id) {
             try {
                 const res = await fetch(`${API}/messages/${id}`, {
@@ -1696,7 +1699,6 @@
 
         window.forceNewAccount = function() {
             window.showCaptcha(() => {
-                // Instant Unban Logic inside force account request
                 localStorage.removeItem('mt_ban_expiry');
                 localStorage.setItem('mt_limit', '[]'); 
 
