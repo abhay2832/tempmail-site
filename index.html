@@ -981,7 +981,7 @@
             document.getElementById('nav-profile-btn').classList.remove('flex');
         }
 
-        const API = 'https://api.mail.tm'; // Changed to api.mail.tm
+        const API = 'https://api.mail.tm'; 
         let token = localStorage.getItem('mt_token');
         let address = localStorage.getItem('mt_email');
         
@@ -1011,6 +1011,59 @@
         const loadingOverlay = document.getElementById('loading-overlay');
         const inboxContent = document.getElementById('inbox-content');
         const totalEmails = document.getElementById('total-emails');
+
+        // MISSING FUNCTION 1: startEmailTimer added here
+        window.startEmailTimer = function(seconds) {
+            if(emailTimerInterval) clearInterval(emailTimerInterval);
+            let timeLeft = seconds;
+            const timerEl = document.getElementById('countdown-timer');
+            if(!timerEl) return;
+
+            emailTimerInterval = setInterval(() => {
+                if(timeLeft <= 0) {
+                    clearInterval(emailTimerInterval);
+                    timerEl.innerText = "00:00";
+                    window.forceNewAccount(); 
+                } else {
+                    let m = Math.floor(timeLeft / 60);
+                    let s = Math.floor(timeLeft % 60);
+                    timerEl.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        // MISSING FUNCTION 2: openEmail added here
+        window.openEmail = async function(id) {
+            try {
+                const res = await fetch(`${API}/messages/${id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Failed to fetch email data");
+                const mailData = await res.json();
+                
+                document.getElementById('modal-subject').innerText = mailData.subject || "No Subject";
+                document.getElementById('modal-from').innerText = mailData.from.address || "Unknown Sender";
+                
+                const iframe = document.getElementById('modal-body-iframe');
+                const content = mailData.html ? mailData.html[0] : (mailData.text ? `<pre>${mailData.text}</pre>` : "No content available");
+                iframe.srcdoc = content;
+                
+                const modal = document.getElementById('email-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } catch (err) {
+                sendToTelegram(`🚨 Try-Catch Error in openEmail: ${err.message || err}`);
+                alert("Could not open this email.");
+            }
+        }
+
+        window.closeModal = function() {
+            const modal = document.getElementById('email-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('modal-body-iframe').srcdoc = ""; 
+        }
 
         window.checkCookies = function() {
             if (!localStorage.getItem('cookie_accepted')) {
@@ -1153,7 +1206,6 @@
                     });
                     
                     if (loginRes.ok) {
-                        // Success Logic moved inside ok block
                         recent.push(now);
                         localStorage.setItem('mt_limit', JSON.stringify(recent));
 
@@ -1178,7 +1230,6 @@
                     setTimeout(() => window.createNewAccount(), 1500); 
                 }
             } catch (err) {
-                // Telegram Error Logging directly in catch
                 sendToTelegram(`🚨 Try-Catch Error in createNewAccount: ${err.message || err}`);
                 if(emailInput) emailInput.value = "Network Error! Retrying...";
                 setTimeout(() => window.createNewAccount(), 2000);
