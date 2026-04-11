@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -110,44 +109,47 @@
             <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
                 
                 <div id="view-auth-init" class="block text-center">
-                    <div class="w-16 h-16 bg-white dark:bg-darkbg border border-slate-200 dark:border-darkborder text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm"><i class="fa-brands fa-google text-blue-500"></i></div>
+                    <div class="w-16 h-16 bg-brandbg text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-brands fa-google"></i></div>
                     <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
-                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Continue with Google for instant secure access.</p>
+                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Please login securely with Google to continue.</p>
                     <div class="space-y-4">
-                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border-2 border-slate-200 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google
-                        </button>
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google</button>
                     </div>
                 </div>
 
                 <div id="view-profile" class="hidden">
                     <div class="bg-gradient-to-r from-brand to-blue-600 rounded-3xl p-8 text-white text-center relative shadow-xl mb-6 overflow-hidden">
                         <div class="absolute -right-4 -top-4 opacity-20 text-8xl"><i class="fa-solid fa-shield-halved"></i></div>
-                        <div class="w-24 h-24 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-4xl font-black shadow-lg mb-4 relative z-10" id="profile-initial">G</div>
+                        <div class="w-24 h-24 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-4xl font-black shadow-lg mb-4 relative z-10" id="profile-initial">A</div>
                         <h4 class="text-3xl font-black mb-1 relative z-10 tracking-tight" id="profile-name">Google User</h4>
                         <div class="inline-flex items-center justify-center gap-1.5 bg-slate-900/30 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm relative z-10 border border-white/20 mt-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Free Plan</span>
+                            <span class="w-2.5 h-2.5 rounded-full" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Free Plan</span>
                         </div>
                     </div>
 
                     <div class="space-y-4 mb-8 bg-slate-50 dark:bg-[#0f1525] p-5 rounded-2xl border border-slate-200 dark:border-darkborder text-sm shadow-inner">
                         <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
                             <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Verified ID</span>
-                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">Verified via Google</span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">Google Verified</span>
                         </div>
                         <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
                             <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Auth Protocol</span>
-                            <span class="text-sm font-bold text-brand bg-brandbg px-3 py-1 rounded-lg flex items-center gap-1" id="profile-method"><i class="fa-brands fa-google text-blue-500"></i> Google OAuth</span>
+                            <span class="text-sm font-bold text-brand bg-brandbg px-3 py-1 rounded-lg" id="profile-method">Google OAuth</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Profile Status</span>
-                            <span class="text-sm font-bold text-emerald-500" id="profile-age">Active</span>
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Profile Age</span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-age">Active</span>
                         </div>
                     </div>
 
                     <button onclick="window.triggerLogout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
                         <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
+                </div>
+
+                <div id="view-status" class="hidden flex-col items-center justify-center py-10">
+                    <i id="status-icon" class="fa-solid fa-circle-notch fa-spin text-5xl text-brand mb-4"></i>
+                    <p id="status-text" class="font-bold text-lg text-slate-800 dark:text-white text-center leading-relaxed">Processing...</p>
                 </div>
 
             </div>
@@ -770,6 +772,9 @@
     <script>
         // ==========================================
         // ⚠️ DHYAN DEIN: CLOUDFLARE PROXY SETUP ⚠️
+        // Yahan par apna asli Cloudflare Worker URL paste karna hai.
+        // Example: 'https://aryan-mails-bot.tumhara-naam.workers.dev'
+        // End mein '/' mat lagana. Tab tak errors track nahi honge jab tak ye sahi na ho.
         // ==========================================
         const WORKER_URL = 'APNA_CLOUDFLARE_WORKER_URL_YAHAN_DALO'; 
 
@@ -796,18 +801,15 @@
         // --- END SECURE TRACKER ---
 
         window.checkAuthSession = function() { return null; }
-        
         window.openAuthPortal = function() {
             document.getElementById('auth-modal').classList.remove('hidden');
             document.getElementById('auth-modal').classList.add('flex');
             window.switchAuthView('view-auth-init');
         }
-        
         window.closeAuthModal = function() {
             document.getElementById('auth-modal').classList.add('hidden');
             document.getElementById('auth-modal').classList.remove('flex');
         }
-        
         window.switchAuthView = function(viewId) {
             ['view-auth-init', 'view-profile'].forEach(id => {
                 const el = document.getElementById(id);
@@ -817,21 +819,14 @@
                 }
             });
         }
-        
+
         window.startOAuthFlow = function(provider) {
-            const btn = document.querySelector('#view-auth-init button');
-            if(btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting to Google...';
-            
-            // Simulating Google OAuth Login
-            setTimeout(() => {
-                window.switchAuthView('view-profile');
-                document.getElementById('nav-login-btn').classList.add('hidden');
-                document.getElementById('nav-profile-btn').classList.remove('hidden');
-                document.getElementById('nav-profile-btn').classList.add('flex');
-                if(btn) btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google';
-            }, 1500);
+            window.switchAuthView('view-profile');
+            document.getElementById('nav-login-btn').classList.add('hidden');
+            document.getElementById('nav-profile-btn').classList.remove('hidden');
+            document.getElementById('nav-profile-btn').classList.add('flex');
         }
-        
+
         window.triggerLogout = function() {
             window.closeAuthModal();
             document.getElementById('nav-login-btn').classList.remove('hidden');
@@ -1093,6 +1088,10 @@
         }
 
         window.showCaptcha = function(callback) {
+            if(localStorage.getItem('captcha_passed') === 'true') {
+                if(callback) callback();
+                return;
+            }
             const num1 = Math.floor(Math.random() * 10) + 1;
             const num2 = Math.floor(Math.random() * 10) + 1;
             captchaAnswer = num1 + num2;
@@ -1111,6 +1110,7 @@
                 document.getElementById('captcha-modal').classList.remove('flex');
                 
                 localStorage.setItem('last_captcha_time', Date.now().toString());
+                localStorage.setItem('captcha_passed', 'true');
                 
                 if(captchaSuccessCallback) captchaSuccessCallback();
             } else {
@@ -1158,18 +1158,17 @@
             alert("New API Key Generated Successfully!");
         }
 
-        // Expanded 10 Blog Articles
         const blogArticles = [
             { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2026', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2026, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
             { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '12/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
             { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '18/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with proven strategies.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
             { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '25/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' },
-            { id: 'article5', category: 'Email Security', title: 'Avoid Phishing Scams', readTime: '8 min read', date: '02/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1614064641913-a520faff8077?auto=format&fit=crop&w=1000&q=80', excerpt: 'How temporary emails block malicious phishing links.', content: '<p class="mb-4">Phishing relies on getting malicious links into your primary inbox. By isolating unknown services to a temporary email, you guarantee that even if a service is compromised and sends out phishing links, those links self-destruct in our system before they ever reach your real eyes.</p>' },
-            { id: 'article6', category: 'Privacy', title: 'Anonymous Browsing Guide', readTime: '15 min read', date: '10/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1000&q=80', excerpt: 'Combine temp emails with Tor and VPNs for ultimate stealth.', content: '<p class="mb-4">True anonymity requires layers. A VPN hides your IP, Tor hides your network path, and a Temp Mail hides your digital identity. Mastering the combination of these three tools makes you virtually untrackable by modern advertising algorithms.</p>' },
-            { id: 'article7', category: 'Email Tips', title: 'Safe Signups on Forums', readTime: '9 min read', date: '20/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why forums are the biggest source of inbox spam.', content: '<p class="mb-4">Public forums and message boards are frequently scraped by bots looking for fresh email addresses. Using a temporary email for forum registration ensures that when the forum inevitably gets scraped, it’s not your personal email ending up on a spammer’s list.</p>' },
-            { id: 'article8', category: 'Industry Trends', title: 'AI and Spam Filtering', readTime: '14 min read', date: '05/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1000&q=80', excerpt: 'How Artificial Intelligence is changing the war on spam.', content: '<p class="mb-4">AI is a double-edged sword. Spammers use it to generate highly convincing phishing emails, while providers use it to filter them out. Temporary emails bypass this arms race completely by simply not existing long enough to be targeted by advanced AI spam campaigns.</p>' },
-            { id: 'article9', category: 'Privacy', title: 'Escaping Data Brokers', readTime: '11 min read', date: '15/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80', excerpt: 'How data brokers use your email as a primary key.', content: '<p class="mb-4">Data brokers tie your purchases, browsing history, and location data together using your email address as the universal "primary key." Every time you use a unique temporary email, you break that chain, making it impossible for brokers to build a complete profile of you.</p>' },
-            { id: 'article10', category: 'Email Security', title: 'Protect Your Identity', readTime: '12 min read', date: '22/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1510511459019-5efa7ae17387?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why your email is more important than your phone number.', content: '<p class="mb-4">Your email address is the master key to your digital life. It controls password resets for your bank, social media, and more. Exposing it unnecessarily is dangerous. Utilizing temporary emails for everything non-essential is the best way to safeguard your digital identity.</p>' }
+            { id: 'article5', category: 'Privacy', title: 'Avoid Tracking Pixels', readTime: '8 min read', date: '05/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Understand and block hidden tracking pixels in emails.', content: '<p class="mb-4">Marketers use invisible 1x1 pixels to know when you open an email. Temp mails typically block these external images, preventing senders from knowing your IP address and read habits.</p>' },
+            { id: 'article6', category: 'Email Tips', title: 'Safe Online Shopping', readTime: '10 min read', date: '15/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Use disposable emails to get discount codes safely.', content: '<p class="mb-4">Want that 10% off coupon but don’t want daily newsletters? Use a temporary email. Get the code, make your purchase, and never deal with the marketing spam again.</p>' },
+            { id: 'article7', category: 'Email Security', title: 'Phishing Defense 101', readTime: '12 min read', date: '28/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'How disposable emails protect you from phishing.', content: '<p class="mb-4">Phishing attacks rely on targeting your main inbox. By isolating unknown services to a temporary address, you ensure that malicious links never reach your primary digital workspace.</p>' },
+            { id: 'article8', category: 'Privacy', title: 'Data Breaches Explained', readTime: '14 min read', date: '10/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'What happens when a company loses your email?', content: '<p class="mb-4">When a database leaks, your email goes onto the dark web. If you used a temp mail, the leaked data is worthless because the address no longer exists.</p>' },
+            { id: 'article9', category: 'Industry Trends', title: 'API Integration for Testing', readTime: '9 min read', date: '20/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'How developers use temp mails for QA testing.', content: '<p class="mb-4">Developers rely on temporary email APIs to automate user registration testing. It provides a clean, unlimited source of unique addresses without cluttering permanent servers.</p>' },
+            { id: 'article10', category: 'Email Tips', title: 'Organizing Your Digital Life', readTime: '11 min read', date: '01/04/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Strategies for a zero-inbox lifestyle.', content: '<p class="mb-4">Combine a strict permanent email policy with aggressive temp mail usage for signups. This simple split is the easiest way to achieve and maintain inbox zero.</p>' }
         ];
 
         window.renderBlogContent = function() {
