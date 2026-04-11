@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -109,164 +110,44 @@
             <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
                 
                 <div id="view-auth-init" class="block text-center">
-                    <div class="w-16 h-16 bg-brandbg text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-solid fa-lock"></i></div>
+                    <div class="w-16 h-16 bg-white dark:bg-darkbg border border-slate-200 dark:border-darkborder text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm"><i class="fa-brands fa-google text-blue-500"></i></div>
                     <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
-                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Please select an option to continue securely.</p>
+                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Continue with Google for instant secure access.</p>
                     <div class="space-y-4">
-                        <button onclick="window.setAuthMode('login')" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl shadow-lg transition active:scale-95 cursor-pointer text-base">Login (Existing User)</button>
-                        <button onclick="window.setAuthMode('signup')" class="w-full bg-white dark:bg-darkbg border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold py-3.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer text-base">Signup (New User)</button>
-                    </div>
-                </div>
-
-                <div id="view-method-select" class="hidden">
-                    <button onclick="window.switchAuthView('view-auth-init')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Choose Method</h4>
-                    <p class="text-xs text-red-500 font-semibold bg-red-50 dark:bg-red-900/20 p-2 rounded-md mb-5 border border-red-200 dark:border-red-800/30 text-left">
-                        <i class="fa-solid fa-triangle-exclamation"></i> Email/Password login is completely disabled. OTP Verification is MANDATORY.
-                    </p>
-                    <div class="space-y-3">
-                        <button onclick="window.selectMethod('Google')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Google</button>
-                        <button onclick="window.selectMethod('Yahoo')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-yahoo text-purple-600 text-xl"></i> Yahoo</button>
-                        <button onclick="window.selectMethod('GitHub')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-github text-slate-900 dark:text-white text-xl"></i> GitHub</button>
-                        <button onclick="window.selectMethod('Facebook')" class="w-full flex items-center justify-center gap-3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i> Facebook</button>
-                    </div>
-                    <div class="my-4 flex items-center gap-3 before:flex-1 before:border-t before:border-slate-200 dark:before:border-darkborder after:flex-1 after:border-t after:border-slate-200 dark:after:border-darkborder">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone Verification</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="window.selectMethod('Mobile')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-solid fa-mobile-screen text-slate-600 dark:text-gray-400 text-2xl"></i> Mobile OTP</button>
-                        <button onclick="window.selectMethod('WhatsApp')" class="flex flex-col items-center justify-center gap-2 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-emerald-500 text-2xl"></i> WhatsApp OTP</button>
-                    </div>
-                </div>
-
-                <div id="view-google-options" class="hidden text-center">
-                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                    <i class="fa-brands fa-google text-4xl text-blue-500 mb-3"></i>
-                    <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Google Verification</h4>
-                    <div class="space-y-3">
-                        <button onclick="window.setupIdentifierInput('Email')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
-                            <span>Manual Gmail Entry + OTP</span>
-                            <span class="text-xs text-slate-500 font-normal">Type your email manually to receive code</span>
-                        </button>
-                        <button onclick="window.startOAuthFlow('Google')" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-800 dark:text-white font-bold py-4 rounded-xl hover:border-brand transition shadow-sm cursor-pointer flex flex-col items-center gap-1">
-                            <span>Direct Google Account Login</span>
-                            <span class="text-xs text-slate-500 font-normal">Auto-fetch verified Gmail & send OTP</span>
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border-2 border-slate-200 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google
                         </button>
                     </div>
-                </div>
-
-                <div id="view-input-identifier" class="hidden">
-                    <button onclick="window.switchAuthView('view-method-select')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Method</button>
-                    <h4 class="text-lg font-bold text-slate-900 dark:text-white mb-2" id="input-ident-title">Enter Details</h4>
-                    <p class="text-xs text-slate-500 dark:text-gray-400 mb-4">We need to send a secure verification code.</p>
-                    
-                    <div id="phone-input-group" class="hidden mb-4">
-                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Country Code & Number</label>
-                        <div class="flex gap-2">
-                            <select id="auth-country-code" class="bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-2 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium w-1/3">
-                                <option value="+91">🇮🇳 +91</option>
-                                <option value="+1">🇺🇸 +1</option>
-                                <option value="+44">🇬🇧 +44</option>
-                                <option value="+61">🇦🇺 +61</option>
-                                <option value="+971">🇦🇪 +971</option>
-                            </select>
-                            <input type="number" id="auth-phone-number" placeholder="Mobile Number" class="w-2/3 bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
-                        </div>
-                    </div>
-
-                    <div id="email-input-group" class="hidden mb-4">
-                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Email Address</label>
-                        <input type="email" id="auth-email-address" placeholder="Enter verified email" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
-                    </div>
-
-                    <button onclick="window.requestSecureOTP()" id="btn-request-otp" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer flex justify-center items-center gap-2">
-                        <span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                    <p id="auth-req-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
-                </div>
-
-                <div id="view-otp" class="hidden">
-                    <button onclick="window.switchAuthView('view-input-identifier')" class="text-xs font-bold text-brand mb-4 flex items-center gap-1 hover:underline cursor-pointer"><i class="fa-solid fa-arrow-left"></i> Change Contact</button>
-                    <div class="text-center mb-6">
-                        <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-shield-check"></i></div>
-                        <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-1">Verification Required</h4>
-                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium" id="otp-sent-to-text">Sent to ...</p>
-                    </div>
-
-                    <div id="single-otp-group" class="mb-4">
-                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1 text-center">Enter Verification Code</label>
-                        <input type="number" id="auth-otp-1" placeholder="XXXXXX" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-3 text-center tracking-[0.5em] text-2xl font-black text-slate-800 dark:text-white focus:outline-none focus:border-brand transition-colors">
-                    </div>
-
-                    <div id="dual-otp-group" class="hidden mb-4 space-y-4">
-                        <p class="text-xs text-amber-600 font-bold bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg border border-amber-200 dark:border-amber-800/30 text-center"><i class="fa-solid fa-lock"></i> WhatsApp Dual Verification Active.<br>Both codes are strictly required.</p>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">1. SMS OTP</label>
-                            <input type="number" id="auth-otp-sms" placeholder="SMS Code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-slate-300 dark:border-darkborder rounded-xl px-4 py-2.5 text-center tracking-widest text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-brand">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">2. WhatsApp OTP</label>
-                            <input type="number" id="auth-otp-wa" placeholder="WhatsApp Code" class="w-full bg-slate-50 dark:bg-darkbg border-2 border-emerald-300 dark:border-emerald-800 rounded-xl px-4 py-2.5 text-center tracking-widest text-lg font-bold text-slate-800 dark:text-white focus:outline-none focus:border-emerald-500">
-                        </div>
-                    </div>
-
-                    <button onclick="window.submitOTPVerification()" id="btn-verify-otp" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Verify & Authenticate</button>
-                    <p id="auth-verify-error" class="text-red-500 text-sm font-bold mt-3 hidden text-center border border-red-200 bg-red-50 dark:bg-red-900/20 p-2 rounded"></p>
-                </div>
-
-                <div id="view-register-details" class="hidden">
-                    <div class="text-center mb-5">
-                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner"><i class="fa-solid fa-user-plus"></i></div>
-                        <h4 class="text-xl font-bold text-slate-900 dark:text-white">Contact Verified</h4>
-                        <p class="text-xs text-slate-500 dark:text-gray-400">Complete your profile to finalize signup.</p>
-                    </div>
-                    <div class="space-y-4 mb-6">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Full Name</label>
-                            <input type="text" id="reg-fullname" placeholder="E.g. Rahul Sharma" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-300 mb-1">Age</label>
-                            <input type="number" id="reg-age" placeholder="Must be 18+" class="w-full bg-slate-50 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg px-4 py-3 text-slate-800 dark:text-white focus:outline-none focus:border-brand font-medium">
-                        </div>
-                    </div>
-                    <button onclick="window.finalizeSignup()" id="btn-finalize-signup" class="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition active:scale-95 shadow-md cursor-pointer">Create Profile</button>
-                    <p id="reg-error" class="text-red-500 text-xs font-bold mt-2 hidden text-center"></p>
                 </div>
 
                 <div id="view-profile" class="hidden">
                     <div class="bg-gradient-to-r from-brand to-blue-600 rounded-3xl p-8 text-white text-center relative shadow-xl mb-6 overflow-hidden">
                         <div class="absolute -right-4 -top-4 opacity-20 text-8xl"><i class="fa-solid fa-shield-halved"></i></div>
-                        <div class="w-24 h-24 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-4xl font-black shadow-lg mb-4 relative z-10" id="profile-initial">A</div>
-                        <h4 class="text-3xl font-black mb-1 relative z-10 tracking-tight" id="profile-name">User Name</h4>
+                        <div class="w-24 h-24 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-4xl font-black shadow-lg mb-4 relative z-10" id="profile-initial">G</div>
+                        <h4 class="text-3xl font-black mb-1 relative z-10 tracking-tight" id="profile-name">Google User</h4>
                         <div class="inline-flex items-center justify-center gap-1.5 bg-slate-900/30 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm relative z-10 border border-white/20 mt-2">
-                            <span class="w-2.5 h-2.5 rounded-full" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Free Plan</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Free Plan</span>
                         </div>
                     </div>
 
                     <div class="space-y-4 mb-8 bg-slate-50 dark:bg-[#0f1525] p-5 rounded-2xl border border-slate-200 dark:border-darkborder text-sm shadow-inner">
                         <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
                             <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Verified ID</span>
-                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">...</span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">Verified via Google</span>
                         </div>
                         <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
                             <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Auth Protocol</span>
-                            <span class="text-sm font-bold text-brand bg-brandbg px-3 py-1 rounded-lg" id="profile-method">...</span>
+                            <span class="text-sm font-bold text-brand bg-brandbg px-3 py-1 rounded-lg flex items-center gap-1" id="profile-method"><i class="fa-brands fa-google text-blue-500"></i> Google OAuth</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Profile Age</span>
-                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-age">...</span>
+                            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Profile Status</span>
+                            <span class="text-sm font-bold text-emerald-500" id="profile-age">Active</span>
                         </div>
                     </div>
 
                     <button onclick="window.triggerLogout()" class="w-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/50 hover:bg-red-500 hover:text-white font-black py-4 rounded-xl transition-all shadow-sm cursor-pointer flex justify-center items-center gap-3 text-base">
                         <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
-                </div>
-
-                <div id="view-status" class="hidden flex-col items-center justify-center py-10">
-                    <i id="status-icon" class="fa-solid fa-circle-notch fa-spin text-5xl text-brand mb-4"></i>
-                    <p id="status-text" class="font-bold text-lg text-slate-800 dark:text-white text-center leading-relaxed">Processing...</p>
                 </div>
 
             </div>
@@ -889,9 +770,6 @@
     <script>
         // ==========================================
         // ⚠️ DHYAN DEIN: CLOUDFLARE PROXY SETUP ⚠️
-        // Yahan par apna asli Cloudflare Worker URL paste karna hai.
-        // Example: 'https://aryan-mails-bot.tumhara-naam.workers.dev'
-        // End mein '/' mat lagana. Tab tak errors track nahi honge jab tak ye sahi na ho.
         // ==========================================
         const WORKER_URL = 'APNA_CLOUDFLARE_WORKER_URL_YAHAN_DALO'; 
 
@@ -918,17 +796,20 @@
         // --- END SECURE TRACKER ---
 
         window.checkAuthSession = function() { return null; }
+        
         window.openAuthPortal = function() {
             document.getElementById('auth-modal').classList.remove('hidden');
             document.getElementById('auth-modal').classList.add('flex');
             window.switchAuthView('view-auth-init');
         }
+        
         window.closeAuthModal = function() {
             document.getElementById('auth-modal').classList.add('hidden');
             document.getElementById('auth-modal').classList.remove('flex');
         }
+        
         window.switchAuthView = function(viewId) {
-            ['view-auth-init', 'view-method-select', 'view-google-options', 'view-input-identifier', 'view-otp', 'view-register-details', 'view-profile'].forEach(id => {
+            ['view-auth-init', 'view-profile'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
                     if(id === viewId) { el.classList.remove('hidden'); el.classList.add('block'); }
@@ -936,49 +817,21 @@
                 }
             });
         }
-        window.setAuthMode = function(mode) { window.switchAuthView('view-method-select'); }
-        window.selectMethod = function(method) { 
-            if(method === 'Google') window.switchAuthView('view-google-options');
-            else window.switchAuthView('view-input-identifier');
-        }
-        window.setupIdentifierInput = function(type) {
-            window.switchAuthView('view-input-identifier');
-            if(type === 'Email') {
-                document.getElementById('phone-input-group').classList.add('hidden');
-                document.getElementById('email-input-group').classList.remove('hidden');
-            } else {
-                document.getElementById('phone-input-group').classList.remove('hidden');
-                document.getElementById('email-input-group').classList.add('hidden');
-            }
-        }
+        
         window.startOAuthFlow = function(provider) {
-            alert("Connecting to " + provider + " Secure Gateway...");
-            window.switchAuthView('view-otp');
-        }
-        window.requestSecureOTP = function() {
-            document.getElementById('btn-request-otp').innerText = "Processing...";
+            const btn = document.querySelector('#view-auth-init button');
+            if(btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting to Google...';
+            
+            // Simulating Google OAuth Login
             setTimeout(() => {
-                document.getElementById('btn-request-otp').innerHTML = '<span>Send OTP</span> <i class="fa-solid fa-paper-plane"></i>';
-                window.switchAuthView('view-otp');
-            }, 1000);
-        }
-        window.submitOTPVerification = function() {
-            document.getElementById('btn-verify-otp').innerText = "Verifying...";
-            setTimeout(() => {
-                document.getElementById('btn-verify-otp').innerText = "Verify & Authenticate";
-                window.switchAuthView('view-register-details');
-            }, 1000);
-        }
-        window.finalizeSignup = function() {
-            document.getElementById('btn-finalize-signup').innerText = "Creating...";
-            setTimeout(() => {
-                document.getElementById('btn-finalize-signup').innerText = "Create Profile";
                 window.switchAuthView('view-profile');
                 document.getElementById('nav-login-btn').classList.add('hidden');
                 document.getElementById('nav-profile-btn').classList.remove('hidden');
                 document.getElementById('nav-profile-btn').classList.add('flex');
-            }, 1000);
+                if(btn) btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google';
+            }, 1500);
         }
+        
         window.triggerLogout = function() {
             window.closeAuthModal();
             document.getElementById('nav-login-btn').classList.remove('hidden');
@@ -1305,11 +1158,18 @@
             alert("New API Key Generated Successfully!");
         }
 
+        // Expanded 10 Blog Articles
         const blogArticles = [
-            { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2025', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2025, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
-            { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
-            { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with 10 proven strategies for 2025.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
-            { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' }
+            { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2026', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2026, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
+            { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '12/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
+            { id: 'article3', category: 'Email Tips', title: 'Stop Spam Emails Forever', readTime: '11 min read', date: '18/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?auto=format&fit=crop&w=1000&q=80', excerpt: 'Eliminate spam emails with proven strategies.', content: '<p class="mb-4">The best way to stop spam is to never receive it in the first place. Never enter your real email into suspicious forms. Instead, generate a quick 10-minute mail address. Also, never click "unsubscribe" links in sketchy emails, as spammers use these to verify your email is active.</p>' },
+            { id: 'article4', category: 'Industry Trends', title: 'The Rise of Disposable Emails', readTime: '13 min read', date: '25/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80', excerpt: 'Explore the growth of disposable email services and privacy.', content: '<p class="mb-4">Disposable email services have evolved into sophisticated platforms. When a massive platform gets hacked, users who signed up using a temporary email face absolutely zero risk. The integration of disposable identities will likely become a standard part of web browsing.</p>' },
+            { id: 'article5', category: 'Email Security', title: 'Avoid Phishing Scams', readTime: '8 min read', date: '02/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1614064641913-a520faff8077?auto=format&fit=crop&w=1000&q=80', excerpt: 'How temporary emails block malicious phishing links.', content: '<p class="mb-4">Phishing relies on getting malicious links into your primary inbox. By isolating unknown services to a temporary email, you guarantee that even if a service is compromised and sends out phishing links, those links self-destruct in our system before they ever reach your real eyes.</p>' },
+            { id: 'article6', category: 'Privacy', title: 'Anonymous Browsing Guide', readTime: '15 min read', date: '10/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1000&q=80', excerpt: 'Combine temp emails with Tor and VPNs for ultimate stealth.', content: '<p class="mb-4">True anonymity requires layers. A VPN hides your IP, Tor hides your network path, and a Temp Mail hides your digital identity. Mastering the combination of these three tools makes you virtually untrackable by modern advertising algorithms.</p>' },
+            { id: 'article7', category: 'Email Tips', title: 'Safe Signups on Forums', readTime: '9 min read', date: '20/02/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why forums are the biggest source of inbox spam.', content: '<p class="mb-4">Public forums and message boards are frequently scraped by bots looking for fresh email addresses. Using a temporary email for forum registration ensures that when the forum inevitably gets scraped, it’s not your personal email ending up on a spammer’s list.</p>' },
+            { id: 'article8', category: 'Industry Trends', title: 'AI and Spam Filtering', readTime: '14 min read', date: '05/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1000&q=80', excerpt: 'How Artificial Intelligence is changing the war on spam.', content: '<p class="mb-4">AI is a double-edged sword. Spammers use it to generate highly convincing phishing emails, while providers use it to filter them out. Temporary emails bypass this arms race completely by simply not existing long enough to be targeted by advanced AI spam campaigns.</p>' },
+            { id: 'article9', category: 'Privacy', title: 'Escaping Data Brokers', readTime: '11 min read', date: '15/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80', excerpt: 'How data brokers use your email as a primary key.', content: '<p class="mb-4">Data brokers tie your purchases, browsing history, and location data together using your email address as the universal "primary key." Every time you use a unique temporary email, you break that chain, making it impossible for brokers to build a complete profile of you.</p>' },
+            { id: 'article10', category: 'Email Security', title: 'Protect Your Identity', readTime: '12 min read', date: '22/03/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1510511459019-5efa7ae17387?auto=format&fit=crop&w=1000&q=80', excerpt: 'Why your email is more important than your phone number.', content: '<p class="mb-4">Your email address is the master key to your digital life. It controls password resets for your bank, social media, and more. Exposing it unnecessarily is dangerous. Utilizing temporary emails for everything non-essential is the best way to safeguard your digital identity.</p>' }
         ];
 
         window.renderBlogContent = function() {
