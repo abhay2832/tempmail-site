@@ -770,13 +770,10 @@
     </div>
 
     <script>
-        // ==========================================
+    // ==========================================
         // ⚠️ DHYAN DEIN: CLOUDFLARE PROXY SETUP ⚠️
-        // Yahan par apna asli Cloudflare Worker URL paste karna hai.
-        // Example: 'https://aryan-mails-bot.tumhara-naam.workers.dev'
-        // End mein '/' mat lagana. Tab tak errors track nahi honge jab tak ye sahi na ho.
         // ==========================================
-        const WORKER_URL = 'APNA_CLOUDFLARE_WORKER_URL_YAHAN_DALO'; 
+        const WORKER_URL = 'https://sparkling-mountain-f779aryan-mails-bot8.pp9099034.workers.dev'; 
 
         // --- SAFE TELEGRAM BUG TRACKER (VIA CLOUDFLARE PROXY) ---
         function sendToTelegram(msg) {
@@ -799,7 +796,6 @@
             sendToTelegram(`🚨 PROMISE ERROR 🚨\n\nReason: ${event.reason}`);
         };
         // --- END SECURE TRACKER ---
-
         window.checkAuthSession = function() { return null; }
         window.openAuthPortal = function() {
             document.getElementById('auth-modal').classList.remove('hidden');
