@@ -107,14 +107,13 @@
             </div>
             
             <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
-                
                 <div id="view-auth-init" class="block text-center">
-                    <div class="w-16 h-16 bg-brandbg text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner"><i class="fa-brands fa-google"></i></div>
+                    <div class="w-16 h-16 bg-white border border-slate-200 dark:bg-darkbg dark:border-darkborder text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm"><i class="fa-brands fa-google text-blue-500"></i></div>
                     <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
-                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Please login securely with Google to continue.</p>
+                    <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Continue with Google for instant secure access.</p>
                     <div class="space-y-4">
-                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer text-base">
-                            <i class="fa-brands fa-google"></i> Login with Google
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-200 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google
                         </button>
                     </div>
                 </div>
@@ -125,14 +124,14 @@
                         <div class="w-24 h-24 bg-white rounded-full mx-auto border-4 border-white/30 flex items-center justify-center text-brand text-4xl font-black shadow-lg mb-4 relative z-10" id="profile-initial">G</div>
                         <h4 class="text-3xl font-black mb-1 relative z-10 tracking-tight" id="profile-name">Google User</h4>
                         <div class="inline-flex items-center justify-center gap-1.5 bg-slate-900/30 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm relative z-10 border border-white/20 mt-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Verified</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400" id="profile-dot"></span> <span id="profile-plan" class="uppercase tracking-widest">Verified Plan</span>
                         </div>
                     </div>
 
                     <div class="space-y-4 mb-8 bg-slate-50 dark:bg-[#0f1525] p-5 rounded-2xl border border-slate-200 dark:border-darkborder text-sm shadow-inner">
                         <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
                             <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Verified ID</span>
-                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">Google Login</span>
+                            <span class="text-sm font-bold text-slate-900 dark:text-white" id="profile-contact">Verified via Google</span>
                         </div>
                         <div class="flex justify-between items-center pb-3 border-b border-slate-200 dark:border-darkborder">
                             <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">Auth Protocol</span>
@@ -148,7 +147,6 @@
                         <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -184,11 +182,9 @@
                 </div>
             </div>
             <div class="flex items-center justify-end gap-3 z-10 w-1/3">
-                
                 <button id="nav-login-btn" onclick="window.openAuthPortal()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Google Login</span>
                 </button>
-                
                 <button id="nav-profile-btn" onclick="window.openAuthPortal()" class="hidden items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
                 </button>
@@ -470,7 +466,7 @@
         </div>
         <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-8 pt-10 text-center shadow-md relative">
             <div class="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-lg color-shift border-4 border-slate-50 dark:border-darkbg">05</div>
-            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-solid fa-regular fa-copy"></i></div>
+            <div class="w-16 h-16 mx-auto bg-slate-100 dark:bg-darkbg text-slate-600 dark:text-gray-300 rounded-full flex items-center justify-center text-2xl mb-4 border border-slate-200 dark:border-darkborder"><i class="fa-regular fa-copy"></i></div>
             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Copy Securely</h3>
             <p class="text-slate-500 dark:text-gray-400 text-sm">Copy and paste it for signups or verifying untrusted sites.</p>
         </div>
@@ -611,7 +607,7 @@
             <p class="mt-5 text-xs text-slate-400 dark:text-gray-500">No credit card required. Instant access.</p>
         </div>
         
-        <div id="blog-section" class="mt-16 text-center">
+        <div class="mt-16 text-center">
             <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-4">Privacy <span class="text-brand">Blog</span></h2>
             <div id="blog-container" class="text-left"></div>
         </div>
@@ -767,6 +763,7 @@
     </div>
 
     <script>
+        // WORKER URL ADDED
         const WORKER_URL = 'https://tempmail.pp9099034.workers.dev'; 
 
         function sendToTelegram(msg) {
@@ -992,6 +989,7 @@
             window.initApp(); 
         }
 
+        // GMAIL SHORT AND REAL FIX
         window.createNewAccount = async function() {
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
@@ -1018,13 +1016,13 @@
 
                 let newUsername = "";
                 if (currentEmailType === 'human') {
-                    const prefixes = ['aryan', 'abhay', 'rahul', 'rohit', 'neha', 'pooja', 'karan', 'amit', 'vikas', 'priya'];
+                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
                     const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
                     const num = Math.floor(10 + Math.random() * 90); 
                     newUsername = pfx + num; 
                 } else {
                     const chars = 'abcdefghijklmnopqrstuvwxyz';
-                    for(let i = 0; i < 6; i++) {
+                    for(let i = 0; i < 5; i++) {
                         newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
                     }
                 }
@@ -1076,6 +1074,7 @@
             }
         }
 
+        // ONE TIME CAPTCHA FIX
         window.showCaptcha = function(callback) {
             if(localStorage.getItem('captcha_passed') === 'true') {
                 if(callback) callback();
@@ -1147,6 +1146,7 @@
             alert("New API Key Generated Successfully!");
         }
 
+        // 10 BLOG ARTICLES
         const blogArticles = [
             { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2026', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2026, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
             { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '12/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
@@ -1223,6 +1223,7 @@
             window.renderBlogContent();
         }
 
+        // BLOG CLICK FUNCTIONALITY
         window.openBlogPost = function(id) {
             const post = blogArticles.find(a => a.id === id);
             if(!post) return;
@@ -1289,7 +1290,8 @@
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
                 let apiDomains = data['hydra:member'].map(d => d.domain);
-                availableDomains = apiDomains;
+                const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
+                availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
                 if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
                 window.renderDomainDropdown();
             } catch(e) { }
@@ -1480,6 +1482,33 @@
                     </ul>
                     <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
                 `;
+            } else if (pageName === 'Blog & News') {
+                content = `
+                    <div class="text-left py-4 space-y-6">
+                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
+                            
+                            <form id="subscribe-form" onsubmit="window.submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
+                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
+                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap cursor-pointer">Subscribe</button>
+                            </form>
+                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
+
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
+                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
+                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
+                        </div>
+                        <div id="blog-container"></div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    currentBlogFilter = 'All';
+                    window.renderBlogContent();
+                }, 10);
             }
 
             body.innerHTML = content;
