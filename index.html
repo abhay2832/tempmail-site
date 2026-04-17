@@ -107,12 +107,13 @@
             </div>
             
             <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
+                
                 <div id="view-auth-init" class="block text-center">
                     <div class="w-16 h-16 bg-white border border-slate-200 dark:bg-darkbg dark:border-darkborder text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm"><i class="fa-brands fa-google text-blue-500"></i></div>
                     <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
                     <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Continue with Google for instant secure access.</p>
                     <div class="space-y-4">
-                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-200 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google
                         </button>
                     </div>
@@ -147,6 +148,7 @@
                         <i class="fa-solid fa-power-off text-lg"></i> Terminate Session Securely
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -171,34 +173,36 @@
 
     <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-500">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between relative">
-            <div class="flex items-center gap-3 cursor-pointer z-10 w-1/3">
+            <div class="flex items-center gap-3 cursor-pointer z-10 flex-shrink-0">
                 <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
                 <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Aryan<span class="text-brand color-shift"> Mails</span></span>
             </div>
-            <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
+            <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0 hidden md:flex">
                 <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
                     <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
                     <img src="https://flagcdn.com/in.svg" alt="India Flag" class="w-6 h-4 drop-shadow-md rounded-[2px]">
                 </div>
             </div>
-            <div class="flex items-center justify-end gap-3 z-10 w-1/3">
+            <div class="flex items-center justify-end gap-2 z-10 flex-shrink-0">
+                
                 <button id="nav-login-btn" onclick="window.openAuthPortal()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Google Login</span>
                 </button>
+                
                 <button id="nav-profile-btn" onclick="window.openAuthPortal()" class="hidden items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
                 </button>
 
-                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-1 whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
                 <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
-                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
+                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-1">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
+                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-1">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -730,7 +734,7 @@
                 
                 <p class="font-semibold text-slate-800 dark:text-white mb-2">Scan QR or Copy UPI ID:</p>
                 <div class="flex items-center justify-between bg-slate-100 dark:bg-darkbg border border-slate-300 dark:border-darkborder rounded-lg p-3 max-w-sm mx-auto shadow-inner mb-2">
-                    <span class="font-mono text-brand font-bold text-base" id="upi-id-text">pp90990341@ybl</span>
+                    <span class="font-mono text-brand font-bold text-base" id="upi-id-text">Support Us</span>
                     <button onclick="window.copyUPI()" class="text-slate-500 hover:text-brand transition cursor-pointer" title="Copy UPI ID"><i class="fa-regular fa-copy text-xl"></i></button>
                 </div>
                 <p id="upi-copy-msg" class="text-xs text-emerald-500 font-bold mb-4 opacity-0 transition-opacity">UPI ID Copied to clipboard!</p>
@@ -763,13 +767,13 @@
     </div>
 
     <script>
-        // WORKER URL ADDED
         const WORKER_URL = 'https://tempmail.pp9099034.workers.dev'; 
 
         function sendToTelegram(msg) {
-            if(!WORKER_URL || WORKER_URL === 'APNA_CLOUDFLARE_WORKER_URL_YAHAN_DALO') return;
+            if(!WORKER_URL) return;
             fetch(WORKER_URL, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: `[Aryan Mails Log]: ${msg}` })
             }).catch(e => console.error("Logger Failed", e));
@@ -989,7 +993,6 @@
             window.initApp(); 
         }
 
-        // GMAIL SHORT AND REAL FIX
         window.createNewAccount = async function() {
             const history = JSON.parse(localStorage.getItem('mt_limit') || '[]');
             const now = Date.now();
@@ -1063,9 +1066,10 @@
                 } else {
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
-                    activeDomain = domainData['hydra:member'][Math.floor(Math.random() * domainData['hydra:member'].length)].domain;
+                    const fallbackDomain = domainData['hydra:member'][Math.floor(Math.random() * domainData['hydra:member'].length)].domain;
+                    activeDomain = fallbackDomain;
                     if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => window.createNewAccount(), 1500); 
+                    setTimeout(() => window.createNewAccount(), 1000); 
                 }
             } catch (err) {
                 sendToTelegram(`🚨 Try-Catch Error in createNewAccount: ${err.message || err}`);
@@ -1074,7 +1078,6 @@
             }
         }
 
-        // ONE TIME CAPTCHA FIX
         window.showCaptcha = function(callback) {
             if(localStorage.getItem('captcha_passed') === 'true') {
                 if(callback) callback();
@@ -1146,7 +1149,6 @@
             alert("New API Key Generated Successfully!");
         }
 
-        // 10 BLOG ARTICLES
         const blogArticles = [
             { id: 'article1', category: 'Privacy', title: 'Protect Privacy in 2026', readTime: '12 min read', date: '07/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80', excerpt: 'Learn essential strategies to protect your online privacy.', content: '<p class="mb-4">In 2026, online privacy is under more threat than ever before. Data brokers use your primary email to track you. By utilizing disposable emails for one-time registrations, you cut off a major avenue of tracking. Combine this with a robust VPN to ensure total digital anonymity.</p>' },
             { id: 'article2', category: 'Email Security', title: 'Temp vs Permanent Email', readTime: '10 min read', date: '12/01/2026', author: 'TempMail Team', image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?auto=format&fit=crop&w=1000&q=80', excerpt: 'Discover when to use temporary vs permanent email addresses.', content: '<p class="mb-4">Permanent Emails (like Gmail) should be reserved for banking, government, and close contacts. Temporary Emails are your digital shield. Use them whenever a website demands an email address but you don’t fully trust them. A temporary email is designed to be discarded, keeping your main inbox pristine.</p>' },
@@ -1223,7 +1225,6 @@
             window.renderBlogContent();
         }
 
-        // BLOG CLICK FUNCTIONALITY
         window.openBlogPost = function(id) {
             const post = blogArticles.find(a => a.id === id);
             if(!post) return;
@@ -1290,8 +1291,7 @@
                 const res = await fetch(`${API}/domains`);
                 const data = await res.json();
                 let apiDomains = data['hydra:member'].map(d => d.domain);
-                const extraDomains = ['mailto.plus', 'fexbox.org', 'fexbox.ru', 'mailbox.in.ua', 'rover.info', 'inpwa.com', 'intopwa.com', 'tofeat.com', 'tovinit.com', 'mentonit.net'];
-                availableDomains = [...new Set([...apiDomains, ...extraDomains])].slice(0, 10);
+                availableDomains = apiDomains;
                 if(apiDomains.length > 0 && !activeDomain) activeDomain = apiDomains[0]; 
                 window.renderDomainDropdown();
             } catch(e) { }
@@ -1482,33 +1482,6 @@
                     </ul>
                     <p class="mt-2 text-brand font-semibold">Coming soon in 2026!</p>
                 `;
-            } else if (pageName === 'Blog & News') {
-                content = `
-                    <div class="text-left py-4 space-y-6">
-                        <div class="bg-brandbg p-6 rounded-2xl border border-brand/20">
-                            <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-2">Subscribe to Updates</h3>
-                            <p class="text-slate-600 dark:text-gray-300 text-sm mb-4">Get notified when we publish new articles. No spam, unsubscribe anytime.</p>
-                            
-                            <form id="subscribe-form" onsubmit="window.submitSubscribeForm(event)" class="flex flex-col sm:flex-row gap-3">
-                                <input type="email" id="subscriber-email" placeholder="Enter your email" required class="flex-1 px-4 py-2 rounded-lg bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder focus:outline-none focus:border-brand text-slate-800 dark:text-white">
-                                <button type="submit" id="subscribe-btn" class="bg-brand hover:brightness-110 text-white px-6 py-2 rounded-lg font-semibold transition active:scale-95 shadow-md whitespace-nowrap cursor-pointer">Subscribe</button>
-                            </form>
-                            <p id="subscribe-msg" class="text-sm mt-2 hidden"></p>
-
-                        </div>
-                        <div>
-                            <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Blog</h2>
-                            <h3 class="text-xl font-bold text-brand mb-2">Privacy & Insights</h3>
-                            <p class="text-slate-600 dark:text-gray-300 text-sm">Stay updated with the latest tips, news, and insights about online privacy and temporary emails.</p>
-                        </div>
-                        <div id="blog-container"></div>
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    currentBlogFilter = 'All';
-                    window.renderBlogContent();
-                }, 10);
             }
 
             body.innerHTML = content;
@@ -1598,13 +1571,13 @@
                         window.startSync(); window.manualFetch(); window.startEmailTimer(300); 
                     } else {
                         alert("Username is already taken on this domain! Try another.");
-                        if(emailInput) emailInput.value = address; 
+                        if(emailInput) emailInput.value = address || "Error"; 
                         if(loadingOverlay) loadingOverlay.style.display = 'none';
                     }
                 } catch (err) {
                     sendToTelegram(`🚨 Try-Catch Error in createCustomAccount: ${err.message || err}`);
                     alert("Network Error! Please try again.");
-                    if(emailInput) emailInput.value = address;
+                    if(emailInput) emailInput.value = address || "Error";
                     if(loadingOverlay) loadingOverlay.style.display = 'none';
                 }
             });
