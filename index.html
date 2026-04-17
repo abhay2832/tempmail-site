@@ -109,11 +109,11 @@
             <div class="p-6 text-slate-600 dark:text-gray-300 text-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
                 
                 <div id="view-auth-init" class="block text-center">
-                    <div class="w-16 h-16 bg-white border border-slate-200 dark:bg-darkbg dark:border-darkborder text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm"><i class="fa-brands fa-google text-blue-500"></i></div>
+                    <div class="w-16 h-16 bg-white dark:bg-darkbg border border-slate-200 dark:border-darkborder text-brand rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-sm"><i class="fa-brands fa-google text-blue-500"></i></div>
                     <h4 class="text-2xl font-black text-slate-900 dark:text-white mb-2">Welcome</h4>
                     <p class="text-slate-500 dark:text-gray-400 mb-8 font-medium">Continue with Google for instant secure access.</p>
                     <div class="space-y-4">
-                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border border-slate-300 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
+                        <button onclick="window.startOAuthFlow('Google')" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-darkbg border-2 border-slate-200 dark:border-darkborder text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition shadow-sm cursor-pointer text-base">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5"> Login with Google
                         </button>
                     </div>
@@ -173,17 +173,17 @@
 
     <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40 transition-colors duration-500">
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between relative">
-            <div class="flex items-center gap-3 cursor-pointer z-10 flex-shrink-0">
+            <div class="flex items-center gap-3 cursor-pointer z-10 w-1/3">
                 <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg shadow-lg">A</div>
                 <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Aryan<span class="text-brand color-shift"> Mails</span></span>
             </div>
-            <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0 hidden md:flex">
+            <div class="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
                 <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-500/30 pointer-events-auto shadow-sm">
                     <span class="text-[13px] md:text-[15px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
                     <img src="https://flagcdn.com/in.svg" alt="India Flag" class="w-6 h-4 drop-shadow-md rounded-[2px]">
                 </div>
             </div>
-            <div class="flex items-center justify-end gap-2 z-10 flex-shrink-0">
+            <div class="flex items-center justify-end gap-3 z-10 w-1/3">
                 
                 <button id="nav-login-btn" onclick="window.openAuthPortal()" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
                     <i class="fa-brands fa-google"></i> <span class="hidden sm:inline">Google Login</span>
@@ -193,16 +193,16 @@
                     <i class="fa-solid fa-circle-user"></i> <span class="hidden sm:inline">My Profile</span>
                 </button>
 
-                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-1 whitespace-nowrap">
+                <button onclick="window.showSupportModal()" title="Support & Donate" class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold shadow-lg transition-transform hover:scale-105 cursor-pointer ml-2 whitespace-nowrap">
                     <i class="fa-solid fa-hand-holding-dollar text-lg"></i> Support Us
                 </button>
                 <button onclick="window.showSupportModal()" title="Support & Donate" class="sm:hidden w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 cursor-pointer ml-1 text-lg">
                     <i class="fa-solid fa-hand-holding-dollar"></i>
                 </button>
-                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-1">
+                <button onclick="window.changeColorTheme()" title="Change Theme Color" class="w-9 h-9 rounded-full bg-brand text-white flex items-center justify-center hover:scale-110 transition-transform shadow-lg cursor-pointer ml-2">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
-                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-1">
+                <button onclick="window.toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-gray-700 transition-colors duration-500 shadow-sm border border-slate-200 dark:border-gray-700 cursor-pointer ml-2">
                     <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
                 </button>
             </div>
@@ -773,7 +773,6 @@
             if(!WORKER_URL) return;
             fetch(WORKER_URL, {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: `[Aryan Mails Log]: ${msg}` })
             }).catch(e => console.error("Logger Failed", e));
@@ -1019,13 +1018,13 @@
 
                 let newUsername = "";
                 if (currentEmailType === 'human') {
-                    const prefixes = ['aryan', 'abhay', 'raju', 'ranu', 'sita', 'riya', 'priya', 'nana', 'sikha', 'anuj', 'sankalp', 'joy', 'noah', 'theo', 'freddie', 'leo', 'arthur', 'rahul', 'rohit', 'neha', 'pooja', 'vikas', 'karan', 'amit', 'suraj'];
+                    const prefixes = ['aryan', 'abhay', 'rahul', 'rohit', 'neha', 'pooja', 'karan', 'amit', 'vikas', 'priya', 'ankit', 'sneha'];
                     const pfx = prefixes[Math.floor(Math.random() * prefixes.length)];
-                    const num = Math.floor(10 + Math.random() * 90); 
+                    const num = Math.floor(100 + Math.random() * 900); 
                     newUsername = pfx + num; 
                 } else {
                     const chars = 'abcdefghijklmnopqrstuvwxyz';
-                    for(let i = 0; i < 5; i++) {
+                    for(let i = 0; i < 6; i++) {
                         newUsername += chars.charAt(Math.floor(Math.random() * chars.length));
                     }
                 }
@@ -1066,10 +1065,9 @@
                 } else {
                     const domainRes = await fetch(`${API}/domains`);
                     const domainData = await domainRes.json();
-                    const fallbackDomain = domainData['hydra:member'][Math.floor(Math.random() * domainData['hydra:member'].length)].domain;
-                    activeDomain = fallbackDomain;
+                    activeDomain = domainData['hydra:member'][Math.floor(Math.random() * domainData['hydra:member'].length)].domain;
                     if(emailInput) emailInput.value = "Switching domain...";
-                    setTimeout(() => window.createNewAccount(), 1000); 
+                    setTimeout(() => window.createNewAccount(), 1500); 
                 }
             } catch (err) {
                 sendToTelegram(`🚨 Try-Catch Error in createNewAccount: ${err.message || err}`);
