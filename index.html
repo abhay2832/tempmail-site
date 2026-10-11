@@ -1,226 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Temp Mail</title>
+    <title>Aryan Mails - Premium Temporary Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { 
+            darkMode: 'class', 
+            theme: { 
+                extend: {
+                    colors: {
+                        darkbg: '#0b1121', darkpanel: '#131c31', darkborder: '#1e293b', 
+                        brand: 'var(--brand-color)', 
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], }
+                } 
+            } 
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        h1 { margin-top: 0; color: #1a73e8; }
-        p.subtitle { color: #555; margin-bottom: 20px; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        :root { --brand-color: #06b6d4; }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s; }
         
-        .email-display {
-            background: #f8f9fa;
-            border: 2px dashed #1a73e8;
-            padding: 15px;
-            font-size: 22px;
-            font-weight: bold;
-            color: #333;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            word-break: break-all;
-            user-select: all;
+        /* 6. Aryan Mails Text Effect */
+        .logo-glow {
+            text-shadow: 0 0 10px var(--brand-color), 0 0 20px var(--brand-color);
+            animation: glow-pulse 2s infinite alternate;
         }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+        @keyframes glow-pulse {
+            from { opacity: 0.8; filter: brightness(1); }
+            to { opacity: 1; filter: brightness(1.5); }
         }
-        
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
+
+        /* 5. Waving Flag Animation */
+        .flag-wave {
+            display: inline-block;
+            animation: wave 2s infinite ease-in-out;
+            transform-origin: bottom left;
+        }
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg) translateY(-2px); }
+            75% { transform: rotate(-10deg) translateY(1px); }
+        }
+
+        /* OTP Highlight */
+        .otp-badge {
+            background: #f59e0b;
+            color: #000;
+            padding: 2px 8px;
             border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
+            font-weight: 800;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
         }
-        .btn-new { background-color: #28a745; color: white; }
-        .btn-new:hover { background-color: #218838; }
-        .btn-refresh { background-color: #1a73e8; color: white; }
-        .btn-refresh:hover { background-color: #155db1; }
-        
-        .inbox-container {
-            text-align: left;
-            border-top: 2px solid #eee;
-            padding-top: 20px;
-        }
-        .inbox-container h3 { margin-top: 0; }
-        
-        .message-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .message-item {
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-        .message-item:hover { background: #eef2f5; }
-        .msg-sender { font-weight: bold; font-size: 14px; color: #1a73e8; }
-        .msg-subject { font-size: 16px; margin: 5px 0; }
-        .msg-date { font-size: 12px; color: #777; }
-        
-        .message-body {
-            display: none;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #ccc;
-            font-size: 15px;
-            color: #222;
-        }
-        
-        .loading { font-size: 14px; color: #666; font-style: italic; display: none; }
+
+        .color-shift { animation: hue-shift 8s infinite linear; }
+        @keyframes hue-shift { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+        .spin-slow { animation: spin 2s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen transition-colors">
 
-<div class="container">
-    <h1>Temp Mail</h1>
-    <p class="subtitle">Aapka temporary, real-looking email address</p>
+    <audio id="notification-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
-    <div class="email-display" id="email-address">Loading...</div>
+    <nav class="border-b border-slate-200 dark:border-darkborder bg-white/80 dark:bg-darkpanel/80 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            
+            <div class="flex items-center gap-3 cursor-pointer">
+                <div class="color-shift w-8 h-8 rounded-lg bg-brand flex items-center justify-center text-white font-bold shadow-lg">A</div>
+                <span class="text-xl font-bold tracking-tight logo-glow">Aryan<span class="text-brand"> Mails</span></span>
+            </div>
+            
+            <div class="hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/20 border border-orange-200">
+                <span class="text-[13px] font-black uppercase tracking-widest text-orange-600 dark:text-orange-400">Indian Mails</span>
+                <span class="text-xl flag-wave">🇮🇳</span>
+            </div>
 
-    <div class="controls">
-        <button class="btn-new" onclick="generateNewEmail()">+ New Email</button>
-        <button class="btn-refresh" onclick="checkInbox()">⟳ Refresh Inbox</button>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleTheme()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-gray-800 flex items-center justify-center border border-slate-200 dark:border-gray-700">
+                    <i id="theme-icon" class="fa-solid fa-moon text-slate-600 dark:text-yellow-400"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 mt-8 mb-10">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl p-6 text-center shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-brand color-shift"></div>
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Your Private Email Address</p>
+            
+            <div class="relative max-w-md mx-auto mb-6">
+                <input type="text" id="email-address" readonly class="w-full text-center text-lg md:text-2xl py-3 px-4 bg-slate-50 dark:bg-darkbg border-2 border-dashed border-slate-300 dark:border-darkborder rounded-xl font-mono text-brand font-bold focus:outline-none" value="Generating...">
+                <div id="loading-overlay" class="absolute inset-0 bg-slate-50 dark:bg-darkbg flex items-center justify-center">
+                    <i class="fa-solid fa-circle-notch spin-slow text-2xl text-brand"></i>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="copyEmail()" class="bg-brand hover:brightness-110 text-white px-6 py-2.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 shadow-md">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>
+                <button onclick="forceNewAccount()" class="bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 px-6 py-2.5 rounded-xl transition font-semibold flex items-center gap-2 active:scale-95 border border-slate-200 dark:border-darkborder">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                </button>
+            </div>
+            <p id="copy-msg" class="text-emerald-500 text-sm font-bold mt-3 opacity-0 transition-opacity">Copied!</p>
+        </div>
     </div>
 
-    <div class="inbox-container">
-        <h3>Inbox <span id="loading-text" class="loading">(Checking...)</span></h3>
-        <ul class="message-list" id="inbox-list">
-            <li class="message-item" style="text-align:center; color: #888;">Inbox is empty. Waiting for OTPs...</li>
-        </ul>
+    <div class="max-w-4xl mx-auto px-4 mb-10">
+        <div class="bg-white dark:bg-darkpanel border border-slate-200 dark:border-darkborder rounded-2xl overflow-hidden shadow-xl">
+            <div class="px-5 py-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50/50 dark:bg-darkbg/50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-inbox text-brand"></i>
+                    <span class="font-bold">Live Inbox</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="fastOtpReset()" title="Fast OTP Reset" class="text-amber-500 hover:scale-110 transition active:rotate-12">
+                        <i id="fast-bolt-icon" class="fa-solid fa-bolt text-lg"></i>
+                    </button>
+                    <button onclick="toggleAudio()" class="text-slate-500 dark:text-gray-400 hover:text-brand transition">
+                        <i id="notif-icon" class="fa-regular fa-bell text-lg"></i>
+                    </button>
+                    <button onclick="manualFetch()" class="bg-brand text-white text-xs px-3 py-1.5 rounded-lg font-bold">
+                        Fetch
+                    </button>
+                </div>
+            </div>
+            
+            <div id="inbox-content" class="min-h-[300px] p-4 space-y-3">
+                <div class="flex flex-col items-center justify-center h-full py-20 text-slate-400">
+                    <i class="fa-solid fa-envelope-open text-4xl mb-3 opacity-20"></i>
+                    <p class="text-sm italic">Waiting for incoming messages...</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    let currentEmail = "";
-    let login = "";
-    let domain = "";
+    <div id="email-modal" class="fixed inset-0 bg-black/60 hidden justify-center items-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white dark:bg-darkpanel w-full max-w-3xl rounded-2xl shadow-2xl flex flex-col h-[80vh] overflow-hidden border border-slate-700">
+            <div class="p-4 border-b border-slate-200 dark:border-darkborder flex justify-between items-center bg-slate-50 dark:bg-darkbg">
+                <h3 id="modal-subject" class="font-bold truncate text-slate-900 dark:text-white">Email Detail</h3>
+                <button onclick="closeModal()" class="text-slate-500 hover:text-red-500 text-2xl">&times;</button>
+            </div>
+            <iframe id="modal-body-iframe" class="flex-1 w-full bg-white" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+        </div>
+    </div>
 
-    // Load saved email from local storage or generate a new one
-    window.onload = function() {
-        const savedEmail = localStorage.getItem("tempEmail");
-        if (savedEmail) {
-            currentEmail = savedEmail;
-            extractCredentials(currentEmail);
-            document.getElementById("email-address").innerText = currentEmail;
-            checkInbox();
-        } else {
-            generateNewEmail();
-        }
-    };
+    <script>
+        const API = 'https://api.mail.tm';
+        let token = localStorage.getItem('mt_token');
+        let address = localStorage.getItem('mt_email');
+        let soundOn = false;
+        let allMessages = [];
 
-    function extractCredentials(email) {
-        let parts = email.split("@");
-        login = parts[0];
-        domain = parts[1];
-    }
+        // 1 & 2. Better Email Generation (Short & Compatible)
+        async function createNewAccount() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+            try {
+                const domainRes = await fetch(`${API}/domains`);
+                const domainData = await domainRes.json();
+                const domain = domainData['hydra:member'][0].domain; 
+                
+                // Chota username for better compatibility
+                const user = Math.random().toString(36).substring(2, 8); 
+                const newAddress = `${user}@${domain}`;
+                const pass = "A1" + Math.random().toString(36).substring(2, 10);
 
-    async function generateNewEmail() {
-        document.getElementById("email-address").innerText = "Generating...";
-        try {
-            let response = await fetch("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1");
-            let data = await response.json();
-            currentEmail = data[0];
-            
-            extractCredentials(currentEmail);
-            localStorage.setItem("tempEmail", currentEmail);
-            
-            document.getElementById("email-address").innerText = currentEmail;
-            document.getElementById("inbox-list").innerHTML = '<li class="message-item" style="text-align:center; color: #888;">Inbox is empty. Waiting for OTPs...</li>';
-        } catch (error) {
-            document.getElementById("email-address").innerText = "Error generating email!";
-        }
-    }
-
-    async function checkInbox() {
-        if (!login || !domain) return;
-        
-        const loadingText = document.getElementById("loading-text");
-        loadingText.style.display = "inline";
-
-        try {
-            let response = await fetch(`https://www.1secmail.com/api/v1/?action=getMessages&login=${login}&domain=${domain}`);
-            let messages = await response.json();
-            
-            const inboxList = document.getElementById("inbox-list");
-            inboxList.innerHTML = "";
-
-            if (messages.length === 0) {
-                inboxList.innerHTML = '<li class="message-item" style="text-align:center; color: #888;">Inbox is empty. Waiting for OTPs...</li>';
-            } else {
-                messages.forEach(msg => {
-                    let li = document.createElement("li");
-                    li.className = "message-item";
-                    li.innerHTML = `
-                        <div class="msg-sender">From: ${msg.from}</div>
-                        <div class="msg-subject">${msg.subject}</div>
-                        <div class="msg-date">${msg.date}</div>
-                        <div class="message-body" id="body-${msg.id}">Fetching content...</div>
-                    `;
-                    // Fetch full message when clicked
-                    li.onclick = () => fetchMessageContent(msg.id);
-                    inboxList.appendChild(li);
+                const reg = await fetch(`${API}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: newAddress, password: pass })
                 });
-            }
-        } catch (error) {
-            console.error("Error fetching inbox", error);
-        } finally {
-            loadingText.style.display = "none";
+
+                if(reg.ok) {
+                    const login = await fetch(`${API}/token`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ address: newAddress, password: pass })
+                    });
+                    const data = await login.json();
+                    token = data.token;
+                    address = newAddress;
+                    localStorage.setItem('mt_token', token);
+                    localStorage.setItem('mt_email', address);
+                    document.getElementById('email-address').value = address;
+                }
+            } catch (e) { console.error(e); }
+            document.getElementById('loading-overlay').style.display = 'none';
         }
-    }
 
-    async function fetchMessageContent(id) {
-        let bodyDiv = document.getElementById(`body-${id}`);
-        
-        // Toggle visibility if already fetched
-        if (bodyDiv.style.display === "block") {
-            bodyDiv.style.display = "none";
-            return;
+        async function manualFetch() {
+            if(!token) return;
+            try {
+                const res = await fetch(`${API}/messages`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                allMessages = data['hydra:member'] || [];
+                renderInbox();
+                if(allMessages.length > 0 && soundOn) {
+                    document.getElementById('notification-sound').play();
+                }
+            } catch (e) { console.error(e); }
         }
 
-        try {
-            let response = await fetch(`https://www.1secmail.com/api/v1/?action=readMessage&login=${login}&domain=${domain}&id=${id}`);
-            let data = await response.json();
-            
-            // Render HTML if available, else text body
-            bodyDiv.innerHTML = data.htmlBody ? data.htmlBody : data.textBody;
-            bodyDiv.style.display = "block";
-        } catch (error) {
-            bodyDiv.innerHTML = "Error loading message.";
-            bodyDiv.style.display = "block";
+        // 3. Highlight OTP & Render
+        function renderInbox() {
+            const container = document.getElementById('inbox-content');
+            if(allMessages.length === 0) return;
+            container.innerHTML = '';
+            allMessages.forEach(msg => {
+                // 3. Simple regex to find numbers (OTP) in subject
+                const subjectWithOtp = msg.subject.replace(/(\d{4,6})/, '<span class="otp-badge">$1</span>');
+                
+                const div = document.createElement('div');
+                div.className = "bg-slate-50 dark:bg-darkbg/40 p-4 rounded-xl border border-slate-200 dark:border-darkborder cursor-pointer hover:border-brand transition";
+                div.innerHTML = `
+                    <div class="flex justify-between text-xs mb-1 text-slate-400">
+                        <span>${msg.from.address}</span>
+                        <span>${new Date(msg.createdAt).toLocaleTimeString()}</span>
+                    </div>
+                    <div class="font-bold text-sm text-slate-700 dark:text-gray-200">${subjectWithOtp}</div>
+                `;
+                div.onclick = () => openEmail(msg.id);
+                container.appendChild(div);
+            });
         }
-    }
 
-    // Auto-refresh every 10 seconds
-    setInterval(checkInbox, 10000);
-</script>
+        async function openEmail(id) {
+            const res = await fetch(`${API}/messages/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            document.getElementById('modal-subject').innerText = data.subject;
+            document.getElementById('modal-body-iframe').srcdoc = data.html ? data.html[0] : data.text;
+            document.getElementById('email-modal').classList.replace('hidden', 'flex');
+        }
 
+        function closeModal() {
+            document.getElementById('email-modal').classList.replace('flex', 'hidden');
+        }
+
+        function copyEmail() {
+            const el = document.getElementById('email-address');
+            el.select();
+            document.execCommand('copy');
+            const msg = document.getElementById('copy-msg');
+            msg.style.opacity = '1';
+            setTimeout(() => msg.style.opacity = '0', 2000);
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function toggleAudio() {
+            soundOn = !soundOn;
+            document.getElementById('notif-icon').className = soundOn ? "fa-solid fa-bell text-brand" : "fa-regular fa-bell";
+        }
+
+        function forceNewAccount() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        // 4. Fast OTP Logic
+        function fastOtpReset() {
+            const bolt = document.getElementById('fast-bolt-icon');
+            bolt.classList.add('fa-spin');
+            setTimeout(() => {
+                forceNewAccount();
+            }, 500);
+        }
+
+        if(!address) createNewAccount();
+        else {
+            document.getElementById('email-address').value = address;
+            document.getElementById('loading-overlay').style.display = 'none';
+            manualFetch();
+        }
+        setInterval(manualFetch, 10000);
+    </script>
 </body>
 </html>
