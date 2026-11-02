@@ -1,384 +1,394 @@
-<div align="center">🚀 ARYAN MAILS
+🚀 Aryan Mails — Free Temporary Email Generator
 
-Your Privacy. Your Inbox. Your Control.
+<p align="center">
+  <img src="https://img.shields.io/badge/Aryan%20Mails-Temporary%20Email-7C3AED?style=for-the-badge&logo=gmail&logoColor=white" />
+  <img src="https://img.shields.io/badge/Status-Online-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Privacy-Focused-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Platform-Web-orange?style=for-the-badge" />
+</p><h3 align="center">Your Privacy. Your Inbox. Your Control.</h3><p align="center">
+  A modern, fast, and privacy-focused disposable email platform designed to protect your personal inbox from unwanted emails, spam, and unnecessary exposure.
+</p><p align="center">
+  🌐 <b>Live Website:</b>
+  <a href="https://aryan-tempbox.isroot.in/">aryan-tempbox.isroot.in</a>
+</p>---
 
-A Smart, Fast & Disposable Temporary Email Platform
+📌 About The Project
 
-""Live Website" (https://img.shields.io/badge/🌐_Live_Website-Visit_Now-00C853?style=for-the-badge)" (https://aryan-tempbox.isroot.in/)
-""Status" (https://img.shields.io/badge/Status-Operational-success?style=for-the-badge)" (https://aryan-tempbox.isroot.in/)
-""Email" (https://img.shields.io/badge/Service-Receive_Only-blue?style=for-the-badge)" (https://aryan-tempbox.isroot.in/)
+Aryan Mails is a free disposable temporary email generator that allows users to create temporary email addresses and receive incoming emails without exposing their primary personal email address.
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=00E5FF&center=true&vCenter=true&width=650&lines=Protect+Your+Personal+Inbox;Generate+Disposable+Email+Instantly;Receive+Emails+in+Real-Time;Privacy+First.+Always." alt="Typing SVG" /></div>---
+In today's digital world, almost every website, application, and online service asks users to provide an email address for registration, verification, or accessing content.
 
-🌟 About The Project
+Sharing your personal email everywhere can lead to:
 
-Aryan Mails is a web-based disposable temporary email platform designed to help users protect their personal email addresses from unwanted spam, promotional messages, unnecessary subscriptions, and untrusted websites.
+- Unwanted promotional emails.
+- Spam and marketing messages.
+- Unnecessary newsletters.
+- Increased exposure of personal information.
+- Inbox clutter.
 
-In today's digital world, many websites require an email address just to access their services. Sharing your personal email everywhere can result in unwanted marketing emails and inbox clutter.
+Aryan Mails aims to solve this problem by providing a simple and convenient temporary email platform.
 
-That's where Aryan Mails comes in.
+Users can generate a temporary email address, copy it, use it for permitted testing or low-risk registrations, and receive incoming messages through a real-time inbox.
 
-It provides users with a temporary email address that can be generated and used directly from the browser. Incoming messages appear in a real-time inbox, allowing users to view verification codes and other emails without exposing their primary email address.
+The main philosophy is simple:
 
-The main goal is simple:
+«Protect your personal inbox while making temporary email management fast, simple, and accessible.»
 
-«Make online privacy easier, faster, and accessible to everyone.»
+🎯 Project Objectives
 
-🌐 Live Project: https://aryan-tempbox.isroot.in/
+The primary objectives behind Aryan Mails are:
 
----
-
-🎯 Why Was Aryan Mails Created?
-
-The idea behind Aryan Mails is to solve a common internet problem: unnecessary exposure of personal email addresses.
-
-This project aims to:
-
-- Reduce unwanted spam in personal inboxes.
-- Provide disposable email addresses for temporary use.
-- Make email verification easier for legitimate testing and sign-up workflows.
-- Give users a simple way to receive emails without sharing their primary address.
-- Provide a fast and mobile-friendly experience.
-- Explore and demonstrate real-time email handling through a web application.
-
-Aryan Mails focuses on simplicity, convenience, and temporary email privacy.
+1. Provide free disposable email addresses.
+2. Reduce unwanted spam in personal inboxes.
+3. Make temporary email generation simple and fast.
+4. Provide a real-time email receiving experience.
+5. Support multiple email domains.
+6. Allow custom email usernames.
+7. Make OTP and verification email retrieval convenient for legitimate testing.
+8. Provide developers with API integration capabilities.
+9. Improve privacy through automatic email expiration.
+10. Deliver a responsive experience across mobile and desktop devices.
 
 ---
 
 ✨ Features
 
-<table>
-<tr>
-<td width="50%">📩 Instant Temporary Email
+Aryan Mails includes several features designed to make temporary email management easier.
 
-Generate a disposable email address directly from the website.
+📧 1. Instant Temporary Email Generation
 
-⚡ Real-Time Inbox
+- Generate disposable email addresses.
+- No traditional email account setup required for the generator.
+- Quickly create a temporary inbox.
+- Copy the generated address with one click.
 
-Receive incoming messages without manually refreshing the page.
+🎨 2. Custom Username Generator
 
-🔐 Privacy Focused
+Users can choose their preferred email prefix instead of always using randomly generated usernames.
 
-Avoid exposing your primary email address to every website.
+For example:
 
-⏳ Auto-Expiring Emails
+"aryan123@your-domain.com"
 
-Incoming emails are automatically deleted after the stated five-minute retention period.
+The selected prefix is combined with an available supported domain.
 
-🌍 Multiple Domains
+🌍 3. Multiple Email Domains
 
-Choose from more than 10 active email domains.
+- Supports multiple rotating email domains.
+- Provides domain selection.
+- Offers flexibility when choosing an email address.
 
-</td>
-<td width="50%">🎨 Custom Username
+📥 4. Real-Time Inbox
 
-Create an email address using your preferred username prefix.
+One of the main features of Aryan Mails.
 
-🔔 Live Notifications
+- Receive incoming emails.
+- View messages in the inbox.
+- Fetch emails without manually reloading the page.
+- Display incoming messages in an organized interface.
+- Read email content in an isolated viewing environment.
 
-Sound and visual notifications help you notice new incoming messages.
+⚡ 5. Fast OTP Retrieval
 
-🤖 CAPTCHA Protection
+- Receive incoming verification emails.
+- Quickly access verification codes.
+- Avoid repeatedly refreshing the inbox.
+- Useful for legitimate development and testing workflows.
 
-Human verification helps reduce automated abuse.
+🔔 6. Sound Notifications
 
-🧑‍💻 Developer API
+- Sound alerts for new incoming emails.
+- Visual notifications.
+- Notification controls.
+- Convenient inbox monitoring.
 
-Public API access is available for supported development integrations.
+🔐 7. Privacy-Focused Design
 
-📱 Mobile Friendly
+- Helps keep your primary email address private.
+- Disposable inbox functionality.
+- Automatic email expiration.
+- No permanent email archive according to the website's stated policy.
 
-The website is designed to work on mobile devices and desktop browsers.
+🛡️ 8. Spam Protection
 
-</td>
-</tr>
-</table>More Features
+- Filtering of prohibited content and domains.
+- Anti-bot verification.
+- Abuse prevention mechanisms.
+- Restrictions against malicious use.
 
-- Copy email address with one click.
-- Generate a new temporary address.
-- View incoming emails in an inbox interface.
-- Read email content in an isolated view.
-- Manually clear inbox messages.
-- Report suspicious activity.
-- View live service statistics.
-- Receive-only email infrastructure.
-- Email attachments are disabled for safety.
+⏳ 9. Automatic Email Expiration
+
+According to the website's published information:
+
+- Temporary inboxes have a limited lifetime.
+- Received emails are automatically deleted after five minutes.
+- Historical email recovery is not supported.
+
+👨‍💻 10. Developer API
+
+Aryan Mails also advertises API access for developers.
+
+Potential use cases include:
+
+- Development testing.
+- Email workflow integration.
+- Automated testing environments.
+- Testing applications that process incoming emails.
+
+Check the website's API documentation for current endpoints, authentication requirements, and usage limits.
 
 ---
 
 ⚙️ How Does It Work?
 
-Aryan Mails follows a simple user workflow.
+The platform follows a straightforward temporary email workflow.
 
 flowchart TD
-    A["🌐 Open Aryan Mails"] --> B["🤖 Complete CAPTCHA"]
+    A["🌐 Open Aryan Mails"] --> B["🤖 Complete Human Verification"]
     B --> C["🌍 Select Email Domain"]
-    C --> D["📩 Generate Temporary Address"]
+    C --> D["⚡ Generate Temporary Email"]
     D --> E["📋 Copy Email Address"]
-    E --> F["🖥️ Use It on a Website"]
-    F --> G["📨 Receive Incoming Email"]
-    G --> H["⚡ View Email in Real Time"]
-    H --> I["🔐 Read Email Safely"]
-    I --> J["🗑️ Email Auto-Expires"]
+    E --> F["📨 Receive Incoming Email"]
+    F --> G["📥 Real-Time Inbox"]
+    G --> H["👀 Read Email"]
+    H --> I["⏳ Automatic Expiration"]
 
-Step-by-Step Explanation
+Step-by-Step Workflow
 
-01 — Visit the Website
+Step 1 — Visit the Website
 
-Open Aryan Mails using any supported modern browser.
+Open https://aryan-tempbox.isroot.in/ in your browser.
 
-02 — Complete Human Verification
+Step 2 — Complete Verification
 
-Complete the CAPTCHA check before using the email generation feature.
+Complete the human verification process when requested.
 
-03 — Choose a Domain
+Step 3 — Select Your Domain
 
-Select an available email domain.
+Choose an available supported email domain.
 
-04 — Generate Your Email
+Step 4 — Generate Your Email
 
-Generate a random email address or choose a custom username.
+Generate a temporary email address or choose a custom username.
 
-05 — Copy Your Address
+Step 5 — Copy Your Address
 
-Copy the generated address and use it where a temporary email is appropriate.
+Use the Copy button to copy your temporary email address.
 
-06 — Receive Emails
+Step 6 — Receive Emails
 
-When someone sends an email to your temporary address, it appears in your inbox.
+Use the address for permitted registrations or testing workflows.
 
-07 — Read Your Message
+Step 7 — Open Your Inbox
 
-Open the incoming message to view its contents.
+Return to Aryan Mails and view incoming messages.
 
-08 — Automatic Cleanup
+Step 8 — Read Your Email
 
-Emails are automatically removed after the stated five-minute retention period.
+Open an incoming message and read its content.
+
+Step 9 — Automatic Deletion
+
+Temporary messages are automatically deleted according to the platform's expiration policy.
 
 ---
 
-🧑‍🚀 How To Use Aryan Mails
+🖥️ User Interface & Experience
 
-1. Visit "Aryan Mails" (https://aryan-tempbox.isroot.in/).
-2. Complete the required verification.
-3. Select an available email domain.
-4. Click the random generation option or choose a custom username.
-5. Copy your temporary email address.
-6. Use it on a website where temporary email addresses are permitted.
-7. Return to Aryan Mails and wait for incoming messages.
-8. Open your message and read its contents.
+Aryan Mails is designed to provide a simple and accessible interface.
 
-Important: Aryan Mails is a receive-only service. It does not support sending outgoing emails.
+The platform includes:
+
+- Email generation interface.
+- Custom username controls.
+- Domain selection.
+- Real-time inbox.
+- Email management controls.
+- Sound notification settings.
+- Live statistics.
+- Quick usage tips.
+- FAQ and support sections.
+
+The website is designed as a Single Page Application (SPA), according to its published description, to provide a convenient browsing experience.
 
 ---
 
 🛠️ Technology Stack
 
-The exact source-code technology stack has not yet been verified from the GitHub repository.
+The exact source-code technology stack has not yet been independently verified.
 
-Add the actual technologies used in the project here:
+The following information should be completed using the actual project source code before publishing.
 
 Category| Technology
-Frontend| "ADD FRONTEND FRAMEWORK"
-Backend| "ADD BACKEND TECHNOLOGY"
-Programming Languages| "ADD VERIFIED LANGUAGES"
-Database| "ADD DATABASE IF USED"
-Email Infrastructure| "ADD EMAIL PROVIDER / SERVER"
-Hosting| "ADD HOSTING PLATFORM"
-APIs| "ADD API TECHNOLOGIES"
+Frontend| Verify from source code
+Backend| Verify from source code
+Database| Verify from source code
+API| Developer API advertised
+Hosting| isroot.in subdomain
+Architecture| Single Page Application (SPA), as described on website
+Email Infrastructure| Backend email receiving system
 
-Note: Only list technologies that are actually used in the source code.
+Programming Languages
 
----
+Exact language count: To be verified from repository files.
 
-📂 Project Structure
-
-Add the actual repository structure here after verifying the source files.
-
-Example format:
-
-aryan-mails/
-│
-├── frontend/
-│   ├── assets/
-│   ├── components/
-│   └── pages/
-│
-├── backend/
-│   ├── routes/
-│   ├── controllers/
-│   └── services/
-│
-├── public/
-├── README.md
-└── package.json
-
-This is an illustrative structure, not a verified listing of the current repository.
-
----
-
-💻 Installation & Local Setup
-
-Want to run Aryan Mails locally?
-
-The following steps are a general setup outline. Actual commands and environment variables depend on the repository.
-
-1. Clone the repository
-
-git clone YOUR_GITHUB_REPOSITORY_URL
-
-2. Open the project directory
-
-cd YOUR_PROJECT_DIRECTORY
-
-3. Install dependencies
-
-Use the package manager and installation command specified by the project's actual configuration files.
-
-4. Configure environment variables
-
-Create the required ".env" file using the project's environment variable documentation.
-
-5. Start the application
-
-Run the development command specified in the project's configuration.
-
-6. Open locally
-
-Visit the local address displayed by your development server.
-
----
-
-🔌 Developer API
-
-Aryan Mails provides a Developer API feature for supported integrations and development workflows.
-
-Developers can explore the API access option on the live website.
-
-🌐 Website: https://aryan-tempbox.isroot.in/
-
-API endpoints, authentication methods, request parameters, response formats, and rate limits should be documented here after verifying the actual API documentation.
-
----
-
-🔒 Privacy & Security
-
-Privacy is one of the main goals of Aryan Mails.
-
-The website describes the following protections:
-
-- Temporary email retention with automatic deletion.
-- Receive-only email functionality.
-- CAPTCHA-based human verification.
-- Filtering of prohibited and malicious content.
-- Disabled email attachments.
-- Temporary IP checks for rate limiting, according to the site's FAQ.
-- Isolated email-content viewing.
-
-Security Notice: Temporary email services should not be used for banking, financial accounts, password recovery, or other sensitive communications. Do not treat a disposable inbox as a secure permanent mailbox.
-
----
-
-⚠️ Important Limitations
-
-- Incoming emails only; outgoing email is not supported.
-- Emails are temporary and cannot be recovered after deletion.
-- Attachments are disabled.
-- Some websites may block disposable email domains.
-- Do not use the service for fraud, abuse, spam, or illegal activities.
-- Use the service only where temporary email addresses are permitted.
-
----
-
-📊 Project Information
-
-Detail| Information
-Project Name| Aryan Mails
-Project Type| Temporary Email Web Platform
-Project Status| Live
-Access| Web Browser
-Email Mode| Receive Only
-Active Domains| 10+ (as displayed on the website)
-Email Retention| 5 Minutes
-API| Available
-Live Website| "aryan-tempbox.isroot.in" (https://aryan-tempbox.isroot.in/)
-GitHub Repository| "ADD REPOSITORY LINK"
-Development Model| "CONFIRM SOLO OR TEAM"
-Creator| "CONFIRM CREATOR NAME"
+Do not confuse programming languages with frameworks, libraries, markup languages, or styling technologies.
 
 ---
 
 👨‍💻 Creator & Development
 
-Aryan Mails is a project built to explore practical web development and create a useful privacy-focused online service.
+Project Creator
 
-Project Creator: "ADD YOUR NAME"
+Aryan Mishra
 
-Development Team: "ADD SOLO / TEAM DETAILS"
+Aryan Mails is presented under the Aryan Mails project identity.
 
-Project Motivation: To make temporary email access simple and help users reduce unwanted exposure of their personal email addresses.
+Development Mode: Solo / Team — confirm actual contributors before publishing.
 
-The creator and team details should reflect the actual development history of the project.
+Project Vision
+
+The idea behind Aryan Mails is to make temporary email access simple and convenient while helping users avoid unnecessarily exposing their personal inboxes.
+
+The focus is on:
+
+- Simplicity.
+- Accessibility.
+- Privacy.
+- Convenience.
+- Developer usability.
+- A smooth user experience.
+
+---
+
+📱 Platform Compatibility
+
+Aryan Mails is accessible through a web browser.
+
+Platform| Access
+Android| Web Browser
+iPhone| Web Browser
+Windows| Web Browser
+Linux| Web Browser
+macOS| Web Browser
+Tablet| Web Browser
+
+No dedicated application installation is required to access the website.
+
+---
+
+🔒 Privacy & Security
+
+Privacy is an important part of Aryan Mails.
+
+The website describes several security-oriented measures:
+
+- Temporary email expiration.
+- Anti-bot verification.
+- Spam filtering.
+- Receive-only email infrastructure.
+- Restrictions on email attachments.
+- Temporary IP checks for rate limiting, according to the published policy.
+
+Important Security Notice
+
+Temporary email addresses should not be used for:
+
+- Banking accounts.
+- Financial transactions.
+- Permanent personal accounts.
+- Password recovery.
+- Sensitive personal communications.
+- Any activity involving fraud or unauthorized access.
+
+Always follow applicable laws and the terms of the websites where you use temporary email addresses.
 
 ---
 
 🚀 Future Improvements
 
-Some ideas for future development:
+Possible future development ideas:
 
-- Improved inbox management.
-- Better email search and filtering.
-- Enhanced API documentation.
-- More domain management options.
-- Improved accessibility.
-- Additional performance optimizations.
-- More detailed system status and monitoring.
-- Expanded developer integration support.
-
----
-
-🤝 Contributions
-
-Suggestions, bug reports, and improvements are welcome.
-
-If you want to contribute:
-
-1. Fork the repository.
-2. Create a new feature branch.
-3. Make your changes.
-4. Test your changes.
-5. Submit a Pull Request with a clear description.
-
-Please follow the project's contribution guidelines if available.
+- [ ] Improved inbox experience.
+- [ ] More email domain options.
+- [ ] Better mobile interface.
+- [ ] Enhanced notification controls.
+- [ ] Improved developer API documentation.
+- [ ] Better accessibility.
+- [ ] More detailed usage statistics.
+- [ ] Improved performance monitoring.
+- [ ] Expanded developer documentation.
+- [ ] Additional language support.
 
 ---
 
-📬 Contact & Links
+❓ Frequently Asked Questions
 
-<div align="center">Explore Aryan Mails
+Q1. What is Aryan Mails?
 
-""Website" (https://img.shields.io/badge/Website-Aryan_Mails-00C853?style=for-the-badge&logo=googlechrome&logoColor=white)" (https://aryan-tempbox.isroot.in/)
+Aryan Mails is a free disposable temporary email platform for receiving incoming emails without exposing your primary email address.
 
-""Telegram" (https://img.shields.io/badge/Telegram-Join_Channel-229ED9?style=for-the-badge&logo=telegram&logoColor=white)" (https://t.me/)
+Q2. Is Aryan Mails free?
 
-For support, suggestions, or collaboration, use the contact options available on the website.
+The website advertises a free plan.
 
-</div>---
+Q3. Can I create a custom email address?
 
-⭐ Support The Project
+Yes. The website provides a custom username feature.
 
-If you find Aryan Mails useful, consider sharing it with others.
+Q4. Does it support multiple domains?
 
-Your feedback and support can help improve the project and make it more useful for everyone.
+Yes. Multiple rotating email domains are advertised.
+
+Q5. Can I receive verification emails?
+
+Yes. Incoming verification emails can be received through the temporary inbox, subject to third-party service restrictions.
+
+Q6. Can I send emails?
+
+No. The platform describes its infrastructure as receive-only.
+
+Q7. Are received emails stored permanently?
+
+No permanent archive is advertised. Emails are automatically deleted according to the published expiration policy.
+
+Q8. Can developers use Aryan Mails?
+
+Yes. The website advertises developer API access for integration and testing.
 
 ---
 
-<div align="center">Made with ❤️ for a More Private Internet
+📬 Connect With Aryan Mails
 
-ARYAN MAILS
+🌐 Official Website:
+https://aryan-tempbox.isroot.in/
 
-Your Inbox. Your Privacy. Your Control.
+📢 Telegram Channel:
+Available through the website.
 
-"🌐 Visit Website" (https://aryan-tempbox.isroot.in/)
+💻 Project:
+Aryan Mails — Temporary Email Generator.
 
-</div>
+---
+
+❤️ Support The Project
+
+If you find Aryan Mails useful, consider supporting its development and server costs.
+
+Visit the official website for available support options.
+
+Your support helps maintain the service and encourages future improvements.
+
+---
+
+⭐ Show Your Support
+
+If you like the project, share it with developers and people who care about online privacy.
+
+Aryan Mails — Keep Your Personal Inbox Clean.
+
+<p align="center">
+  <b>Built with ❤️ under the Aryan Mails project identity.</b>
+</p><p align="center">
+  © 2026 Aryan Mails. All Rights Reserved.
+</p>
